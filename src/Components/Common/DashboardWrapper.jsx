@@ -5,15 +5,19 @@ import { routesConfig } from "../../assets/Config/routesConfig";
 import { importConfig } from "../../assets/Config/importConfig";
 import { appConfig } from "../../assets/Config/appConfig";
 import GeneralFunction from "../../assets/Functions/GeneralFunction";
+import { FeedbackWorkflow } from "@questlabs/react-sdk";
+import FeedbackButton from "./FeedbackButton";
 
 export default function DashboardWrapper({children, selectdRoute}) {
     const [hover, sethover] = useState("close");
+    const [sidebarOpen, setSidebarOpen] = useState(false);
     
 
     return (
         <div className="flex relative w-screen h-screen bg-customShade-4 transition-all ease-in delay-[40]">
-            <div className="w-24">
-                <nav className={`sidebar ${hover}`} onMouseOver={()=> sethover("")} onMouseOut={() => sethover("close")}>
+            <FeedbackButton/>
+            <div className={`min-h-screen h-full ${sidebarOpen == false ? "w-0" : "w-screen"} md:w-[250px] fixed z-10`} onClick={() => setSidebarOpen(false)}>
+                <nav className={`sidebar hover ${sidebarOpen == false ? "hidden" : ""} md:block fixed md:relative w-[250px]`}>
                     <header>
                         <div className="image-text">
                             <span className="image">
@@ -22,7 +26,6 @@ export default function DashboardWrapper({children, selectdRoute}) {
 
                             <div className="text logo-text">
                                 <span className="name">{appConfig.ENTITY_NAME}</span>
-                                {/* <span className="profession">Web developer</span> */}
                             </div>
                         </div>
                     </header>
@@ -102,7 +105,10 @@ export default function DashboardWrapper({children, selectdRoute}) {
             </div>
             <div className="w-full">
                 <div className="py-4 px-4 border-b-[1px] border-[var(--color-premitive-grey-0)] text-primary-3 font-semibold flex justify-between items-center">
-                    <p>{selectdRoute}</p>
+                    <div className="flex gap-2 items-center">
+                        <img src={importConfig.routesIcons.menuIcon} alt="" className="w-4 flex md:hidden" onClick={() => setSidebarOpen(!sidebarOpen)}/>
+                        <p>{selectdRoute}</p>
+                    </div>
                     <div className="flex items-center gap-2">
                         <img src={importConfig.brandLogo} alt="" className="w-7 rounded-full border-[1px] border-[var(--color-premitive-grey-0)]"/>
                         <p>Soumitra</p>

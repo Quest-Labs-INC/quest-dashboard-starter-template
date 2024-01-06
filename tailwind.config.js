@@ -25,6 +25,11 @@ export default {
           800: "#333333",
           900: "#141414",
           950: "#000000"
+        },
+        home: {
+          1: "#7A7A7A",
+          2: "#CCCCCC",
+          3: "#DDFF00",
         }
       },
       backgroundColor: {
@@ -33,6 +38,18 @@ export default {
           2: "var(--primary-bg-color-1)",
           3: "var(--primary-bg-color-2)",
           4: "var(--primary-bg-color-3)",
+          5: "var(--primary-bg-color-4)",
+        },
+        home: {
+          1: "#0d0d0d",
+          2: "rgba(23, 23, 23, 0.6)",
+          3: "#161616",
+          "btn1": "rgb(221, 255, 0)",
+        }
+      },
+      borderColor: {
+        home: {
+          1: "rgb(38, 38, 38)",
         }
       }
     },

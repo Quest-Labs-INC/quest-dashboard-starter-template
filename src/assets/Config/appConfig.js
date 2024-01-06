@@ -3,6 +3,7 @@ export const appConfig = {
     ENTITY_ID: "e-859cc963-b173-4d7f-a5c9-5da681577ca4",
     ENTITY_NAME: "Quest Labs Inc.",
     API_KEY: "k-8d818025-67d6-496a-b8cf-b30487511f7e",
-    API_SECRET: "",
-    ONBOARDING_SCREEN_QUEST_ID: "",
+    API_SECRET: "s-1a71f225-842b-4147-9675-4f4f1d342233bc306ec1-67be-4204-bd1a-339e2fc26a5a",
+    ONBOARDING_SCREEN_QUEST_ID: "q-be64768a-f2ef-4a77-881e-97479d0a7cf1",
+    GET_STARTED_SCREEN_QUEST_ID: "q-03dc8a69-d0b9-44d9-adca-336174c89d80",
 }

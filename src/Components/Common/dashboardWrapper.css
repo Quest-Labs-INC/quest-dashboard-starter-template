@@ -21,7 +21,7 @@
 
 /* ===== Sidebar ===== */
 .sidebar {
-    position: fixed;
+    /* position: relative; */
     top: 0;
     left: 0;
     height: 100%;
@@ -29,7 +29,7 @@
     padding: 10px 14px;
     background: var(--primary-bg-color-2);
     transition: var(--tran-05);
-    z-index: 100;
+    z-index: 10;
 }
 .sidebar.close {
     width: 88px;
