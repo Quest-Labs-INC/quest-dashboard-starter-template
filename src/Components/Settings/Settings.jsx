@@ -20,7 +20,7 @@ export default function Settings() {
     }
 
     return (
-        <div className="w-full h-[120vh]">
+        <div className="w-full">
             <div className="w-5/6 m-auto md:w-3/4">
                 <div className="">
                     <div>

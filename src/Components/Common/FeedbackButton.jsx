@@ -1,12 +1,13 @@
+import { memo } from 'react';
 import { FeedbackWorkflow } from "@questlabs/react-sdk";
 import { useState } from "react";
+import { generalFunction } from "../../assets/Config/GeneralFunction";
 
 
 
 
 
-
-export default function FeedbackButton() {
+function FeedbackButton() {
     const [openFeedback, setOpenFeedback] = useState(false);
 
 
@@ -22,8 +23,8 @@ export default function FeedbackButton() {
                     'q-request-a-feature',
                     'q-contact-us',
                 ]}
-                userId="u-1dd2f19b-5a1a-46e9-aa38-2e4318834421"
-                token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ1LTFkZDJmMTliLTVhMWEtNDZlOS1hYTM4LTJlNDMxODgzNDQyMSIsImlhdCI6MTcwNDMzNDgzOCwiZXhwIjoxNzA0NDIxMjM4fQ.eITOAIrG_VQjCSyUL3IalP8X-9t11KYKC9dniXKQAJ8src/Components/Common/DashboardWrapper.jsx4"              
+                userId={generalFunction.getUserId()}
+                token={generalFunction.getUserToken()}              
                 isOpen={openFeedback}
                 onClose={() => setOpenFeedback(false)}
                 zIndex={11}
@@ -31,3 +32,5 @@ export default function FeedbackButton() {
         </div>
     )
 }
+
+export default memo(FeedbackButton)

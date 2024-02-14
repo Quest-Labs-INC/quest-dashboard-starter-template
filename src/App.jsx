@@ -20,6 +20,7 @@ function App() {
         <QuestProvider
           apiKey={appConfig.API_KEY}
           entityId={appConfig.ENTITY_ID}
+          apiType='STAGING'
         >
           <AllRoutes/>
         </QuestProvider>

@@ -14,8 +14,8 @@ const Header = () => {
         <div>
             <motion.div className='pt-[57px] md:pt-[120px] px-5 md:px-[60px] w-full duration-200'>
                 <motion.div className='text-[46px] md:text-[80px] text-home-2 w-full' variants={animation1}>
-                    <p className='m-auto -mt-5'>Idea to MVP</p>
-                    <p className='m-auto -mt-6'>in 2 weeks</p>
+                    <p className='m-auto -mt-5'>Lorem, ipsum dolor.</p>
+                    <p className='m-auto -mt-6'>Lorem, ipsum.</p>
                 </motion.div>
                 <motion.div className='mt-[140px] md:mt-[160px] w-full md:w-[465px] m-auto flex gap-2 border-[1px] border-home-1 pl-[25px] pr-3 py-3 items-center rounded-full' variants={animation2}>
                     <input className='w-[calc(100%-145px)] bg-transparent outline-none border-none text-home-2' placeholder='email@questapp.xyz'/>

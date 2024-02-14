@@ -25,10 +25,10 @@ import content2img2 from "../Images/content2img2.svg";
 import content2img3 from "../Images/content2img3.svg";
 import stick from "../Images/stick.svg";
 import plusIcon from "../Images/plusIcon.png";
+import comingsoon from "../Images/comingsoon.webp";
 
 export const importConfig = {
     brandLogo: brandLogo,
-
     routesIcons: {
         settingIcon,
         bookIcon,
@@ -59,6 +59,7 @@ export const importConfig = {
         content2img2,
         content2img3,
         stick,
-        plusIcon
+        plusIcon,
+        comingsoon
     }
 }

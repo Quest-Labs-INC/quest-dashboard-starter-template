@@ -1,22 +1,24 @@
 import { useEffect, useState } from "react";
 import "./dashboardWrapper.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { routesConfig } from "../../assets/Config/routesConfig";
 import { importConfig } from "../../assets/Config/importConfig";
 import { appConfig } from "../../assets/Config/appConfig";
 import GeneralFunction from "../../assets/Functions/GeneralFunction";
 import { FeedbackWorkflow } from "@questlabs/react-sdk";
 import FeedbackButton from "./FeedbackButton";
+import { generalFunction } from "../../assets/Config/GeneralFunction";
 
 export default function DashboardWrapper({children, selectdRoute}) {
     const [hover, sethover] = useState("close");
     const [sidebarOpen, setSidebarOpen] = useState(false);
+    const navigate = useNavigate();
     
 
     return (
         <div className="flex relative w-screen h-screen bg-customShade-4 transition-all ease-in delay-[40]">
             <FeedbackButton/>
-            <div className={`min-h-screen h-full ${sidebarOpen == false ? "w-0" : "w-screen"} md:w-[250px] fixed z-10`} onClick={() => setSidebarOpen(false)}>
+            <div className={`min-h-screen h-full ${sidebarOpen == false ? "w-0" : "w-screen fixed"} md:w-[250px] z-10`} onClick={() => setSidebarOpen(false)}>
                 <nav className={`sidebar hover ${sidebarOpen == false ? "hidden" : ""} md:block fixed md:relative w-[250px]`}>
                     <header>
                         <div className="image-text">
@@ -80,7 +82,7 @@ export default function DashboardWrapper({children, selectdRoute}) {
                             </li>
                             
                             <li className="">
-                                <Link to="">
+                                <Link onClick={() => generalFunction.logout()} to="/login">
                                     <div className="icon">
                                         <img src={importConfig.routesIcons.logoutIcon} alt="" className="w-6" />
                                     </div>
@@ -114,7 +116,7 @@ export default function DashboardWrapper({children, selectdRoute}) {
                         <p>Soumitra</p>
                     </div>
                 </div>
-                <div className="p-4">
+                <div className="p-4 w-full md:w-[calc(100vw-250px)] h-[calc(100vh-65px)] overflow-auto">
                     {children}
                 </div>
             </div>

@@ -2,31 +2,39 @@ import { OnBoarding } from "@questlabs/react-sdk";
 import LoginWrapper from "../Common/LoginWrapper";
 import { useState } from "react";
 import { appConfig } from "../../assets/Config/appConfig";
+import { generalFunction } from "../../assets/Config/GeneralFunction";
+import { useNavigate } from "react-router-dom";
 
 
 
 export default function Onboarding() {
     const [answer, setAnswer] = useState({})
     const [loading, setLoading] = useState(true);
+    const navigate = useNavigate()
+
+    const completeAnswer = (e) => {
+        navigate("/dashboard")
+    }
 
     return (
-        <div className="w-1/2 flex h-full items-center m-auto">
-            <div className={`${!loading && "rounded-xl bg-white"}`} style={{boxShadow: loading ? "" : "0 0 5px #00000060"}}>
+        <div className="w-full flex h-full items-center justify-center m-auto">
+            <div className={`${!loading && "rounded-xl bg-white"} w-1/2`} style={{boxShadow: loading ? "" : "0 0 5px #00000060"}}>
                 <OnBoarding
                     questId={appConfig.ONBOARDING_SCREEN_QUEST_ID}
-                    userId="u-1dd2f19b-5a1a-46e9-aa38-2e4318834421"
-                    token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ1LTFkZDJmMTliLTVhMWEtNDZlOS1hYTM4LTJlNDMxODgzNDQyMSIsImlhdCI6MTcwNDMzNDgzOCwiZXhwIjoxNzA0NDIxMjM4fQ.eITOAIrG_VQjCSyUL3IalP8X-9t11KYKC9dniXKQAJ8"
-                    progress= {["Personal Details","Professional Details"]}
+                    userId={generalFunction.getUserId()}
+                    token= {generalFunction.getUserToken()}
+                    progress= {["Personal Details"]}
                     controlBtnType= "Buttons"
-                    headingScreen= {[{"name":"Identity Insights","desc":"Revealing dimensions beyond words"},{"name":"Professional Details","desc":"Tell us more about your company"}]}
-                    design= {[[1,2,3],[4,5,6]]}
+                    headingScreen= {[{"name":"Identity Insights","desc":"Revealing dimensions beyond words"}]}
+                    design= {[[1,2,3]]}
                     singleChoose= "modal1"
                     multiChoice= "modal2"
                     answer={answer}
                     setAnswer={setAnswer}
-                    // inputBgColor="var(--primary-bg-color-1)"
+                    inputBgColor=""
                     loadingTracker={true}
                     setLoading={setLoading}
+                    getAnswers={completeAnswer}
                 />
             </div>
         </div>
