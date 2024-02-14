@@ -3,6 +3,7 @@ import { importConfig } from "../../assets/Config/importConfig";
 import LoginWrapper from "../Common/LoginWrapper";
 import Cookies from "universal-cookie";
 import { useNavigate } from "react-router-dom";
+import { appConfig } from "../../assets/Config/appConfig";
 
 
 export default function Login() {
@@ -22,13 +23,12 @@ export default function Login() {
 
     return (
         <QuestLogin
-            googleClientId="867106888033-ihclhq2s3lvp1ed70qevk7u0arhl6c07.apps.googleusercontent.com"
+            googleClientId={appConfig.googleClientId}
             textColor= ""
             btnTextColor= ""
             backgroundColor= "white"
             btnColor= ""
-            redirectUri= "http://localhost:5173/login"
-            // redirectURL= "http://localhost:5173/login"
+            redirectUri= {appConfig.redirectUri}
             google= {true}
             email= {true}
             onSubmit={(e) => completeLogin(e)}
