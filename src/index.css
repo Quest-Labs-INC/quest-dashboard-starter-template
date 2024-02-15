@@ -200,3 +200,7 @@ img{
 .q_slider_img {
   width: 200px !important;
 }
+
+input[type='text'] {
+  font-size: 14px;
+}
