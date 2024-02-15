@@ -20,13 +20,13 @@ export default function Onboarding() {
         <div className="w-full flex h-full items-center justify-center m-auto">
             <div className={`${!loading && "rounded-xl bg-white"} w-1/2`} style={{boxShadow: loading ? "" : "0 0 5px #00000060"}}>
                 <OnBoarding
-                    questId={appConfig.ONBOARDING_SCREEN_QUEST_ID}
+                    questId={appConfig?.ONBOARDING_SCREEN_QUEST_ID}
                     userId={generalFunction.getUserId()}
                     token= {generalFunction.getUserToken()}
-                    progress= {["Personal Details"]}
+                    progress= {["Personal Details", "Personal Details"]}
                     controlBtnType= "Buttons"
-                    headingScreen= {[{"name":"Identity Insights","desc":"Revealing dimensions beyond words"}]}
-                    design= {[[1,2,3]]}
+                    headingScreen= {[{"name":"Identity Insights", "desc":"Revealing dimensions beyond words"}]}
+                    design= {[[1, 2, 3]]}
                     singleChoose= "modal1"
                     multiChoice= "modal2"
                     answer={answer}
@@ -35,6 +35,8 @@ export default function Onboarding() {
                     loadingTracker={true}
                     setLoading={setLoading}
                     getAnswers={completeAnswer}
+                    // template={1}
+                    // progressBarType="modal1"
                 />
             </div>
         </div>

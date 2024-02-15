@@ -5,7 +5,16 @@ export const appConfig = {
     API_KEY: "",
     API_SECRET: "",
     ONBOARDING_SCREEN_QUEST_ID: "",
+    GOOGLE_REDIRECT_URI: "",
+    GOOGLE_CLIENT_ID: "",
     GET_STARTED_SCREEN_QUEST_ID: "",
-    googleClientId : "867106888033-ihclhq2s3lvp1ed70qevk7u0arhl6c07.apps.googleusercontent.com",
-    redirectUri : 'http://localhost:5173/login'
+    SEARCH_BAR_QUEST_ID: '',
+}
+
+
+export const contentConfig = {
+    login: {
+        heading: "Supercharge your User Experience",
+        description: "Start your journey to unlocking product-driven growth with Quest 💫"
+    }
 }
