@@ -14,8 +14,18 @@ export default function Dashboard() {
     }
 
     return (
-        <div className="w-full h-full flex items-center justify-center min-h-[calc(100vh-100px)]">
-            <img src={importConfig.home.comingsoon} className="w-96" alt="" />
-        </div>
+        <GetStarted
+            questId={appConfig?.GET_STARTED_SCREEN_QUEST_ID}
+            userId={generalFunction.getUserId()}
+            token={generalFunction.getUserToken()}
+            completeAllStatus={completeAllStatus}
+            buttonBg='linear-gradient(90deg, rgba(105,92,254,1) 0%, rgba(0,210,234,1) 50%, rgba(105,92,254,1) 100%)'
+            cardBG="var(--primary-bg-color-2)"
+            cardHeadingColor="var(--color-premitive-grey-5,#FFF)"
+            cardDescColor="var(--neutral-grey-200, #AFAFAF)"
+            cardBorderColor="var(--primary-bg-color-2)"
+            icons={[importConfig.routesIcons.userIcon, importConfig.routesIcons.adminIcon, importConfig.routesIcons.settingIcon]}
+            arrowColor="black"
+        />
     )
 }

@@ -5,7 +5,7 @@ import { routesConfig } from "../../assets/Config/routesConfig";
 import { importConfig } from "../../assets/Config/importConfig";
 import { appConfig } from "../../assets/Config/appConfig";
 import GeneralFunction from "../../assets/Functions/GeneralFunction";
-import { FeedbackWorkflow } from "@questlabs/react-sdk";
+import { FeedbackWorkflow, Search } from "@questlabs/react-sdk";
 import FeedbackButton from "./FeedbackButton";
 import { generalFunction } from "../../assets/Config/GeneralFunction";
 
@@ -18,6 +18,16 @@ export default function DashboardWrapper({children, selectdRoute}) {
     return (
         <div className="flex relative w-screen h-screen bg-customShade-4 transition-all ease-in delay-[40]">
             <FeedbackButton/>
+            <div className="z-20">
+                <Search
+                    questId= {appConfig?.SEARCH_BAR_QUEST_ID}
+                    userId={generalFunction.getUserId()}
+                    token={generalFunction.getUserToken()}
+                    open="ON_CTRL_K_KEY"
+                    onResultClick={e => navigate(e)}
+                    icons={[importConfig.routesIcons.dashboardIcon, importConfig.routesIcons.userIcon, importConfig.routesIcons.adminIcon, importConfig.routesIcons.settingIcon]}
+                />
+            </div>
             <div className={`min-h-screen h-full ${sidebarOpen == false ? "w-0" : "w-screen fixed"} md:w-[250px] z-10`} onClick={() => setSidebarOpen(false)}>
                 <nav className={`sidebar hover ${sidebarOpen == false ? "hidden" : ""} md:block fixed md:relative w-[250px]`}>
                     <header>
@@ -25,9 +35,8 @@ export default function DashboardWrapper({children, selectdRoute}) {
                             <span className="image">
                                 <img src={importConfig.brandLogo} alt="" />
                             </span>
-
                             <div className="text logo-text">
-                                <span className="name">{appConfig.ENTITY_NAME}</span>
+                                <span className="name">{appConfig?.ENTITY_NAME}</span>
                             </div>
                         </div>
                     </header>
@@ -106,7 +115,7 @@ export default function DashboardWrapper({children, selectdRoute}) {
                 </nav>
             </div>
             <div className="w-full">
-                <div className="py-4 px-4 border-b-[1px] border-[var(--color-premitive-grey-0)] text-primary-3 font-semibold flex justify-between items-center">
+                {/* <div className="py-4 px-4 border-b-[1px] border-[var(--color-premitive-grey-0)] text-primary-3 font-semibold flex justify-between items-center">
                     <div className="flex gap-2 items-center">
                         <img src={importConfig.routesIcons.menuIcon} alt="" className="w-4 flex md:hidden" onClick={() => setSidebarOpen(!sidebarOpen)}/>
                         <p>{selectdRoute}</p>
@@ -115,8 +124,8 @@ export default function DashboardWrapper({children, selectdRoute}) {
                         <img src={importConfig.brandLogo} alt="" className="w-7 rounded-full border-[1px] border-[var(--color-premitive-grey-0)]"/>
                         <p>Soumitra</p>
                     </div>
-                </div>
-                <div className="p-4 w-full md:w-[calc(100vw-250px)] h-[calc(100vh-65px)] overflow-auto">
+                </div> */}
+                <div className="p-4 w-full md:w-[calc(100vw-250px)] h-screen overflow-auto">
                     {children}
                 </div>
             </div>
