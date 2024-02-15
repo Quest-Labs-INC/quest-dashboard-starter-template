@@ -11,10 +11,12 @@ export default function Login() {
     const navigate = useNavigate()
 
     const completeLogin = (e) => {
-        const { userId, token } = e;
+        console.log(e)
+        const { userId, token, userCredentials } = e;
         if (userId && token) {
-            cookies.set("userId", userId);
-            cookies.set("userToken", token);
+            localStorage.setItem("questUserId", userId);
+            localStorage.setItem("questUserToken", token);
+            localStorage.setItem("questUserCredentials", JSON.stringify(userCredentials))
             navigate("/onboarding");
         }
     }

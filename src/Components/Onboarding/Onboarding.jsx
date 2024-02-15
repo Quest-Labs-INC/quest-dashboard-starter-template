@@ -20,7 +20,7 @@ export default function Onboarding() {
         <div className="w-full flex h-full items-center justify-center m-auto">
             <div className={`${!loading && "rounded-xl bg-white"} w-1/2`} style={{boxShadow: loading ? "" : "0 0 5px #00000060"}}>
                 <OnBoarding
-                    questId={appConfig?.ONBOARDING_SCREEN_QUEST_ID}
+                    questId={appConfig?.QUEST_ONBOARDING_QUIZ_CAMPAIGN_ID}
                     userId={generalFunction.getUserId()}
                     token= {generalFunction.getUserToken()}
                     progress= {["Personal Details", "Personal Details"]}

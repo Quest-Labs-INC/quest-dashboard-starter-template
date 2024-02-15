@@ -15,7 +15,7 @@ export default function Dashboard() {
 
     return (
         <GetStarted
-            questId={appConfig?.GET_STARTED_SCREEN_QUEST_ID}
+            questId={appConfig?.QUEST_GET_STARTED_CAMPAIGN_ID}
             userId={generalFunction.getUserId()}
             token={generalFunction.getUserToken()}
             completeAllStatus={completeAllStatus}

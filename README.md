@@ -14,7 +14,7 @@ Welcome to our SAAS template! This guide will walk you through the steps to fork
   
   ![image](https://github.com/Quest-Labs-INC/quest-dashboard-starter-template/assets/107596444/627b8efd-5c41-4b14-8c67-80b235265c26)
 
-- In the settings page, navigate to the organization tab to find your `ENTITY_NAME`, `API_KEY`, `API_SECRET`, and `ENTITY_ID`.
+- In the settings page, navigate to the organization tab to find your `QUEST_ENTITY_NAME`, `QUEST_API_KEY`, and `QUEST_ENTITY_ID`.
 - Copy these credentials and navigate to the forked folder where you'll find a file named `appConfig`.
 - Paste the copied credentials into the `appConfig` file.
 
@@ -36,7 +36,7 @@ Configure all background color in index.css and colors in tailwind.config.js (ad
 - No additional steps required for email login.
 
 #### Google Login
-- Create Google credentials. Follow our documentation on how to create Google OAuth.
+- Create Google credentials. Follow our [documentation](https://docs.questlabs.ai/integrations/google-oauth) on how to create Google OAuth.
 - Ensure the redirect URI is set to "http://localhost:3000/login/" for testing and change later.
 - Copy the clientId and clientSecret from the Google Developer Portal.
 - In the settings section of the admin panel, go to the integration tab and find Google.
@@ -57,7 +57,7 @@ Configure all background color in index.css and colors in tailwind.config.js (ad
 - Customize the default questions or create your own.
 - Publish the campaign.
 - Click View Campaign to find the questId. Copy the questId.
-- Paste the questId into the `ONBOARDING_SCREEN_QUEST_ID` key in the `appConfig` file.
+- Paste the questId into the `QUEST_ONBOARDING_QUIZ_CAMPAIGN_ID` key in the `appConfig` file.
 
 ## You're All Set!
 With these steps completed, your SAAS template is ready to use. Feel free to explore and customize further to create the perfect website for your needs. If you have any questions or need assistance, don't hesitate to reach out to our support team. Happy building!

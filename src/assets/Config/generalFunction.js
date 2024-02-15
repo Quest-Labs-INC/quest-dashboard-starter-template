@@ -2,20 +2,23 @@ import Cookies from "universal-cookie";
 
 export const generalFunction = {
     getUserId : () => {
-        const cookies = new Cookies();
-        let userId = cookies.get("userId");
+        let userId = localStorage.getItem("questUserId");
         return userId;
     },
 
     getUserToken: () => {
-        const cookies = new Cookies();
-        let token = cookies.get("userToken");
+        let token = localStorage.getItem("questUserToken");
         return token;
     },
 
+    getUserCredentials: () => {
+        let questUserCredentials = JSON.parse(localStorage.getItem("questUserCredentials"));
+        return questUserCredentials;
+    },
+
     logout: () => {
-        const cookies = new Cookies();
-        cookies.remove("userId");
-        cookies.remove("userToken");
+        localStorage.remove("questUserId");
+        localStorage.remove("questUserToken");
+        localStorage.remove("questUserCredentials");
     }
 }

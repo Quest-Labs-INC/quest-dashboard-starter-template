@@ -20,7 +20,7 @@ export default function DashboardWrapper({children, selectdRoute}) {
             <FeedbackButton/>
             <div className="z-20">
                 <Search
-                    questId= {appConfig?.SEARCH_BAR_QUEST_ID}
+                    questId= {appConfig?.QUEST_SEARCH_BAR_CAMPAIGN_ID}
                     userId={generalFunction.getUserId()}
                     token={generalFunction.getUserToken()}
                     open="ON_CTRL_K_KEY"
@@ -36,7 +36,7 @@ export default function DashboardWrapper({children, selectdRoute}) {
                                 <img src={importConfig.brandLogo} alt="" />
                             </span>
                             <div className="text logo-text">
-                                <span className="name">{appConfig?.ENTITY_NAME}</span>
+                                <span className="name">{appConfig?.QUEST_ENTITY_NAME}</span>
                             </div>
                         </div>
                     </header>

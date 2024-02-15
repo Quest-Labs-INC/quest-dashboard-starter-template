@@ -18,8 +18,8 @@ function App() {
       <div>
         <Loader/>
         <QuestProvider
-          apiKey={appConfig?.API_KEY}
-          entityId={appConfig?.ENTITY_ID}
+          apiKey={appConfig?.QUEST_API_KEY}
+          entityId={appConfig?.QUEST_ENTITY_ID}
           apiType='STAGING'
         >
           <AllRoutes/>
