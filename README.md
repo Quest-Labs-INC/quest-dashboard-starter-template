@@ -9,7 +9,7 @@ Welcome to our SAAS template! This guide will walk you through the steps to fork
 - Open the forked repository in your preferred Integrated Development Environment (IDE).
 
 ### Step 2: Setting up Credentials
-- Visit [questlabs.ai](https://questlabs.ai) and log in.
+- Visit [staging.questlabs.ai/login](https://staging.questlabs.ai/login) or directly production [app.questlabs.ai/login](https://app.questlabs.ai/login) and log in.
 - Once logged in, access the admin panel where you'll find the settings option.
   
   ![image](https://github.com/Quest-Labs-INC/quest-dashboard-starter-template/assets/107596444/627b8efd-5c41-4b14-8c67-80b235265c26)
