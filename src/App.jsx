@@ -2,33 +2,8 @@ import { QuestProvider } from '@questlabs/react-sdk';
 import './App.css'
 import AllRoutes from './Router/AllRoutes';
 import Loader from './assets/Misc/Loader';
-// import { appConfig } from './assets/Config/appConfig';
 import '@questlabs/react-sdk/dist/style.css'
 import { createContext, useEffect, useState } from 'react';
-import GeneralFunction from './assets/Functions/GeneralFunction';
-
-// function App() {
-
-//   useEffect(() => {
-//     GeneralFunction.shareInstance.getTheme()
-//   }, [])
-
-//   return (
-//     <>
-//       <div>
-//         <Loader/>
-//         <QuestProvider
-//           apiKey={appConfig?.QUEST_API_KEY}
-//           entityId={appConfig?.QUEST_ENTITY_ID}
-//           apiType='STAGING'
-//         >
-//           <AllRoutes/>
-//         </QuestProvider>
-//       </div>
-//     </>
-//   )
-// }
-
 
 export const ThemeContext = createContext();
 
@@ -43,7 +18,6 @@ const appConfig = {
   QUEST_SEARCH_BAR_CAMPAIGN_ID: '',
 }
 
-
 const contentConfig = {
   login: {
     heading: "Supercharge your User Experience",
@@ -51,86 +25,43 @@ const contentConfig = {
   }
 }
 
+const bgColors = {
+  "dark-color-premitive-grey-1": "#cbcbcb",
+  "dark-color-premitive-grey-0": "#afafaf",
+  "dark-color-premitive-grey-2": "#e2e2e2",
+  "dark-color-premitive-grey-3": "#eeeeee",
+  "dark-color-premitive-grey-4": "#f6f6f6",
+  "dark-color-premitive-grey-5": "#ffffff",
+
+  "dark-primary-bg-color-0": "#1c1a27",
+  "dark-primary-bg-color-1": "#fbfafe",
+  "dark-primary-bg-color-2": "#111018",
+  "dark-primary-bg-color-3": "#1c1a27",
+  "dark-primary-bg-color-4": "#3e3a58",
+
+  "dark-primary-tile-color-0": "#f0fcec",
+  "dark-primary-border-color": "#455a64",
+
+  "light-color-premitive-grey-0": "#afafaf",
+  "light-color-premitive-grey-1": "#757575",
+  "light-color-premitive-grey-2": "#545454",
+  "light-color-premitive-grey-3": "#333333",
+  "light-color-premitive-grey-4": "#141414",
+  "light-color-premitive-grey-5": "#000000",
+
+  "light-primary-bg-color-0": "#7B68EE",
+  "light-primary-bg-color-1": "#edf3ff",
+  "light-primary-bg-color-2": "#ffffff",
+  "light-primary-bg-color-3": "#e4e9f7",
+  "light-primary-bg-color-4": "#ffffff",
+
+  "light-primary-tile-color-0": "#d7f1f",
+  "light-primary-tile-color": "#9a7ada",
+}
+
 function App() {
 
-
-  const lightColors = {
-    "light-color-premitive-grey-0": "#afafaf",
-    "light-color-premitive-grey-1": "#757575",
-    "light-color-premitive-grey-2": "#545454",
-    "light-color-premitive-grey-3": "#333333",
-    "light-color-premitive-grey-4": "#141414",
-    "light-color-premitive-grey-5": "#000000",
-  }
-
-  const lightBgColors = {
-    "light-primary-bg-color-0": "#7B68EE",
-    "light-primary-bg-color-1": "#edf3ff",
-    "light-primary-bg-color-2": "#ffffff",
-    "light-primary-bg-color-3": "#e4e9f7",
-    "light-primary-bg-color-4": "#ffffff",
-
-    "light-primary-tile-color-0": "#d7f1f",
-    "light-primary-tile-color": "#9a7ada",
-  }
-
-  const darkColors = {
-    "dark-color-premitive-grey-1": "#cbcbcb",
-    "dark-color-premitive-grey-0": "#afafaf",
-    "dark-color-premitive-grey-2": "#e2e2e2",
-    "dark-color-premitive-grey-3": "#eeeeee",
-    "dark-color-premitive-grey-4": "#f6f6f6",
-    "dark-color-premitive-grey-5": "#ffffff",
-  }
-
-  const darkBgColors = {
-    "dark-primary-bg-color-0": "#1c1a27",
-    "dark-primary-bg-color-1": "#fbfafe",
-    "dark-primary-bg-color-2": "#111018",
-    "dark-primary-bg-color-3": "#1c1a27",
-    "dark-primary-bg-color-4": "#3e3a58",
-
-    "dark-primary-tile-color-0": "#f0fcec",
-    "dark-primary-border-color": "#455a64"
-  }
-
-  const bgColors = {
-    "dark-color-premitive-grey-1": "#cbcbcb",
-    "dark-color-premitive-grey-0": "#afafaf",
-    "dark-color-premitive-grey-2": "#e2e2e2",
-    "dark-color-premitive-grey-3": "#eeeeee",
-    "dark-color-premitive-grey-4": "#f6f6f6",
-    "dark-color-premitive-grey-5": "#ffffff",
-
-    "dark-primary-bg-color-0": "#1c1a27",
-    "dark-primary-bg-color-1": "#fbfafe",
-    "dark-primary-bg-color-2": "#111018",
-    "dark-primary-bg-color-3": "#1c1a27",
-    "dark-primary-bg-color-4": "#3e3a58",
-
-    "dark-primary-tile-color-0": "#f0fcec",
-    "dark-primary-border-color": "#455a64",
-
-    "light-color-premitive-grey-0": "#afafaf",
-    "light-color-premitive-grey-1": "#757575",
-    "light-color-premitive-grey-2": "#545454",
-    "light-color-premitive-grey-3": "#333333",
-    "light-color-premitive-grey-4": "#141414",
-    "light-color-premitive-grey-5": "#000000",
-
-    "light-primary-bg-color-0": "#7B68EE",
-    "light-primary-bg-color-1": "#edf3ff",
-    "light-primary-bg-color-2": "#ffffff",
-    "light-primary-bg-color-3": "#e4e9f7",
-    "light-primary-bg-color-4": "#ffffff",
-
-    "light-primary-tile-color-0": "#d7f1f",
-    "light-primary-tile-color": "#9a7ada",
-  }
-
   const [theme, setTheme] = useState('dark');
-
-
 
   useEffect(() => {
 

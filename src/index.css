@@ -93,52 +93,6 @@ button:focus-visible {
 
   --primary-tile-color: #9a7ada;
 
-  /* for light theme */
-  --light-color-premitive-grey-0: #afafaf;
-  --light-color-premitive-grey-1: #757575;
-  --light-color-premitive-grey-2: #545454;
-  --light-color-premitive-grey-3: #333333;
-  --light-color-premitive-grey-4: #141414;
-  --light-color-premitive-grey-5: #000000;
-
-  --light-color-premitive-grey-0: #afafaf;
-  --light-color-premitive-grey-1: #757575;
-  --light-color-premitive-grey-2: #545454;
-  --light-color-premitive-grey-3: #333333;
-  --light-color-premitive-grey-4: #141414;
-  --light-color-premitive-grey-5: #000000;
-
-  /* for background  */
-  --light-primary-bg-color-0: #7B68EE;
-  --light-primary-bg-color-1: #edf3ff;
-  --light-primary-bg-color-2: #ffffff;
-  --light-primary-bg-color-3: #e4e9f7;
-  --light-primary-bg-color-4: #ffffff;
-
-  --light-primary-tile-color-0: #d7f1ff;
-
-  --light-primary-tile-color: #9a7ada;
-  /* for dark theme */
-  --dark-color-premitive-grey-1: #cbcbcb;
-  --dark-color-premitive-grey-0: #afafaf;
-  --dark-color-premitive-grey-2: #e2e2e2;
-  --dark-color-premitive-grey-3: #eeeeee;
-  --dark-color-premitive-grey-4: #f6f6f6;
-  --dark-color-premitive-grey-5: #ffffff;
-
-  --dark-primary-bg-color-0: #1c1a27;
-  --dark-primary-bg-color-1: #fbfafe;
-  --dark-primary-bg-color-2: #111018;
-  --dark-primary-bg-color-3: #1c1a27;
-  --dark-primary-bg-color-4: #3e3a58;
-
-  --dark-primary-tile-color-0: #f0fcec;
-
-  --dark-primary-border-color: #455a64;
-
-
-
-
   /* ===== Colors ===== */
   --body-color: #e4e9f7;
   --sidebar-color: #fff;
@@ -152,7 +106,6 @@ button:focus-visible {
   --tran-03: all 0.3s ease;
   --tran-04: all 0.3s ease;
   --tran-05: all 0.3s ease;
-
 }
 
 .dark {
@@ -173,7 +126,6 @@ button:focus-visible {
 
   --primary-border-color: #455a64;
 }
-
 
 .btn-gradient {
   background-image: linear-gradient(to right, #6190E8 0%, #A7BFE8 51%, #6190E8 100%);

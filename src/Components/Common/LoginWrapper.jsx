@@ -1,13 +1,9 @@
 import { useContext } from "react";
-// import { contentConfig } from "../../assets/Config/appConfig";
 import { importConfig } from "../../assets/Config/importConfig";
 import { ThemeContext } from "../../App";
 
-
-
 export default function LoginWrapper({ children }) {
     const { theme, bgColors, contentConfig } = useContext(ThemeContext)
-
 
     return (
         <div className="flex h-screen">
@@ -24,8 +20,7 @@ export default function LoginWrapper({ children }) {
                     {contentConfig?.login?.description}
                 </p>
             </div>
-
-
+            
             {/* right side */}
             <div className="w-full md:w-1/2 bg-customShade-2">
                 {children}

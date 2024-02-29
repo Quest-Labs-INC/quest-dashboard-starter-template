@@ -9,7 +9,6 @@ import Settings from "../../Components/Settings/Settings";
 import User from "../../Components/User/User";
 import { importConfig } from "./importConfig";
 
-
 export const routesConfig = [
     {
         path: "/",
