@@ -1,7 +1,7 @@
 import Cookies from "universal-cookie";
 
 export const generalFunction = {
-    getUserId : () => {
+    getUserId: () => {
         let userId = localStorage.getItem("questUserId");
         return userId;
     },

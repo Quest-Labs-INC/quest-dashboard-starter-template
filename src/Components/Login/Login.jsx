@@ -25,15 +25,15 @@ export default function Login() {
 
     return (
         <QuestLogin
-            googleClientId= {appConfig?.GOOGLE_CLIENT_ID}
-            textColor= ""
-            btnTextColor= ""
-            backgroundColor= "white"
-            btnColor= ""
-            redirectUri= {appConfig?.GOOGLE_REDIRECT_URI}
+            googleClientId={appConfig?.GOOGLE_CLIENT_ID}
+            textColor=""
+            btnTextColor=""
+            backgroundColor="white"
+            btnColor=""
+            redirectUri={appConfig?.GOOGLE_REDIRECT_URI}
             // redirectURL= "http://localhost:5173/login"
-            google= {true}
-            email= {true}
+            google={true}
+            email={true}
             onSubmit={(e) => completeLogin(e)}
         />
     );

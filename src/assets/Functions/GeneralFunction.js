@@ -7,7 +7,7 @@ class GeneralFunction {
         document.getElementsByTagName("BODY")[0].classList.toggle("dark");
         let themeText = document.getElementById("theme-text");
         let theme = localStorage.getItem("theme");
-    
+
         if (theme && theme == "dark") {
             localStorage.removeItem("theme");
             themeText.innerText = "Light Theme";
