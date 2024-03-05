@@ -73,7 +73,7 @@ export const routesConfig = [
         path: "/settings",
         name: "Settings",
         logo: SettingsSvg(),
-        component: <DashboardWrapper selectdRoute={"Settings"}><Settings></Settings></DashboardWrapper>,
+        component: <DashboardWrapper2 selectdRoute={"Settings"}><Settings></Settings></DashboardWrapper2>,
         hidden: false,
     },
 ]

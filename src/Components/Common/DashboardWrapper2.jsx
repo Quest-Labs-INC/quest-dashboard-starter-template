@@ -35,7 +35,7 @@ export default function DashboardWrapper2({ children, selectdRoute }) {
                         <div className="s_nav_company_logo">
                             <img src={importConfig.brandLogo} alt="" />
                         </div>
-                        <p>Afore Hive</p>
+                        <p>{appConfig?.QUEST_ENTITY_NAME}</p>
                     </div>
                 </div>
 
