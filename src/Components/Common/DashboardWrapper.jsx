@@ -6,7 +6,7 @@ import { importConfig } from "../../assets/Config/importConfig";
 import { FeedbackWorkflow, Search } from "@questlabs/react-sdk";
 import FeedbackButton from "./FeedbackButton";
 import { generalFunction } from "../../assets/Config/GeneralFunction";
-import { ThemeContext } from "../../App";
+import { ThemeContext } from "./appContext";
 
 export default function DashboardWrapper({ children, selectdRoute }) {
     const [hover, sethover] = useState("close");
@@ -28,7 +28,7 @@ export default function DashboardWrapper({ children, selectdRoute }) {
 
     return (
         // wrapper div 
-        <div className="flex relative w-screen h-screen bg-customShade-4 transition-all ease-in delay-[40]" style={{ backgroundColor: bgColors[`${theme}-primary-bg-color-3`] }}>
+        <div className="flex relative w-screen h-screen transition-all ease-in delay-[40]" style={{ backgroundColor: bgColors[`${theme}-primary-bg-color-3`] }}>
             <FeedbackButton />
 
             <div className="z-20">
@@ -52,7 +52,7 @@ export default function DashboardWrapper({ children, selectdRoute }) {
                     <header>
                         <div className="image-text">
                             <span className="image">
-                                <img src={importConfig.brandLogo} alt="" />
+                                <img src={appConfig.BRAND_LOGO || importConfig.brandLogo} alt="" />
                             </span>
                             <div className="text logo-text">
                                 <span className="name">{appConfig?.QUEST_ENTITY_NAME}</span>

@@ -1,7 +1,7 @@
 import { memo, useContext, useState } from 'react';
 import { FeedbackWorkflow } from "@questlabs/react-sdk";
 import { generalFunction } from "../../assets/Config/GeneralFunction";
-import { ThemeContext } from '../../App';
+import { ThemeContext } from './appContext';
 
 
 function FeedbackButton() {
@@ -9,7 +9,7 @@ function FeedbackButton() {
 
     const { theme, bgColors, contentConfig } = useContext(ThemeContext)
     return (
-        <div>
+        <div className='z-50'>
             <div className="fixed -right-10 top-[50vh] -rotate-90 btn-gradient cursor-pointer" style={{ borderRadius: "6px 6px 0px 0px", padding: "10px 30px" }} onClick={() => setOpenFeedback(true)}>
                 <p>Feedback</p>
             </div>
@@ -25,26 +25,20 @@ function FeedbackButton() {
                 isOpen={openFeedback}
                 onClose={() => setOpenFeedback(false)}
                 zIndex={11}
-
-                backgroundColor={bgColors[`${theme}-primary-bg-color-0`]}
-                textColor={bgColors[`${theme}-color-premitive-grey-5`]}
-                btnColor={bgColors[`${theme}-color-premitive-grey-5`]}
                 topbarColor={'white'}
-                btnTextColor={bgColors[`${theme}-color-premitive-grey-5`]}
                 starColor='blue'
+                showFooter={false}
                 styleConfig={{
                     Form: {
-
+                        background: bgColors[`${theme}-primary-bg-color-1`]
+                        // background: "white"
                     },
-                    Heading: bgColors[`${theme}-color-premitive-grey-5`],
-                    Description: {},
-                    Input: bgColors[`${theme}-color-premitive-grey-5`],
-                    Label: bgColors[`${theme}-color-premitive-grey-5`],
-                    TextArea: bgColors[`${theme}-color-premitive-grey-5`],
-                    PrimaryButton: bgColors[`${theme}-color-premitive-grey-5`],
-                    SecondaryButton: {},
-                    Modal: {},
-                    Footer: {},
+                    Heading: {
+                        fontSize: "22px"
+                    },
+                    Description: {
+                        fontSize: "14px"
+                    },
                 }}
             />
         </div>

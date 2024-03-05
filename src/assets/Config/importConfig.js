@@ -1,4 +1,4 @@
-import brandLogo from "../Images/brandLogo.png";
+import brandLogo from "../Images/logo.svg";
 import settingIcon from "../Images/setting.svg";
 import bookIcon from "../Images/book.svg";
 import adminIcon from "../Images/admin.svg";
@@ -26,6 +26,8 @@ import content2img3 from "../Images/content2img3.svg";
 import stick from "../Images/stick.svg";
 import plusIcon from "../Images/plusIcon.png";
 import comingsoon from "../Images/comingsoon.webp";
+import upload from "../Images/upload.svg";
+import userIconImg from "../Images/userIcon.svg";
 
 export const importConfig = {
     brandLogo: brandLogo,
@@ -61,5 +63,9 @@ export const importConfig = {
         stick,
         plusIcon,
         comingsoon
+    },
+    main: {
+        upload,
+        userIconImg
     }
 }

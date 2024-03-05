@@ -1,0 +1,123 @@
+import React, { createContext, useEffect, useState } from 'react';
+import { generalFunction } from '../../assets/Config/GeneralFunction';
+import axios from 'axios';
+
+export const ThemeContext = createContext();
+
+const bgColors = {
+    "dark-color-premitive-grey-0": "#afafaf",
+    "dark-color-premitive-grey-5": "#ffffff",
+  
+    "dark-primary-bg-color-0": "#111018", // "#1c1a27"
+    "dark-primary-bg-color-1": "#1c1a27", // "#fbfafe"
+    "dark-primary-bg-color-2": "#111018",
+    "dark-primary-bg-color-3": "#1c1a27",
+    "dark-primary-bg-color-4": "#3e3a58",
+  
+    "dark-primary-tile-color-0": "#f0fcec",
+    "dark-primary-border-color": "#455a64",
+  
+    "light-color-premitive-grey-0": "#afafaf",
+    "light-color-premitive-grey-5": "#2e425c",
+  
+    "light-primary-bg-color-0": "#7B68EE", // login page left side
+    "light-primary-bg-color-1": "#ffffff", // login page right side #edf3ff
+    "light-primary-bg-color-2": "#e4e9f7", // navbar and components background color
+    "light-primary-bg-color-3": "#ffffff", // dashboard background color
+    "light-primary-bg-color-4": "#ffffff", // input background color
+  
+    "light-primary-tile-color-0": "#d7f1f",
+    "light-primary-tile-color": "#9a7ada",
+}
+
+const AppContext = ({ children }) => {
+    const [appConfig, setAppConfig] = useState({
+        QUEST_ENTITY_ID: generalFunction.getDataFromCookies("adminCommunityId"),
+        QUEST_ENTITY_NAME: "",
+        BRAND_LOGO: "",
+        QUEST_API_KEY: generalFunction.getDataFromCookies("apiKey"),
+        QUEST_ONBOARDING_QUIZ_CAMPAIGN_ID: "q-saas-onboarding-quiz",
+        GOOGLE_REDIRECT_URI: "http://localhost:3000/login/",
+        GOOGLE_CLIENT_ID: "857590091173-lm2tl3nqfvp2thd4nrhqidjuq2hroco8.apps.googleusercontent.com",
+        QUEST_GET_STARTED_CAMPAIGN_ID: "q-saas-get-started",
+        QUEST_SEARCH_BAR_CAMPAIGN_ID: 'q-saas-search-bar',
+    })
+    const [contentConfig, setContentConfig] = useState({
+        login: {
+          heading: "",
+          description: ""
+        }
+    })
+    const [theme, setTheme] = useState('dark');
+
+    useEffect(() => {
+        const getTheme = () => {
+            let theme = localStorage.getItem("theme");
+
+            if (theme && theme == "dark") {
+                setTheme('dark');
+            } else {
+                setTheme('light');
+            }
+        }
+
+        getTheme();
+    }, [theme])
+
+    useEffect(() => {
+        const fetchEntityDetails = async (paramEntityId) => {
+            try {
+              let apiKeyRequest = generalFunction.createUrl(`api/entities/${generalFunction.getDataFromCookies("adminCommunityId")}/keys?userId=${generalFunction.getDataFromCookies("questUserId")}`);
+              let apiKeyResponse = await axios.get(apiKeyRequest.url, { headers: apiKeyRequest.headers })
+              const data = apiKeyResponse.data;
+              if (data.success == false) {
+                  let errMsg = data.error ? data.error : "Unable to Get Developer Details"
+                  toast.error("Error Occurred" + "\n" + errMsg);
+              }
+              generalFunction.setDataInCookies("apiKey", data?.data?.key)
+
+              let request = `http://localhost:8081/api/entities/${paramEntityId}?userId=${generalFunction.getDataFromCookies("questUserId")}`
+              await fetch(request, {
+                  headers: {
+                    apikey: generalFunction.getDataFromCookies("apikey") || data?.data?.key,
+                    entityId: paramEntityId,
+                    userId: generalFunction.getDataFromCookies("questUserId")
+                  },
+              })
+              .then((res) => res.json())
+              .then((data) => {
+                let apiData = data.data;
+                
+                setContentConfig({
+                    ...contentConfig,
+                    login: {
+                        heading: apiData?.saasDeshboard?.dashboardConfig?.title,
+                        description: apiData?.saasDeshboard?.dashboardConfig?.description,
+                    }
+                })
+                setAppConfig({...appConfig, 
+                    BRAND_LOGO: apiData?.saasDeshboard?.dashboardConfig?.imageUrl || apiData?.imageUrl,
+                    QUEST_ENTITY_NAME: apiData?.name,
+                    QUEST_ENTITY_ID: apiData?.id,
+                })
+                let iconSelector = document.querySelector(".iconUrl")
+                // iconSelector.setAttribute("href", "https://quest-media-storage-bucket.s3.us-east-2.amazonaws.com/1709407714542-90319026362-min_500x500.webp")
+              })
+          } catch (error) {
+              console.log(error);
+          }
+        }
+        
+        if (generalFunction.getDataFromCookies("questUserId") && !contentConfig.login.heading) {
+            fetchEntityDetails(generalFunction.getDataFromCookies("adminCommunityId"))
+        }
+      }, [])
+
+  return (
+    <ThemeContext.Provider value={{ theme, setTheme, bgColors, appConfig, setAppConfig, contentConfig, setContentConfig }}>
+      {children}
+    </ThemeContext.Provider>
+  );
+};
+
+export default AppContext;

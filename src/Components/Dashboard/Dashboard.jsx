@@ -3,7 +3,7 @@ import DashboardWrapper from "../Common/DashboardWrapper";
 import { importConfig } from "../../assets/Config/importConfig";
 import { generalFunction } from "../../assets/Config/GeneralFunction";
 import { useContext } from "react";
-import { ThemeContext } from "../../App";
+import { ThemeContext } from "../Common/appContext";
 
 export default function Dashboard() {
 
@@ -19,12 +19,25 @@ export default function Dashboard() {
             token={generalFunction.getUserToken()}
             completeAllStatus={completeAllStatus}
             buttonBg='linear-gradient(90deg, rgba(105,92,254,1) 0%, rgba(0,210,234,1) 50%, rgba(105,92,254,1) 100%)'
-            cardBG={bgColors[`${theme}-primary-bg-color-2`]}
-            cardHeadingColor={bgColors[`${theme}-color-premitive-grey-5`]}
+            // cardBG={}
+            // cardHeadingColor={bgColors[`${theme}-color-premitive-grey-5`]}
             cardDescColor="var(--neutral-grey-200, #AFAFAF)"
             cardBorderColor="var(--primary-bg-color-2)"
-            icons={[importConfig.routesIcons.userIcon, importConfig.routesIcons.adminIcon, importConfig.routesIcons.settingIcon]}
+            iconUrls={[importConfig.routesIcons.userIcon, importConfig.routesIcons.adminIcon, importConfig.routesIcons.settingIcon]}
             arrowColor="black"
+            cardBackground={bgColors[`${theme}-primary-bg-color-2`]}
+            styleConfig={{
+                Form: {
+                    background: "transparent"
+                },
+                Heading: {
+                    fontSize: "22px"
+                },
+                Description: {
+                    fontSize: "14px"
+                },
+            }}
+            showFooter={false}
         />
     )
 }

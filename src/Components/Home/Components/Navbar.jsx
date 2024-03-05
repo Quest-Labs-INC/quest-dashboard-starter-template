@@ -20,7 +20,7 @@ const Navbar = () => {
     return (
         <div className="fixed w-full top-0 left-0 " style={{zIndex: 1}}>
             <motion.div className="px-5 pt-8 flex items-center justify-between md:px-[60px] md:pt-12 relative" variants={animate1}>
-                <img src={importConfig.brandLogo} alt="" className="w-12" variants={animate1}/>
+                <img src={appConfig.BRAND_LOGO || importConfig.brandLogo} alt="" className="w-12" variants={animate1}/>
                 <div
                     className={`flex ${
                         openPopup ? "opacity-100 scale-100" : "opacity-0 scale-0"

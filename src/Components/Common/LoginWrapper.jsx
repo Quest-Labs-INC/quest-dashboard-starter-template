@@ -1,9 +1,9 @@
 import { useContext } from "react";
 import { importConfig } from "../../assets/Config/importConfig";
-import { ThemeContext } from "../../App";
+import { ThemeContext } from "./appContext";
 
 export default function LoginWrapper({ children }) {
-    const { theme, bgColors, contentConfig } = useContext(ThemeContext)
+    const { appConfig, theme, bgColors, contentConfig } = useContext(ThemeContext)
 
     return (
         <div className="flex h-screen">
@@ -12,7 +12,7 @@ export default function LoginWrapper({ children }) {
                 style={{
                     backgroundColor: bgColors[`${theme}-primary-bg-color-0`]
                 }}>
-                <img src={importConfig.brandLogo} alt="" className="w-12 mb-3" />
+                <img src={appConfig.BRAND_LOGO || ""} alt="" className="w-12 mb-3" />
                 <p className="text-customShade-200 font-semibold text-xl">
                     {contentConfig?.login?.heading}
                 </p>
@@ -22,7 +22,12 @@ export default function LoginWrapper({ children }) {
             </div>
             
             {/* right side */}
-            <div className="w-full md:w-1/2 bg-customShade-2">
+            <div 
+                className="w-full md:w-1/2"
+                style={{
+                    backgroundColor: bgColors[`${theme}-primary-bg-color-1`]
+                }}
+            >
                 {children}
             </div>
         </div>
