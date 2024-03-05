@@ -1,6 +1,8 @@
 import Admin from "../../Components/Admin/Admin";
 import DashboardWrapper from "../../Components/Common/DashboardWrapper";
+import DashboardWrapper2 from "../../Components/Common/DashboardWrapper2";
 import LoginWrapper from "../../Components/Common/LoginWrapper";
+import { AdminSvg, GetStartedSvg, InsightsSvg, SettingsSvg, Switch, UsersSvg } from "../../Components/Common/SideBarSvg";
 import Dashboard from "../../Components/Dashboard/Dashboard";
 import Home from "../../Components/Home/Home";
 import Login from "../../Components/Login/Login";
@@ -37,30 +39,40 @@ export const routesConfig = [
     },
     {
         path: "/dashboard",
-        name: "Dashboard",
-        logo: importConfig.routesIcons.dashboardIcon,
-        component: <DashboardWrapper selectdRoute={"Dashboard"}><Dashboard></Dashboard></DashboardWrapper>,
+        name: "Get Started",
+        logo:
+         GetStartedSvg() ,
+        //  importConfig.routesIcons.dashboardIcon,
+        component: <DashboardWrapper2 selectdRoute={"Dashboard"}><Dashboard></Dashboard></DashboardWrapper2>,
+        hidden: false,
+    },
+    {
+        path: "/insights",
+        name: "Insights",
+        logo: InsightsSvg(),
+        component: <DashboardWrapper2 selectdRoute={"insights"}><User></User></DashboardWrapper2>,
         hidden: false,
     },
     {
         path: "/user",
         name: "User",
-        logo: importConfig.routesIcons.userIcon,
-        component: <DashboardWrapper selectdRoute={"User"}><User></User></DashboardWrapper>,
+        logo: UsersSvg(),
+        component: <DashboardWrapper2 selectdRoute={"User"}><User></User></DashboardWrapper2>,
         hidden: false,
     },
     {
         path: "/admin",
         name: "Admin",
-        logo: importConfig.routesIcons.adminIcon,
-        component: <DashboardWrapper selectdRoute={"Admin"}><Admin></Admin></DashboardWrapper>,
+        logo: AdminSvg(),
+        component: <DashboardWrapper2 selectdRoute={"Admin"}><Admin></Admin></DashboardWrapper2>,
         hidden: false,
         adminPermission: true,
     },
+
     {
         path: "/settings",
         name: "Settings",
-        logo: importConfig.routesIcons.settingIcon,
+        logo: SettingsSvg(),
         component: <DashboardWrapper selectdRoute={"Settings"}><Settings></Settings></DashboardWrapper>,
         hidden: false,
     },
