@@ -15,7 +15,7 @@ export default function Onboarding() {
   const [key, setKey] = useState("");
 
   const completeAnswer = (e) => {
-    navigate("/preview/dashboard");
+    navigate("/dashboard");
   };
 
   useEffect(() => {}, [appConfig.QUEST_API_KEY]);

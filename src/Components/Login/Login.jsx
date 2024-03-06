@@ -20,7 +20,7 @@ export default function Login() {
         "questUserCredentials",
         JSON.stringify(userCredentials)
       );
-      navigate("/preview/onboarding");
+      navigate("/onboarding");
     }
   };
 

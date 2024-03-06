@@ -135,7 +135,7 @@ export default function DashboardWrapper({ children, selectdRoute }) {
       </nav>
 
       <div className="w-full">
-        <div className="p-4 w-full md:w-[calc(100vw-250px)] h-screen overflow-auto">
+        <div className="p-4 w-full md:w-[calc(100vw-185px)] h-screen overflow-auto">
           {children}
         </div>
       </div>
