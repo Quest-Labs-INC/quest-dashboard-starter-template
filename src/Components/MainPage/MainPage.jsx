@@ -27,9 +27,10 @@ function MainPage() {
     const [customImage, setCustomImage] = useState("")
     const [name, setName] = useState("");
     const [description, setDescription] = useState("");
-    const gradientCSS = [`linear-gradient(to right, #C2E59C, #64B3F4)`, `linear-gradient(to right, #ED87FE, #00DBDE)`, `linear-gradient(to right, #FEAC5E, #C779D0)`];
+    const gradientCSS = [`linear-gradient(147deg, #FC5C7D 0%, #6A82FB 90.03%)`, `linear-gradient(147deg, #00F260 0%, #0575E6 90.03%)`, `linear-gradient(147deg, #11998E 0%, #38EF7D 90.03%)`, `linear-gradient(146deg, #D88EFD 7.78%, #75B2ED 56.47%, #26CDE7 91.93%)`];
     const [bg, setBg] = useState("");
     const [selectedBox, setSelectedBox] = useState(null);
+    const [entityDetails, setEntityDetails] = useState(null);
 
     const { appConfig, setAppConfig, contentConfig, setContentConfig } = useContext(ThemeContext)
 
@@ -85,10 +86,11 @@ function MainPage() {
             setName(response?.data?.data?.name);
             setImageUrl(response?.data?.data?.imageUrl);
             let apiData = response.data;
+            setEntityDetails(apiData)
             
 
             setAppConfig({...appConfig, 
-                BRAND_LOGO: apiData?.saasDeshboard?.dashboardConfig?.imageUrl || apiData?.imageUrl,
+                BRAND_LOGO: apiData?.saasDashboard?.dashboardConfig?.imageUrl || apiData?.imageUrl,
                 QUEST_ENTITY_NAME: apiData?.name,
                 QUEST_ENTITY_ID: apiData?.id,
             })
@@ -98,8 +100,8 @@ function MainPage() {
             setContentConfig({
                 ...contentConfig,
                 login: {
-                    heading: apiData?.saasDeshboard?.dashboardConfig?.title,
-                    description: apiData?.saasDeshboard?.dashboardConfig?.description,
+                    heading: apiData?.saasDashboard?.dashboardConfig?.title,
+                    description: apiData?.saasDashboard?.dashboardConfig?.description,
                 }
             })
         } catch (error) {
@@ -122,6 +124,11 @@ function MainPage() {
             return;
         }
 
+        if (!name || !description || !imageUrl || !bg) {
+            toast.error("Please fill the required information");
+            return;
+        }
+
         try {
             generalFunction.showLoader();
             let request = generalFunction.createUrl(`api/entities/${adminEntity || generalFunction.getDataFromCookies("adminCommunityId")}/quests/generate-saas?userId=${generalFunction.getDataFromCookies("questUserId")}`)
@@ -129,19 +136,19 @@ function MainPage() {
                 entityName: name,
                 entityDetails: description,
                 imageUrl: customImage,
-                colorConfig: `config-${+selectedBox + 1}`
+                colorConfig: bg,
             }, {headers: request.headers})
             if (response.success) {
                 toast.success("Successfully generated")
             }
-            
-            generalFunction.hideLoader();
 
-            let apiData = response.data;
-            console.log(apiData)
+            generalFunction.hideLoader();
             
+            let apiData = response.data;
+            
+            setEntityDetails(apiData)
             setAppConfig({...appConfig, 
-                BRAND_LOGO: apiData?.saasDeshboard?.dashboardConfig?.imageUrl || apiData?.imageUrl,
+                BRAND_LOGO: apiData?.saasDashboard?.dashboardConfig?.imageUrl || apiData?.imageUrl,
                 QUEST_ENTITY_NAME: apiData?.name,
                 QUEST_ENTITY_ID: apiData?.id,
             })
@@ -151,8 +158,8 @@ function MainPage() {
             setContentConfig({
                 ...contentConfig,
                 login: {
-                    heading: apiData?.saasDeshboard?.dashboardConfig?.title,
-                    description: apiData?.saasDeshboard?.dashboardConfig?.description,
+                    heading: apiData?.saasDashboard?.dashboardConfig?.title,
+                    description: apiData?.saasDashboard?.dashboardConfig?.description,
                 }
             })
 
@@ -218,7 +225,7 @@ function MainPage() {
                 <div className={`${loginPupup ? "block" : "hidden"}`}>
                     <LoginPopUp loginComplete={(e, j) => fetchUser(e, j)} setLoginPopup={() => setLoginPopup(false)}/>
                 </div>
-                {onboardingPopup && <OnboardingPopUp isAdmin={isAdmin} setOnboardingPopup={() => setOnboardingPopup(false)}/>}
+                {onboardingPopup && <OnboardingPopUp isAdmin={isAdmin} setOnboardingPopup={() => setOnboardingPopup(false)} setAdminEntity={(id) => setAdminEntity(id)}/>}
                 {changeEntityPopup && <ChangeEntityPopup setChangeEntityPopup={() => setChangeEntityPopup(false)} setAdminEntity={(id) => setAdminEntity(id)}/>}
                 {successPopup && <SuccessPopup setSuccessPopup={setSuccessPopup}/>}
                 <div>
@@ -240,7 +247,8 @@ function MainPage() {
                                     { openpopup &&
                                         <div className='absolute w-40 border rounded-md left-4 top-8 cursor-pointer'>
                                             <p className='cursor-pointer px-4 py-2 hover:bg-gray-100 w-full' onClick={() => setChangeEntityPopup(true)}>Change Organization</p>
-                                            <p className='cursor-pointer px-4 py-2 hover:bg-gray-100 w-full'>Logout</p>
+                                            <p className='cursor-pointer px-4 py-2 hover:bg-gray-100 w-full' onClick={() => window.open("https://questlabs.ai/")}>Admin</p>
+                                            <p className='cursor-pointer px-4 py-2 hover:bg-gray-100 w-full' onClick={() => generalFunction.mainLogout()}>Logout</p>
                                         </div>
                                     }
                                 </div>
@@ -328,7 +336,7 @@ function MainPage() {
                             </div>
                         </form>
                         <div className='mt-8'>
-                            <p className="text-neutral-600 text-xs font-medium font-['Figtree'] leading-none">Choose Theme</p>
+                            <p className="text-neutral-600 text-xs font-medium font-['Figtree'] leading-none">Choose Theme*</p>
                             <div className="flex gap-4 mt-1.5">
                                 {gradientCSS.map((gradient, index) => (
                                     <div
@@ -344,7 +352,7 @@ function MainPage() {
                             </div>
                         </div>
                         <button className="mt-8 w-full px-4 py-2.5 bg-[radial-gradient(3361.38%_131.94%_at_0%_100%,_#6200EE_0%,_#1F3EFE_100%)] rounded-[10px] text-white text-sm font-semibold font-['Figtree']" onClick={() => createTemplate()}>
-                            Create AI Template
+                            {entityDetails?.saasDashboard ? "Update AI Template" : "Create AI Template"}
                         </button>
                     </section>
                     <div className="px-[120px] py-20 flex-col justify-start items-start gap-[17px] inline-flex w-full">

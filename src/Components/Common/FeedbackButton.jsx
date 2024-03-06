@@ -10,7 +10,7 @@ function FeedbackButton() {
     const { theme, bgColors, contentConfig } = useContext(ThemeContext)
     return (
         <div className='z-50'>
-            <div className="fixed -right-10 top-[50vh] -rotate-90 btn-gradient cursor-pointer" style={{ borderRadius: "6px 6px 0px 0px", padding: "10px 30px" }} onClick={() => setOpenFeedback(true)}>
+            <div className="fixed -right-11 top-[50vh] -rotate-90 cursor-pointer" style={{ borderRadius: "6px 6px 0px 0px", padding: "10px 30px", background: bgColors[`${theme}-primary-bg-color-0`], color: "white" }} onClick={() => setOpenFeedback(true)}>
                 <p>Feedback</p>
             </div>
             <FeedbackWorkflow
@@ -32,6 +32,9 @@ function FeedbackButton() {
                     Form: {
                         background: bgColors[`${theme}-primary-bg-color-1`]
                         // background: "white"
+                    },
+                    PrimaryButton: {
+                        background: bgColors[`${theme}-primary-bg-color-0`],
                     },
                     Heading: {
                         fontSize: "22px"

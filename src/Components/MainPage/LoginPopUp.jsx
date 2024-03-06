@@ -2,7 +2,7 @@ import { QuestLogin } from '@questlabs/react-sdk';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import Cookies from 'universal-cookie';
-import { appConfig } from '../../assets/Config/appConfig';
+import { appConfig, mainConfig } from '../../assets/Config/appConfig';
 import { generalFunction } from '../../assets/Config/GeneralFunction';
 
 const LoginPopUp = ({loginComplete, setLoginPopup}) => {
@@ -31,12 +31,12 @@ const LoginPopUp = ({loginComplete, setLoginPopup}) => {
         <div className='w-screen h-screen flex justify-center items-center fixed top-0 left-0 bg-[rgba(0,0,0,.15)] backdrop-blur-sm z-10' onClick={clickHadnler}>
             <div id='clickbox'>
                 <QuestLogin
-                    googleClientId={appConfig?.GOOGLE_CLIENT_ID}
+                    googleClientId={mainConfig?.GOOGLE_CLIENT_ID}
                     textColor=""
                     btnTextColor=""
                     backgroundColor="white"
                     btnColor=""
-                    redirectUri={appConfig?.GOOGLE_REDIRECT_URI}
+                    redirectUri={mainConfig?.REDIRECT_URI}
                     // redirectURL= "http://localhost:5173/login"
                     google={true}
                     email={true}

@@ -37,6 +37,20 @@ export const generalFunction = {
         localStorage.remove("questUserCredentials");
     },
 
+    mainLogout: () => {
+        const cookies = new Cookies();
+        cookies.remove("adminCommunityId");
+        cookies.remove("allEntity");
+        cookies.remove("apiKey");
+        cookies.remove("communityImageUrl");
+        cookies.remove("questUserCredentials");
+        cookies.remove("questUserId");
+        cookies.remove("questUserToken");
+        cookies.remove("userImageUrl");
+        cookies.remove("userName");
+        window.location.reload();
+    },
+
     showLoader: () => {
         let loader = document.querySelector("#loader");
         loader.style.display = "flex";

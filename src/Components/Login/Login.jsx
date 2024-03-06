@@ -19,7 +19,7 @@ export default function Login() {
             localStorage.setItem("questUserId", userId);
             localStorage.setItem("questUserToken", token);
             localStorage.setItem("questUserCredentials", JSON.stringify(userCredentials))
-            navigate("/preview/onboarding");
+            navigate("/onboarding");
         }
     }
 

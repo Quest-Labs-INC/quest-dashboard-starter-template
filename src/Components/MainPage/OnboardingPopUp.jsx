@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { ThemeContext } from '../Common/appContext';
 import axios from 'axios';
 
-const OnboardingPopUp = ({isAdmin, setOnboardingPopup}) => {
+const OnboardingPopUp = ({isAdmin, setOnboardingPopup, setAdminEntity}) => {
     const [answer, setAnswer] = useState({})
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate()
@@ -22,6 +22,7 @@ const OnboardingPopUp = ({isAdmin, setOnboardingPopup}) => {
 
 
     const completeAnswer = async(e) => {
+        generalFunction.showLoader()
         let body = {
             name: answer[criteriaIds.name],
             role: answer[criteriaIds.role],
@@ -36,7 +37,7 @@ const OnboardingPopUp = ({isAdmin, setOnboardingPopup}) => {
         let request = generalFunction.createUrl(
             `api/users/${generalFunction.getDataFromCookies("questUserId")}`
         );
-        await axios.post(request.url, body, {headers: request.headers})
+        await axios.post(request.url, body, {headers: {...request.headers, apikey: mainConfig.API_KEY}})
         generalFunction.setDataInCookies("userName", answer[criteriaIds.name]);
 
 
@@ -49,16 +50,18 @@ const OnboardingPopUp = ({isAdmin, setOnboardingPopup}) => {
             let entityRequest = generalFunction.createUrl(
                 `api/entities?userId=${generalFunction.getDataFromCookies("questUserId")}`
             );
-            await axios.post(entityRequest.url, entityBody, {headers: entityRequest.headers})
+            await axios.post(entityRequest.url, entityBody, {headers: {...entityRequest.headers, apikey: mainConfig.API_KEY}})
             .then(async(res) => {
                 if (res.data.success) {
                     let communitySelect = res.data?.entityDoc
                     generalFunction.setDataInCookies("allEntity", [communitySelect])
                     generalFunction.setDataInCookies("adminCommunityId", communitySelect.id);
                     generalFunction.setDataInCookies("communityImageUrl", communitySelect?.imageUrl || "");
+                    setAdminEntity(communitySelect.id)
                 }
             })
         }
+        generalFunction.hideLoader();
         setOnboardingPopup()
     }
 

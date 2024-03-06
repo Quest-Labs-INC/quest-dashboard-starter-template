@@ -31,10 +31,10 @@ const SuccessPopup = ({setSuccessPopup}) => {
                     is now live, congrats!
                 </p>
                 <div className="flex gap-5 w-full mt-5">
-                    <button className='border w-full border-[#D1ACFF] rounded-[10px] text-zinc-800 text-sm font-semibold font-["Figtree"] px-4 py-2.5' onClick={() => {window.location.href = "/preview/login"}}>
+                    <button className='border w-full border-[#D1ACFF] rounded-[10px] text-zinc-800 text-sm font-semibold font-["Figtree"] px-4 py-2.5' onClick={() => {window.location.href = "/login"}}>
                         Preview
                     </button>
-                    <button className='text-white w-full text-sm font-semibold font-["Figtree"] px-4 py-2.5 bg-[linear-gradient(84deg,_#9035FF_0.36%,_#0065FF_100.36%)] rounded-[10px]'>
+                    <button className='text-white w-full text-sm font-semibold font-["Figtree"] px-4 py-2.5 bg-[linear-gradient(84deg,_#9035FF_0.36%,_#0065FF_100.36%)] rounded-[10px]' onClick={() => window.open("https://github.com/Quest-Labs-INC/quest-dashboard-starter-template")}>
                         Fork
                     </button>
                 </div>

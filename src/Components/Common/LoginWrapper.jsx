@@ -10,13 +10,13 @@ export default function LoginWrapper({ children }) {
             <div
                 className={`hidden md:flex flex-col justify-center items-center text-center md:w-1/2 py-7 px-4`}
                 style={{
-                    backgroundColor: bgColors[`${theme}-primary-bg-color-0`]
+                    background: bgColors[`${theme}-primary-bg-color-0`]
                 }}>
                 <img src={appConfig.BRAND_LOGO || ""} alt="" className="w-12 mb-3" />
                 <p className="text-customShade-200 font-semibold text-xl">
                     {contentConfig?.login?.heading}
                 </p>
-                <p className="text-customShade-500">
+                <p className="text-[#E0E0E0]">
                     {contentConfig?.login?.description}
                 </p>
             </div>
@@ -25,7 +25,7 @@ export default function LoginWrapper({ children }) {
             <div 
                 className="w-full md:w-1/2"
                 style={{
-                    backgroundColor: bgColors[`${theme}-primary-bg-color-1`]
+                    background: bgColors[`${theme}-primary-bg-color-1`]
                 }}
             >
                 {children}

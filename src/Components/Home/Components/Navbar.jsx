@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { importConfig } from "../../../assets/Config/importConfig";
 import { motion } from 'framer-motion';
+import { appConfig } from "../../../assets/Config/appConfig";
 
 
 const Navbar = () => {

@@ -18,7 +18,7 @@ export default function Onboarding() {
 
 
     const completeAnswer = (e) => {
-        navigate("/preview/dashboard")
+        navigate("/dashboard")
     }
     
     useEffect(() => {
