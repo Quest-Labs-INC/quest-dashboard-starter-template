@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { importConfig } from '../../assets/Config/importConfig';
-import { generalFunction } from '../../assets/Config/GeneralFunction';
+import { generalFunction } from '../../assets/Config/generalFunction';
 import toast from 'react-hot-toast';
 import { mainConfig } from '../../assets/Config/appConfig';
 import axios from 'axios';
@@ -10,7 +10,7 @@ import Cookies from 'universal-cookie';
 import { QuestProvider } from '@questlabs/react-sdk';
 import ChangeEntityPopup from './ChangeEntityPopup';
 import SuccessPopup from './SuccessPopup';
-import { ThemeContext } from '../Common/appContext';
+import { ThemeContext } from '../Common/AppContext';
 
 
 function MainPage() {
@@ -21,7 +21,7 @@ function MainPage() {
     const [changeEntityPopup, setChangeEntityPopup] = useState(false);
     const [successPopup, setSuccessPopup] = useState(false);
     const [openpopup, setOpenPopup] = useState(false);
-    const [adminEntity, setAdminEntity] = useState("");
+    const [adminEntity, setAdminEntity] = useState();
     const [imageUrl, setImageUrl] = useState("");
     const [selectedFile, setSelectedFile] = useState(null);
     const [customImage, setCustomImage] = useState("")
@@ -54,7 +54,7 @@ function MainPage() {
                 imageResponse != null && toast.error("Unable to upload image");
                 return;
               } else {
-                setImageUrl(null)
+                setImageUrl(imageResponse?.data.imageUrl)
                 setCustomImage(imageResponse?.data.imageUrl)
               }
             })

@@ -1,9 +1,9 @@
 import React, { useContext, useState } from 'react';
 import { appConfig, mainConfig } from '../../assets/Config/appConfig';
-import { generalFunction } from '../../assets/Config/GeneralFunction';
+import { generalFunction } from '../../assets/Config/generalFunction';
 import { OnBoarding } from '@questlabs/react-sdk';
 import { useNavigate } from 'react-router-dom';
-import { ThemeContext } from '../Common/appContext';
+import { ThemeContext } from '../Common/AppContext';
 import axios from 'axios';
 
 const OnboardingPopUp = ({isAdmin, setOnboardingPopup, setAdminEntity}) => {

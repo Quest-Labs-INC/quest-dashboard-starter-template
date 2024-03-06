@@ -4,8 +4,7 @@ import AllRoutes from './Router/AllRoutes';
 import Loader from './assets/Misc/Loader';
 import '@questlabs/react-sdk/dist/style.css'
 import { Toaster } from 'react-hot-toast';
-import MainPage from './Components/MainPage/MainPage';
-import AppContext from './Components/Common/appContext';
+import AppContext from './Components/Common/AppContext';
 
 
 

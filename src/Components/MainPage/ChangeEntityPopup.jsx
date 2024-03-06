@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { generalFunction } from '../../assets/Config/GeneralFunction';
+import { generalFunction } from '../../assets/Config/generalFunction';
 
 const ChangeEntityPopup = ({setChangeEntityPopup, setAdminEntity}) => {
     const [selected, setSelected] = useState("");

@@ -3,13 +3,11 @@ import "./dashboardWrapper.css";
 import { Link, useNavigate } from "react-router-dom";
 import { routesConfig } from "../../assets/Config/routesConfig";
 import { importConfig } from "../../assets/Config/importConfig";
-import { appConfig } from "../../assets/Config/appConfig";
-import GeneralFunction from "../../assets/Functions/GeneralFunction";
-import { FeedbackWorkflow, Search } from "@questlabs/react-sdk";
+import { Search } from "@questlabs/react-sdk";
 import FeedbackButton from "./FeedbackButton";
-import { generalFunction } from "../../assets/Config/GeneralFunction";
+import { generalFunction } from "../../assets/Config/generalFunction";
 import { referal } from "./SideBarSvg";
-import { ThemeContext } from "./appContext";
+import { ThemeContext } from "./AppContext";
 import ReferralPopup from "../Referral/ReferralPopup";
 
 export default function DashboardWrapper({ children, selectdRoute }) {

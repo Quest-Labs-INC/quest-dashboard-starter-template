@@ -4,7 +4,7 @@ import LoginWrapper from "../Common/LoginWrapper";
 import Cookies from "universal-cookie";
 import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
-import { ThemeContext } from "../Common/appContext";
+import { ThemeContext } from "../Common/AppContext";
 
 
 export default function Login() {

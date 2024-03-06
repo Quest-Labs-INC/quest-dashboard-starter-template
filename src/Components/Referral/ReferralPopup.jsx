@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { Referral } from "@questlabs/react-sdk";
-import { generalFunction } from "../../assets/Config/GeneralFunction";
-import { ThemeContext } from "../Common/appContext";
+import { generalFunction } from "../../assets/Config/generalFunction";
+import { ThemeContext } from "../Common/AppContext";
 
 const ReferralPopup = ({ setOpenPopup }) => {
   const { theme, bgColors, contentConfig } = useContext(ThemeContext);

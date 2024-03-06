@@ -1,7 +1,7 @@
 import { memo, useContext, useState } from 'react';
 import { FeedbackWorkflow } from "@questlabs/react-sdk";
-import { generalFunction } from "../../assets/Config/GeneralFunction";
-import { ThemeContext } from './appContext';
+import { generalFunction } from "../../assets/Config/generalFunction";
+import { ThemeContext } from './AppContext';
 
 
 function FeedbackButton() {

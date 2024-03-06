@@ -2,9 +2,9 @@ import { OnBoarding } from "@questlabs/react-sdk";
 import LoginWrapper from "../Common/LoginWrapper";
 import { useContext, useEffect, useState } from "react";
 // import { appConfig } from "../../assets/Config/appConfig";
-import { generalFunction } from "../../assets/Config/GeneralFunction";
+import { generalFunction } from "../../assets/Config/generalFunction";
 import { useNavigate } from "react-router-dom";
-import { ThemeContext } from "../Common/appContext";
+import { ThemeContext } from "../Common/AppContext";
 
 
 
