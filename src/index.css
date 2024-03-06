@@ -94,7 +94,7 @@ button:focus-visible {
   --primary-tile-color: #9a7ada;
   --primary-sidebar-border: #4c4c4c;
   --primary-sidebar-icon: #2c2c2c;
-
+  --primary-sidebar-toggle: #2c2c2c;
   /* ===== Colors ===== */
   --body-color: #e4e9f7;
   --sidebar-color: #fff;
@@ -132,6 +132,7 @@ button:focus-visible {
   --primary-color2: #695cfe;
   --primary-sidebar-border: #695cfe;
   --primary-sidebar-icon: #fff;
+  --primary-sidebar-toggle: #5142f6;
 }
 
          

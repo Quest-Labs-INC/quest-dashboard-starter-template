@@ -9,18 +9,18 @@ import { FeedbackWorkflow, Search } from "@questlabs/react-sdk";
 import FeedbackButton from "./FeedbackButton";
 import { generalFunction } from "../../assets/Config/GeneralFunction";
 
-export default function DashboardWrapper({children, selectdRoute}) {
+export default function DashboardWrapper({ children, selectdRoute }) {
     const [hover, sethover] = useState("close");
     const [sidebarOpen, setSidebarOpen] = useState(false);
     const navigate = useNavigate();
-    
+
 
     return (
         <div className="flex relative w-screen h-screen bg-customShade-4 transition-all ease-in delay-[40]">
-            <FeedbackButton/>
+            <FeedbackButton />
             <div className="z-20">
                 <Search
-                    questId= {appConfig?.QUEST_SEARCH_BAR_CAMPAIGN_ID}
+                    questId={appConfig?.QUEST_SEARCH_BAR_CAMPAIGN_ID}
                     userId={generalFunction.getUserId()}
                     token={generalFunction.getUserToken()}
                     open="ON_CTRL_K_KEY"
@@ -62,7 +62,7 @@ export default function DashboardWrapper({children, selectdRoute}) {
                             </ul>
                         </div>
 
-                        <div className="bottom-content">
+                        {/* <div className="bottom-content">
                             <li className="">
                                 <Link to="">
                                     <div className="icon">
@@ -110,7 +110,8 @@ export default function DashboardWrapper({children, selectdRoute}) {
                                     <span className="switch"></span>
                                 </div>
                             </li>
-                        </div>
+                        </div> */}
+                       
                     </div>
                 </nav>
             </div>
