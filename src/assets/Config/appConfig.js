@@ -3,7 +3,7 @@ export const mainConfig = {
     API_KEY: "k-6fe7e7dc-ac8f-44a1-8bbf-a1754ddf88be",
     BACKEND_URL: "https://staging.questprotocol.xyz/",
     ONBOARDING_QUEST_ID: "q-7e55d259-9b65-4821-ada6-e40c1beedbe8",
-    REDIRECT_URI: "http://localhost:3000/create",
+    REDIRECT_URI: `${window.location.origin}/create`,
     GOOGLE_CLIENT_ID: "55807106386-g68a2ecrld4ul9dppvla4ns6qnn9957t.apps.googleusercontent.com"
 }
 
