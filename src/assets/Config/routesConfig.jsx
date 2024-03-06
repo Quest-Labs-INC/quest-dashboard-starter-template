@@ -20,15 +20,26 @@ import User from "../../Components/User/User";
 import { importConfig } from "./importConfig";
 
 export const routesConfig = [
+  // {
+  //   path: "/",
+  //   name: "Home",
+  //   logo: "",
+  //   component: <Home />,
+  //   hidden: true,
+  // },
   {
-    path: "/",
-    name: "Home",
+    path: "/login",
+    name: "Login",
     logo: "",
-    component: <Home />,
+    component: (
+      <LoginWrapper>
+        <Login />
+      </LoginWrapper>
+    ),
     hidden: true,
   },
   {
-    path: "/login",
+    path: "*",
     name: "Login",
     logo: "",
     component: (
