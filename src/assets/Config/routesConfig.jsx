@@ -1,6 +1,5 @@
 import Admin from "../../Components/Admin/Admin";
 import DashboardWrapper from "../../Components/Common/DashboardWrapper";
-import DashboardWrapper2 from "../../Components/Common/DashboardWrapper2";
 import LoginWrapper from "../../Components/Common/LoginWrapper";
 import {
   AdminSvg,
@@ -56,9 +55,9 @@ export const routesConfig = [
     logo: GetStartedSvg(),
     //  importConfig.routesIcons.dashboardIcon,
     component: (
-      <DashboardWrapper2 selectdRoute={"Dashboard"}>
+      <DashboardWrapper selectdRoute={"Dashboard"}>
         <Dashboard></Dashboard>
-      </DashboardWrapper2>
+      </DashboardWrapper>
     ),
     hidden: false,
   },
@@ -67,9 +66,9 @@ export const routesConfig = [
     name: "Insights",
     logo: InsightsSvg(),
     component: (
-      <DashboardWrapper2 selectdRoute={"insights"}>
+      <DashboardWrapper selectdRoute={"insights"}>
         <User></User>
-      </DashboardWrapper2>
+      </DashboardWrapper>
     ),
     hidden: false,
   },
@@ -78,9 +77,9 @@ export const routesConfig = [
     name: "User",
     logo: UsersSvg(),
     component: (
-      <DashboardWrapper2 selectdRoute={"User"}>
+      <DashboardWrapper selectdRoute={"User"}>
         <User></User>
-      </DashboardWrapper2>
+      </DashboardWrapper>
     ),
     hidden: false,
   },
@@ -89,9 +88,9 @@ export const routesConfig = [
     name: "Admin",
     logo: AdminSvg(),
     component: (
-      <DashboardWrapper2 selectdRoute={"Admin"}>
+      <DashboardWrapper selectdRoute={"Admin"}>
         <Admin></Admin>
-      </DashboardWrapper2>
+      </DashboardWrapper>
     ),
     hidden: false,
     adminPermission: true,
@@ -102,9 +101,9 @@ export const routesConfig = [
     name: "Settings",
     logo: SettingsSvg(),
     component: (
-      <DashboardWrapper2 selectdRoute={"Settings"}>
+      <DashboardWrapper selectdRoute={"Settings"}>
         <Settings></Settings>
-      </DashboardWrapper2>
+      </DashboardWrapper>
     ),
     hidden: false,
   },
