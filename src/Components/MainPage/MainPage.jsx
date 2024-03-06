@@ -262,9 +262,9 @@ function MainPage() {
                 <div className='mt-32'>
                     <div className="w-full max-w-[820px] m-auto">
                         <div className="left-[190px] top-0 text-center">
-                            <span className="gradient-Text text-5xl font-semibold font-['Figtree'] leading-[60px]">Create Saas</span><span className="text-[#2C2C2C] text-5xl font-semibold font-['Figtree'] leading-[60px]"> Template</span>
+                            <span className="gradient-Text text-5xl font-semibold font-['Figtree'] leading-[60px]">Create your Saas</span><span className="text-[#2C2C2C] text-5xl font-semibold font-['Figtree'] leading-[60px]"> App</span>
                         </div>
-                        <div className="w-[820px] left-0 top-[72px] text-center text-[#545454] text-2xl font-normal font-['Figtree'] leading-9 mt-3">Streamline Operations, Enhance Customer Experience, and Drive Growth with AI-driven Software as a Service</div>
+                        <div className="w-[820px] left-0 top-[72px] text-center text-[#545454] text-2xl font-normal font-['Figtree'] leading-9 mt-3">Just fill information about your company and we will generate the entire dashboard for you</div>
                     </div>
                     <section className='w-full max-w-[644px] m-auto mt-6 px-6 py-8 rounded-xl border border-[#ECECEC]'>
                         <div
