@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import "./dashboardWrapper.css";
 import { Link, useNavigate } from "react-router-dom";
 import { routesConfig } from "../../assets/Config/routesConfig";
@@ -8,127 +8,137 @@ import GeneralFunction from "../../assets/Functions/GeneralFunction";
 import { FeedbackWorkflow, Search } from "@questlabs/react-sdk";
 import FeedbackButton from "./FeedbackButton";
 import { generalFunction } from "../../assets/Config/GeneralFunction";
+import { referal } from "./SideBarSvg";
+import ReferralPopup from "../Referral/ReferralPopup";
+import AppContext, { ThemeContext } from "./AppContext";
 
-export default function DashboardWrapper({children, selectdRoute}) {
-    const [hover, sethover] = useState("close");
-    const [sidebarOpen, setSidebarOpen] = useState(false);
-    const navigate = useNavigate();
-    
+export default function DashboardWrapper({ children, selectdRoute }) {
+  const [hover, sethover] = useState("close");
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const navigate = useNavigate();
+  const [checked, setChecked] = useState(false);
+  const [openPopup, setOpenPopup] = useState(false);
+  const { theme, setTheme, bgColors, appConfig } = useContext(ThemeContext);
 
-    return (
-        <div className="flex relative w-screen h-screen bg-customShade-4 transition-all ease-in delay-[40]">
-            <FeedbackButton/>
-            <div className="z-20">
-                <Search
-                    questId= {appConfig?.QUEST_SEARCH_BAR_CAMPAIGN_ID}
-                    userId={generalFunction.getUserId()}
-                    token={generalFunction.getUserToken()}
-                    open="ON_CTRL_K_KEY"
-                    onResultClick={e => navigate(e)}
-                    icons={[importConfig.routesIcons.dashboardIcon, importConfig.routesIcons.userIcon, importConfig.routesIcons.adminIcon, importConfig.routesIcons.settingIcon]}
-                />
+  const toggleTheme = () => {
+    if (theme === "dark") {
+      setTheme("light");
+      localStorage.setItem("theme", "light");
+    } else {
+      setTheme("dark");
+      localStorage.setItem("theme", "dark");
+    }
+  };
+
+  const handleToggle = () => {
+    setChecked((prev) => !prev);
+    toggleTheme();
+  };
+
+  const handleChange = (e) => {
+    e.stopPropagation();
+    setChecked(e.target.checked);
+    toggleTheme();
+  };
+
+  return (
+    <div
+      className="flex relative w-screen h-screen bg-customShade-4 transition-all ease-in delay-[40]"
+      style={{ backgroundColor: bgColors[`${theme}-primary-bg-color-3`] }}
+    >
+      <FeedbackButton />
+      {openPopup && <ReferralPopup setOpenPopup={() => setOpenPopup(false)} />}
+      <div className="z-20">
+        <Search
+          questId={appConfig?.QUEST_SEARCH_BAR_CAMPAIGN_ID}
+          userId={generalFunction.getUserId()}
+          token={generalFunction.getUserToken()}
+          open="ON_CTRL_K_KEY"
+          onResultClick={(e) => navigate(e)}
+          icons={[
+            importConfig.routesIcons.dashboardIcon,
+            importConfig.routesIcons.userIcon,
+            importConfig.routesIcons.adminIcon,
+            importConfig.routesIcons.settingIcon,
+          ]}
+        />
+      </div>
+
+      <nav
+        className="s_nav_container"
+        // style={{ backgroundColor: bgColors[`${theme}-primary-bg-color-2`] }}
+        style={{ backgroundColor: bgColors[`${theme}-primary-bg-color-3`] }}
+      >
+        <div className="s_nav_header_cont">
+          <div className="s_nav_company_logo_cont">
+            <div className="s_nav_company_logo">
+              <img src={importConfig.brandLogo} alt="" />
             </div>
-            <div className={`min-h-screen h-full ${sidebarOpen == false ? "w-0" : "w-screen fixed"} md:w-[250px] z-10`} onClick={() => setSidebarOpen(false)}>
-                <nav className={`sidebar hover ${sidebarOpen == false ? "hidden" : ""} md:block fixed md:relative w-[250px]`}>
-                    <header>
-                        <div className="image-text">
-                            <span className="image">
-                                <img src={importConfig.brandLogo} alt="" />
-                            </span>
-                            <div className="text logo-text">
-                                <span className="name">{appConfig?.QUEST_ENTITY_NAME}</span>
-                            </div>
-                        </div>
-                    </header>
-
-                    <div className="menu-bar">
-                        <div className="menu">
-                            <ul className="menu-links">
-                                {
-                                    routesConfig.map((routes, index) => (
-                                        !routes.hidden &&
-                                        <li className={`nav-link ${window.location.href.includes(routes.path) && "selected-route"}`} key={index}>
-                                            <Link to={routes.path}>
-                                                <div className="icon">
-                                                    <img src={routes.logo} alt="" className="w-6 img-white" />
-                                                </div>
-                                                <span className="text nav-text">
-                                                    {routes.name}
-                                                </span>
-                                            </Link>
-                                        </li>
-                                    ))
-                                }
-                            </ul>
-                        </div>
-
-                        <div className="bottom-content">
-                            <li className="">
-                                <Link to="">
-                                    <div className="icon">
-                                        <img src={importConfig.routesIcons.upgradeIcon} alt="" className="w-6" />
-                                    </div>
-                                    <span className="text nav-text">Upgrade</span>
-                                </Link>
-                            </li>
-
-                            <li className="">
-                                <Link to="">
-                                    <div className="icon">
-                                        <img src={importConfig.routesIcons.bookIcon} alt="" className="w-6" />
-                                    </div>
-                                    <span className="text nav-text">Book A Call</span>
-                                </Link>
-                            </li>
-
-                            <li className="">
-                                <Link to="">
-                                    <div className="icon">
-                                        <img src={importConfig.routesIcons.helpIcon} alt="" className="w-6" />
-                                    </div>
-                                    <span className="text nav-text">Help Center</span>
-                                </Link>
-                            </li>
-                            
-                            <li className="">
-                                <Link onClick={() => generalFunction.logout()} to="/login">
-                                    <div className="icon">
-                                        <img src={importConfig.routesIcons.logoutIcon} alt="" className="w-6" />
-                                    </div>
-                                    <span className="text nav-text">Logout</span>
-                                </Link>
-                            </li>
-
-                            <li className="mode">
-                                <div className="sun-moon">
-                                    <i className="bx bx-moon icon moon"></i>
-                                    <i className="bx bx-sun icon sun"></i>
-                                </div>
-                                <span className="mode-text text" id="theme-text">Dark Theme</span>
-
-                                <div className="toggle-switch" onClick={() => GeneralFunction.shareInstance.toggleTheme()}>
-                                    <span className="switch"></span>
-                                </div>
-                            </li>
-                        </div>
-                    </div>
-                </nav>
-            </div>
-            <div className="w-full">
-                {/* <div className="py-4 px-4 border-b-[1px] border-[var(--color-premitive-grey-0)] text-primary-3 font-semibold flex justify-between items-center">
-                    <div className="flex gap-2 items-center">
-                        <img src={importConfig.routesIcons.menuIcon} alt="" className="w-4 flex md:hidden" onClick={() => setSidebarOpen(!sidebarOpen)}/>
-                        <p>{selectdRoute}</p>
-                    </div>
-                    <div className="flex items-center gap-2">
-                        <img src={importConfig.brandLogo} alt="" className="w-7 rounded-full border-[1px] border-[var(--color-premitive-grey-0)]"/>
-                        <p>Soumitra</p>
-                    </div>
-                </div> */}
-                <div className="p-4 w-full md:w-[calc(100vw-250px)] h-screen overflow-auto">
-                    {children}
-                </div>
-            </div>
+            <p style={{ color: bgColors[`${theme}-color-premitive-grey-5`] }}>
+              {appConfig?.QUEST_ENTITY_NAME}
+            </p>
+          </div>
         </div>
-    );
+
+        <div className="s_nav_menu_cont">
+          <ul className="s_nav_menu">
+            {routesConfig.map(
+              (routes, index) =>
+                !routes.hidden && (
+                  <li
+                    className={`s_nav_menu_item ${
+                      window.location.href.includes(routes.path) &&
+                      "s_nav_active"
+                    }`}
+                    key={index}
+                  >
+                    <Link
+                      to={routes.path}
+                      className="s_nav_menu_link"
+                      onClick={() => setSidebarOpen(false)}
+                    >
+                      <div>{routes.logo}</div>
+                      <p>{routes.name}</p>
+                    </Link>
+                  </li>
+                )
+            )}
+
+            <li className={`s_nav_menu_item cursor-pointer`}>
+              <div
+                className="s_nav_menu_link"
+                onClick={() => setOpenPopup((prev) => !prev)}
+              >
+                <div>{referal()}</div>
+                <p>Referral</p>
+              </div>
+            </li>
+          </ul>
+        </div>
+
+        <div className={"profileContSecondary"}>
+          <div className={"profileContThird"} onClick={handleToggle}>
+            <label className={"PaymentSwitch2"}>
+              <input
+                id="sidebar-toggle"
+                type="checkbox"
+                checked={checked}
+                onChange={handleChange}
+              />
+              <span className={"slider2"} />
+            </label>
+            <div className={"profileTitle3"}>
+              {checked ? "Light Mode" : "Dark Mode"}
+            </div>
+          </div>
+        </div>
+      </nav>
+
+      <div className="w-full">
+        <div className="p-4 w-full md:w-[calc(100vw-185px)] h-screen overflow-auto">
+          {children}
+        </div>
+      </div>
+    </div>
+  );
 }

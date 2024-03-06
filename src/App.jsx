@@ -1,32 +1,31 @@
-import { QuestProvider } from '@questlabs/react-sdk';
-import './App.css'
-import AllRoutes from './Router/AllRoutes';
-import Loader from './assets/Misc/Loader';
-import { appConfig } from './assets/Config/appConfig';
-import '@questlabs/react-sdk/dist/style.css'
-import { useEffect } from 'react';
-import GeneralFunction from './assets/Functions/GeneralFunction';
+import { QuestProvider } from "@questlabs/react-sdk";
+import "./App.css";
+import AllRoutes from "./Router/AllRoutes";
+import Loader from "./assets/Misc/Loader";
+import { appConfig } from "./assets/Config/appConfig";
+import "@questlabs/react-sdk/dist/style.css";
+import { useEffect } from "react";
+import GeneralFunction from "./assets/Functions/GeneralFunction";
+import AppContext from "./Components/Common/AppContext";
+import { ProviderConfig } from "./Components/Common/ProviderConfig";
 
 function App() {
-
   useEffect(() => {
-    GeneralFunction.shareInstance.getTheme()
-  }, [])
+    GeneralFunction.shareInstance.getTheme();
+  }, []);
 
   return (
     <>
       <div>
-        <Loader/>
-        <QuestProvider
-          apiKey={appConfig?.QUEST_API_KEY}
-          entityId={appConfig?.QUEST_ENTITY_ID}
-          apiType='STAGING'
-        >
-          <AllRoutes/>
-        </QuestProvider>
+        <AppContext>
+          <ProviderConfig>
+            <Loader />
+            <AllRoutes />
+          </ProviderConfig>
+        </AppContext>
       </div>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
