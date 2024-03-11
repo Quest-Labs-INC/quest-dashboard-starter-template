@@ -19,10 +19,14 @@ import {
     SettingsSvg,
     Switch,
     UsersSvg,
+    explore,
+    newHome,
+    referFriends,
     referal,
 } from "../../Components/Common/SideBarSvg";
+import ReferralPage from "../../Components/Referral/ReferralPage";
 
-const ProviderConfig = ({children}) => {
+const ProviderConfig = ({ children }) => {
     const { theme, bgColors, appConfig } = useContext(ThemeContext);
     return (
         <div>
@@ -38,13 +42,7 @@ const ProviderConfig = ({children}) => {
             >
                 {children}
             </QuestProvider>
-            <div className='fixed right-10 bottom-10 text-xs px-4 py-2 bg-gray-700 text-white rounded-md flex items-center gap-3 cursor-pointer' onClick={() => window.open("https://questlabs.ai/")}>
-              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12" fill="none">
-                <path d="M12 0V4L8 8V4H4V6.64083C4 7.39167 4.60833 8 5.35917 8H8L4 12C1.79083 12 0 10.2092 0 8V0H12Z" fill="white"/>
-                <path d="M12 8L8 8L8 12H12V8Z" fill="white"/>
-              </svg>
-              <p>Powered by Quest Labs</p>
-            </div>
+
         </div>
     )
 }
@@ -61,14 +59,14 @@ export const routesConfig = [
         path: "/create",
         name: "Create Template",
         logo: "",
-        component: <MainPage/>,
+        component: <MainPage />,
         hidden: true,
     },
     {
         path: "*",
         name: "Create Template",
         logo: "",
-        component: <MainPage/>,
+        component: <MainPage />,
         hidden: true,
     },
     {
@@ -97,9 +95,9 @@ export const routesConfig = [
         name: "Insights",
         logo: InsightsSvg(),
         component: (
-          <DashboardWrapper selectdRoute={"insights"}>
-            <User></User>
-          </DashboardWrapper>
+            <DashboardWrapper selectdRoute={"insights"}>
+                <User></User>
+            </DashboardWrapper>
         ),
         hidden: false,
     },
@@ -125,4 +123,125 @@ export const routesConfig = [
         component: <ProviderConfig><DashboardWrapper selectdRoute={"Settings"}><Settings></Settings></DashboardWrapper></ProviderConfig>,
         hidden: false,
     },
+    {
+        path: "/settings",
+        name: "Settings",
+        logo: SettingsSvg(),
+        component: <ProviderConfig><DashboardWrapper selectdRoute={"Settings"}><Settings></Settings></DashboardWrapper></ProviderConfig>,
+        hidden: false,
+    },
 ]
+
+
+export const routesConfigUpper = [
+    // {
+    //   path: "/",
+    //   name: "Home",
+    //   logo: "",
+    //   component: <Home />,
+    //   hidden: true,
+    // },
+    {
+        path: "/login",
+        name: "Login",
+        logo: "",
+        component: (
+            <LoginWrapper>
+                <Login />
+            </LoginWrapper>
+        ),
+        hidden: true,
+    },
+    {
+        path: "*",
+        name: "Login",
+        logo: "",
+        component: (
+            <LoginWrapper>
+                <Login />
+            </LoginWrapper>
+        ),
+        hidden: true,
+    },
+    {
+        path: "/onboarding",
+        name: "Onboarding",
+        logo: "",
+        component: (
+            <LoginWrapper>
+                <Onboarding />
+            </LoginWrapper>
+        ),
+        hidden: true,
+    },
+    {
+        path: "/dashboard",
+        name: "Getting Started",
+        logo: newHome(),
+        //  importConfig.routesIcons.dashboardIcon,
+        component: (
+            <DashboardWrapper selectdRoute={"Dashboard"}>
+                <Dashboard></Dashboard>
+            </DashboardWrapper>
+        ),
+        hidden: false,
+    },
+    {
+        path: "/insights",
+        name: "Explore",
+        logo: explore(),
+        component: (
+            <DashboardWrapper selectdRoute={"insights"}>
+                <User></User>
+            </DashboardWrapper>
+        ),
+        hidden: false,
+    },
+    // {
+    //   path: "/user",
+    //   name: "User",
+    //   logo: UsersSvg(),
+    //   component: (
+    //     <DashboardWrapper selectdRoute={"User"}>
+    //       <User></User>
+    //     </DashboardWrapper>
+    //   ),
+    //   hidden: false,
+    // },
+    // {
+    //   path: "/admin",
+    //   name: "Admin",
+    //   logo: AdminSvg(),
+    //   component: (
+    //     <DashboardWrapper selectdRoute={"Admin"}>
+    //       <Admin></Admin>
+    //     </DashboardWrapper>
+    //   ),
+    //   hidden: false,
+    //   adminPermission: true,
+    // },
+
+    {
+        path: "/settings",
+        name: "Settings",
+        logo: SettingsSvg(),
+        component: (
+            <DashboardWrapper selectdRoute={"Settings"}>
+                <Settings></Settings>
+            </DashboardWrapper>
+        ),
+        hidden: false,
+    },
+    {
+        path: "/referpage",
+        name: "Refer Friends",
+        logo: referFriends(),
+        component: (
+            <DashboardWrapper selectdRoute={"referpage"}>
+                <ReferralPage></ReferralPage>
+            </DashboardWrapper>
+        ),
+        hidden: false,
+    },
+
+];

@@ -20,9 +20,9 @@ export default function LoginWrapper({ children }) {
                     {contentConfig?.login?.description}
                 </p>
             </div>
-            
+
             {/* right side */}
-            <div 
+            <div
                 className="w-full md:w-1/2"
                 style={{
                     background: bgColors[`${theme}-primary-bg-color-1`]

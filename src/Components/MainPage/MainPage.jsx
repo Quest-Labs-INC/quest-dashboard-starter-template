@@ -11,6 +11,7 @@ import { QuestProvider } from '@questlabs/react-sdk';
 import ChangeEntityPopup from './ChangeEntityPopup';
 import SuccessPopup from './SuccessPopup';
 import { ThemeContext } from '../Common/appContext';
+import './MainPage.css'
 
 
 function MainPage() {
@@ -46,23 +47,23 @@ function MainPage() {
 
     useEffect(() => {
         if (selectedFile) {
-          generalFunction
-            .uploadImageToBackend(selectedFile)
-            .then((imageResponse) => {
-              if (imageResponse == null || !imageResponse?.data || imageResponse?.data.success == false || !imageResponse?.data?.imageUrl) {
-                setSelectedFile(null);
-                imageResponse != null && toast.error("Unable to upload image");
-                return;
-              } else {
-                setImageUrl(null)
-                setCustomImage(imageResponse?.data.imageUrl)
-              }
-            })
-            .catch((err) => {
-                console.log(err)
-              setSelectedFile(null);
-              toast.error("Unable to upload image.");
-            });
+            generalFunction
+                .uploadImageToBackend(selectedFile)
+                .then((imageResponse) => {
+                    if (imageResponse == null || !imageResponse?.data || imageResponse?.data.success == false || !imageResponse?.data?.imageUrl) {
+                        setSelectedFile(null);
+                        imageResponse != null && toast.error("Unable to upload image");
+                        return;
+                    } else {
+                        setImageUrl(null)
+                        setCustomImage(imageResponse?.data.imageUrl)
+                    }
+                })
+                .catch((err) => {
+                    console.log(err)
+                    setSelectedFile(null);
+                    toast.error("Unable to upload image.");
+                });
         }
     }, [selectedFile]);
 
@@ -80,16 +81,17 @@ function MainPage() {
 
             let request = generalFunction.createUrl(`api/entities/${adminEntity || generalFunction.getDataFromCookies("adminCommunityId")}?userId=${generalFunction.getDataFromCookies("questUserId")}`)
             let response = await axios(request.url, {
-                headers: {...request.headers, apikey: data?.data?.key},
+                headers: { ...request.headers, apikey: data?.data?.key },
             })
             generalFunction.hideLoader()
             setName(response?.data?.data?.name);
             setImageUrl(response?.data?.data?.imageUrl);
             let apiData = response.data;
             setEntityDetails(apiData)
-            
 
-            setAppConfig({...appConfig, 
+
+            setAppConfig({
+                ...appConfig,
                 BRAND_LOGO: apiData?.saasDashboard?.dashboardConfig?.imageUrl || apiData?.imageUrl,
                 QUEST_ENTITY_NAME: apiData?.name,
                 QUEST_ENTITY_ID: apiData?.id,
@@ -114,7 +116,7 @@ function MainPage() {
             fetchTheImage();
         }
     }, [adminEntity])
-    
+
     const createTemplate = async () => {
         if (!generalFunction.getDataFromCookies("questUserId")) {
             setLoginPopup(true);
@@ -124,7 +126,7 @@ function MainPage() {
             return;
         }
 
-        if (!name || !description || !imageUrl || !bg) {
+        if (!name && !description && !imageUrl && !bg) {
             toast.error("Please fill the required information");
             return;
         }
@@ -137,17 +139,18 @@ function MainPage() {
                 entityDetails: description,
                 imageUrl: customImage,
                 colorConfig: bg,
-            }, {headers: request.headers})
+            }, { headers: request.headers })
             if (response.success) {
                 toast.success("Successfully generated")
             }
 
             generalFunction.hideLoader();
-            
+
             let apiData = response.data;
-            
+
             setEntityDetails(apiData)
-            setAppConfig({...appConfig, 
+            setAppConfig({
+                ...appConfig,
                 BRAND_LOGO: apiData?.saasDashboard?.dashboardConfig?.imageUrl || apiData?.imageUrl,
                 QUEST_ENTITY_NAME: apiData?.name,
                 QUEST_ENTITY_ID: apiData?.id,
@@ -178,33 +181,33 @@ function MainPage() {
         generalFunction.showLoader();
         let headers = { ...userDataUrl.headers, ...{ userId: userId, token: token, apikey: mainConfig?.API_KEY } }
         axios(userDataUrl.url, { headers })
-          .then(async (e) => {
-            generalFunction.hideLoader();
-            let res = e.data;
-            if (res.success == true) {
-                if (res.isAdmin) {
-                    setIsAdmin(res.isAdmin);
-                    let adminEntities = await generalFunction.fetchCommunities(headers?.userId)
-                    if (adminEntities.data.length >= 1) {
-                        generalFunction.setDataInCookies("allEntity", adminEntities.data)
-                        let communitySelect = adminEntities.data[0]
-                        setAdminEntity(communitySelect.id)
-                        generalFunction.setDataInCookies("adminCommunityId", communitySelect.id);
-                        generalFunction.setDataInCookies("communityImageUrl", communitySelect?.imageUrl || "");
+            .then(async (e) => {
+                generalFunction.hideLoader();
+                let res = e.data;
+                if (res.success == true) {
+                    if (res.isAdmin) {
+                        setIsAdmin(res.isAdmin);
+                        let adminEntities = await generalFunction.fetchCommunities(headers?.userId)
+                        if (adminEntities.data.length >= 1) {
+                            generalFunction.setDataInCookies("allEntity", adminEntities.data)
+                            let communitySelect = adminEntities.data[0]
+                            setAdminEntity(communitySelect.id)
+                            generalFunction.setDataInCookies("adminCommunityId", communitySelect.id);
+                            generalFunction.setDataInCookies("communityImageUrl", communitySelect?.imageUrl || "");
+                        }
+                    }
+                    if (!res?.data?.name || res?.data?.name == "" || !res.isAdmin) {
+                        setOnboardingPopup(true)
+                    } else {
+                        generalFunction.setDataInCookies("userName", res?.data?.name);
+                        generalFunction.setDataInCookies("userImageUrl", res?.data?.imageUrl);
                     }
                 }
-                if (!res?.data?.name || res?.data?.name == "" || !res.isAdmin) {
-                    setOnboardingPopup(true)
-                } else {
-                    generalFunction.setDataInCookies("userName", res?.data?.name);
-                    generalFunction.setDataInCookies("userImageUrl", res?.data?.imageUrl);
-                }
-            }
-        })
+            })
     }
 
     useEffect(() => {
-        if(generalFunction.getDataFromCookies("questUserId")) {
+        if (generalFunction.getDataFromCookies("questUserId")) {
             fetchUser(generalFunction.getDataFromCookies("questUserId"), generalFunction.getDataFromCookies("questUserToken"))
         }
     }, [])
@@ -216,56 +219,71 @@ function MainPage() {
             entityId={mainConfig?.ENTITY_ID}
             apiType='STAGING'
             themeConfig={{
-              // buttonColor: bgColors[`${theme}-primary-bg-color-0`],
-              // primaryColor: bgColors[`${theme}-color-premitive-grey-5`],
-              // backgroundColor: "transparent",
+                // buttonColor: bgColors[`${theme}-primary-bg-color-0`],
+                // primaryColor: bgColors[`${theme}-color-premitive-grey-5`],
+                // backgroundColor: "transparent",
             }}
         >
-            <div>
+            <div className='create-page'>
                 <div className={`${loginPupup ? "block" : "hidden"}`}>
-                    <LoginPopUp loginComplete={(e, j) => fetchUser(e, j)} setLoginPopup={() => setLoginPopup(false)}/>
+                    <LoginPopUp loginComplete={(e, j) => fetchUser(e, j)} setLoginPopup={() => setLoginPopup(false)} />
                 </div>
-                {onboardingPopup && <OnboardingPopUp isAdmin={isAdmin} setOnboardingPopup={() => setOnboardingPopup(false)} setAdminEntity={(id) => setAdminEntity(id)}/>}
-                {changeEntityPopup && <ChangeEntityPopup setChangeEntityPopup={() => setChangeEntityPopup(false)} setAdminEntity={(id) => setAdminEntity(id)}/>}
-                {successPopup && <SuccessPopup setSuccessPopup={setSuccessPopup}/>}
-                <div>
-                    <div className='px-28 py-5 flex items-center justify-between'>
+
+                {onboardingPopup && <OnboardingPopUp isAdmin={isAdmin} setOnboardingPopup={() => setOnboardingPopup(false)} setAdminEntity={(id) => setAdminEntity(id)} />}
+                {changeEntityPopup && <ChangeEntityPopup setChangeEntityPopup={() => setChangeEntityPopup(false)} setAdminEntity={(id) => setAdminEntity(id)} />}
+                {successPopup && <SuccessPopup setSuccessPopup={setSuccessPopup} />}
+
+                <div className='create-page-header'>
+                    <div className='create-page-header-cont px-28 py-5 flex items-center justify-between'>
                         <img src={importConfig.brandLogo} className='w-20' alt="" />
                         {
                             generalFunction.getDataFromCookies("questUserId") ?
-                            <div className='flex items-center gap-4'>
-                                <div className='relative text-xs' onMouseLeave={() => setOpenPopup(false)}>
-                                    <div className='flex items-center gap-3 py-3' onMouseEnter={() => setOpenPopup(true)} >
-                                        <img src={generalFunction.getDataFromCookies("userImageUrl") != "undefined" ? generalFunction.getDataFromCookies("userImageUrl") : importConfig.main.userIconImg} className='w-6 h-6 rounded-full border' alt="" />
-                                        <div className='flex items-center gap-3'>
-                                            <p>{generalFunction.getDataFromCookies("userName") || "User"}</p>
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
-                                                <path d="M7.99999 8.78133L11.3 5.48133L12.2427 6.424L7.99999 10.6667L3.75732 6.424L4.69999 5.48133L7.99999 8.78133Z" fill="#8A8A8A"/>
-                                            </svg>
+                                <div className='flex items-center gap-4'>
+                                    <div className='relative text-xs' onMouseLeave={() => setOpenPopup(false)}>
+                                        <div className='flex items-center gap-3 py-3' onMouseEnter={() => setOpenPopup(true)} >
+                                            <img src={generalFunction.getDataFromCookies("userImageUrl") != "undefined" ? generalFunction.getDataFromCookies("userImageUrl") : importConfig.main.userIconImg} className='w-6 h-6 rounded-full border' alt="" />
+                                            <div className='flex items-center gap-3'>
+                                                <p>{generalFunction.getDataFromCookies("userName") || "User"}</p>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                                    <path d="M7.99999 8.78133L11.3 5.48133L12.2427 6.424L7.99999 10.6667L3.75732 6.424L4.69999 5.48133L7.99999 8.78133Z" fill="#8A8A8A" />
+                                                </svg>
+                                            </div>
                                         </div>
+                                        {openpopup &&
+                                            <div className='absolute w-40 border rounded-md left-4 top-8 cursor-pointer'>
+                                                <p className='cursor-pointer px-4 py-2 hover:bg-gray-100 w-full' onClick={() => setChangeEntityPopup(true)}>Change Organization</p>
+                                                <p className='cursor-pointer px-4 py-2 hover:bg-gray-100 w-full' onClick={() => window.open("https://questlabs.ai/")}>Admin</p>
+                                                <p className='cursor-pointer px-4 py-2 hover:bg-gray-100 w-full' onClick={() => generalFunction.mainLogout()}>Logout</p>
+                                            </div>
+                                        }
                                     </div>
-                                    { openpopup &&
-                                        <div className='absolute w-40 border rounded-md left-4 top-8 cursor-pointer'>
-                                            <p className='cursor-pointer px-4 py-2 hover:bg-gray-100 w-full' onClick={() => setChangeEntityPopup(true)}>Change Organization</p>
-                                            <p className='cursor-pointer px-4 py-2 hover:bg-gray-100 w-full' onClick={() => window.open("https://questlabs.ai/")}>Admin</p>
-                                            <p className='cursor-pointer px-4 py-2 hover:bg-gray-100 w-full' onClick={() => generalFunction.mainLogout()}>Logout</p>
-                                        </div>
-                                    }
+                                    {/* <button className='px-4 py-2.5 bg-violet-700 rounded-[10px] border border-purple-300 justify-center items-center gap-1 inline-flex text-white text-sm font-semibold font-["Figtree"] leading-tight' onClick={() => setChangeEntityPopup(true)}>Change Organization</button> */}
                                 </div>
-                                {/* <button className='px-4 py-2.5 bg-violet-700 rounded-[10px] border border-purple-300 justify-center items-center gap-1 inline-flex text-white text-sm font-semibold font-["Figtree"] leading-tight' onClick={() => setChangeEntityPopup(true)}>Change Organization</button> */}
-                            </div>
-                            :
-                            <button className='px-4 py-2.5 bg-[radial-gradient(3361.38%_131.94%_at_0%_100%,_#6200EE_0%,_#1F3EFE_100%)] rounded-[10px] border border-purple-300 justify-center items-center gap-1 inline-flex text-white text-sm font-semibold font-["Figtree"] leading-tight' onClick={() => setLoginPopup(true)}>Login</button>
+                                :
+                                <button className='px-4 py-2.5 bg-[radial-gradient(3361.38%_131.94%_at_0%_100%,_#6200EE_0%,_#1F3EFE_100%)] rounded-[10px] border border-purple-300 justify-center items-center gap-1 inline-flex text-white text-sm font-semibold font-["Figtree"] leading-tight' onClick={() => setLoginPopup(true)}>
+                                    <p>Login</p>
+                                </button>
                         }
                     </div>
                 </div>
-                <div className='mt-32'>
-                    <div className="w-full max-w-[820px] m-auto">
-                        <div className="left-[190px] top-0 text-center">
-                            <span className="gradient-Text text-5xl font-semibold font-['Figtree'] leading-[60px]">Create your Saas</span><span className="text-[#2C2C2C] text-5xl font-semibold font-['Figtree'] leading-[60px]"> App</span>
+
+                {/* <div className='text-input-cont mt-32 '> */}
+                <div className='text-input-cont '>
+
+                    {/* text  */}
+                    {/* <div className="create-sass-temp-text w-full max-w-[820px] m-auto"> */}
+                    <div className="create-sass-temp-text ">
+                        <div className="create-saas-temp left-[190px] top-0 text-center">
+                            {/* <span className="gradient-Text text-5xl font-semibold font-['Figtree'] leading-[60px]">Create your Saas</span><span className="text-[#2C2C2C] text-5xl font-semibold font-['Figtree'] leading-[60px]"> App</span> */}
+                            <div>Create Saas</div>
+                            <span> Template</span>
                         </div>
-                        <div className="w-[820px] left-0 top-[72px] text-center text-[#545454] text-2xl font-normal font-['Figtree'] leading-9 mt-3">Just fill information about your company and we will generate the entire dashboard for you</div>
+
+
+                        <div className="description w-[820px] left-0 top-[72px] text-center text-[#545454] text-2xl font-normal font-['Figtree'] leading-9 mt-3">Just fill information about your company and we will generate the entire dashboard for you</div>
                     </div>
+
+                    {/* input section  */}
                     <section className='w-full max-w-[644px] m-auto mt-6 px-6 py-8 rounded-xl border border-[#ECECEC]'>
                         <div
                             className="w-24 h-24 flex items-center justify-center rounded-full bg-[#F4EBFF] m-auto relative"
@@ -355,17 +373,31 @@ function MainPage() {
                             {entityDetails?.saasDashboard ? "Update AI Template" : "Create AI Template"}
                         </button>
                     </section>
+
+
+                </div>
+
+
+                {/* footer copyright  */}
+                <div>
                     <div className="px-[120px] py-20 flex-col justify-start items-start gap-[17px] inline-flex w-full">
+
                         <div className='w-full border-b border-[#4B4B4B]'></div>
-                        <div className="justify-between items-start inline-flex w-full">
-                            <div className="text-[#4C4C4C] text-lg font-normal font-['Hanken Grotesk'] leading-7">Copyright © 2023 AI Saas Template</div>
-                            <div className="justify-start items-start gap-[47px] flex">
+
+                        {/* <div className="footer-text-cont justify-between items-start inline-flex w-full"> */}
+                        <div className="footer-text-cont ">
+                            {/* <div className="copyright-text text-[#4C4C4C] text-lg font-normal font-['Hanken Grotesk'] leading-7">Copyright © 2023 AI Saas Template</div> */}
+                            <div className="copyright-text">Copyright © 2023 AI Saas Template</div>
+
+                            {/* <div className="terns-privacy-cont justify-start items-start gap-[47px] flex"> */}
+                            <div className="terns-privacy-cont">
                                 <div className="text-[#4C4C4C] text-lg font-normal font-['Hanken Grotesk'] leading-7">Terms of service  </div>
                                 <div className="text-[#4C4C4C] text-lg font-normal font-['Hanken Grotesk'] leading-7">Privacy Policy</div>
                             </div>
                         </div>
                     </div>
                 </div>
+
             </div>
         </QuestProvider>
     )

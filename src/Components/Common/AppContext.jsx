@@ -20,45 +20,52 @@ const AppContext = ({ children }) => {
     })
     const [contentConfig, setContentConfig] = useState({
         login: {
-          heading: "",
-          description: ""
+            heading: "",
+            description: ""
         }
     })
     const [bgColors, setBgColors] = useState({
         "dark-color-premitive-grey-0": "#afafaf",
         "dark-color-premitive-grey-5": "#ffffff",
-      
+
         "dark-primary-bg-color-0": "#111018", // "#1c1a27"
         "dark-primary-bg-color-1": "#1c1a27", // "#fbfafe"
         "dark-primary-bg-color-2": "#111018",
         "dark-primary-bg-color-3": "#1c1a27",
         "dark-primary-bg-color-4": "#3e3a58",
-      
+
         "dark-primary-tile-color-0": "#f0fcec",
         "dark-primary-border-color": "#455a64",
-      
+
         "light-color-premitive-grey-0": "#afafaf",
         "light-color-premitive-grey-5": "#2e425c",
-      
+
         "light-primary-bg-color-0": "#7B68EE", // login page left side
         "light-primary-bg-color-1": "#ffffff", // login page right side #edf3ff
         "light-primary-bg-color-2": "#e4e9f7", // navbar and components background color
         "light-primary-bg-color-3": "#ffffff", // dashboard background color
         "light-primary-bg-color-4": "#ffffff", // input background color
-      
+
         "light-primary-tile-color-0": "#d7f1f",
         "light-primary-tile-color": "#9a7ada",
     });
     const [theme, setTheme] = useState('dark');
-
+    const [checked, setChecked] = useState(false);
     useEffect(() => {
         const getTheme = () => {
-            let theme = localStorage.getItem("theme");
 
+            let theme = localStorage.getItem("theme");
+            // console.log("getting theme", theme);
             if (theme && theme == "dark") {
                 setTheme('dark');
+                localStorage.setItem("theme", "dark");
+                console.log("theme is", theme);
+                setChecked(false)
             } else {
                 setTheme('light');
+                localStorage.setItem("theme", "light");
+                console.log("theme is", theme);
+                setChecked(true);
             }
         }
 
@@ -68,61 +75,62 @@ const AppContext = ({ children }) => {
     useEffect(() => {
         const fetchEntityDetails = async (paramEntityId) => {
             try {
-              let apiKeyRequest = generalFunction.createUrl(`api/entities/${generalFunction.getDataFromCookies("adminCommunityId")}/keys?userId=${generalFunction.getDataFromCookies("questUserId")}`);
-              let apiKeyResponse = await axios.get(apiKeyRequest.url, { headers: apiKeyRequest.headers })
-              const data = apiKeyResponse.data;
-              if (data.success == false) {
-                  let errMsg = data.error ? data.error : "Unable to Get Developer Details"
-                  toast.error("Error Occurred" + "\n" + errMsg);
-              }
-              generalFunction.setDataInCookies("apiKey", data?.data?.key)
+                let apiKeyRequest = generalFunction.createUrl(`api/entities/${generalFunction.getDataFromCookies("adminCommunityId")}/keys?userId=${generalFunction.getDataFromCookies("questUserId")}`);
+                let apiKeyResponse = await axios.get(apiKeyRequest.url, { headers: apiKeyRequest.headers })
+                const data = apiKeyResponse.data;
+                if (data.success == false) {
+                    let errMsg = data.error ? data.error : "Unable to Get Developer Details"
+                    toast.error("Error Occurred" + "\n" + errMsg);
+                }
+                generalFunction.setDataInCookies("apiKey", data?.data?.key)
 
-              let request = `${mainConfig.BACKEND_URL}api/entities/${paramEntityId}?userId=${generalFunction.getDataFromCookies("questUserId")}`
-              await fetch(request, {
-                  headers: {
-                    apikey: generalFunction.getDataFromCookies("apikey") || data?.data?.key,
-                    entityId: paramEntityId,
-                    userId: generalFunction.getDataFromCookies("questUserId")
-                  },
-              })
-              .then((res) => res.json())
-              .then((data) => {
-                let apiData = data.data;
-                
-                setContentConfig({
-                    ...contentConfig,
-                    login: {
-                        heading: apiData?.saasDashboard?.dashboardConfig?.title,
-                        description: apiData?.saasDashboard?.dashboardConfig?.description,
-                    }
+                let request = `${mainConfig.BACKEND_URL}api/entities/${paramEntityId}?userId=${generalFunction.getDataFromCookies("questUserId")}`
+                await fetch(request, {
+                    headers: {
+                        apikey: generalFunction.getDataFromCookies("apikey") || data?.data?.key,
+                        entityId: paramEntityId,
+                        userId: generalFunction.getDataFromCookies("questUserId")
+                    },
                 })
-                setBgColors({
-                    ...bgColors,
-                    "light-primary-bg-color-0": apiData?.saasDashboard?.dashboardConfig?.colorConfig
-                })
-                setAppConfig({...appConfig, 
-                    BRAND_LOGO: apiData?.saasDashboard?.dashboardConfig?.imageUrl || apiData?.imageUrl,
-                    QUEST_ENTITY_NAME: apiData?.name,
-                    QUEST_ENTITY_ID: apiData?.id,
-                })
-                let iconSelector = document.querySelector(".iconUrl")
-                // iconSelector.setAttribute("href", "https://quest-media-storage-bucket.s3.us-east-2.amazonaws.com/1709407714542-90319026362-min_500x500.webp")
-              })
-          } catch (error) {
-              console.log(error);
-          }
+                    .then((res) => res.json())
+                    .then((data) => {
+                        let apiData = data.data;
+
+                        setContentConfig({
+                            ...contentConfig,
+                            login: {
+                                heading: apiData?.saasDashboard?.dashboardConfig?.title,
+                                description: apiData?.saasDashboard?.dashboardConfig?.description,
+                            }
+                        })
+                        setBgColors({
+                            ...bgColors,
+                            "light-primary-bg-color-0": apiData?.saasDashboard?.dashboardConfig?.colorConfig
+                        })
+                        setAppConfig({
+                            ...appConfig,
+                            BRAND_LOGO: apiData?.saasDashboard?.dashboardConfig?.imageUrl || apiData?.imageUrl,
+                            QUEST_ENTITY_NAME: apiData?.name,
+                            QUEST_ENTITY_ID: apiData?.id,
+                        })
+                        let iconSelector = document.querySelector(".iconUrl")
+                        // iconSelector.setAttribute("href", "https://quest-media-storage-bucket.s3.us-east-2.amazonaws.com/1709407714542-90319026362-min_500x500.webp")
+                    })
+            } catch (error) {
+                console.log(error);
+            }
         }
-        
+
         if (generalFunction.getDataFromCookies("questUserId") && !contentConfig.login.heading) {
             fetchEntityDetails(generalFunction.getDataFromCookies("adminCommunityId"))
         }
     }, [])
 
-  return (
-    <ThemeContext.Provider value={{ theme, setTheme, bgColors, appConfig, setAppConfig, contentConfig, setContentConfig }}>
-      {children}
-    </ThemeContext.Provider>
-  );
+    return (
+        <ThemeContext.Provider value={{ theme, setTheme, bgColors, appConfig, setAppConfig, contentConfig, setContentConfig, checked, setChecked }}>
+            {children}
+        </ThemeContext.Provider>
+    );
 };
 
 export default AppContext;

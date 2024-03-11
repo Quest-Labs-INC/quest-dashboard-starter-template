@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 // import "";
-import './Settings.css'
+// import './Settings.css'
 import InputComponent from "../Common/CommonComponents/InputComponent";
 import { importConfig } from "../../assets/Config/importConfig";
 import { ThemeContext } from "../Common/appContext";
@@ -87,7 +87,7 @@ import { searchIcon } from "../Common/SideBarSvg";
 // }
 
 
-export default function Settings() {
+export default function ReferralPage() {
     const { theme, bgColors, appConfig } = useContext(ThemeContext);
     const [userData, setUserData] = useState({
         name: "",
