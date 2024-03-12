@@ -1,8 +1,9 @@
 .create-page {
     width: 1280px;
-    height: 1256px;
+    width: 100%;
+    /* height: 1256px; */
     /* background-color: aquamarine; */
-    margin: 0 auto;
+    /* margin: 0 auto; */
 }
 
 .create-page-header>.create-page-header-cont {
@@ -12,6 +13,7 @@
     padding: 20px 120px;
     justify-content: space-between;
     align-items: center;
+    width: 100%;
 }
 
 .create-page-header>.create-page-header-cont>button {
@@ -32,6 +34,7 @@
     /* background-color: #0065FF; */
     display: flex;
     width: 1280px;
+    width: 100%;
     padding: 120px 230px 80px 230px;
     flex-direction: column;
     align-items: center;
@@ -42,6 +45,7 @@
     display: flex;
     justify-content: center;
     gap: 8px;
+    width: 100%;
 }
 
 .create-saas-temp>div {
@@ -68,15 +72,8 @@
     letter-spacing: -1.92px;
 }
 
-.create-saas-temp>span {
+.create-saas-temp>p {
     /* Display lg/600 */
-    font-family: Figtree;
-    font-size: 48px;
-    font-style: normal;
-    font-weight: 600;
-    line-height: 60px;
-    /* 125% */
-    letter-spacing: -1.92px;
     background: linear-gradient(116deg, #3378FF 14.6%, #9442FE 52.85%);
     background: var(--Neutral-Black-400, #2C2C2C);
     background-clip: text;
@@ -84,7 +81,6 @@
     -webkit-text-fill-color: transparent;
     color: var(--Neutral-Black-400, #2C2C2C);
     /* color: black !important; */
-
     /* Display lg/600 */
     font-family: Figtree;
     font-size: 48px;
@@ -96,6 +92,7 @@
 
 .create-sass-temp-text>.description {
     width: 820px;
+    width: 100%;
     color: var(--text-dark-secondary, #545454);
     text-align: center;
 
@@ -112,8 +109,11 @@
 .footer-text-cont {
     display: flex;
     width: 1040px;
+    width: 100%;
     justify-content: space-between;
     align-items: flex-start;
+
+    /* background-color: yellow; */
 }
 
 .footer-text-cont>.copyright-text {

@@ -234,7 +234,8 @@ function MainPage() {
                 {successPopup && <SuccessPopup setSuccessPopup={setSuccessPopup} />}
 
                 <div className='create-page-header'>
-                    <div className='create-page-header-cont px-28 py-5 flex items-center justify-between'>
+                    {/* <div className='create-page-header-cont px-28 py-5 flex items-center justify-between'> */}
+                    <div className='create-page-header-cont'>
                         <img src={importConfig.brandLogo} className='w-20' alt="" />
                         {
                             generalFunction.getDataFromCookies("questUserId") ?
@@ -276,7 +277,7 @@ function MainPage() {
                         <div className="create-saas-temp left-[190px] top-0 text-center">
                             {/* <span className="gradient-Text text-5xl font-semibold font-['Figtree'] leading-[60px]">Create your Saas</span><span className="text-[#2C2C2C] text-5xl font-semibold font-['Figtree'] leading-[60px]"> App</span> */}
                             <div>Create Saas</div>
-                            <span> Template</span>
+                            <p> Template</p>
                         </div>
 
 

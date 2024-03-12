@@ -220,9 +220,16 @@ export default function DashboardWrapper({ children, selectdRoute }) {
 
   useEffect(() => {
     console.log("2")
-  }, [quesNoFeed])
+  }, [quesNoFeed, showFeedbackSection])
 
   return (
+    // <div
+    //   className="flex relative w-screen h-screen bg-customShade-4 transition-all ease-in delay-[40]"
+    //   style={{
+    //     backgroundColor: bgColors[`${theme}-primary-bg-color-3`],
+    //     position: "relative"
+    //   }}
+    // >
     <div
       className="flex relative w-screen h-screen bg-customShade-4 transition-all ease-in delay-[40]"
       style={{
@@ -312,9 +319,9 @@ export default function DashboardWrapper({ children, selectdRoute }) {
             </ul> */}
             <ul className="s_nav_menu">
               {
-                routesConfigUpper.map(
+                routesConfig.map(
                   (routes, index) =>
-                    !routes.hidden && (
+                    !routes.hidden && routes.isUpper && (
                       // console.log(object)
                       <li
                         className={`s_nav_menu_item ${window.location.href.includes(routes.path) &&
@@ -484,7 +491,7 @@ export default function DashboardWrapper({ children, selectdRoute }) {
       </nav>
 
       <div className="w-full">
-        <div className="p-4 w-full md:w-[calc(100vw-185px)] h-screen overflow-auto">
+        <div className="">
           {children}
         </div>
       </div>
@@ -494,16 +501,20 @@ export default function DashboardWrapper({ children, selectdRoute }) {
 
 
       {
-        showFeedbackSection ? <div className="dashboard-feedback-section">
+        showFeedbackSection ? <div className="dashboard-feedback-section"
+          style={{ backgroundColor: bgColors[`${theme}-primary-bg-color-3`] }}
+        >
           {/* ques no  */}
-          <div className="dashboard-feedback-section-ques-no">
+          <div className="dashboard-feedback-section-ques-no"
+            style={{ backgroundColor: bgColors[`${theme}-primary-bg-color-3`] }}
+          >
             <div className="">
               <div className="first">
                 Question {quesNoFeed}/2
               </div>
               <div className="second" onClick={() => {
                 setShowFeedbackSection(false);
-              }}>
+              }} style={{ backgroundColor: bgColors[`${theme}-primary-bg-color-3`] }}>
                 {cancelButton()}
               </div>
             </div>
@@ -511,13 +522,19 @@ export default function DashboardWrapper({ children, selectdRoute }) {
 
           {/* data  */}
           {
-            quesNoFeed === 1 ? <div className="dashboard-feedback-section-ques-cont">
+            quesNoFeed === 1 ? <div className="dashboard-feedback-section-ques-cont"
+              style={{ backgroundColor: bgColors[`${theme}-primary-bg-color-3`] }}
+            >
 
-              <div className="question-head-cont">
+              <div className="question-head-cont"
+                style={{ backgroundColor: bgColors[`${theme}-primary-bg-color-3`] }}
+              >
 
-                <div className="quest-head">To what extent do you agree with the following statement</div>
+                <div className="quest-head" style={{ color: bgColors[`${theme}-color-premitive-grey-5`] }}>To what extent do you agree with the following statement</div>
                 <div className="ques-res">
-                  <input type="text" placeholder="“It was easy to handle my issue”" />
+                  <input type="text" placeholder="“It was easy to handle my issue”" style={{
+                    backgroundColor: 'transparent',
+                  }} />
                 </div>
               </div>
 
@@ -554,40 +571,63 @@ export default function DashboardWrapper({ children, selectdRoute }) {
               </div>
 
               <div className="button-cont">
-                <button className="cancel">
+                <button className="cancel" onClick={() => {
+                  setShowFeedbackSection(false);
+                }}>
                   <p>Cancel</p>
                 </button>
                 <button type="button" className="submit" onClick={() => {
                   console.log("clicked")
                   setQuesNoFeed(2)
-                }}>
+                }}
+                  style={{
+                    background: bgColors[`${theme}-primary-bg-color-0`],
+                    border: 'none'
+                  }}>
                   <p>Next</p>
                 </button>
               </div>
             </div>
               :
-              <div className="dashboard-feedback-section-ques-cont-two">
+              <div className="dashboard-feedback-section-ques-cont-two"
+                style={{ backgroundColor: bgColors[`${theme}-primary-bg-color-3`] }}
+              >
 
 
-                <div className="quest-head">
-                  <p>To what extent do you agree with the following statement</p>
+                <div className="quest-head" >
+                  <p style={{ color: bgColors[`${theme}-color-premitive-grey-5`] }}>To what extent do you agree with the following statement</p>
                 </div>
 
                 <div className="two-feed-text">
                   <p className="first">Tell us how we can improve </p>
-                  <textarea name="" id="" cols="30" rows="5"></textarea>
+                  <textarea name="" id="" cols="30" rows="5" style={{
+                    backgroundColor: 'transparent',
+                    color: bgColors[`${theme}-color-premitive-grey-5`] 
+                  }}></textarea>
                   <p className="second">0/120 characters</p>
                 </div>
 
 
                 <div className="button-cont">
-                  <button className="cancel">
+                  <button className="cancel" onClick={() => {
+                    console.log("clicked")
+                    setQuesNoFeed(1)
+                  }}
+                    style={{
+                      background: bgColors[`${theme}-secondary-bg-color-0`],
+                      border: 'none'
+                    }}
+                  >
                     <p>Cancel</p>
                   </button>
                   <button type="submit" className="submit" onClick={() => {
                     console.log("clicked")
                     setQuesNoFeed(2)
-                  }}>
+                  }}
+                    style={{
+                      background: bgColors[`${theme}-primary-bg-color-0`],
+                      border: 'none'
+                    }}>
                     <p>Submit</p>
                   </button>
                 </div>
@@ -602,7 +642,10 @@ export default function DashboardWrapper({ children, selectdRoute }) {
 
 
           {/* footer  */}
-          <div className="dashboard-feedback-section-footer">
+          <div className="dashboard-feedback-section-footer"
+
+            style={{ backgroundColor: bgColors[`${theme}-primary-bg-color-3`] }}
+          >
             <p>
               Powered by Quest Labs
             </p>

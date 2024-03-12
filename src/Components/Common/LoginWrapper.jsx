@@ -25,7 +25,8 @@ export default function LoginWrapper({ children }) {
             <div
                 className="w-full md:w-1/2"
                 style={{
-                    background: bgColors[`${theme}-primary-bg-color-1`]
+                    background: bgColors[`${theme}-primary-bg-color-1`],
+                    height:'100vh'
                 }}
             >
                 {children}

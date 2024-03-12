@@ -20,10 +20,10 @@ export default function Onboarding() {
     const completeAnswer = (e) => {
         navigate("/dashboard")
     }
-    
+
     useEffect(() => {
 
-    },[appConfig.QUEST_API_KEY])
+    }, [appConfig.QUEST_API_KEY])
 
     return (
         <div className="w-full flex h-full items-center justify-center m-auto">
