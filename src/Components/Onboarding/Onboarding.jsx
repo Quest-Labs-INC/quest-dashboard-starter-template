@@ -5,7 +5,7 @@ import { useContext, useEffect, useState } from "react";
 import { generalFunction } from "../../assets/Config/GeneralFunction";
 import { useNavigate } from "react-router-dom";
 import { ThemeContext } from "../Common/appContext";
-
+import './OnboardingPage.css'
 
 
 export default function Onboarding() {
@@ -27,7 +27,7 @@ export default function Onboarding() {
 
     return (
         <div className="w-full flex h-full items-center justify-center m-auto">
-            <div className={`${!loading && "rounded-xl"} w-2/3`} style={{ boxShadow: loading ? "" : "" }}>
+            <div className={`${!loading && "rounded-xl"} w-2/3 onboarding-page`} style={{ boxShadow: loading ? "" : "" }}>
                 {
                     appConfig.QUEST_API_KEY != "" &&
                     <OnBoarding

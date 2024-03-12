@@ -170,7 +170,8 @@
 import { useContext, useEffect, useState } from "react";
 import "./dashboardWrapper.css";
 import { Link, useNavigate } from "react-router-dom";
-import { routesConfig, routesConfigUpper } from "../../assets/Config/routesConfig";
+// import { routesConfig, routesConfigUpper } from "../../assets/Config/routesConfig";
+import { routesConfig } from "../../assets/Config/routesConfig";
 import { importConfig } from "../../assets/Config/importConfig";
 import { appConfig } from "../../assets/Config/appConfig";
 import GeneralFunction from "../../assets/Functions/GeneralFunction";
@@ -602,7 +603,7 @@ export default function DashboardWrapper({ children, selectdRoute }) {
                   <p className="first">Tell us how we can improve </p>
                   <textarea name="" id="" cols="30" rows="5" style={{
                     backgroundColor: 'transparent',
-                    color: bgColors[`${theme}-color-premitive-grey-5`] 
+                    color: bgColors[`${theme}-color-premitive-grey-5`]
                   }}></textarea>
                   <p className="second">0/120 characters</p>
                 </div>
