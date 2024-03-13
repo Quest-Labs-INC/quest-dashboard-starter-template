@@ -206,161 +206,160 @@ export default function Settings() {
                         </p>
                     </button>
                 </div>
-            </div>
+            
 
-            {
-                section === 'edit' ?
-                    <div className="settings-page-edit-profile-div">
-                        <div className="settings-page-edit-profile">
+                {
+                    section === 'edit' ?
+                        <div className="settings-page-edit-profile-div">
+                            <div className="settings-page-edit-profile">
 
-                            {/* profile img  */}
-                            <div className="edit-profile-img">
-                                <img src={deleteIcon} alt="" />
-                            </div>
-
-                            {/* for name title  */}
-                            <div className="edit-name-job-title">
-                                <div className="name">
-                                    <p>Enter  Name*</p>
-                                    <input type="text" placeholder="Enter name" required style={{
-                                        backgroundColor: bgColors[`${theme}-primary-bg-color-3`],
-                                        color: bgColors[`${theme}-color-premitive-grey-5`]
-                                    }} />
-                                </div>
-                                <div className="name">
-                                    <p>Enter Job Title*</p>
-                                    <input type="text" required placeholder="Product Manager name" style={{
-                                        backgroundColor: bgColors[`${theme}-primary-bg-color-3`],
-                                        color: bgColors[`${theme}-color-premitive-grey-5`]
-                                    }} />
-                                </div>
-                            </div>
-
-                            {/* email no  */}
-                            <div className="edit-name-job-title">
-                                <div className="name">
-                                    <p>Enter  Email*</p>
-                                    <input type="email" required placeholder="Enter email" style={{
-                                        backgroundColor: bgColors[`${theme}-primary-bg-color-3`],
-                                        color: bgColors[`${theme}-color-premitive-grey-5`]
-                                    }} />
-                                </div>
-                                <div className="name">
-                                    <p>Enter Contact No*</p>
-                                    <input type="number" required placeholder="Contact No" style={{
-                                        backgroundColor: bgColors[`${theme}-primary-bg-color-3`],
-                                        color: bgColors[`${theme}-color-premitive-grey-5`]
-                                    }} />
-                                </div>
-                            </div>
-
-                            {/* descrpt  */}
-                            <div className="edit-description">
-                                <p className="desc-label">
-                                    Enter Your Description*
-                                </p>
-
-                                <div>
-                                    <textarea name="" id="" cols="30" rows="6" style={{
-                                        backgroundColor: bgColors[`${theme}-primary-bg-color-3`],
-                                        color: bgColors[`${theme}-color-premitive-grey-5`]
-                                    }} ></textarea>
+                                {/* profile img  */}
+                                <div className="edit-profile-img">
+                                    <img src={deleteIcon} alt="" />
                                 </div>
 
-                                <p className="words-limit">
-                                    0/120 Characters
-                                </p>
-                            </div>
-
-                            {/* btn  */}
-                            <button style={{ background: bgColors[`${theme}-primary-bg-color-0`] }}>
-                                <p>Update</p>
-                            </button>
-                        </div>
-                    </div>
-                    :
-                    <div className="settings-page-admin-section">
-
-                        <div className="settings-page-search-section-div">
-                            <div className="settings-page-search-section">
-                                <div className="search-cont">
-                                    <input type="text" placeholder="Search here" style={{ backgroundColor: bgColors[`${theme}-primary-bg-color-3`] }} />
-                                    <button>
-                                        {searchIcon()}
-                                    </button>
+                                {/* for name title  */}
+                                <div className="edit-name-job-title">
+                                    <div className="name">
+                                        <p>Enter  Name*</p>
+                                        <input type="text" placeholder="Enter name" required style={{
+                                            backgroundColor: bgColors[`${theme}-primary-bg-color-3`],
+                                            color: bgColors[`${theme}-color-premitive-grey-5`]
+                                        }} />
+                                    </div>
+                                    <div className="name">
+                                        <p>Enter Job Title*</p>
+                                        <input type="text" required placeholder="Product Manager name" style={{
+                                            backgroundColor: bgColors[`${theme}-primary-bg-color-3`],
+                                            color: bgColors[`${theme}-color-premitive-grey-5`]
+                                        }} />
+                                    </div>
                                 </div>
+
+                                {/* email no  */}
+                                <div className="edit-name-job-title">
+                                    <div className="name">
+                                        <p>Enter  Email*</p>
+                                        <input type="email" required placeholder="Enter email" style={{
+                                            backgroundColor: bgColors[`${theme}-primary-bg-color-3`],
+                                            color: bgColors[`${theme}-color-premitive-grey-5`]
+                                        }} />
+                                    </div>
+                                    <div className="name">
+                                        <p>Enter Contact No*</p>
+                                        <input type="number" required placeholder="Contact No" style={{
+                                            backgroundColor: bgColors[`${theme}-primary-bg-color-3`],
+                                            color: bgColors[`${theme}-color-premitive-grey-5`]
+                                        }} />
+                                    </div>
+                                </div>
+
+                                {/* descrpt  */}
+                                <div className="edit-description">
+                                    <p className="desc-label">
+                                        Enter Your Description*
+                                    </p>
+
+                                    <div>
+                                        <textarea name="" id="" cols="30" rows="6" style={{
+                                            backgroundColor: bgColors[`${theme}-primary-bg-color-3`],
+                                            color: bgColors[`${theme}-color-premitive-grey-5`]
+                                        }} ></textarea>
+                                    </div>
+
+                                    <p className="words-limit">
+                                        0/120 Characters
+                                    </p>
+                                </div>
+
+                                {/* btn  */}
                                 <button style={{ background: bgColors[`${theme}-primary-bg-color-0`] }}>
-                                    <p>Search</p>
+                                    <p>Update</p>
                                 </button>
                             </div>
                         </div>
+                        :
+                        <div className="settings-page-admin-section">
 
-
-                        {/* for admins */}
-                        <div className="settings-page-manage-admin-div">
-                            <div className="settings-page-manage-admin" style={{ backgroundColor: bgColors[`${theme}-primary-bg-color-3`] }}>
-
-                                <div className="sr-user-head-row" style={{ backgroundColor: bgColors[`${theme}-primary-bg-color-3`] }}>
-                                    <div className="sr">
-                                        <p style={{ color: bgColors[`${theme}-color-premitive-grey-4`] }}>Sr</p>
+                            <div className="settings-page-search-section-div">
+                                <div className="settings-page-search-section">
+                                    <div className="search-cont">
+                                        <input type="text" placeholder="Search here" style={{ backgroundColor: bgColors[`${theme}-primary-bg-color-3`] }} />
+                                        <button>
+                                            {searchIcon()}
+                                        </button>
                                     </div>
-                                    <div className="user" >
-                                        <p style={{ color: bgColors[`${theme}-color-premitive-grey-4`] }}>User</p>
-                                    </div>
-                                    <div className="email">
-                                        <p style={{ color: bgColors[`${theme}-color-premitive-grey-4`] }}>Email Address</p>
-                                    </div>
-                                    <div className="role">
-                                        <p style={{ color: bgColors[`${theme}-color-premitive-grey-4`] }}>Role</p>
-                                    </div>
-                                    <div className="status">
-                                        <p style={{ color: bgColors[`${theme}-color-premitive-grey-4`] }}>Status</p>
-                                    </div>
-                                    <div className="action">
-                                        <p style={{ color: bgColors[`${theme}-color-premitive-grey-4`] }}>Actions</p>
-                                    </div>
-                                    {/* </div> */}
+                                    <button style={{ background: bgColors[`${theme}-primary-bg-color-0`] }}>
+                                        <p>Search</p>
+                                    </button>
                                 </div>
-
-                                {
-                                    adminData.map((user, index) => {
-                                        console.log(user)
-                                        return (
-                                            <div className="sr-user-user-row" style={{ backgroundColor: bgColors[`${theme}-primary-bg-color-3`] }}>
-                                                <div className="sr">
-                                                    <p style={{ color: bgColors[`${theme}-color-premitive-grey-5`] }}>{index + 1}</p>
-                                                </div>
-                                                <div className="user" >
-                                                    {/* <img src="" alt="" /> */}
-                                                    <img src={user.imageUrl} alt="" />
-                                                    <p style={{ color: bgColors[`${theme}-color-premitive-grey-5`] }}>{user.name}</p>
-                                                </div>
-                                                <div className="email">
-                                                    <p style={{ color: bgColors[`${theme}-color-premitive-grey-5`] }}>{user.emails[0]}</p>
-                                                </div>
-                                                <div className="role">
-                                                    <p style={{ color: bgColors[`${theme}-color-premitive-grey-5`] }}>{user.role}</p>
-                                                </div>
-                                                <div className="status">
-                                                    <p style={{ color: bgColors[`${theme}-color-premitive-grey-5`] }}>{user.isActive === true ? "Active" : "Pending"}</p>
-                                                </div>
-                                                <div className="actions">
-                                                    <button style={{ color: bgColors[`${theme}-color-premitive-grey-5`] }}>{deleteIcon()}</button>
-                                                </div>
-                                                {/* </div> */}
-                                            </div>
-                                        )
-                                    })
-                                }
+                            </div>
 
 
+                            {/* for admins */}
+                            <div className="settings-page-manage-admin-div">
+                                <div className="settings-page-manage-admin" style={{ backgroundColor: bgColors[`${theme}-primary-bg-color-3`] }}>
+
+                                    <div className="sr-user-head-row" style={{ backgroundColor: bgColors[`${theme}-primary-bg-color-3`] }}>
+                                        <div className="sr">
+                                            <p style={{ color: bgColors[`${theme}-color-premitive-grey-4`] }}>Sr</p>
+                                        </div>
+                                        <div className="user" >
+                                            <p style={{ color: bgColors[`${theme}-color-premitive-grey-4`] }}>User</p>
+                                        </div>
+                                        <div className="email">
+                                            <p style={{ color: bgColors[`${theme}-color-premitive-grey-4`] }}>Email Address</p>
+                                        </div>
+                                        <div className="role">
+                                            <p style={{ color: bgColors[`${theme}-color-premitive-grey-4`] }}>Role</p>
+                                        </div>
+                                        <div className="status">
+                                            <p style={{ color: bgColors[`${theme}-color-premitive-grey-4`] }}>Status</p>
+                                        </div>
+                                        <div className="action">
+                                            <p style={{ color: bgColors[`${theme}-color-premitive-grey-4`] }}>Actions</p>
+                                        </div>
+                                        {/* </div> */}
+                                    </div>
+
+                                    {
+                                        adminData.map((user, index) => {
+                                            console.log(user)
+                                            return (
+                                                <div className="sr-user-user-row" style={{ backgroundColor: bgColors[`${theme}-primary-bg-color-3`] }}>
+                                                    <div className="sr">
+                                                        <p style={{ color: bgColors[`${theme}-color-premitive-grey-5`] }}>{index + 1}</p>
+                                                    </div>
+                                                    <div className="user" >
+                                                        {/* <img src="" alt="" /> */}
+                                                        <img src={user.imageUrl} alt="" />
+                                                        <p style={{ color: bgColors[`${theme}-color-premitive-grey-5`] }}>{user.name}</p>
+                                                    </div>
+                                                    <div className="email">
+                                                        <p style={{ color: bgColors[`${theme}-color-premitive-grey-5`] }}>{user.emails[0]}</p>
+                                                    </div>
+                                                    <div className="role">
+                                                        <p style={{ color: bgColors[`${theme}-color-premitive-grey-5`] }}>{user.role}</p>
+                                                    </div>
+                                                    <div className="status">
+                                                        <p style={{ color: bgColors[`${theme}-color-premitive-grey-5`] }}>{user.isActive === true ? "Active" : "Pending"}</p>
+                                                    </div>
+                                                    <div className="actions">
+                                                        <button style={{ color: bgColors[`${theme}-color-premitive-grey-5`] }}>{deleteIcon()}</button>
+                                                    </div>
+                                                    {/* </div> */}
+                                                </div>
+                                            )
+                                        })
+                                    }
+
+
+                                </div>
                             </div>
                         </div>
-                    </div>
-            }
+                }
             {/* for profile data  */}
-
-
+            </div>
         </div>
     )
 

@@ -9,8 +9,8 @@ const AppContext = ({ children }) => {
     const [appConfig, setAppConfig] = useState({
         QUEST_ENTITY_ID: generalFunction.getDataFromCookies("adminCommunityId"),
         QUEST_API_KEY: generalFunction.getDataFromCookies("apiKey"),
-        QUEST_ENTITY_NAME: "",
-        BRAND_LOGO: "",
+        QUEST_ENTITY_NAME: localStorage.getItem("entityName") || "",
+        BRAND_LOGO: localStorage.getItem("brandlogo") || "",
         GOOGLE_REDIRECT_URI: "http://localhost:3000/login/",
         GOOGLE_CLIENT_ID: "857590091173-lm2tl3nqfvp2thd4nrhqidjuq2hroco8.apps.googleusercontent.com",
         QUEST_ONBOARDING_QUIZ_CAMPAIGN_ID: "q-saas-onboarding-quiz",
@@ -40,7 +40,7 @@ const AppContext = ({ children }) => {
         "light-color-premitive-grey-0": "#afafaf",
         "light-color-premitive-grey-5": "#2e425c",
 
-        "light-primary-bg-color-0": "#7B68EE", // login page left side
+        "light-primary-bg-color-0": localStorage.getItem("themeColor") || "#7B68EE", // login page left side
         "light-primary-bg-color-1": "#ffffff", // login page right side #edf3ff
         "light-primary-bg-color-2": "#e4e9f7", // navbar and components background color
         "light-primary-bg-color-3": "#ffffff", // dashboard background color
@@ -107,14 +107,15 @@ const AppContext = ({ children }) => {
                             ...bgColors,
                             "light-primary-bg-color-0": apiData?.saasDashboard?.dashboardConfig?.colorConfig
                         })
+                        localStorage.setItem("themeColor", apiData?.saasDashboard?.dashboardConfig?.colorConfig)
+                        localStorage.setItem("brandlogo", apiData?.saasDashboard?.dashboardConfig?.imageUrl || apiData?.imageUrl)
+                        localStorage.setItem("entityName", apiData?.name)
                         setAppConfig({
                             ...appConfig,
                             BRAND_LOGO: apiData?.saasDashboard?.dashboardConfig?.imageUrl || apiData?.imageUrl,
                             QUEST_ENTITY_NAME: apiData?.name,
                             QUEST_ENTITY_ID: apiData?.id,
                         })
-                        let iconSelector = document.querySelector(".iconUrl")
-                        // iconSelector.setAttribute("href", "https://quest-media-storage-bucket.s3.us-east-2.amazonaws.com/1709407714542-90319026362-min_500x500.webp")
                     })
             } catch (error) {
                 console.log(error);

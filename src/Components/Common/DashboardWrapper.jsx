@@ -191,8 +191,6 @@ export default function DashboardWrapper({ children, selectdRoute }) {
   const { theme, setTheme, bgColors, appConfig, checked, setChecked } = useContext(ThemeContext);
 
   const toggleTheme = () => {
-    console.log("193")
-    console.log(theme)
     if (theme === "dark") {
       setTheme("light");
       localStorage.setItem("theme", "light");
@@ -224,13 +222,6 @@ export default function DashboardWrapper({ children, selectdRoute }) {
   }, [quesNoFeed, showFeedbackSection])
 
   return (
-    // <div
-    //   className="flex relative w-screen h-screen bg-customShade-4 transition-all ease-in delay-[40]"
-    //   style={{
-    //     backgroundColor: bgColors[`${theme}-primary-bg-color-3`],
-    //     position: "relative"
-    //   }}
-    // >
     <div
       className="flex relative w-screen h-screen bg-customShade-4 transition-all ease-in delay-[40]"
       style={{
@@ -262,6 +253,24 @@ export default function DashboardWrapper({ children, selectdRoute }) {
         />
       </div>
 
+      <div>
+        {/* <Survey
+          questId="q-42b7c525-72d3-45e2-88b2-490fafea4b3f"
+          userId={generalFunction.getDataFromCookies("questUserId")}
+          token={generalFunction.getDataFromCookies("questUserToken")}
+          heading= "How was your experience?"
+          subHeading= "Welcome back, Please complete your details"
+          itemsPerPage= "2"
+          ratingType= "colored"
+          btnColor= ""
+          btnTextColor= ""
+          bgColor= ""
+          supportUrl= ""
+          font= ""
+          textColor= ""
+        /> */}
+      </div>
+
       <nav
         className="s_nav_container"
         // style={{ backgroundColor: bgColors[`${theme}-primary-bg-color-2`] }}
@@ -283,41 +292,6 @@ export default function DashboardWrapper({ children, selectdRoute }) {
         <div className="s_navigation_cont">
           {/* upper  */}
           <div className="s_nav_menu_cont-upper">
-            {/* <ul className="s_nav_menu">
-              {
-                routesConfig.map(
-                  (routes, index) =>
-                    !routes.hidden && (
-                      // console.log(object)
-                      <li
-                        className={`s_nav_menu_item ${window.location.href.includes(routes.path) &&
-                          "s_nav_active"
-                          }`}
-                        key={index}
-                      >
-                        <Link
-                          to={routes.path}
-                          className="s_nav_menu_link"
-                          onClick={() => setSidebarOpen(false)}
-                        >
-                          <div>{routes.logo}</div>
-                          <p>{routes.name}</p>
-                        </Link>
-                      </li>
-                    )
-                )
-              }
-
-              <li className={`s_nav_menu_item cursor-pointer`}>
-                <div
-                  className="s_nav_menu_link"
-                  onClick={() => setOpenPopup((prev) => !prev)}
-                >
-                  <div>{referal()}</div>
-                  <p>Referral</p>
-                </div>
-              </li>
-            </ul> */}
             <ul className="s_nav_menu">
               {
                 routesConfig.map(
@@ -357,51 +331,9 @@ export default function DashboardWrapper({ children, selectdRoute }) {
 
           {/* lwer */}
           <div className="s_nav_menu_cont-lower">
-            {/* <ul className="s_nav_menu">
-              {
-                routesConfig.map(
-                  (routes, index) =>
-                    !routes.hidden && (
-                      // console.log(object)
-                      <li
-                        className={`s_nav_menu_item ${window.location.href.includes(routes.path) &&
-                          "s_nav_active"
-                          }`}
-                        key={index}
-                      >
-                        <Link
-                          to={routes.path}
-                          className="s_nav_menu_link"
-                          onClick={() => setSidebarOpen(false)}
-                        >
-                          <div>{routes.logo}</div>
-                          <p>{routes.name}</p>
-                        </Link>
-                      </li>
-                    )
-                )
-              }
-
-              <li className={`s_nav_menu_item cursor-pointer`}>
-                <div
-                  className="s_nav_menu_link"
-                  onClick={() => setOpenPopup((prev) => !prev)}
-                >
-                  <div>{referal()}</div>
-                  <p>Referral</p>
-                </div>
-              </li>
-            </ul> */}
-
             <ul className="s_nav_menu">
-              <li
-              // className={`s_nav_menu_item ${window.location.href.includes(routes.path) &&
-              //   "s_nav_active"
-              //   }`}
-              // key={index}
-              >
+              <li>
                 <Link
-                  // to={routes.path}
                   className="s_nav_menu_link"
                   onClick={() => setSidebarOpen(false)}
                 >
@@ -410,14 +342,8 @@ export default function DashboardWrapper({ children, selectdRoute }) {
                 </Link>
               </li>
 
-              <li
-              // className={`s_nav_menu_item ${window.location.href.includes(routes.path) &&
-              //   "s_nav_active"
-              //   }`}
-              // key={index}
-              >
+              <li>
                 <Link
-                  // to={routes.path}
                   className="s_nav_menu_link"
                   onClick={() => setSidebarOpen(false)}
                 >
@@ -443,12 +369,7 @@ export default function DashboardWrapper({ children, selectdRoute }) {
                 </div>
               </li>
 
-              <li
-              // className={`s_nav_menu_item ${window.location.href.includes(routes.path) &&
-              //   "s_nav_active"
-              //   }`}
-              // key={index}
-              >
+              <li>
                 <Link
                   // to={routes.path}
                   className="s_nav_menu_link"
@@ -458,36 +379,8 @@ export default function DashboardWrapper({ children, selectdRoute }) {
                   <p>Logout</p>
                 </Link>
               </li>
-
-              {/* <li className={`s_nav_menu_item cursor-pointer`}>
-                <div
-                  className="s_nav_menu_link"
-                  onClick={() => setOpenPopup((prev) => !prev)}
-                >
-                  <div>{referal()}</div>
-                  <p>Referral</p>
-                </div>
-              </li> */}
             </ul>
-
           </div>
-
-          {/* <div className={"profileContSecondary"}>
-            <div className={"profileContThird"} onClick={handleToggle}>
-              <label className={"PaymentSwitch2"}>
-                <input
-                  id="sidebar-toggle"
-                  type="checkbox"
-                  checked={checked}
-                  onChange={handleChange}
-                />
-                <span className={"slider2"} />
-              </label>
-              <div className={"profileTitle3"}>
-                {checked ? "Light Mode" : "Dark Mode"}
-              </div>
-            </div>
-          </div> */}
         </div>
       </nav>
 
@@ -496,169 +389,6 @@ export default function DashboardWrapper({ children, selectdRoute }) {
           {children}
         </div>
       </div>
-
-
-
-
-
-      {
-        showFeedbackSection ? <div className="dashboard-feedback-section"
-          style={{ backgroundColor: bgColors[`${theme}-primary-bg-color-3`] }}
-        >
-          {/* ques no  */}
-          <div className="dashboard-feedback-section-ques-no"
-            style={{ backgroundColor: bgColors[`${theme}-primary-bg-color-3`] }}
-          >
-            <div className="">
-              <div className="first">
-                Question {quesNoFeed}/2
-              </div>
-              <div className="second" onClick={() => {
-                setShowFeedbackSection(false);
-              }} style={{ backgroundColor: bgColors[`${theme}-primary-bg-color-3`] }}>
-                {cancelButton()}
-              </div>
-            </div>
-          </div>
-
-          {/* data  */}
-          {
-            quesNoFeed === 1 ? <div className="dashboard-feedback-section-ques-cont"
-              style={{ backgroundColor: bgColors[`${theme}-primary-bg-color-3`] }}
-            >
-
-              <div className="question-head-cont"
-                style={{ backgroundColor: bgColors[`${theme}-primary-bg-color-3`] }}
-              >
-
-                <div className="quest-head" style={{ color: bgColors[`${theme}-color-premitive-grey-5`] }}>To what extent do you agree with the following statement</div>
-                <div className="ques-res">
-                  <input type="text" placeholder="“It was easy to handle my issue”" style={{
-                    backgroundColor: 'transparent',
-                  }} />
-                </div>
-              </div>
-
-              {/* rating  */}
-              <div className="rating-cont">
-                <div className="rating-num-cont">
-                  <div>
-                    <p>1</p>
-                  </div>
-                  <div>
-                    <p>2</p>
-                  </div>
-                  <div>
-                    <p>3</p>
-                  </div>
-                  <div>
-                    <p>4</p>
-                  </div>
-                  <div>
-                    <p>5</p>
-                  </div>
-                  <div>
-                    <p>6</p>
-                  </div>
-                  <div>
-                    <p>7</p>
-                  </div>
-                </div>
-
-                <div className="rating-text-cont">
-                  <p className="dis">Strongly Diagree</p>
-                  <p className="like">Very Likely</p>
-                </div>
-              </div>
-
-              <div className="button-cont">
-                <button className="cancel" onClick={() => {
-                  setShowFeedbackSection(false);
-                }}>
-                  <p>Cancel</p>
-                </button>
-                <button type="button" className="submit" onClick={() => {
-                  console.log("clicked")
-                  setQuesNoFeed(2)
-                }}
-                  style={{
-                    background: bgColors[`${theme}-primary-bg-color-0`],
-                    border: 'none'
-                  }}>
-                  <p>Next</p>
-                </button>
-              </div>
-            </div>
-              :
-              <div className="dashboard-feedback-section-ques-cont-two"
-                style={{ backgroundColor: bgColors[`${theme}-primary-bg-color-3`] }}
-              >
-
-
-                <div className="quest-head" >
-                  <p style={{ color: bgColors[`${theme}-color-premitive-grey-5`] }}>To what extent do you agree with the following statement</p>
-                </div>
-
-                <div className="two-feed-text">
-                  <p className="first">Tell us how we can improve </p>
-                  <textarea name="" id="" cols="30" rows="5" style={{
-                    backgroundColor: 'transparent',
-                    color: bgColors[`${theme}-color-premitive-grey-5`]
-                  }}></textarea>
-                  <p className="second">0/120 characters</p>
-                </div>
-
-
-                <div className="button-cont">
-                  <button className="cancel" onClick={() => {
-                    console.log("clicked")
-                    setQuesNoFeed(1)
-                  }}
-                    style={{
-                      background: bgColors[`${theme}-secondary-bg-color-0`],
-                      border: 'none'
-                    }}
-                  >
-                    <p>Cancel</p>
-                  </button>
-                  <button type="submit" className="submit" onClick={() => {
-                    console.log("clicked")
-                    setQuesNoFeed(2)
-                  }}
-                    style={{
-                      background: bgColors[`${theme}-primary-bg-color-0`],
-                      border: 'none'
-                    }}>
-                    <p>Submit</p>
-                  </button>
-                </div>
-              </div>
-          }
-
-
-
-
-
-
-
-
-          {/* footer  */}
-          <div className="dashboard-feedback-section-footer"
-
-            style={{ backgroundColor: bgColors[`${theme}-primary-bg-color-3`] }}
-          >
-            <p>
-              Powered by Quest Labs
-            </p>
-            {questIcon()}
-          </div>
-
-        </div> : ""
-      }
-
-
-
-
     </div>
   );
 }

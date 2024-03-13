@@ -68,7 +68,7 @@ export default function Dashboard() {
                 </div>
             </div>
 
-            <div className="dashboard-search-section">
+            {/* <div className="dashboard-search-section">
                 <div className="search-cont">
                     <input type="text" placeholder="Search here" style={{ backgroundColor: bgColors[`${theme}-primary-bg-color-3`] }} />
                     <button >
@@ -78,13 +78,22 @@ export default function Dashboard() {
                 <button style={{ background: bgColors[`${theme}-primary-bg-color-0`] }}>
                     <p>Search</p>
                 </button>
-            </div>
+            </div> */}
+            <div className="dashboard-main-section">
+                <div className="flex gap-[63px] items-center w-full">
+                    <div className="h-14 flex border border-[#EFEFEF] rounded-[10px] w-full">
+                        <div className="flex items-center h-full mx-5">
+                            {searchIcon()}
+                        </div>
+                        <input type="text" placeholder="Search here ..." className="border-none outline-none h-full w-full bg-transparent"/>
+                    </div>
+                    <button className="h-14 w-[134px] text-lg rounded-[5px]" style={{ background: bgColors[`${theme}-primary-bg-color-0`], color: "#eaebed" }}>Search</button>
+                </div>
 
-            <div className="get-started-div">
                 <GetStarted
                     questId={appConfig?.QUEST_GET_STARTED_CAMPAIGN_ID}
-                    userId={generalFunction.getUserId()}
-                    token={generalFunction.getUserToken()}
+                    userId={generalFunction.getDataFromCookies("questUserId")}
+                    token={generalFunction.getDataFromCookies("questUserToken")}
                     completeAllStatus={completeAllStatus}
                     buttonBg="linear-gradient(90deg, rgba(105,92,254,1) 0%, rgba(0,210,234,1) 50%, rgba(105,92,254,1) 100%)"
                     // cardBG={}
@@ -114,6 +123,7 @@ export default function Dashboard() {
                     showFooter={false}
                 />
             </div>
+
         </div>
     );
 }
