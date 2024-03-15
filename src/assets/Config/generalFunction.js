@@ -92,7 +92,7 @@ export const generalFunction = {
                     initialQuality: 1 - (generalFunction.count * 0.05),
                 });
                 generalFunction.count++
-          
+
                 // Call the uploadImageToBackend function recursively with the compressed image
                 return await generalFunction.uploadImageToBackend(compressedImage);
             } catch (error) {
@@ -120,11 +120,11 @@ export const generalFunction = {
     fetchCommunities: async (userId) => {
         let request = generalFunction.createUrl(`api/users/${userId}/admin-entities`);
         try {
-            const response = await axios.get(request.url, { headers: {...request.headers, apikey: mainConfig.API_KEY} });
+            const response = await axios.get(request.url, { headers: { ...request.headers, apikey: mainConfig.API_KEY } });
             if (response.data.success === false) {
                 return response.data
             }
-        
+
             if (response.data.success === true) {
                 if (response.data.data.length == 0) {
                     return response.data;

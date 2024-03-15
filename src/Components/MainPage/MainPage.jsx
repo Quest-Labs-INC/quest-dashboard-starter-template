@@ -35,14 +35,17 @@ function MainPage() {
 
     const { appConfig, setAppConfig, contentConfig, setContentConfig } = useContext(ThemeContext)
 
-
-
-
     const inputFileChangeHandler = (event) => {
+        console.log(event.target.files[0])
+        console.log(URL.createObjectURL(event.target.files[0]));
+        console.log(imageUrl)
+        console.log(customImage)
         if (event.target.files[0]) {
             setSelectedFile(event.target.files[0]);
             setImageUrl(URL.createObjectURL(event.target.files[0]));
         }
+        console.log(imageUrl)
+        console.log(customImage)
     };
 
     useEffect(() => {
@@ -72,7 +75,9 @@ function MainPage() {
             generalFunction.showLoader();
             let apiKeyRequest = generalFunction.createUrl(`api/entities/${generalFunction.getDataFromCookies("adminCommunityId")}/keys?userId=${generalFunction.getDataFromCookies("questUserId")}`);
             let apiKeyResponse = await axios.get(apiKeyRequest.url, { headers: apiKeyRequest.headers })
+            console.log(apiKeyResponse)
             const data = apiKeyResponse.data;
+            console.log(data)
             if (data.success == false) {
                 let errMsg = data.error ? data.error : "Unable to Get Developer Details"
                 toast.error("Error Occurred" + "\n" + errMsg);
@@ -83,8 +88,9 @@ function MainPage() {
             let response = await axios(request.url, {
                 headers: { ...request.headers, apikey: data?.data?.key },
             })
+            console.log(response)
             generalFunction.hideLoader()
-            setName(response?.data?.data?.name);
+            // setName(response?.data?.data?.name);
             setImageUrl(response?.data?.data?.imageUrl);
             let apiData = response.data;
             setEntityDetails(apiData)
@@ -133,7 +139,13 @@ function MainPage() {
 
         try {
             generalFunction.showLoader();
-            let request = generalFunction.createUrl(`api/entities/${adminEntity || generalFunction.getDataFromCookies("adminCommunityId")}/quests/generate-saas?userId=${generalFunction.getDataFromCookies("questUserId")}`)
+            let request = generalFunction.createUrl(`api/entities/${adminEntity || generalFunction.getDataFromCookies("adminCommunityId")}/quests/generate-saas?userId=${generalFunction.getDataFromCookies("questUserId")}`);
+
+            console.log("name", name)
+            console.log("description", description)
+            console.log("customImage", customImage)
+            console.log("colorConfig", bg)
+
             let response = await axios.post(request.url, {
                 entityName: name,
                 entityDetails: description,
@@ -212,7 +224,10 @@ function MainPage() {
         }
     }, [])
 
-
+    useEffect(() => {
+        console.log("ima", imageUrl);
+        console.log("cus", customImage);
+    }, [imageUrl, customImage]);
     return (
         <QuestProvider
             apiKey={mainConfig?.API_KEY}
@@ -229,14 +244,25 @@ function MainPage() {
                     <LoginPopUp loginComplete={(e, j) => fetchUser(e, j)} setLoginPopup={() => setLoginPopup(false)} />
                 </div>
 
-                {onboardingPopup && <OnboardingPopUp isAdmin={isAdmin} setOnboardingPopup={() => setOnboardingPopup(false)} setAdminEntity={(id) => setAdminEntity(id)} />}
-                {changeEntityPopup && <ChangeEntityPopup setChangeEntityPopup={() => setChangeEntityPopup(false)} setAdminEntity={(id) => setAdminEntity(id)} />}
+                {
+                    onboardingPopup && <OnboardingPopUp isAdmin={isAdmin} setOnboardingPopup={() => setOnboardingPopup(false)} setAdminEntity={(id) => setAdminEntity(id)} />
+                }
+                {/* complteed til here  */}
+
+
+                {
+                    changeEntityPopup && <ChangeEntityPopup setChangeEntityPopup={() => setChangeEntityPopup(false)} setAdminEntity={(id) => setAdminEntity(id)} />
+                }
+                
                 {successPopup && <SuccessPopup setSuccessPopup={setSuccessPopup} />}
+
 
                 <div className='create-page-header'>
                     {/* <div className='create-page-header-cont px-28 py-5 flex items-center justify-between'> */}
                     <div className='create-page-header-cont'>
+                        {/* header imgae */}
                         <img src={importConfig.brandLogo} className='w-20' alt="" />
+                        {/* header login  */}
                         {
                             generalFunction.getDataFromCookies("questUserId") ?
                                 <div className='flex items-center gap-4'>
@@ -269,120 +295,148 @@ function MainPage() {
                 </div>
 
                 {/* <div className='text-input-cont mt-32 '> */}
-                <div className='text-input-cont '>
+                <div className='create-page-text-input'>
+                    <div className='text-input-cont'>
 
-                    {/* text  */}
-                    {/* <div className="create-sass-temp-text w-full max-w-[820px] m-auto"> */}
-                    <div className="create-sass-temp-text ">
-                        <div className="create-saas-temp left-[190px] top-0 text-center">
-                            {/* <span className="gradient-Text text-5xl font-semibold font-['Figtree'] leading-[60px]">Create your Saas</span><span className="text-[#2C2C2C] text-5xl font-semibold font-['Figtree'] leading-[60px]"> App</span> */}
-                            <div>Create Saas</div>
-                            <p> Template</p>
+                        {/* <div className="create-sass-temp-text w-full max-w-[820px] m-auto"> */}
+                        {/* text  */}
+                        <div className="create-sass-temp-text ">
+                            {/* <div className="create-saas-temp left-[190px] top-0 text-center"> */}
+                            <div className="create-saas-temp">
+                                {/* <span className="gradient-Text text-5xl font-semibold font-['Figtree'] leading-[60px]">Create your Saas</span><span className="text-[#2C2C2C] text-5xl font-semibold font-['Figtree'] leading-[60px]"> App</span> */}
+                                <div>Create Saas</div>
+                                <p> Template</p>
+                            </div>
+
+
+                            <div className="description w-[820px] left-0 top-[72px] text-center text-[#545454] text-2xl font-normal font-['Figtree'] leading-9">Streamline Operations, Enhance Customer Experience, and Drive Growth with AI-driven Software as a Service</div>
                         </div>
 
-
-                        <div className="description w-[820px] left-0 top-[72px] text-center text-[#545454] text-2xl font-normal font-['Figtree'] leading-9 mt-3">Just fill information about your company and we will generate the entire dashboard for you</div>
-                    </div>
-
-                    {/* input section  */}
-                    <section className='w-full max-w-[644px] m-auto mt-6 px-6 py-8 rounded-xl border border-[#ECECEC]'>
-                        <div
-                            className="w-24 h-24 flex items-center justify-center rounded-full bg-[#F4EBFF] m-auto relative"
-                        >
-                            {(imageUrl || customImage) && (
-                                <img
-                                    style={{
-                                        objectFit: "cover",
-                                        height: "100%",
-                                        width: "100%",
-                                        borderRadius: "100%"
-                                    }}
-                                    src={imageUrl || customImage}
-                                    alt=""
-                                />
-                            )}
+                        {/* input section  */}
+                        {/* <section className='create-saas-page-input w-full max-w-[644px] m-auto px-6 py-8 rounded-xl border border-[#ECECEC] gap-[32px]'> */}
+                        <section className='create-saas-page-input w-full m-auto px-6 py-8 rounded-xl border border-[#ECECEC] gap-[32px]'>
                             <div
-                                className={`q-input-container ${imageUrl ? "opacity-0" : "opacity-100"}`}
+                                className="w-24 h-24 flex items-center justify-center rounded-full bg-[#F4EBFF] m-auto relative"
                             >
-                                <label className="cursor-pointer" htmlFor='profile-img'>
-                                    <img
-                                        className="w-10 absolute top-7 left-7"
-                                        src={importConfig.main.upload}
-                                        alt=""
+                                {
+                                    (imageUrl || customImage) && (
+                                        <img
+                                            style={{
+                                                objectFit: "cover",
+                                                height: "100%",
+                                                width: "100%",
+                                                borderRadius: "100%"
+                                            }}
+                                            src={imageUrl || customImage}
+                                            // src={imageUrl}
+                                            alt=""
+                                        />
+                                    )
+                                }
+                                <div
+                                    className={`q-input-container ${(imageUrl || customImage) ? "opacity-0" : "opacity-100"}`}
+                                >
+                                    <label className="cursor-pointer" htmlFor='profile-img'>
+                                        <img
+                                            className="w-10 absolute top-7 left-7"
+                                            src={importConfig.main.upload}
+                                            alt=""
+                                        />
+                                    </label>
+                                    <input
+                                        onChange={inputFileChangeHandler}
+                                        id="profile-img"
+                                        type="file"
+                                        accept="image/*"
+                                        className='hidden'
                                     />
-                                </label>
-                                <input
-                                    onChange={inputFileChangeHandler}
-                                    id="profile-img"
-                                    type="file"
-                                    accept="image/*"
-                                    className='hidden'
-                                />
-                            </div>
-                        </div>
-                        <form action="" className='mt-8'>
-                            <div>
-                                <p className="text-neutral-600 text-xs font-medium font-['Figtree'] leading-none">
-                                    {" "}
-                                    Enter Organization Name*{" "}
-                                </p>
-                                <input
-                                    className="px-4 py-2.5 border border-[#ECECEC] rounded-[10px] mt-1.5 w-full"
-                                    onChange={(e) => setName(e.target.value)}
-                                    value={name}
-                                    placeholder="eg. Quest Labs"
-                                    type="text"
-                                    name="name"
-                                    required="required"
-                                />
+                                </div>
                             </div>
 
-                            <div className="mt-8">
-                                <p className="text-neutral-600 text-xs font-medium font-['Figtree'] leading-none">
-                                    {" "}
-                                    Enter Organization Description*{" "}
-                                </p>
-                                <textarea
-                                    className="px-4 py-2.5 rounded-[10px] mt-1.5 w-full min-h-[64px]"
-                                    style={{ resize: "vertical", border: "1px solid #ECECEC" }}
-                                    onChange={(e) => setDescription(e.target.value)}
-                                    value={description}
-                                    placeholder="eg. Write your description here..."
-                                    type="text"
-                                    name="description"
-                                    required="required"
-                                />
-                            </div>
-                        </form>
-                        <div className='mt-8'>
-                            <p className="text-neutral-600 text-xs font-medium font-['Figtree'] leading-none">Choose Theme*</p>
-                            <div className="flex gap-4 mt-1.5">
-                                {gradientCSS.map((gradient, index) => (
-                                    <div
-                                        key={index}
-                                        style={{ background: `${gradient}`, borderRadius: "5px", border: selectedBox === index ? "3px solid var(--color-premitive-grey-5)" : "none" }}
-                                        className="w-10 h-10"
-                                        onClick={() => {
-                                            setBg(`${gradient}`);
-                                            setSelectedBox(index);
-                                        }}
-                                    ></div>
-                                ))}
-                            </div>
-                        </div>
-                        <button className="mt-8 w-full px-4 py-2.5 bg-[radial-gradient(3361.38%_131.94%_at_0%_100%,_#6200EE_0%,_#1F3EFE_100%)] rounded-[10px] text-white text-sm font-semibold font-['Figtree']" onClick={() => createTemplate()}>
-                            {entityDetails?.saasDashboard ? "Update AI Template" : "Create AI Template"}
-                        </button>
-                    </section>
+                            {/* <form action="" className='create-saas-page-form mt-8'> */}
+                            <form action="" className='create-saas-page-form'>
+                                {/* for organiztion */}
+                                <div>
+                                    {/* <p className="text-neutral-600 text-xs font-medium font-['Figtree'] leading-none"> */}
+                                    <p className="">
+                                        {" "}
+                                        Enter Organization Name*{" "}
+                                    </p>
+                                    <input
+                                        // className="px-4 py-2.5 border border-[#ECECEC] rounded-[10px] mt-1.5 w-full"
+                                        className=""
+                                        onChange={(e) => setName(e.target.value)}
+                                        value={name}
+                                        placeholder="eg. Quest Labs"
+                                        type="text"
+                                        name="name"
+                                        required="required"
+                                        
+                                    />
+                                </div>
 
+                                {/* for descrtion */}
+                                {/* <div className="mt-8"> */}
+                                <div className="">
+                                    {/* <p className="text-neutral-600 text-xs font-medium font-['Figtree'] leading-none"> */}
+                                    <p className="">
+                                        {" "}
+                                        Enter Organization Description*{" "}
+                                    </p>
+                                    <textarea
+                                        // className="px-4 py-2.5 rounded-[10px] mt-1.5 w-full min-h-[64px]"
+                                        className=""
+                                        style={{ resize: "vertical", border: "1px solid #ECECEC" }}
+                                        onChange={(e) => setDescription(e.target.value)}
+                                        value={description}
+                                        placeholder="eg. Write your description here..."
+                                        type="text"
+                                        name="description"
+                                        required="required"
+                                        rows={5}
+                                    />
+                                    <p className='char-count-para'>0/120 characters</p>
+                                </div>
+                            </form>
 
+                            {/* <div className='mt-8'> */}
+                            <div className='theme-colors-cont'>
+                                {/* <p className="text-neutral-600 text-xs font-medium font-['Figtree'] leading-none">Choose Theme*</p> */}
+                                <p className="">Choose Theme</p>
+
+                                <div className="flex gap-4 mt-1.5">
+                                    {gradientCSS.map((gradient, index) => (
+                                        <div
+                                            key={index}
+                                            style={{
+                                                background: `${gradient}`, borderRadius: "5px",
+                                                border: selectedBox === index ? "3px solid var(--color-premitive-grey-5)" : "none",
+                                                cursor: 'pointer'
+                                            }}
+                                            // className="w-10 h-10"
+                                            className="theme-color-box"
+                                            onClick={() => {
+                                                setBg(`${gradient}`);
+                                                setSelectedBox(index);
+                                            }}
+                                        ></div>
+                                    ))}
+                                </div>
+                            </div>
+
+                            {/* <button className="mt-8 w-full px-4 py-2.5 bg-[radial-gradient(3361.38%_131.94%_at_0%_100%,_#6200EE_0%,_#1F3EFE_100%)] rounded-[10px] text-white text-sm font-semibold font-['Figtree']" onClick={() => createTemplate()}> */}
+                            <button className="w-full px-4 py-2.5 bg-[radial-gradient(3361.38%_131.94%_at_0%_100%,_#6200EE_0%,_#1F3EFE_100%)] rounded-[10px] text-white text-sm font-semibold font-['Figtree']" onClick={() => createTemplate()}>
+                                {entityDetails?.saasDashboard ? "Update AI Template" : "Generate"}
+                            </button>
+                        </section>
+
+                    </div>
                 </div>
 
-
                 {/* footer copyright  */}
-                <div>
-                    <div className="px-[120px] py-20 flex-col justify-start items-start gap-[17px] inline-flex w-full">
-
+                <div className='create-page-footer'>
+                    {/* <div className="px-[120px] py-20 flex-col justify-start items-start gap-[17px] inline-flex w-full"> */}
+                    <div>
                         <div className='w-full border-b border-[#4B4B4B]'></div>
 
                         {/* <div className="footer-text-cont justify-between items-start inline-flex w-full"> */}
@@ -396,6 +450,7 @@ function MainPage() {
                                 <div className="text-[#4C4C4C] text-lg font-normal font-['Hanken Grotesk'] leading-7">Privacy Policy</div>
                             </div>
                         </div>
+
                     </div>
                 </div>
 

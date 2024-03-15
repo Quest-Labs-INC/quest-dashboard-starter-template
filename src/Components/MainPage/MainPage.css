@@ -14,6 +14,8 @@
     justify-content: space-between;
     align-items: center;
     width: 100%;
+    /* gap: 500px; */
+
 }
 
 .create-page-header>.create-page-header-cont>button {
@@ -30,15 +32,39 @@
     background: linear-gradient(84deg, #9035FF 0.36%, #0065FF 100.36%);
 }
 
+.create-page-text-input {
+    display: flex;
+    width: 1280px;
+    width: 100%;
+    /* max-width: 1280px; */
+    padding: 120px 230px 80px 230px;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+    /* background-color: yellow; */
+}
+
 .text-input-cont {
     /* background-color: #0065FF; */
-    display: flex;
+    /* display: flex;
     width: 1280px;
     width: 100%;
     padding: 120px 230px 80px 230px;
     flex-direction: column;
     align-items: center;
     gap: 24px;
+
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px; */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+    /* background-color: aquamarine; */
+
 }
 
 .create-saas-temp {
@@ -90,6 +116,15 @@
     letter-spacing: -1.92px;
 }
 
+.create-sass-temp-text {
+    /* background-color: red; */
+    display: flex;
+    flex-direction: column;
+    max-width: 820px;
+    gap: 12px;
+    /* background-color: rebeccapurple; */
+}
+
 .create-sass-temp-text>.description {
     width: 820px;
     width: 100%;
@@ -106,14 +141,114 @@
     letter-spacing: -0.48px;
 }
 
-.footer-text-cont {
+.create-saas-page-input {
     display: flex;
-    width: 1040px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     width: 100%;
-    justify-content: space-between;
-    align-items: flex-start;
+    max-width: 644px;
+    padding: 32px 24px;
+    gap: 32px;
+}
 
-    /* background-color: yellow; */
+.create-saas-page-form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 32px;
+}
+
+.create-saas-page-form>div {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+}
+
+.create-saas-page-form>div>p {
+    align-self: stretch;
+    color: var(--Neutral-Black-300, #4C4C4C);
+
+    /* Body sm/500 */
+    font-family: Figtree;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 16px;
+    /* 133.333% */
+}
+
+.create-saas-page-form>div>input {
+    display: flex;
+    padding: 10px 16px;
+    align-items: center;
+    gap: 8px;
+    align-self: stretch;
+    border-radius: 10px;
+    border: 1px solid var(--Neutral-Grey-100, #ECECEC);
+}
+
+.create-saas-page-form>div>textarea {
+    display: flex;
+    padding: 10px 16px 10px 16px;
+    align-items: center;
+    gap: 8px;
+    align-self: stretch;
+    border-radius: 10px;
+    border: 1px solid var(--Neutral-Grey-100, #ECECEC);
+    /* background-color: green; */
+}
+
+.create-saas-page-form>div>.char-count-para {
+    align-self: stretch;
+    color: var(--Neutral-White-500, #B9B9B9);
+
+    /* Body sm/400 */
+    font-family: Figtree;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 16px;
+    /* 133.333% */
+}
+
+.theme-colors-cont {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+}
+
+.theme-colors-cont>p {
+    align-self: stretch;
+    color: var(--Neutral-Black-300, #4C4C4C);
+
+    /* Body sm/500 */
+    font-family: Figtree;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 16px;
+    /* 133.333% */
+}
+
+.theme-colors-cont>div {
+    width: 100%;
+}
+
+.theme-colors-cont>div>.theme-color-box {
+    /* display: flex; */
+    width: 56px;
+    height: 40px;
+    padding: 10px 16px;
+    gap: 4px;
 }
 
 .footer-text-cont>.copyright-text {
@@ -140,4 +275,129 @@
     font-weight: 400;
     line-height: 28px;
     /* 155.556% */
+}
+
+
+
+.create-page-footer {
+    /* background-color: antiquewhite;
+    display: flex;
+    width: 1280px;
+    width: 100%;
+    padding: 80px 120px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 17px; */
+
+    display: flex;
+    width: 1280px;
+    width: 100%;
+    padding: 80px 120px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 17px;
+}
+
+.create-page-footer>div {
+    /* background-color: #0065FF; */
+    /* padding: 50px; */
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 17px;
+}
+
+.footer-text-cont {
+    display: flex;
+    width: 1040px;
+    width: 100%;
+    justify-content: space-between;
+    align-items: flex-start;
+
+    /* background-color: yellow; */
+}
+
+@media (max-width: 1200px) {
+    .create-page-text-input {
+        display: flex;
+        width: 1280px;
+        width: 100%;
+        /* max-width: 1280px; */
+        /* padding: 120px 230px 80px 230px; */
+        padding: 120px 115px 80px 115px;
+        flex-direction: column;
+        align-items: center;
+        gap: 24px;
+        /* background-color: red; */
+    }
+}
+
+@media (max-width: 950px) {
+    .terns-privacy-cont {
+        display: flex;
+        /* flex-direction: column; */
+    }
+}
+
+@media (max-width: 850px) {
+    .text {
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 670px) {
+    .create-saas-temp>div {
+        white-space: nowrap;
+    }
+}
+
+@media (max-width: 650px) {
+    .footer-text-cont {
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        /* background-color: red; */
+    }
+
+    .footer-text-cont>.copyright-text {
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        /* background-color: red; */
+        text-align: center;
+        white-space: nowrap;
+    }
+
+    .terns-privacy-cont {
+
+        width: 100%;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        /* background-color: red; */
+        gap: 0;
+    }
+
+    .terns-privacy-cont>div {
+        white-space: nowrap;
+    }
+}
+
+@media (max-width: 470px) {
+    .create-page-header>.create-page-header-cont {
+        /* background-color: red; */
+        width: 100%;
+        padding: 0;
+        padding: 20px 60px;
+    }
+
+    .create-page-footer {
+        padding: 80px 60px;
+    }
+
+    .create-saas-temp {
+        /* white-space: nowrap; */
+        flex-direction: column;
+        align-items: center;
+    }
 }

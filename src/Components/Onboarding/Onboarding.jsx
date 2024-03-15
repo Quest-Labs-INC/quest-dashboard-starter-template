@@ -26,8 +26,10 @@ export default function Onboarding() {
     }, [appConfig.QUEST_API_KEY])
 
     return (
-        <div className="w-full flex h-full items-center justify-center m-auto">
-            <div className={`${!loading && "rounded-xl"} w-2/3 onboarding-page`} style={{ boxShadow: loading ? "" : "" }}>
+        // <div className="onboarding-page-div w-full flex h-full items-center justify-center m-auto">
+        <div className="onboarding-page-div ">
+            {/* <div className={`${!loading && "rounded-xl"} w-2/3 onboarding-page`} style={{ boxShadow: loading ? "" : "" }}> */}
+            <div className={`${!loading && "rounded-xl"} onboarding-page`}>
                 {
                     appConfig.QUEST_API_KEY != "" &&
                     <OnBoarding
@@ -46,21 +48,88 @@ export default function Onboarding() {
                         getAnswers={completeAnswer}
                         styleConfig={{
                             Form: {
-                                boxShadow: `0 0 5px ${bgColors[`${theme}-color-premitive-grey-5`]}`,
                                 borderRadius: "10px",
-                                background: "transparent"
+                                overflow: 'hidden',
+                                // backgroundColor: 'red',
+                                // gap: '50px'
+                            },
+                            Topbar: {
+                                // background: 'aquamarine',
+                                padding: "20px 0",
+                                gap: "4px",
+                                border: 'none'
                             },
                             Heading: {
-                                fontSize: "22px"
+                                // fontSize: "22px",
+                                overflow: "hidden",
+                                color: 'var(--Neutral-Black-400, #2C2C2C)',
+                                textAlign: "center",
+                                textOverflow: "ellipsis",
+                                /* Title md/600 */
+                                fontFamily: "Figtree",
+                                fontSize: "20px",
+                                fontStyle: "normal",
+                                fontWeight: "600",
+                                lineHeight: "30px", /* 150% */
+                                letterSpacing: "-0.4px",
+                                display: "-webkit-box",
+                                // -webkit-box-orient: "vertical";
+                                // -webkit-line-clamp: 1;
+                                alignSelf: "stretch",
+                                // background: 'blue'
                             },
                             Description: {
-                                fontSize: "14px"
+                                fontSize: "14px",
+                                color: "var(--Neutral-Black-100, #939393)",
+                                textAlign: "center",
+
+                                /* Body sm/400 */
+                                fontFamily: "Figtree",
+                                fontSize: "12px",
+                                fontStyle: "normal",
+                                fontWeight: "400",
+                                lineHeight: "16px", /* 133.333% */
+                                alignSelf: "stretch",
+                                // backgroundColor: 'red'
                             },
+                            // top here ends 
+
+                            TextArea: {
+                                // backgroundColor:'red'
+                            },
+
+
+                            Label: {
+                                color: "var(--Neutral-Black-300, #4C4C4C)",
+                                fontFamily: "Figtree",
+                                fontSize: "12px",
+                                fontStyle: "normal",
+                                fontWeight: "500",
+                                lineHeight: "16px", /* 133.333% */
+                                // background:'yellow',
+                                // margin: "0"
+                            },
+                            Input: {
+                                // gap: '8px',
+                                alignSelf: "stretch",
+                                borderRadius: "10px",
+                                border: "1px solid var(--Neutral-Grey-100, #ECECEC)",
+                                // background:'red'
+                            },
+                            MultiChoice: {},
+                            PrimaryButton: {},
+                            SecondaryButton: {},
+                            ProgressBar: {},
+
+                            Footer: {
+                                // background: 'red'
+                            }
                         }}
                         showFooter={false}
                     />
                 }
             </div>
+
         </div>
     )
 }

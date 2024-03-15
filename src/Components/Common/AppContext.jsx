@@ -38,7 +38,7 @@ const AppContext = ({ children }) => {
         "dark-primary-border-color": "#455a64",
 
         "light-color-premitive-grey-0": "#afafaf",
-        "light-color-premitive-grey-5": "#2e425c",
+        // "light-color-premitive-grey-5": "#2e425c",
 
         "light-primary-bg-color-0": localStorage.getItem("themeColor") || "#7B68EE", // login page left side
         "light-primary-bg-color-1": "#ffffff", // login page right side #edf3ff
@@ -48,9 +48,27 @@ const AppContext = ({ children }) => {
 
         "light-primary-tile-color-0": "#d7f1f",
         "light-primary-tile-color": "#9a7ada",
+
+
+
+        //my new colors
+        // "light-color-premitive-grey-5": "#2e425c",
+        "light-color-premitive-grey-5": "var(--Neutral-Black-400, #2C2C2C)",
+
+        "light-color-premitive-grey-6": "var(--Neutral-Black-400, #4C4C4C)",
+        "dark-color-premitive-grey-6": "var(--Neutral-Black-400, #ffffff)",
+
+        // backgroundColor: ,
+
+        // "dark-primary-bg-color-7": 'var(--Neutral-White-200, #FBFBFB)',
+        "light-primary-bg-color-7": 'var(--Neutral-White-200, #FBFBFB)',
+        "dark-primary-bg-color-7": '#1c1a27',
+        // "dark-primary-bg-color-3": "",
+
     });
     const [theme, setTheme] = useState('dark');
     const [checked, setChecked] = useState(false);
+
     useEffect(() => {
         const getTheme = () => {
 
@@ -59,12 +77,12 @@ const AppContext = ({ children }) => {
             if (theme && theme == "dark") {
                 setTheme('dark');
                 localStorage.setItem("theme", "dark");
-                console.log("theme is", theme);
+                // console.log("theme is", theme);
                 setChecked(false)
             } else {
                 setTheme('light');
                 localStorage.setItem("theme", "light");
-                console.log("theme is", theme);
+                // console.log("theme is", theme);
                 setChecked(true);
             }
         }
@@ -95,7 +113,7 @@ const AppContext = ({ children }) => {
                     .then((res) => res.json())
                     .then((data) => {
                         let apiData = data.data;
-
+                        console.log("99 data", data)
                         setContentConfig({
                             ...contentConfig,
                             login: {
