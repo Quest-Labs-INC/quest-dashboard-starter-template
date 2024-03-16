@@ -6,6 +6,12 @@ import { importConfig } from "../../assets/Config/importConfig";
 import { ThemeContext } from "../Common/appContext";
 import { deleteIcon, searchIcon } from "../Common/SideBarSvg";
 import './ReferralPage.css'
+import ReferFriend from './Images/ReferFriend.svg'
+import Email from './Images/Email.svg'
+import Line from './Images/Line.svg'
+import Copy from './Images/Copy.svg'
+import Facebook from './Images/Facebook.svg'
+import X from './Images/x.svg'
 // export default function Settings() {
 //     const [userData, setUserData] = useState({
 //         name: "",
@@ -106,6 +112,7 @@ export default function ReferralPage() {
     const handleSectionChange = (sectionName) => {
         setSection(sectionName);
     }
+
     const [adminData, setAdminData] = useState([
         {
             name: "Rich",
@@ -163,6 +170,43 @@ export default function ReferralPage() {
         },
     ]);
 
+    const [referralHistory, setReferralHistory] = useState([
+        {
+            user: "Rich Explorer",
+            email: "jessica.hanson@exmaple.com",
+            role: "Product manager",
+            status: "Active",
+            earning: 2000
+        },
+        {
+            user: "Rich Explorer",
+            email: "jessica.hanson@exmaple.com",
+            role: "Product manager",
+            status: "Active",
+            earning: 2000
+        },
+        {
+            user: "Rich Explorer",
+            email: "jessica.hanson@exmaple.com",
+            role: "Product manager",
+            status: "Active",
+            earning: 2000
+        },
+        {
+            user: "Rich ",
+            email: "jessica.hanson@exmaple.com",
+            role: "Product manager",
+            status: "Active",
+            earning: 2000
+        },
+        {
+            user: "Rich Explorer",
+            email: "jessica.hansonasdf@exmaple.com",
+            role: "Product manager",
+            status: "Active",
+            earning: 0
+        },
+    ]);
 
 
     useEffect(() => {
@@ -186,7 +230,120 @@ export default function ReferralPage() {
 
     return (
         <div className="referral-page">
-            <div className="referral-page-manage-admin" style={{ backgroundColor: bgColors[`${theme}-primary-bg-color-3`] }}>
+
+            {/* refer frineds heading */}
+            <div className="referral-page-header" style={{ backgroundColor: bgColors[`${theme}-primary-bg-color-3`] }}>
+                <p style={{
+                    color: bgColors[`${theme}-color-premitive-grey-5`],
+                    // transition: '0.4s'
+                }}>Refer Friends</p>
+            </div>
+
+
+            {/* upper dvi for 100% width  */}
+            <div className="referral-page-refer-detail-cont">
+                <div>
+
+                    <div className="refer-image-cont">
+                        <div>
+                            Refer a friend
+                            & get 10 % When they got hired
+                        </div>
+                        <img src={ReferFriend} alt="" />
+                    </div>
+
+                    <div className="send-invi">
+                        <p>Send Invitations</p>
+                    </div>
+
+                    <div className="send-email">
+                        <div className="input-div">
+                            <input type="text" placeholder="Type Email address here" />
+                            <img src={Email} alt="" />
+                        </div>
+
+                        <button><p>Send</p></button>
+                    </div>
+
+                    <div className="or-cont">
+                        <img src={Line} alt="" />
+                        {/* <div></div> */}
+                        <p>OR</p>
+                        <img src={Line} alt="" />
+                    </div>
+
+
+                    <div className="share-buttons">
+                        <button>
+                            <p>Copy invitation link</p>
+                            <img src={Copy} alt="" />
+                        </button>
+
+                        <button>
+                            <p>Share on facebook</p>
+                            <img src={Facebook} alt="" />
+                        </button>
+                        <button>
+                            <p>Share on twitter</p>
+                            <img src={X} alt="" />
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+
+            {/* upper dvi for 100% width  */}
+            <div className="referral-page-referral-history">
+
+                <div>
+
+                    <div className="referral-history-user-head-row">
+                        <div className="sr">
+                            <p>Sr</p>
+                        </div>
+                        <div className="user" >
+                            <p>User</p>
+                        </div>
+                        <div className="email">
+                            <p>Email Address</p>
+                        </div>
+                        <div className="role">
+                            <p>Role</p>
+                        </div>
+                        <div className="status">
+                            <p>Status</p>
+                        </div>
+                        <div className="earning">
+                            <p>Earning</p>
+                        </div>
+                    </div>
+
+                    <div className="referral-history-user-head-row-data">
+                        <div className="sr">
+                            <p>1</p>
+                        </div>
+                        <div className="user" >
+                            <p>Rich Exploreer</p>
+                        </div>
+                        <div className="email">
+                            <p>EmailAddressadfsa@example.com</p>
+                        </div>
+                        <div className="role">
+                            <p>Software Engineer</p>
+                        </div>
+                        <div className="status">
+                            <p>Pending</p>
+                        </div>
+                        <div className="earning">
+                            <p>100000</p>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+            {/* <div className="referral-page-manage-admin" style={{ backgroundColor: bgColors[`${theme}-primary-bg-color-3`] }}>
 
                 <div className="referral-sr-user-head-row" style={{ backgroundColor: bgColors[`${theme}-primary-bg-color-3`] }}>
                     <div className="sr">
@@ -204,10 +361,6 @@ export default function ReferralPage() {
                     <div className="status">
                         <p style={{ color: bgColors[`${theme}-color-premitive-grey-4`] }}>Status</p>
                     </div>
-                    {/* <div className="action">
-                        <p style={{ color: bgColors[`${theme}-color-premitive-grey-4`] }}>Actions</p>
-                    </div> */}
-                    {/* </div> */}
                 </div>
 
                 {
@@ -219,7 +372,6 @@ export default function ReferralPage() {
                                     <p style={{ color: bgColors[`${theme}-color-premitive-grey-5`] }}>{index + 1}</p>
                                 </div>
                                 <div className="user" >
-                                    {/* <img src="" alt="" /> */}
                                     <img src={user.imageUrl} alt="" />
                                     <p style={{ color: bgColors[`${theme}-color-premitive-grey-5`] }}>{user.name}</p>
                                 </div>
@@ -232,17 +384,13 @@ export default function ReferralPage() {
                                 <div className="status">
                                     <p style={{ color: bgColors[`${theme}-color-premitive-grey-5`] }}>{user.isActive === true ? "Active" : "Pending"}</p>
                                 </div>
-                                {/* <div className="actions">
-                                    <button style={{ color: bgColors[`${theme}-color-premitive-grey-5`] }}>{deleteIcon()}</button>
-                                </div> */}
-                                {/* </div> */}
                             </div>
                         )
                     })
                 }
 
 
-            </div>
+            </div> */}
         </div>
     )
 

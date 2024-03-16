@@ -9,10 +9,13 @@
     justify-content: center;
     align-items: center;
     /* padding: 136px 0; */
+    /* background-color: yellow; */
+    
 }
 
 .onboarding-page {
     margin: 0 auto;
     max-width: 376px;
     /* background-color: yellow; */
+    /* padding: 136px 0; */
 }

@@ -109,7 +109,7 @@ export default function Onboarding() {
                                 fontSize: "12px",
                                 fontStyle: "normal",
                                 fontWeight: "500",
-                                lineHeight: "16px", 
+                                lineHeight: "16px",
                             },
                             Input: {
                                 alignSelf: "stretch",

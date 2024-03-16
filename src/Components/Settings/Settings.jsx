@@ -8,6 +8,8 @@ import axios from "axios";
 import { uploadImageToBackend } from "../../utils/UploadImage";
 import { generalFunction } from "../../assets/Config/GeneralFunction";
 import { mainConfig } from "../../assets/Config/appConfig";
+import EditProfile from "./EditProfile";
+import AdminComponent from "./AdminComponent";
 
 // export default function Settings() {
 //     const [userData, setUserData] = useState({
@@ -180,32 +182,32 @@ export default function Settings() {
         }
     };
 
-    useEffect(() => {
-        // generalFunction.showLoader();
-        const uploadFile = async () => {
-            const { data } = await uploadImageToBackend(selectedFile);
-            setImageUrl(data.imageUrl);
-            generalFunction.hideLoader();
-        }
-        uploadFile();
-    }, [selectedFile])
+    // useEffect(() => {
+    //     // generalFunction.showLoader();
+    //     const uploadFile = async () => {
+    //         const { data } = await uploadImageToBackend(selectedFile);
+    //         setImageUrl(data.imageUrl);
+    //         generalFunction.hideLoader();
+    //     }
+    //     uploadFile();
+    // }, [selectedFile])
 
 
-    const updateProfile = () => {
-        // generalFunction.showLoader();
-        const updateProfileFunc = async () => {
-            const data = await axios.post(`${mainConfig.BACKEND_URL}api/users/${headers.userid}`, {
-                name: name,
-                about: about,
-                role: jobTitle,
-                imageUrl: imageUrl
-            }, {
-                headers: headers
-            });
-            generalFunction.hideLoader()
-        }
-        updateProfileFunc();
-    }
+    // const updateProfile = () => {
+    //     // generalFunction.showLoader();
+    //     const updateProfileFunc = async () => {
+    //         const data = await axios.post(`${mainConfig.BACKEND_URL}api/users/${headers.userid}`, {
+    //             name: name,
+    //             about: about,
+    //             role: jobTitle,
+    //             imageUrl: imageUrl
+    //         }, {
+    //             headers: headers
+    //         });
+    //         generalFunction.hideLoader()
+    //     }
+    //     updateProfileFunc();
+    // }
 
     return (
         <div className="settings-page">
@@ -219,7 +221,6 @@ export default function Settings() {
 
             {/* for buttons  */}
             <div className="settings-page-edit-btns-div">
-
                 <div className="settings-page-edit-btns">
                     <button className={`${section === 'edit' ? "selected" : "not-selected"}`} onClick={() => handleSectionChange('edit')}>
                         <p style={{ color: bgColors[`${section === 'manage' ? theme : ''}-color-premitive-grey-5`] }}>Edit Profile</p>
@@ -230,233 +231,13 @@ export default function Settings() {
                         </p>
                     </button>
                 </div>
+            </div>
 
 
+            <div className="edit-admin">
                 {
-                    section === 'edit' ?
-                        <div className="settings-page-edit-profile-div">
-                            <div className="settings-page-edit-profile">
-
-                                {/* profile img  */}
-                                {/* <div className="edit-profile-img">
-                                    <img src={deleteIcon} alt="" />
-                                    <input onChange={inputFileChangeHandler} id="profile-img" type="file" accept="image/*" />
-                                    <input id="cover-img" type="file" accept="image/*" />
-                                </div> */}
-
-
-                                <div
-                                    className="w-[100px] h-[100px] flex items-center justify-center rounded-full bg-[#F4EBFF] m-auto relative"
-                                >
-                                    {(imageUrl || customImage) && (
-                                        <img
-                                            style={{
-                                                objectFit: "cover",
-                                                height: "100%",
-                                                width: "100%",
-                                                borderRadius: "100%"
-                                            }}
-                                            src={imageUrl || customImage}
-                                            alt=""
-                                        />
-                                    )}
-                                    <div
-                                        className={`q-input-container ${imageUrl ? "opacity-0" : "opacity-100"}`}
-                                    >
-                                        <label className="cursor-pointer" htmlFor='profile-img'>
-                                            <img
-                                                className="w-10 absolute top-7 left-7"
-                                                src={importConfig.main.upload}
-                                                alt=""
-                                            />
-                                        </label>
-                                        <input
-                                            onChange={inputFileChangeHandler}
-                                            id="profile-img"
-                                            type="file"
-                                            accept="image/*"
-                                            className='hidden'
-                                        />
-                                    </div>
-                                </div>
-
-
-                                {/* for name title  */}
-                                <div className="edit-name-job-title">
-                                    <div className="name">
-                                        <p>Enter  Name*</p>
-                                        <input type="text" placeholder="Enter name" required style={{
-                                            backgroundColor: bgColors[`${theme}-primary-bg-color-3`],
-                                            color: bgColors[`${theme}-color-premitive-grey-5`]
-                                        }}
-
-                                            value={name} onChange={(e) => {
-                                                // console.log("name is", e.target.value)
-                                                setName(e.target.value);
-                                            }} />
-                                    </div>
-                                    <div className="name">
-                                        <p>Enter Job Title*</p>
-                                        <input type="text" required placeholder="Product Manager name" style={{
-                                            backgroundColor: bgColors[`${theme}-primary-bg-color-3`],
-                                            color: bgColors[`${theme}-color-premitive-grey-5`]
-                                        }}
-                                            value={jobTitle} onChange={(e) => {
-                                                console.log("job is", e.target.value)
-                                                setJobTitle(e.target.value);
-                                            }}
-                                        />
-                                    </div>
-                                </div>
-
-                                {/* email no  */}
-                                {/* <div className="edit-name-job-title">
-                                    <div className="name">
-                                        <p>Enter  Email*</p>
-                                        <input type="email" required placeholder="Enter email" style={{
-                                            backgroundColor: bgColors[`${theme}-primary-bg-color-3`],
-                                            color: bgColors[`${theme}-color-premitive-grey-5`]
-                                        }} />
-                                    </div>
-                                    <div className="name">
-                                        <p>Enter Contact No*</p>
-                                        <input type="number" required placeholder="Contact No" style={{
-                                            backgroundColor: bgColors[`${theme}-primary-bg-color-3`],
-                                            color: bgColors[`${theme}-color-premitive-grey-5`]
-                                        }} />
-                                    </div>
-                                </div> */}
-
-                                {/* descrpt  */}
-                                <div className="edit-description">
-                                    <p className="desc-label">
-                                        Enter Your Description*
-                                    </p>
-
-                                    <div>
-                                        <textarea name="" id="" cols="30" rows="6" style={{
-                                            backgroundColor: bgColors[`${theme}-primary-bg-color-3`],
-                                            color: bgColors[`${theme}-color-premitive-grey-5`]
-                                        }}
-
-                                            value={about} onChange={(e) => {
-                                                // console.log("desc is", e.target.value)
-                                                setAbout(e.target.value);
-                                            }} ></textarea>
-                                    </div>
-
-                                    <p className="words-limit">
-                                        0/120 Characters
-                                    </p>
-                                </div>
-
-                                {/* btn  */}
-                                <button style={{ background: bgColors[`${theme}-primary-bg-color-0`] }} onClick={updateProfile}>
-                                    <p>Update</p>
-                                </button>
-                            </div>
-                        </div>
-                        :
-                        <div className="settings-page-search-admin-section-div">
-                            <div className="settings-page-search-section-div">
-
-                                <div className="h-14 flex border border-[#EFEFEF] rounded-[10px] w-full">
-                                    <div className="flex items-center h-full mx-5">
-                                        {searchIcon()}
-                                    </div>
-                                    <input type="text" color="white" placeholder="Search here ..." className="border-none outline-none h-full w-full bg-transparent"
-                                        style={{
-                                            backgroundColor: 'transparent',
-                                            color: bgColors[`${theme}-color-premitive-grey-5`]
-                                        }}
-                                        onChange={(e) => {
-                                            // console.log(e.target.value)
-                                            setSearch(e.target.value)
-                                        }} />
-                                </div>
-                                <button className="h-14  text-lg rounded-[5px] pt-[0px] pb-0 pl-[40px] pr-[40px]" style={{ background: bgColors[`${theme}-primary-bg-color-0`], color: "#eaebed", whiteSpace: "nowrap" }}>Search</button>
-
-                            </div>
-
-                            <div className="settings-page-admin-secton-div">
-
-                                <div className="settings-page-admin-cont-div">
-
-                                    {/* for admins */}
-                                    <div className="settings-page-manage-admin-div">
-                                        <div className="settings-page-manage-admin">
-
-                                            {/* row heading */}
-                                            <div className="sr-user-head-row">
-                                                <div className="sr">
-                                                    <p style={{ color: bgColors[`${theme}-color-premitive-grey-4`] }}>Sr</p>
-                                                </div>
-                                                <div className="user" >
-                                                    <p style={{ color: bgColors[`${theme}-color-premitive-grey-4`] }}>User</p>
-                                                </div>
-                                                <div className="email">
-                                                    <p style={{ color: bgColors[`${theme}-color-premitive-grey-4`] }}>Email Address</p>
-                                                </div>
-                                                <div className="role">
-                                                    <p style={{ color: bgColors[`${theme}-color-premitive-grey-4`] }}>Role</p>
-                                                </div>
-                                                <div className="status">
-                                                    <p style={{ color: bgColors[`${theme}-color-premitive-grey-4`] }}>Status</p>
-                                                </div>
-                                                <div className="action">
-                                                    <p style={{ color: bgColors[`${theme}-color-premitive-grey-4`] }}>Actions</p>
-                                                </div>
-                                                {/* </div> */}
-                                            </div>
-
-                                            {
-
-                                                adminData.filter((user) => {
-                                                    return search.toLowerCase() === '' ? user : user.name.toLowerCase().includes(search);
-                                                }).map((user, index) => {
-                                                    // console.log(user)
-                                                    return (
-                                                        <div className="sr-user-user-row" style={{
-                                                            // backgroundColor: bgColors[`${theme}-primary-bg-color-3`],
-                                                            backgroundColor: bgColors[`${theme}-primary-bg-color-7`],
-                                                            // backgroundColor: 'var(--Neutral-White-200, #FBFBFB)'
-                                                        }}>
-                                                            <div className="sr">
-                                                                <p style={{ color: bgColors[`${theme}-color-premitive-grey-5`] }}>{index + 1}</p>
-                                                            </div>
-                                                            <div className="user" >
-                                                                {/* <img src="" alt="" /> */}
-                                                                <img src={user.imageUrl} alt="" />
-                                                                <p style={{ color: bgColors[`${theme}-color-premitive-grey-5`] }}>{user.name}</p>
-                                                            </div>
-                                                            <div className="email">
-                                                                <p style={{ color: bgColors[`${theme}-color-premitive-grey-5`] }}>{user.emails[0]}</p>
-                                                            </div>
-                                                            <div className="role">
-                                                                <p style={{ color: bgColors[`${theme}-color-premitive-grey-5`] }}>{user.role}</p>
-                                                            </div>
-                                                            <div className="status">
-                                                                <p style={{ color: bgColors[`${theme}-color-premitive-grey-5`] }}>{user.isActive === true ? "Active" : "Pending"}</p>
-                                                            </div>
-                                                            <div className="actions">
-                                                                <button style={{ color: bgColors[`${theme}-color-premitive-grey-5`] }}>{deleteIcon()}</button>
-                                                            </div>
-                                                            {/* </div> */}
-                                                        </div>
-                                                    )
-                                                })
-                                            }
-
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
-
-                        </div>
+                    section === 'edit' ? <EditProfile /> : <AdminComponent />
                 }
-                {/* for profile data  */}
-
             </div>
         </div >
     )
