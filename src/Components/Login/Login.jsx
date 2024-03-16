@@ -6,7 +6,6 @@ import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { ThemeContext } from "../Common/appContext";
 
-
 export default function Login() {
     const cookies = new Cookies()
     const navigate = useNavigate()
@@ -23,8 +22,6 @@ export default function Login() {
             navigate("/onboarding");
         }
     }
-
-
 
     return (
         <div className="flex items-center justify-center h-full">
@@ -45,21 +42,15 @@ export default function Login() {
                     Form: {
                         boxShadow: "0px 0px 0px 0px",
                         borderRadius: "0px",
-                        // padding:'50px'
-                        // background: "yellow"
+                        
                     },
-                    // Topbar: {
-                    //     background: 'red'
-                    // },
+                    
                     Heading: {
                         fontSize: "22px",
-                        // background: 'red'
                         display: "-webkit-box",
-                        // - webkit - box - orient: vertical;
-                        // -webkit-line-clamp: 1;
                         alignSelf: "stretch",
                         overflow: "hidden",
-                        color: "var(--Neutral-Grey-700, #252525)",
+                        color: bgColors[`${theme}-color-premitive-grey-7`],
                         textAlign: "center",
                         textOverflow: "ellipsis",
 
@@ -70,16 +61,11 @@ export default function Login() {
                         fontWeight: "600",
                         lineHeight: "32px", /* 133.333% */
                         letterSpacing: "-0.48px",
-
-
                     },
                     Description: {
-                        // fontSize: "14px",
                         alignSelf: "stretch",
                         color: "var(--Neutral-White-500, #B9B9B9)",
                         textAlign: "center",
-
-                        /* Body md/400 */
                         fontFamily: "Figtree",
                         fontSize: "14px",
                         fontStyle: "normal",
@@ -109,7 +95,6 @@ export default function Login() {
                         lineHeight: "20px", /* 142.857% */
                     },
                     OtpInput: {
-                        // background: "blue",
                         color: "var(--Neutral- Grey - 300, #8E8E8E)",
                         textAlign: "center",
 
@@ -122,11 +107,8 @@ export default function Login() {
                     },
 
                     IconStyle: {
-                        // BorderColor: bgColors[`${theme}-primary-bg-color-0`],
                         Background: bgColors[`${theme}-primary-bg-color-0`],
-                        // color: 'yellow'
                     },
-                    // bgColors[`${theme}-color-premitive-grey-5`],
                     Footer: {},
                     PrimaryButton: {},
                     SecondaryButton: {},

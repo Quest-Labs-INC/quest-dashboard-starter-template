@@ -50,7 +50,10 @@ export default function Onboarding() {
                             Form: {
                                 borderRadius: "10px",
                                 overflow: 'hidden',
-                                // backgroundColor: 'red',
+                                backgroundColor: '',
+                                // backgroundColor: bgColors[`${theme}-primary-bg-color-0`]
+                                backgroundColor: theme === 'dark' ? bgColors[`${theme}-primary-bg-color-0`] : ""
+
                                 // gap: '50px'
                             },
                             Topbar: {
@@ -62,7 +65,8 @@ export default function Onboarding() {
                             Heading: {
                                 // fontSize: "22px",
                                 overflow: "hidden",
-                                color: 'var(--Neutral-Black-400, #2C2C2C)',
+                                // color: 'var(--Neutral-Black-400, #2C2C2C)',
+                                color: bgColors[`${theme}-color-premitive-grey-5`],
                                 textAlign: "center",
                                 textOverflow: "ellipsis",
                                 /* Title md/600 */
@@ -95,22 +99,19 @@ export default function Onboarding() {
                             // top here ends 
 
                             TextArea: {
-                                // backgroundColor:'red'
                             },
 
 
                             Label: {
-                                color: "var(--Neutral-Black-300, #4C4C4C)",
+                                // color: "var(--Neutral-Black-300, #4C4C4C)",
+                                color: bgColors[`${theme}-color-premitive-grey-6`],
                                 fontFamily: "Figtree",
                                 fontSize: "12px",
                                 fontStyle: "normal",
                                 fontWeight: "500",
-                                lineHeight: "16px", /* 133.333% */
-                                // background:'yellow',
-                                // margin: "0"
+                                lineHeight: "16px", 
                             },
                             Input: {
-                                // gap: '8px',
                                 alignSelf: "stretch",
                                 borderRadius: "10px",
                                 border: "1px solid var(--Neutral-Grey-100, #ECECEC)",
@@ -122,7 +123,6 @@ export default function Onboarding() {
                             ProgressBar: {},
 
                             Footer: {
-                                // background: 'red'
                             }
                         }}
                         showFooter={false}

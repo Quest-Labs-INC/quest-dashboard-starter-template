@@ -12,8 +12,6 @@ const ReferralPopup = ({ setOpenPopup }) => {
     }
   };
 
-
-
   const descriptionObj = {
     alignSelf: 'stretch',
     overflow: 'hidden',
@@ -66,7 +64,6 @@ const ReferralPopup = ({ setOpenPopup }) => {
           shareButtonText="Share Referral Link"
           styleConfig={
             {
-
               PrimaryButton: {
                 background: bgColors[`${theme}-primary-bg-color-0`],
               },
@@ -74,8 +71,6 @@ const ReferralPopup = ({ setOpenPopup }) => {
               Description: {
                 alignSelf: 'stretch',
                 overflow: 'hidden',
-                // color: 'var(--Neutral-White-100, #FFF)',
-                // color: 'black',
                 textAlign: 'center',
                 textOverflow: 'ellipsis',
                 fontFamily: 'Figtree',
@@ -84,26 +79,19 @@ const ReferralPopup = ({ setOpenPopup }) => {
                 fontWeight: '400',
                 lineHeight: '16px', /* 133.333% */
               },
-              // Heading: {
-              //   // alignSelf: 'stretch',
-              //   overflow: 'hidden',
-              //   // `${theme == 'dark' ? "color:'white'":null}`,
+              Heading: {
+                overflow: 'hidden',
+                color: theme === 'dark' ? 'white' : "",
+                textAlign: 'center',
+                textOverflow: 'ellipsis',
+                fontStyle: 'normal',
+                fontWeight: '600',
+                lineHeight: '32px',
+                letterSpacing: '-0.48px',
+              },
 
-              //   // color: 'black',
-              //   textAlign: 'center',
-              //   textOverflow: 'ellipsis',
-              //   // fontFamily: 'Figtree',
-              //   // fontSize: '24px',
-              //   fontStyle: 'normal',
-              //   fontWeight: '600',
-              //   lineHeight: '32px',
-              //   letterSpacing: '-0.48px',
-              // },
-              // Heading: {`${theme === 'dark' ? headingObj : null}`},
-              
               Label: {
                 alignSelf: 'stretch',
-                // color: var(--Neutral-Black-300, #4C4C4C);
                 color: bgColors[`${theme}-color-premitive-grey-6`],
                 fontFamily: 'Figtree',
                 fontSize: '12px',
@@ -111,18 +99,8 @@ const ReferralPopup = ({ setOpenPopup }) => {
                 fontWeight: '500',
                 lineHeight: '16px',
               },
-// `${headingObj`,
               Footer: {
                 background: bgColors[`${theme}-primary-bg-color-1`],
-
-                // background: 'var(--Neutral-White-200, #FBFBFB)',
-                // display: 'flex',
-                // padding: '12px 20px',
-                // justifyContent: 'center',
-                // alignItems: 'center',
-                // gap: '8px',
-                // alignSelf: 'stretch',
-
                 flex: '1 0 0',
                 color: 'var(--Neutral-Black-100, #939393)',
                 textAlign: 'center',

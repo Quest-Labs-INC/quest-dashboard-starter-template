@@ -705,3 +705,7 @@ input:checked+.slider2:before {
     font-weight: 400;
     line-height: 20px;
 }
+
+.dashboard-page>.get-started{
+    padding:0px 49px 0 20px;
+}

@@ -273,28 +273,18 @@ export default function DashboardWrapper({ children, selectdRoute }) {
 
       <nav
         className="s_nav_container"
-        // style={{ backgroundColor: bgColors[`${theme}-primary-bg-color-2`] }}
         style={{
           backgroundColor: bgColors[`${theme}-primary-bg-color-3`],
-          // background: 'pink'
         }}
       >
 
         {/* for logo image */}
-        <div className="s_nav_header_cont"
-          style={{
-            // background: "pink"
-          }}
-        >
+        <div className="s_nav_header_cont">
           <div className="s_nav_company_logo_cont">
-            {/* <div className="s_nav_company_logo">
-              <img src={importConfig.brandLogo} alt="" />
-            </div> */}
-            {/* <img src={importConfig.brandLogo} alt="" className=""/> */}
+           
             <img src={appConfig.BRAND_LOGO || importConfig.brandLogo} alt="" className="" />
             <p style={{ color: bgColors[`${theme}-color-premitive-grey-5`] }}>
-              {/* {appConfig?.QUEST_ENTITY_NAME} */}
-              Team Scant
+              {appConfig?.QUEST_ENTITY_NAME}
             </p>
           </div>
 

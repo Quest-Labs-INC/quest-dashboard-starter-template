@@ -54,9 +54,13 @@ const AppContext = ({ children }) => {
         //my new colors
         // "light-color-premitive-grey-5": "#2e425c",
         "light-color-premitive-grey-5": "var(--Neutral-Black-400, #2C2C2C)",
+        "dark-color-premitive-grey-5": "var(--Neutral-Black-400, #ffffff)",
 
         "light-color-premitive-grey-6": "var(--Neutral-Black-400, #4C4C4C)",
         "dark-color-premitive-grey-6": "var(--Neutral-Black-400, #ffffff)",
+
+        "light-color-premitive-grey-7": "var(--Neutral-Black-400, #252525)",
+        "dark-color-premitive-grey-7": "var(--Neutral-Black-400, #ffffff)",
 
         // backgroundColor: ,
 

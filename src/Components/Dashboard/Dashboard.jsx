@@ -60,18 +60,6 @@ export default function Dashboard() {
                 }}>Get Started</p>
             </div>
 
-            {/* <div className="dashboard-search-section">
-                <div className="search-cont">
-                    <input type="text" placeholder="Search here" style={{ backgroundColor: bgColors[`${theme}-primary-bg-color-3`] }} />
-                    <button >
-                        {searchIcon()}
-                    </button>
-                </div>
-                <button style={{ background: bgColors[`${theme}-primary-bg-color-0`] }}>
-                    <p>Search</p>
-                </button>
-            </div> */}
-
             <div className="dashboard-main-section">
                 {/* for search cont  */}
                 <div className="search-cont flex gap-[34px] items-center w-full">
@@ -89,15 +77,8 @@ export default function Dashboard() {
                     <div className="flex w-[134px] h-[56px] px-[48px] py-[12px] justify-center items-center gap-[8px] flex-shrink-0 rounded-[5px]"
                         style={{
                             background: bgColors[`${theme}-primary-bg-color-0`],
-                            // color: 'var(--Foundation-Neutral-neutral-50, #EAEBED)'
                         }}>
-                        {/* <button className="h-14 w-[134px] text-center text-lg rounded-[5px] px-[48px] py-[12px]" style={{ background: bgColors[`${theme}-primary-bg-color-0`], color: 'var(--Foundation-Neutral-neutral-50, #EAEBED)' }}>Search</button> */}
-                        {/* color: var(--Foundation-Neutral-neutral-50, #EAEBED);
-                        font-family: "Hanken Grotesk";
-                        font-size: 18px;
-                        font-style: normal;
-                        font-weight: 500;
-                        line-height: 28px; /* 155.556% */}
+                      
                         <button
                             className="text-[18px] font-[500]"
                             style={{
@@ -110,8 +91,9 @@ export default function Dashboard() {
                     </div>
 
                 </div>
+            </div>
 
-
+            <div className="get-started">
                 <GetStarted
                     questId={appConfig?.QUEST_GET_STARTED_CAMPAIGN_ID}
                     userId={generalFunction.getDataFromCookies("questUserId")}
@@ -133,22 +115,17 @@ export default function Dashboard() {
                     cardBackground={bgColors[`${theme}-primary-bg-color-2`]}
                     styleConfig={{
                         Form: {
-                            // background: "transparent",
-                            // background: "red",
-                            // padding: "-25px",
+                            padding: "0px",
                             background: bgColors[`${theme}-primary-bg-color-3`],
                         },
                         Heading: {
-                            // fontSize: "22px",
-
                             color: 'var(--Neutral-Black-400, #2C2C2C)',
                             color: bgColors[`${theme}-color-premitive-grey-5`],
                             fontFamily: 'Figtree',
                             fontSize: '24px',
                             fontStyle: 'normal',
                             fontWeight: '600',
-                            lineHeight: '32px' /* 133.333% */
-                            // backgroundColor: bgColors[`${theme}-primary-bg-color-3`] 
+                            lineHeight: '32px'  
                         },
                         Description: {
                             fontSize: "14px",
@@ -162,18 +139,7 @@ export default function Dashboard() {
                             margin: "8px 0 0 0"
                         },
                         Card: {
-                            // padding:"25px"
-                            // background: "yellow",
-                            // padding: "50px"
-                            // margin:"0"
-                            color: 'blue',
-
                         },
-
-
-                        // TopBar: {
-                        //     background: 'blue',
-                        // }
                     }}
                     showFooter={false}
                 />

@@ -4,7 +4,6 @@ import { generalFunction } from "../../assets/Config/GeneralFunction";
 import { ThemeContext } from './appContext';
 import { color } from 'framer-motion';
 
-
 function FeedbackButton() {
     const [openFeedback, setOpenFeedback] = useState(false);
 
@@ -38,28 +37,27 @@ function FeedbackButton() {
                 // }
 
                 styleConfig={{
+                    listHover: {
+                        // iconColor: "green"
+                    },
                     Form: {
                         background: bgColors[`${theme}-primary-bg-color-1`]
-                        // background: "white"
+                   
                     },
                     PrimaryButton: {
                         background: bgColors[`${theme}-primary-bg-color-0`],
                     },
                     Heading: {
                         fontSize: "20px",
-                        // color: 'yellow',
                         color: bgColors[`${theme}-color-premitive-grey-5`]
                     },
                     Description: {
                         fontSize: "12px",
-                        // color:'yellow'
                     },
                     Label: {
                         alignSelf: 'stretch',
                         color: 'var(--Neutral-Black-300, #4C4C4C)',
                         color: bgColors[`${theme}-color-premitive-grey-6`],
-
-                        /* Body sm/500 */
                         fontFamily: 'Figtree',
                         fontSize: '12px',
                         fontStyle: 'normal',

@@ -13,7 +13,6 @@ import SuccessPopup from './SuccessPopup';
 import { ThemeContext } from '../Common/appContext';
 import './MainPage.css'
 
-
 function MainPage() {
     const cookies = new Cookies()
     const [isAdmin, setIsAdmin] = useState(false);
@@ -28,7 +27,23 @@ function MainPage() {
     const [customImage, setCustomImage] = useState("")
     const [name, setName] = useState("");
     const [description, setDescription] = useState("");
-    const gradientCSS = [`linear-gradient(147deg, #FC5C7D 0%, #6A82FB 90.03%)`, `linear-gradient(147deg, #00F260 0%, #0575E6 90.03%)`, `linear-gradient(147deg, #11998E 0%, #38EF7D 90.03%)`, `linear-gradient(146deg, #D88EFD 7.78%, #75B2ED 56.47%, #26CDE7 91.93%)`];
+    const gradientCSS2 = [
+        `linear-gradient(147deg, #FC5C7D 0%, #6A82FB 90.03%)`,
+        `linear-gradient(147deg, #00F260 0%, #0575E6 90.03%)`,
+        `linear-gradient(147deg, #11998E 0%, #38EF7D 90.03%)`,
+        `linear-gradient(146deg, #D88EFD 7.78%, #75B2ED 56.47%, #26CDE7 91.93%)`
+    ];
+    const gradientCSS = [
+        `radial-gradient(3361.38% 131.94% at 0% 100%, #6200EE 0%, #1F3EFE 100%)`,
+        `linear-gradient(146deg, #D88EFD 7.78%, #75B2ED 56.47%, #26CDE7 91.93%)`,
+        `linear-gradient(147deg, #11998E 0%, #38EF7D 90.03%)`,
+        `linear-gradient(147deg, #00F260 0%, #0575E6 90.03%)`,
+        `linear-gradient(147deg, #F8AD63 0%, #CE7EC3 90.03%)`,
+        `linear-gradient(147deg, #3E5151 0%, #DECBA4 90.03%)`,
+        `linear-gradient(147deg, #FC5C7D 0%, #6A82FB 90.03%)`,
+        `linear-gradient(147deg, #23074D 0%, #CC5333 90.03%)`
+    ];
+
     const [bg, setBg] = useState("");
     const [selectedBox, setSelectedBox] = useState(null);
     const [entityDetails, setEntityDetails] = useState(null);
@@ -253,12 +268,11 @@ function MainPage() {
                 {
                     changeEntityPopup && <ChangeEntityPopup setChangeEntityPopup={() => setChangeEntityPopup(false)} setAdminEntity={(id) => setAdminEntity(id)} />
                 }
-                
+
                 {successPopup && <SuccessPopup setSuccessPopup={setSuccessPopup} />}
 
 
                 <div className='create-page-header'>
-                    {/* <div className='create-page-header-cont px-28 py-5 flex items-center justify-between'> */}
                     <div className='create-page-header-cont'>
                         {/* header imgae */}
                         <img src={importConfig.brandLogo} className='w-20' alt="" />
@@ -294,16 +308,12 @@ function MainPage() {
                     </div>
                 </div>
 
-                {/* <div className='text-input-cont mt-32 '> */}
                 <div className='create-page-text-input'>
                     <div className='text-input-cont'>
 
-                        {/* <div className="create-sass-temp-text w-full max-w-[820px] m-auto"> */}
                         {/* text  */}
                         <div className="create-sass-temp-text ">
-                            {/* <div className="create-saas-temp left-[190px] top-0 text-center"> */}
                             <div className="create-saas-temp">
-                                {/* <span className="gradient-Text text-5xl font-semibold font-['Figtree'] leading-[60px]">Create your Saas</span><span className="text-[#2C2C2C] text-5xl font-semibold font-['Figtree'] leading-[60px]"> App</span> */}
                                 <div>Create Saas</div>
                                 <p> Template</p>
                             </div>
@@ -313,7 +323,7 @@ function MainPage() {
                         </div>
 
                         {/* input section  */}
-                        {/* <section className='create-saas-page-input w-full max-w-[644px] m-auto px-6 py-8 rounded-xl border border-[#ECECEC] gap-[32px]'> */}
+
                         <section className='create-saas-page-input w-full m-auto px-6 py-8 rounded-xl border border-[#ECECEC] gap-[32px]'>
                             <div
                                 className="w-24 h-24 flex items-center justify-center rounded-full bg-[#F4EBFF] m-auto relative"
@@ -353,11 +363,10 @@ function MainPage() {
                                 </div>
                             </div>
 
-                            {/* <form action="" className='create-saas-page-form mt-8'> */}
+
                             <form action="" className='create-saas-page-form'>
                                 {/* for organiztion */}
                                 <div>
-                                    {/* <p className="text-neutral-600 text-xs font-medium font-['Figtree'] leading-none"> */}
                                     <p className="">
                                         {" "}
                                         Enter Organization Name*{" "}
@@ -371,14 +380,13 @@ function MainPage() {
                                         type="text"
                                         name="name"
                                         required="required"
-                                        
+
                                     />
                                 </div>
 
                                 {/* for descrtion */}
-                                {/* <div className="mt-8"> */}
                                 <div className="">
-                                    {/* <p className="text-neutral-600 text-xs font-medium font-['Figtree'] leading-none"> */}
+                                    
                                     <p className="">
                                         {" "}
                                         Enter Organization Description*{" "}
@@ -401,7 +409,7 @@ function MainPage() {
 
                             {/* <div className='mt-8'> */}
                             <div className='theme-colors-cont'>
-                                {/* <p className="text-neutral-600 text-xs font-medium font-['Figtree'] leading-none">Choose Theme*</p> */}
+
                                 <p className="">Choose Theme</p>
 
                                 <div className="flex gap-4 mt-1.5">
@@ -424,7 +432,6 @@ function MainPage() {
                                 </div>
                             </div>
 
-                            {/* <button className="mt-8 w-full px-4 py-2.5 bg-[radial-gradient(3361.38%_131.94%_at_0%_100%,_#6200EE_0%,_#1F3EFE_100%)] rounded-[10px] text-white text-sm font-semibold font-['Figtree']" onClick={() => createTemplate()}> */}
                             <button className="w-full px-4 py-2.5 bg-[radial-gradient(3361.38%_131.94%_at_0%_100%,_#6200EE_0%,_#1F3EFE_100%)] rounded-[10px] text-white text-sm font-semibold font-['Figtree']" onClick={() => createTemplate()}>
                                 {entityDetails?.saasDashboard ? "Update AI Template" : "Generate"}
                             </button>
@@ -435,16 +442,12 @@ function MainPage() {
 
                 {/* footer copyright  */}
                 <div className='create-page-footer'>
-                    {/* <div className="px-[120px] py-20 flex-col justify-start items-start gap-[17px] inline-flex w-full"> */}
                     <div>
                         <div className='w-full border-b border-[#4B4B4B]'></div>
-
-                        {/* <div className="footer-text-cont justify-between items-start inline-flex w-full"> */}
                         <div className="footer-text-cont ">
-                            {/* <div className="copyright-text text-[#4C4C4C] text-lg font-normal font-['Hanken Grotesk'] leading-7">Copyright © 2023 AI Saas Template</div> */}
+
                             <div className="copyright-text">Copyright © 2023 AI Saas Template</div>
 
-                            {/* <div className="terns-privacy-cont justify-start items-start gap-[47px] flex"> */}
                             <div className="terns-privacy-cont">
                                 <div className="text-[#4C4C4C] text-lg font-normal font-['Hanken Grotesk'] leading-7">Terms of service  </div>
                                 <div className="text-[#4C4C4C] text-lg font-normal font-['Hanken Grotesk'] leading-7">Privacy Policy</div>

@@ -1,5 +1,4 @@
 import { useContext, useEffect, useState } from "react";
-// import "";
 import './Settings.css'
 import InputComponent from "../Common/CommonComponents/InputComponent";
 import { importConfig } from "../../assets/Config/importConfig";
@@ -89,7 +88,6 @@ import { mainConfig } from "../../assets/Config/appConfig";
 //         </div>
 //     )
 // }
-
 
 export default function Settings() {
     const { theme, bgColors, appConfig } = useContext(ThemeContext);
@@ -208,7 +206,6 @@ export default function Settings() {
         }
         updateProfileFunc();
     }
-
 
     return (
         <div className="settings-page">
@@ -360,120 +357,102 @@ export default function Settings() {
                             </div>
                         </div>
                         :
-                        <div className="settings-page-admin-section-div">
-                            <div>
-                                <div className="settings-page-search-section-div">
-                                    {
-                                        /* <div className="settings-page-search-section">
-                                        <div className="search-cont">
-                                            <input type="text" placeholder="Search here" style={{ backgroundColor: bgColors[`${theme}-primary-bg-color-3`] }} />
-                                            <button>
-                                                {searchIcon()}
-                                            </button>
-                                        </div>
-                                        <button style={{ background: bgColors[`${theme}-primary-bg-color-0`] }}>
-                                            <p>Search</p>
-                                        </button>
-                                    </div> */
-                                    }
+                        <div className="settings-page-search-admin-section-div">
+                            <div className="settings-page-search-section-div">
 
-                                    <div className="h-14 flex border border-[#EFEFEF] rounded-[10px] w-full">
-                                        <div className="flex items-center h-full mx-5">
-                                            {searchIcon()}
-                                        </div>
-                                        <input type="text" color="white" placeholder="Search here ..." className="border-none outline-none h-full w-full bg-transparent"
-                                            style={{
-                                                backgroundColor: 'transparent',
-                                                color: bgColors[`${theme}-color-premitive-grey-5`]
-                                            }}
-                                            onChange={(e) => {
-                                                // console.log(e.target.value)
-                                                setSearch(e.target.value)
-                                            }} />
+                                <div className="h-14 flex border border-[#EFEFEF] rounded-[10px] w-full">
+                                    <div className="flex items-center h-full mx-5">
+                                        {searchIcon()}
                                     </div>
-                                    <button className="h-14  text-lg rounded-[5px] pt-[0px] pb-0 pl-[40px] pr-[40px]" style={{ background: bgColors[`${theme}-primary-bg-color-0`], color: "#eaebed", whiteSpace: "nowrap" }}>Search</button>
-
-                                </div>
-
-
-                                {/* for admins */}
-                                <div className="settings-page-manage-admin-div">
-                                    <div className="settings-page-manage-admin"
+                                    <input type="text" color="white" placeholder="Search here ..." className="border-none outline-none h-full w-full bg-transparent"
                                         style={{
-                                            // backgroundColor: bgColors[`${theme}-primary-bg-color-2`],
-                                            // backgroundColor: bgColors[`${theme}-primary-bg-color-7`],
-                                            // backgroundColor: 'var(--Neutral-White-200, #FBFBFB)'
-                                        }}>
-
-                                        {/* row heading */}
-                                        <div className="sr-user-head-row" style={{
-                                            // backgroundColor: bgColors[`${theme}-primary-bg-color-3`],
-                                            // backgroundColor: bgColors[`${theme}-primary-bg-color-7`],
-                                            // backgroundColor: 'var(--Neutral-White-200, #FBFBFB)'
+                                            backgroundColor: 'transparent',
+                                            color: bgColors[`${theme}-color-premitive-grey-5`]
                                         }}
-                                        >
-                                            <div className="sr">
-                                                <p style={{ color: bgColors[`${theme}-color-premitive-grey-4`] }}>Sr</p>
+                                        onChange={(e) => {
+                                            // console.log(e.target.value)
+                                            setSearch(e.target.value)
+                                        }} />
+                                </div>
+                                <button className="h-14  text-lg rounded-[5px] pt-[0px] pb-0 pl-[40px] pr-[40px]" style={{ background: bgColors[`${theme}-primary-bg-color-0`], color: "#eaebed", whiteSpace: "nowrap" }}>Search</button>
+
+                            </div>
+
+                            <div className="settings-page-admin-secton-div">
+
+                                <div className="settings-page-admin-cont-div">
+
+                                    {/* for admins */}
+                                    <div className="settings-page-manage-admin-div">
+                                        <div className="settings-page-manage-admin">
+
+                                            {/* row heading */}
+                                            <div className="sr-user-head-row">
+                                                <div className="sr">
+                                                    <p style={{ color: bgColors[`${theme}-color-premitive-grey-4`] }}>Sr</p>
+                                                </div>
+                                                <div className="user" >
+                                                    <p style={{ color: bgColors[`${theme}-color-premitive-grey-4`] }}>User</p>
+                                                </div>
+                                                <div className="email">
+                                                    <p style={{ color: bgColors[`${theme}-color-premitive-grey-4`] }}>Email Address</p>
+                                                </div>
+                                                <div className="role">
+                                                    <p style={{ color: bgColors[`${theme}-color-premitive-grey-4`] }}>Role</p>
+                                                </div>
+                                                <div className="status">
+                                                    <p style={{ color: bgColors[`${theme}-color-premitive-grey-4`] }}>Status</p>
+                                                </div>
+                                                <div className="action">
+                                                    <p style={{ color: bgColors[`${theme}-color-premitive-grey-4`] }}>Actions</p>
+                                                </div>
+                                                {/* </div> */}
                                             </div>
-                                            <div className="user" >
-                                                <p style={{ color: bgColors[`${theme}-color-premitive-grey-4`] }}>User</p>
-                                            </div>
-                                            <div className="email">
-                                                <p style={{ color: bgColors[`${theme}-color-premitive-grey-4`] }}>Email Address</p>
-                                            </div>
-                                            <div className="role">
-                                                <p style={{ color: bgColors[`${theme}-color-premitive-grey-4`] }}>Role</p>
-                                            </div>
-                                            <div className="status">
-                                                <p style={{ color: bgColors[`${theme}-color-premitive-grey-4`] }}>Status</p>
-                                            </div>
-                                            <div className="action">
-                                                <p style={{ color: bgColors[`${theme}-color-premitive-grey-4`] }}>Actions</p>
-                                            </div>
-                                            {/* </div> */}
+
+                                            {
+
+                                                adminData.filter((user) => {
+                                                    return search.toLowerCase() === '' ? user : user.name.toLowerCase().includes(search);
+                                                }).map((user, index) => {
+                                                    // console.log(user)
+                                                    return (
+                                                        <div className="sr-user-user-row" style={{
+                                                            // backgroundColor: bgColors[`${theme}-primary-bg-color-3`],
+                                                            backgroundColor: bgColors[`${theme}-primary-bg-color-7`],
+                                                            // backgroundColor: 'var(--Neutral-White-200, #FBFBFB)'
+                                                        }}>
+                                                            <div className="sr">
+                                                                <p style={{ color: bgColors[`${theme}-color-premitive-grey-5`] }}>{index + 1}</p>
+                                                            </div>
+                                                            <div className="user" >
+                                                                {/* <img src="" alt="" /> */}
+                                                                <img src={user.imageUrl} alt="" />
+                                                                <p style={{ color: bgColors[`${theme}-color-premitive-grey-5`] }}>{user.name}</p>
+                                                            </div>
+                                                            <div className="email">
+                                                                <p style={{ color: bgColors[`${theme}-color-premitive-grey-5`] }}>{user.emails[0]}</p>
+                                                            </div>
+                                                            <div className="role">
+                                                                <p style={{ color: bgColors[`${theme}-color-premitive-grey-5`] }}>{user.role}</p>
+                                                            </div>
+                                                            <div className="status">
+                                                                <p style={{ color: bgColors[`${theme}-color-premitive-grey-5`] }}>{user.isActive === true ? "Active" : "Pending"}</p>
+                                                            </div>
+                                                            <div className="actions">
+                                                                <button style={{ color: bgColors[`${theme}-color-premitive-grey-5`] }}>{deleteIcon()}</button>
+                                                            </div>
+                                                            {/* </div> */}
+                                                        </div>
+                                                    )
+                                                })
+                                            }
+
                                         </div>
-
-                                        {
-
-                                            adminData.filter((user) => {
-                                                return search.toLowerCase() === '' ? user : user.name.toLowerCase().includes(search);
-                                            }).map((user, index) => {
-                                                // console.log(user)
-                                                return (
-                                                    <div className="sr-user-user-row" style={{
-                                                        // backgroundColor: bgColors[`${theme}-primary-bg-color-3`],
-                                                        backgroundColor: bgColors[`${theme}-primary-bg-color-7`],
-                                                        // backgroundColor: 'var(--Neutral-White-200, #FBFBFB)'
-                                                    }}>
-                                                        <div className="sr">
-                                                            <p style={{ color: bgColors[`${theme}-color-premitive-grey-5`] }}>{index + 1}</p>
-                                                        </div>
-                                                        <div className="user" >
-                                                            {/* <img src="" alt="" /> */}
-                                                            <img src={user.imageUrl} alt="" />
-                                                            <p style={{ color: bgColors[`${theme}-color-premitive-grey-5`] }}>{user.name}</p>
-                                                        </div>
-                                                        <div className="email">
-                                                            <p style={{ color: bgColors[`${theme}-color-premitive-grey-5`] }}>{user.emails[0]}</p>
-                                                        </div>
-                                                        <div className="role">
-                                                            <p style={{ color: bgColors[`${theme}-color-premitive-grey-5`] }}>{user.role}</p>
-                                                        </div>
-                                                        <div className="status">
-                                                            <p style={{ color: bgColors[`${theme}-color-premitive-grey-5`] }}>{user.isActive === true ? "Active" : "Pending"}</p>
-                                                        </div>
-                                                        <div className="actions">
-                                                            <button style={{ color: bgColors[`${theme}-color-premitive-grey-5`] }}>{deleteIcon()}</button>
-                                                        </div>
-                                                        {/* </div> */}
-                                                    </div>
-                                                )
-                                            })
-                                        }
-
                                     </div>
                                 </div>
+
                             </div>
+
                         </div>
                 }
                 {/* for profile data  */}
