@@ -21,11 +21,11 @@ export default function LoginWrapper({ children }) {
 
                 <img src={appConfig.BRAND_LOGO || ""} alt="" className="w-[100px] h-[100px] p-[12px] rounded-[56px]" />
 
-                <p className="heading-para ">
+                <p className="text-center text-3xl font-semibold font-['Figtree'] text-white">
                     {contentConfig?.login?.heading}
                 </p>
 
-                <p className="desc-para text-[#E0E0E0]">
+                <p className="text-center text-xl font-normal font-['Figtree'] leading-[30px] text-[#E0E0E0]">
                     {contentConfig?.login?.description}
                 </p>
 
@@ -35,7 +35,7 @@ export default function LoginWrapper({ children }) {
             <div
                 className="w-full md:w-1/2"
                 style={{
-                    background: bgColors[`${theme}-primary-bg-color-1`],
+                    background: bgColors[`${theme}-primary-bg-color-3`],
                     height: '100vh'
                 }}
             >

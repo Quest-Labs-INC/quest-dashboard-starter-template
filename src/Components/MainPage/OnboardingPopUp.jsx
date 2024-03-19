@@ -81,7 +81,7 @@ const OnboardingPopUp = ({ isAdmin, setOnboardingPopup, setAdminEntity }) => {
                     userId={generalFunction.getDataFromCookies("questUserId")}
                     token={generalFunction.getDataFromCookies("questUserToken")}
                     controlBtnType="Buttons"
-                    headingScreen={[{ "name": "Welcome Aboard!", "desc": "Start your journey with us. Quick setup - lasting success." }]}
+                    headingScreen={[{ "name": "Share your details", "desc": "Please complete your details"}]}
                     singleChoose="modal3"
                     multiChoice="modal2"
                     answer={answer}
@@ -90,116 +90,68 @@ const OnboardingPopUp = ({ isAdmin, setOnboardingPopup, setAdminEntity }) => {
                     loadingTracker={true}
                     setLoading={setLoading}
                     getAnswers={completeAnswer}
-                    // styleConfig={{
-                    //     Form: {
-                    //         boxShadow: `0 0 5px #2e425c`,
-                    //         borderRadius: "10px",
-                    //     },
-                    //     Heading: {
-                    //         fontSize: "22px"
-                    //     },
-                    //     Description: {
-                    //         fontSize: "14px"
-                    //     },
-                    // }}
                     nextBtnText='Submit Details'
-
                     styleConfig={{
                         Form: {
                             borderRadius: "10px",
                             overflow: 'hidden',
-                            // backgroundColor: 'red',
-                            // gap: '50px'
                         },
                         Topbar: {
-                            // background: 'aquamarine',
                             padding: "20px 0",
                             gap: "4px",
                             border: 'none',
                             background: 'var(--Neutral-White-100, #FFF)',
-                            // background: 'yellow'
                         },
                         Heading: {
-                            // fontSize: "22px",
-                            overflow: "hidden",
                             color: 'var(--Neutral-Black-400, #2C2C2C)',
                             textAlign: "center",
                             textOverflow: "ellipsis",
-                            /* Title md/600 */
                             fontFamily: "Figtree",
                             fontSize: "20px",
                             fontStyle: "normal",
                             fontWeight: "600",
-                            lineHeight: "30px", /* 150% */
+                            lineHeight: "30px",
                             letterSpacing: "-0.4px",
                             display: "-webkit-box",
-                            // -webkit-box-orient: "vertical";
-                            // -webkit-line-clamp: 1;
-                            alignSelf: "stretch",
-                            // background: 'blue'
                         },
-
                         Description: {
                             fontSize: "14px",
                             color: "var(--Neutral-Black-100, #939393)",
                             textAlign: "center",
-
-                            /* Body sm/400 */
                             fontFamily: "Figtree",
                             fontSize: "12px",
                             fontStyle: "normal",
                             fontWeight: "400",
-                            lineHeight: "16px", /* 133.333% */
-                            alignSelf: "stretch",
-                            // backgroundColor: 'red'
+                            lineHeight: "16px",
+                            margin: "auto",
                         },
-                        // top here ends 
-
-                        TextArea: {
-                            // backgroundColor:'red'
-                        },
-
-
                         Label: {
                             color: "var(--Neutral-Black-300, #4C4C4C)",
                             fontFamily: "Figtree",
                             fontSize: "12px",
                             fontStyle: "normal",
                             fontWeight: "500",
-                            lineHeight: "16px", /* 133.333% */
-                            // background:'yellow'
-                            alignSelf: "stretch",
+                            lineHeight: "16px",
                         },
-
                         Input: {
-                            // gap: '8px',
-                            alignSelf: "stretch",
                             borderRadius: "10px",
                             border: "1px solid var(--Neutral-Grey-100, #ECECEC)",
-                            // background:'red'
                             display: "flex",
                             padding: '10px 16px',
                             alignItems: 'center',
                             flex: '1 0 0',
-                            alignSelf: "stretch",
                             color: 'var(--Neutral-Black-400, #2C2C2C)',
-
-                            /* Body md/500 */
                             fontFamily: "Figtree",
                             fontSize: "14px",
                             fontStyle: "normal",
                             fontWeight: "500",
-                            lineHeight: "20px", /* 142.857% */
+                            lineHeight: "20px",
                         },
                         PrimaryButton: {
                             margin: '0',
                             fontFamily: "Figtree"
                         },
-                        Footer: {
-                            // background: 'red'
-                        }
-                    }
-                    }
+                    }}
                     showFooter={false}
                 />
             </div>

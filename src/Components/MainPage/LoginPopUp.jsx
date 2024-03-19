@@ -28,7 +28,7 @@ const LoginPopUp = ({ loginComplete, setLoginPopup }) => {
     };
 
     return (
-        <div className='w-screen h-screen flex justify-center items-center fixed top-0 left-0 bg-[rgba(0,0,0,.15)] backdrop-blur-sm z-10' onClick={clickHadnler}>
+        <div className='w-screen h-screen flex justify-center items-center fixed top-0 left-0 bg-[rgba(13,13,13,0.20)] backdrop-blur-sm z-10' onClick={clickHadnler}>
             <div id='clickbox'>
                 <QuestLogin
                     googleClientId={mainConfig?.GOOGLE_CLIENT_ID}
@@ -37,28 +37,9 @@ const LoginPopUp = ({ loginComplete, setLoginPopup }) => {
                     backgroundColor="white"
                     btnColor=""
                     redirectUri={mainConfig?.REDIRECT_URI}
-                    // redirectURL= "http://localhost:5173/login"
                     google={true}
                     email={true}
                     onSubmit={(e) => completeLogin(e)}
-                    // styleConfig={{
-                    //     Form: {
-                    //         boxShadow: `0 0 5px #2e425c`,
-                    //         background: "white"
-                    //     },
-                    //     Heading: {
-                    //         fontSize: "22px"
-                    //     },
-                    //     Description: {
-                    //         fontSize: "14px"
-                    //     },
-                    //     Input: {
-                    //         border: "1.5px solid #ECECEC"
-                    //     }
-                    // }}
-
-
-
                     styleConfig={{
                         Form: {
                             boxShadow: "0px 0px 0px 0px",
@@ -173,7 +154,7 @@ const LoginPopUp = ({ loginComplete, setLoginPopup }) => {
                         // }
                         // bgColors[`${theme}-color-premitive-grey-5`],
                     }}
-                    showFooter={true}
+                    showFooter={false}
                 />
             </div>
         </div>

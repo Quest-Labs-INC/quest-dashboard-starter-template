@@ -22,8 +22,8 @@ function FeedbackButton() {
                     'q-request-a-feature',
                     'q-contact-us',
                 ]}
-                userId={generalFunction.getUserId()}
-                token={generalFunction.getUserToken()}
+                userId={generalFunction.getDataFromCookies("questUserId")}
+                token={generalFunction.getDataFromCookies("questUserToken")}
                 isOpen={openFeedback}
                 onClose={() => setOpenFeedback(false)}
                 zIndex={11}
@@ -56,7 +56,6 @@ function FeedbackButton() {
                     },
                     Label: {
                         alignSelf: 'stretch',
-                        color: 'var(--Neutral-Black-300, #4C4C4C)',
                         color: bgColors[`${theme}-color-premitive-grey-6`],
                         fontFamily: 'Figtree',
                         fontSize: '12px',

@@ -303,20 +303,20 @@ export const routesConfig = [
         hidden: false,
         isUpper: true,
     },
-    {
-        path: "/referpage",
-        name: "Refer Friends",
-        logo: referFriends(),
-        component: (
-            <ProviderConfig>
-                <DashboardWrapper selectdRoute={"referpage"}>
-                    <ReferralPage></ReferralPage>
-                </DashboardWrapper>
-            </ProviderConfig>
-        ),
-        hidden: false,
-        isUpper: true,
-    },
+    // {
+    //     path: "/referpage",
+    //     name: "Refer Friends",
+    //     logo: referFriends(),
+    //     component: (
+    //         <ProviderConfig>
+    //             <DashboardWrapper selectdRoute={"referpage"}>
+    //                 <ReferralPage></ReferralPage>
+    //             </DashboardWrapper>
+    //         </ProviderConfig>
+    //     ),
+    //     hidden: false,
+    //     isUpper: true,
+    // },
 
 ];
 

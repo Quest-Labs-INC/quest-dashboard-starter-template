@@ -7,21 +7,23 @@ import { useContext } from "react";
 import { ThemeContext } from "../Common/appContext";
 
 export default function Login() {
-    const cookies = new Cookies()
-    const navigate = useNavigate()
-    const { appConfig, theme, bgColors, contentConfig } = useContext(ThemeContext)
+    const cookies = new Cookies();
+    const navigate = useNavigate();
+    const { appConfig, theme, bgColors, contentConfig } =
+        useContext(ThemeContext);
 
-    console.log(theme)
-    console.log(bgColors)
     const completeLogin = (e) => {
         const { userId, token, userCredentials } = e;
         if (userId && token) {
             localStorage.setItem("questUserId", userId);
             localStorage.setItem("questUserToken", token);
-            localStorage.setItem("questUserCredentials", JSON.stringify(userCredentials))
+            localStorage.setItem(
+                "questUserCredentials",
+                JSON.stringify(userCredentials)
+            );
             navigate("/onboarding");
         }
-    }
+    };
 
     return (
         <div className="flex items-center justify-center h-full">
@@ -36,83 +38,60 @@ export default function Login() {
                 google={true}
                 email={true}
                 onSubmit={(e) => completeLogin(e)}
-
                 styleConfig={{
-
                     Form: {
                         boxShadow: "0px 0px 0px 0px",
                         borderRadius: "0px",
-                        
                     },
-                    
                     Heading: {
                         fontSize: "22px",
-                        display: "-webkit-box",
-                        alignSelf: "stretch",
-                        overflow: "hidden",
                         color: bgColors[`${theme}-color-premitive-grey-7`],
                         textAlign: "center",
-                        textOverflow: "ellipsis",
-
-                        /* Title lg/600 */
                         fontFamily: "Figtree",
                         fontSize: "24px",
                         fontStyle: "normal",
                         fontWeight: "600",
-                        lineHeight: "32px", /* 133.333% */
+                        lineHeight: "32px",
                         letterSpacing: "-0.48px",
                     },
                     Description: {
-                        alignSelf: "stretch",
                         color: "var(--Neutral-White-500, #B9B9B9)",
                         textAlign: "center",
                         fontFamily: "Figtree",
                         fontSize: "14px",
                         fontStyle: "normal",
                         fontWeight: "400",
-                        lineHeight: "20px", /* 142.857% */
-
+                        lineHeight: "20px",
                     },
                     Label: {
-                        alignSelf: "stretch",
-                        color: "var(--Neutral-Black-500, #0D0D0D)",
-                        /* Body sm/400 */
+                        color: bgColors[`${theme}-color-premitive-grey-6`],
                         fontFamily: "Figtree",
                         fontSize: "12px",
                         fontStyle: "normal",
                         fontWeight: "400",
-                        lineHeight: "16px", /* 133.333% */
+                        lineHeight: "16px",
                     },
                     Input: {
-                        alignSelf: "stretch",
                         color: "var(--Neutral-White-500, #B9B9B9)",
-
-                        /* Body md/400 */
                         fontFamily: "Figtree",
                         fontSize: "14px",
                         fontStyle: "normal",
                         fontWeight: "400",
-                        lineHeight: "20px", /* 142.857% */
+                        lineHeight: "20px",
                     },
                     OtpInput: {
                         color: "var(--Neutral- Grey - 300, #8E8E8E)",
                         textAlign: "center",
-
-                        /* Body md/400 */
                         fontFamily: "Figtree",
                         fontSize: "14px",
                         fontStyle: "normal",
                         fontWeight: "400",
-                        lineHeight: "20px" /* 142.857% */
+                        lineHeight: "20px",
                     },
 
                     IconStyle: {
                         Background: bgColors[`${theme}-primary-bg-color-0`],
                     },
-                    Footer: {},
-                    PrimaryButton: {},
-                    SecondaryButton: {},
-                    TextArea: {}
                 }}
                 showFooter={false}
             />

@@ -1,19 +1,12 @@
 /* for edit profile page  */
 .settings-page-edit-profile-div {
     width: 100%;
-   
-    max-width: 100vw;
     max-width: calc(100vw - 184px);
-    max-height: calc(100vh - 190px);
-    max-height: calc(100vh - 155px);
-    max-height: calc(100vh - 122px + 68px);
     max-height: calc(100vh - 161px);
-    overflow: hidden;
     overflow-x: scroll;
     overflow-y: scroll;
-
-    /* background-color: antiquewhite; */
-    padding: 18px 116px 0 40px;
+    margin-top: 18px;
+    padding-right: 66px;
 }
 
 .settings-page-edit-profile {

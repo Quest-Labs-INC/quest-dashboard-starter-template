@@ -20,18 +20,18 @@ const AppContext = ({ children }) => {
     })
     const [contentConfig, setContentConfig] = useState({
         login: {
-            heading: "",
-            description: ""
+            heading: localStorage.getItem("heading") || "",
+            description: localStorage.getItem("description") || ""
         }
     })
     const [bgColors, setBgColors] = useState({
         "dark-color-premitive-grey-0": "#afafaf",
         "dark-color-premitive-grey-5": "#ffffff",
 
-        "dark-primary-bg-color-0": "#111018", // "#1c1a27"
+        "dark-primary-bg-color-0": localStorage.getItem("themeColor") || "#111018", // "#1c1a27"
         "dark-primary-bg-color-1": "#1c1a27", // "#fbfafe"
         "dark-primary-bg-color-2": "#111018",
-        "dark-primary-bg-color-3": "#1c1a27",
+        "dark-primary-bg-color-3": "#0D0D0D", // "#1c1a27"
         "dark-primary-bg-color-4": "#3e3a58",
 
         "dark-primary-tile-color-0": "#f0fcec",
@@ -127,11 +127,14 @@ const AppContext = ({ children }) => {
                         })
                         setBgColors({
                             ...bgColors,
-                            "light-primary-bg-color-0": apiData?.saasDashboard?.dashboardConfig?.colorConfig
+                            "light-primary-bg-color-0": apiData?.saasDashboard?.dashboardConfig?.colorConfig,
+                            "dark-primary-bg-color-0": apiData?.saasDashboard?.dashboardConfig?.colorConfig,
                         })
                         localStorage.setItem("themeColor", apiData?.saasDashboard?.dashboardConfig?.colorConfig)
                         localStorage.setItem("brandlogo", apiData?.saasDashboard?.dashboardConfig?.imageUrl || apiData?.imageUrl)
                         localStorage.setItem("entityName", apiData?.name)
+                        localStorage.setItem("heading", apiData?.saasDashboard?.dashboardConfig?.title)
+                        localStorage.setItem("description", apiData?.saasDashboard?.dashboardConfig?.description)
                         setAppConfig({
                             ...appConfig,
                             BRAND_LOGO: apiData?.saasDashboard?.dashboardConfig?.imageUrl || apiData?.imageUrl,

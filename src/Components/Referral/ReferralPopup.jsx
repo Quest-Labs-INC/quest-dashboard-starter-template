@@ -119,7 +119,7 @@ const ReferralPopup = ({ setOpenPopup }) => {
           }
           gradientBackgroundColor={bgColors[`${theme}-primary-bg-color-0`]}
           gradientBackground={true}
-          showFooter={true}
+          showFooter={false}
 
         />
 

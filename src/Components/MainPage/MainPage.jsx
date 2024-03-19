@@ -314,12 +314,10 @@ function MainPage() {
                         {/* text  */}
                         <div className="create-sass-temp-text ">
                             <div className="create-saas-temp">
-                                <div>Create Saas</div>
-                                <p> Template</p>
+                                <div>Experience</div>
+                                <p>the magic</p>
                             </div>
-
-
-                            <div className="description w-[820px] left-0 top-[72px] text-center text-[#545454] text-2xl font-normal font-['Figtree'] leading-9">Streamline Operations, Enhance Customer Experience, and Drive Growth with AI-driven Software as a Service</div>
+                            <div className="description w-[820px] left-0 top-[72px] text-center text-[#545454] text-2xl font-normal font-['Figtree'] leading-9">Let's launch 10x faster! Just make a wish and in a few seconds we will help generate the entire base dashboard for you with Login, Onboarding, Get Started, Feedback Collection, Surveys, Referrals, Search Bar Settings and more..</div>
                         </div>
 
                         {/* input section  */}
@@ -369,7 +367,7 @@ function MainPage() {
                                 <div>
                                     <p className="">
                                         {" "}
-                                        Enter Organization Name*{" "}
+                                        What is the name of your platform?*{" "}
                                     </p>
                                     <input
                                         // className="px-4 py-2.5 border border-[#ECECEC] rounded-[10px] mt-1.5 w-full"
@@ -389,7 +387,7 @@ function MainPage() {
                                     
                                     <p className="">
                                         {" "}
-                                        Enter Organization Description*{" "}
+                                        What will be your platform about? Give as much details as possible, will be helpful to our AI.*{" "}
                                     </p>
                                     <textarea
                                         // className="px-4 py-2.5 rounded-[10px] mt-1.5 w-full min-h-[64px]"

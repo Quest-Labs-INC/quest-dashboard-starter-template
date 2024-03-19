@@ -59,7 +59,7 @@ const SuccessPopup = ({ setSuccessPopup }) => {
                             lineHeight: '28px', /* 155.556% */
                             letterSpacing: '-0.18px',
                         }}>
-                            Congrats! Your Template is Live!
+                            You Are All Set!
                         </p>
 
                         {/* <p className="w-[336px] text-center text-zinc-400 text-sm font-normal font-['Figtree'] leading-tight"> */}
@@ -72,8 +72,7 @@ const SuccessPopup = ({ setSuccessPopup }) => {
                                 lineHeight: '20px',
                             }}
                         >
-                            Launching creativity into the digital realm! Your template
-                            is now live, congrats!
+                            Congrats! You saved months of dev time! Click on Preview below to see how your app looks and Click on fork to get access to the github repo where  you can fork the repo, follow the instructions in readme.
                         </p>
                     </div>
 
