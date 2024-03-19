@@ -30,6 +30,24 @@ function FeedbackButton() {
                 topbarColor={'white'}
                 starColor='blue'
                 showFooter={true}
+                // descriptions={'asfasd'}
+                ReportBug={{
+                    description: "Help us squash those bugs!"
+                }}
+
+                GeneralFeedback={{
+                    description: "Your opinions, our improvements.",
+                    formDescription: "Really appreciate you submitting a feedback to improve the app",
+                }}
+                ContactUs={{
+                    description:"We're here, let's talk."
+                }}
+                RequestFeature={{
+                    description: "Suggest, we innovate together."
+                }}
+
+                // GeneralFeedback={'asdasdf'}
+                // descriptions="adfasdf"
                 // iconColor={
                 //     {
                 //         color:'red'
@@ -37,12 +55,15 @@ function FeedbackButton() {
                 // }
 
                 styleConfig={{
+                    listHeading: {
+
+                    },
                     listHover: {
                         // iconColor: "green"
                     },
                     Form: {
                         background: bgColors[`${theme}-primary-bg-color-1`]
-                   
+
                     },
                     PrimaryButton: {
                         background: bgColors[`${theme}-primary-bg-color-0`],

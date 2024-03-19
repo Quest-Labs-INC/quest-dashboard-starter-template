@@ -40,28 +40,26 @@ export default function Settings() {
             <div className="px-8 pt-[30px] w-full">
                 <div className="flex w-full items-start border-b border-[#E0E0E0] h-[52px]">
                     <p
-                        className={`text-sm font-semibold font-['Figtree'] h-[52px] p-4 cursor-pointer ${
-                            section == "edit" &&
+                        className={`text-sm font-semibold font-['Figtree'] h-[52px] p-4 cursor-pointer ${section == "edit" &&
                             "rounded-t-xl border-b bg-[#E0E0E0] border-[#939393]"
-                        }`}
+                            }`}
                         onClick={() => handleSectionChange("edit")}
                         style={{
                             color: section == "edit" ? "" : bgColors[`${theme}-color-premitive-grey-5`]
                         }}
                     >
-                        Edit profile
+                        Edit Profile
                     </p>
                     <p
-                        className={`text-sm font-semibold font-['Figtree'] h-[52px] p-4 cursor-pointer ${
-                            section == "manage" &&
+                        className={`text-sm font-semibold font-['Figtree'] h-[52px] p-4 cursor-pointer ${section == "manage" &&
                             "rounded-t-xl border-b bg-[#E0E0E0] border-[#939393]"
-                        }`}
+                            }`}
                         onClick={() => handleSectionChange("manage")}
                         style={{
                             color: section == "manage" ? "" : bgColors[`${theme}-color-premitive-grey-5`]
                         }}
                     >
-                        Manage Admin
+                        Manage Admins
                     </p>
                 </div>
 

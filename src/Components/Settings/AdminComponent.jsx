@@ -75,7 +75,6 @@ const AdminComponent = () => {
         }
     }
 
-
     return (
         <div className="w-full h-full">
             <div className="w-full flex items-center justify-between gap-4 mt-[24px]">
@@ -110,29 +109,45 @@ const AdminComponent = () => {
 
             {filterData?.length != 0 ? (
                 <div className="mt-[16px] rounded-xl border border-[#F0F0F0] overflow-y-auto">
-                    <table className="min-w-[1100px] w-full">
+                    <table className="min-w-[1100px] w-full " style={{
+                        color: bgColors[`${theme}-primary-bg-color-8`]
+                    }}>
                         <thead>
                             <tr className="border-b border-[#F0F0F0] text-sm font-medium font-['Figtree']">
-                                <th className="w-[10%] text-start pl-6 py-[18px] bg-[#FBFBFB] rounded-tl-xl">
+                                <th className="w-[10%] text-start pl-6 py-[18px]  rounded-tl-xl"
+                                    style={{
+                                        color: bgColors[`${theme}-color-premitive-grey-9`]
+                                    }}>
                                     Sr
                                 </th>
-                                <th className="w-[25%] text-start pl-6 py-[18px] bg-[#FBFBFB]">
+                                <th className="w-[25%] text-start pl-6 py-[18px]  " style={{
+                                    color: bgColors[`${theme}-color-premitive-grey-9`]
+                                }}>
                                     User
                                 </th>
-                                <th className="w-[25%] text-start pl-6 py-[18px] bg-[#FBFBFB]">
+                                <th className="w-[25%] text-start pl-6 py-[18px] " style={{
+                                    color: bgColors[`${theme}-color-premitive-grey-9`]
+                                }}>
                                     Email Address
                                 </th>
-                                <th className="w-[20%] text-start pl-6 py-[18px] bg-[#FBFBFB]">
+                                <th className="w-[20%] text-start pl-6 py-[18px] " style={{
+                                    color: bgColors[`${theme}-color-premitive-grey-9`]
+                                }}>
                                     Role
                                 </th>
-                                <th className="w-[10%] text-start pl-6 py-[18px] bg-[#FBFBFB]">
+                                <th className="w-[10%] text-start pl-6 py-[18px] " style={{
+                                    color: bgColors[`${theme}-color-premitive-grey-9`]
+                                }}>
                                     Status
                                 </th>
-                                <th className="w-[10%] px-6 py-[18px] bg-[#FBFBFB] rounded-tr-xl">
+                                <th className="w-[10%] px-6 py-[18px]  rounded-tr-xl" style={{
+                                    color: bgColors[`${theme}-color-premitive-grey-9`]
+                                }}>
                                     Action
                                 </th>
                             </tr>
                         </thead>
+
                         <tbody>
                             {filterData?.map((user, index) => (
                                 <tr className="border-b border-[#F0F0F0] text-[#4C4C4C]">

@@ -78,7 +78,6 @@ export const generalFunction = {
     count: 0,
 
     uploadImageToBackend: async (file) => {
-        console.log(generalFunction)
         if (!file) {
             return null;
         }

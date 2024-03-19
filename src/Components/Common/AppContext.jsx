@@ -62,11 +62,20 @@ const AppContext = ({ children }) => {
         "light-color-premitive-grey-7": "var(--Neutral-Black-400, #252525)",
         "dark-color-premitive-grey-7": "var(--Neutral-Black-400, #ffffff)",
 
+        "light-color-premitive-grey-8": "var(--Neutral-Black-500, #0D0D0D)",
+        "dark-color-premitive-grey-8": "var(--Neutral-Black-400, #ffffff)",
+
+        "light-color-premitive-grey-9": "var(--Perks-Color-Palette-Secondary-Black-Black---900, #141414)",
+        "dark-color-premitive-grey-9": "var(--Neutral-Black-400, #ffffff)",
+
         // backgroundColor: ,
 
         // "dark-primary-bg-color-7": 'var(--Neutral-White-200, #FBFBFB)',
         "light-primary-bg-color-7": 'var(--Neutral-White-200, #FBFBFB)',
         "dark-primary-bg-color-7": '#1c1a27',
+
+        "light-primary-bg-color-8": 'var(--Neutral-White-200, #FCFCFD)',
+        "dark-primary-bg-color-8": '#1c1a27',
         // "dark-primary-bg-color-3": "",
 
     });

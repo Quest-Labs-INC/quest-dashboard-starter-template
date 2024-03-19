@@ -12,6 +12,7 @@ import ChangeEntityPopup from './ChangeEntityPopup';
 import SuccessPopup from './SuccessPopup';
 import { ThemeContext } from '../Common/appContext';
 import './MainPage.css'
+import CreateSuccessPopUp from './CreateSuccessPopUp';
 
 function MainPage() {
     const cookies = new Cookies()
@@ -27,6 +28,9 @@ function MainPage() {
     const [customImage, setCustomImage] = useState("")
     const [name, setName] = useState("");
     const [description, setDescription] = useState("");
+    const [createSuccessPopUp, setCreateSuccessPopUp] = useState(false);
+
+
     const gradientCSS2 = [
         `linear-gradient(147deg, #FC5C7D 0%, #6A82FB 90.03%)`,
         `linear-gradient(147deg, #00F260 0%, #0575E6 90.03%)`,
@@ -51,16 +55,10 @@ function MainPage() {
     const { appConfig, setAppConfig, contentConfig, setContentConfig } = useContext(ThemeContext)
 
     const inputFileChangeHandler = (event) => {
-        console.log(event.target.files[0])
-        console.log(URL.createObjectURL(event.target.files[0]));
-        console.log(imageUrl)
-        console.log(customImage)
         if (event.target.files[0]) {
             setSelectedFile(event.target.files[0]);
             setImageUrl(URL.createObjectURL(event.target.files[0]));
         }
-        console.log(imageUrl)
-        console.log(customImage)
     };
 
     useEffect(() => {
@@ -90,9 +88,7 @@ function MainPage() {
             generalFunction.showLoader();
             let apiKeyRequest = generalFunction.createUrl(`api/entities/${generalFunction.getDataFromCookies("adminCommunityId")}/keys?userId=${generalFunction.getDataFromCookies("questUserId")}`);
             let apiKeyResponse = await axios.get(apiKeyRequest.url, { headers: apiKeyRequest.headers })
-            console.log(apiKeyResponse)
             const data = apiKeyResponse.data;
-            console.log(data)
             if (data.success == false) {
                 let errMsg = data.error ? data.error : "Unable to Get Developer Details"
                 toast.error("Error Occurred" + "\n" + errMsg);
@@ -103,13 +99,11 @@ function MainPage() {
             let response = await axios(request.url, {
                 headers: { ...request.headers, apikey: data?.data?.key },
             })
-            console.log(response)
             generalFunction.hideLoader()
             // setName(response?.data?.data?.name);
             setImageUrl(response?.data?.data?.imageUrl);
             let apiData = response.data;
             setEntityDetails(apiData)
-
 
             setAppConfig({
                 ...appConfig,
@@ -155,11 +149,6 @@ function MainPage() {
         try {
             generalFunction.showLoader();
             let request = generalFunction.createUrl(`api/entities/${adminEntity || generalFunction.getDataFromCookies("adminCommunityId")}/quests/generate-saas?userId=${generalFunction.getDataFromCookies("questUserId")}`);
-
-            console.log("name", name)
-            console.log("description", description)
-            console.log("customImage", customImage)
-            console.log("colorConfig", bg)
 
             let response = await axios.post(request.url, {
                 entityName: name,
@@ -239,10 +228,6 @@ function MainPage() {
         }
     }, [])
 
-    useEffect(() => {
-        console.log("ima", imageUrl);
-        console.log("cus", customImage);
-    }, [imageUrl, customImage]);
     return (
         <QuestProvider
             apiKey={mainConfig?.API_KEY}
@@ -260,9 +245,13 @@ function MainPage() {
                 </div>
 
                 {
-                    onboardingPopup && <OnboardingPopUp isAdmin={isAdmin} setOnboardingPopup={() => setOnboardingPopup(false)} setAdminEntity={(id) => setAdminEntity(id)} />
+                    onboardingPopup && <OnboardingPopUp isAdmin={isAdmin}
+                        setOnboardingPopup={() => {
+                            setOnboardingPopup(false)
+                            setCreateSuccessPopUp(true);
+
+                        }} setAdminEntity={(id) => setAdminEntity(id)} />
                 }
-                {/* complteed til here  */}
 
 
                 {
@@ -270,6 +259,8 @@ function MainPage() {
                 }
 
                 {successPopup && <SuccessPopup setSuccessPopup={setSuccessPopup} />}
+
+                {createSuccessPopUp && <CreateSuccessPopUp setCreateSuccessPopUp={setCreateSuccessPopUp} />}
 
 
                 <div className='create-page-header'>
@@ -384,7 +375,7 @@ function MainPage() {
 
                                 {/* for descrtion */}
                                 <div className="">
-                                    
+
                                     <p className="">
                                         {" "}
                                         What will be your platform about? Give as much details as possible, will be helpful to our AI.*{" "}
@@ -393,15 +384,21 @@ function MainPage() {
                                         // className="px-4 py-2.5 rounded-[10px] mt-1.5 w-full min-h-[64px]"
                                         className=""
                                         style={{ resize: "vertical", border: "1px solid #ECECEC" }}
-                                        onChange={(e) => setDescription(e.target.value)}
+                                        onChange={(e) => {
+                                            if (e.target.value.length <= 120) {
+                                                setDescription(e.target.value)
+                                            }
+
+                                        }}
                                         value={description}
                                         placeholder="eg. Write your description here..."
                                         type="text"
                                         name="description"
                                         required="required"
                                         rows={5}
+
                                     />
-                                    <p className='char-count-para'>0/120 characters</p>
+                                    <p className='char-count-para'>{description.length}/120 characters</p>
                                 </div>
                             </form>
 

@@ -18,7 +18,7 @@ const EditProfile = () => {
     const [imageUrl, setImageUrl] = useState("");
     const [selectedFile, setSelectedFile] = useState(null);
     const [customImage, setCustomImage] = useState("");
-
+    const [descLen, setDesclen] = useState(0);
     const headers = {
         apikey: appConfig.QUEST_API_KEY,
         userid: generalFunction.getDataFromCookies("questUserId"),
@@ -35,7 +35,6 @@ const EditProfile = () => {
                 `${mainConfig.BACKEND_URL}api/users/${headers.userid}`,
                 { headers: headers }
             );
-            console.log(data.data)
             setName(data.data.name);
             setJobTitle(data.data.role);
             setAbout(data.data.about);
@@ -171,13 +170,17 @@ const EditProfile = () => {
                             rows="6"
                             className="flex-1 py-2 px-4 resize-none outline-none bg-transparent"
                             value={about}
-                            onChange={(e) => setAbout(e.target.value)}
+                            onChange={(e) => {
+                                if (e.target.value.length <= 120) {
+                                    setAbout(e.target.value)
+                                }
+                            }}
                             style={{
                                 color: bgColors[`${theme}-color-premitive-grey-5`]
                             }}
                         ></textarea>
                     </div>
-                    <p className="text-gray-400 font-normal text-xs">0/120 Characters</p>
+                    <p className="text-gray-400 font-normal text-xs">{about?.length || 0}/120 Characters</p>
                 </div>
 
                 <button

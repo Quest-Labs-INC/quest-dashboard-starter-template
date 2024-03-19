@@ -73,13 +73,49 @@ export default function DashboardWrapper({ children, selectdRoute }) {
           token={generalFunction.getDataFromCookies("questUserToken")}
           open="ON_CTRL_K_KEY"
           onResultClick={(e) => navigate(e)}
+
+          // data={{}}
           icons={[
             importConfig.routesIcons.dashboardIcon,
             importConfig.routesIcons.userIcon,
             importConfig.routesIcons.adminIcon,
             importConfig.routesIcons.settingIcon,
           ]}
+          placeholder="Search for anything..."
+
+          styleConfig={{
+            listHover: {
+              // iconColor: "green"
+            },
+            Form: {
+              background: bgColors[`${theme}-primary-bg-color-3`]
+            },
+            // PrimaryButton: {
+            //   background: bgColors[`${theme}-primary-bg-color-0`],
+            // },
+            // Heading: {
+            //   fontSize: "20px",
+            //   color: bgColors[`${theme}-color-premitive-grey-5`]
+            // },
+            // Description: {
+            //   fontSize: "12px",
+            // },
+            // Label: {
+            //   alignSelf: 'stretch',
+            //   color: bgColors[`${theme}-color-premitive-grey-6`],
+            //   fontFamily: 'Figtree',
+            //   fontSize: '12px',
+            //   fontStyle: 'normal',
+            //   fontWeight: '500',
+            //   lineHeight: '16px', /* 133.333% */
+            // },
+            Footer: {
+              background: bgColors[`${theme}-primary-bg-color-3`]
+            },
+
+          }}
         />
+
       </div>
 
       <div>
@@ -95,7 +131,7 @@ export default function DashboardWrapper({ children, selectdRoute }) {
         {/* for logo image */}
         <div className="s_nav_header_cont">
           <div className="s_nav_company_logo_cont">
-           
+
             <img src={appConfig.BRAND_LOGO || importConfig.brandLogo} alt="" className="" />
             <p style={{ color: bgColors[`${theme}-color-premitive-grey-5`] }}>
               {appConfig?.QUEST_ENTITY_NAME}

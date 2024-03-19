@@ -40,6 +40,8 @@ const LoginPopUp = ({ loginComplete, setLoginPopup }) => {
                     google={true}
                     email={true}
                     onSubmit={(e) => completeLogin(e)}
+                    descriptionText='Please select a way to continue'
+                    googleButtonText='Continue with Google'
                     styleConfig={{
                         Form: {
                             boxShadow: "0px 0px 0px 0px",
@@ -154,7 +156,7 @@ const LoginPopUp = ({ loginComplete, setLoginPopup }) => {
                         // }
                         // bgColors[`${theme}-color-premitive-grey-5`],
                     }}
-                    showFooter={false}
+                    showFooter={true}
                 />
             </div>
         </div>

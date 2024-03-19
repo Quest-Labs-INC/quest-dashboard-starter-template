@@ -11,6 +11,7 @@ export default function LoginWrapper({ children }) {
     console.log("bgColors", bgColors)
     console.log("contentConfig", contentConfig)
     console.log(appConfig.BRAND_LOGO)
+
     return (
         <div className="login-wrapper flex h-screen">
             <div

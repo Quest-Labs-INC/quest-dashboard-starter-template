@@ -38,6 +38,8 @@ export default function Login() {
                 google={true}
                 email={true}
                 onSubmit={(e) => completeLogin(e)}
+                googleButtonText="Continue with Google"
+                descriptionText={`Welcome to ${appConfig?.QUEST_ENTITY_NAME}`}
                 styleConfig={{
                     Form: {
                         boxShadow: "0px 0px 0px 0px",
@@ -55,7 +57,7 @@ export default function Login() {
                         letterSpacing: "-0.48px",
                     },
                     Description: {
-                        color: "var(--Neutral-White-500, #B9B9B9)",
+                        color: 'var(--Neutral-Grey-200, #AFAFAF)',
                         textAlign: "center",
                         fontFamily: "Figtree",
                         fontSize: "14px",
@@ -64,7 +66,8 @@ export default function Login() {
                         lineHeight: "20px",
                     },
                     Label: {
-                        color: bgColors[`${theme}-color-premitive-grey-6`],
+                        // color: bgColors[`${theme}-color-premitive-grey-6`],
+                        color: bgColors[`${theme}-color-premitive-grey-8`],
                         fontFamily: "Figtree",
                         fontSize: "12px",
                         fontStyle: "normal",

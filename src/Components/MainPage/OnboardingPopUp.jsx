@@ -152,7 +152,7 @@ const OnboardingPopUp = ({ isAdmin, setOnboardingPopup, setAdminEntity }) => {
                             fontFamily: "Figtree"
                         },
                     }}
-                    showFooter={false}
+                    showFooter={true}
                 />
             </div>
         </div>

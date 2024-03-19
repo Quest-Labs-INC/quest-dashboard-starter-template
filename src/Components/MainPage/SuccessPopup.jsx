@@ -84,7 +84,7 @@ const SuccessPopup = ({ setSuccessPopup }) => {
                             Fork
                         </button>
                     </div>
-                    
+
                 </div>
             </div>
         </div>
