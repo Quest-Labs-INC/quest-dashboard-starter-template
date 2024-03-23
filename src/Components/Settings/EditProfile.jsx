@@ -4,7 +4,7 @@ import { ThemeContext } from "../Common/AppContext";
 import InputComponent from "../Common/CommonComponents/InputComponent";
 import { importConfig } from "../../assets/Config/importConfig";
 import { uploadImageToBackend } from "../../utils/UploadImage";
-import { generalFunction } from "../../assets/Config/GeneralFunction";
+import { generalFunction } from "../../assets/Config/generalFunction";
 import { mainConfig } from "../../assets/Config/appConfig";
 import { UserProfile } from "@questlabs/react-sdk";
 import { uploadSVG } from "../../assets/Images/svgAssets";

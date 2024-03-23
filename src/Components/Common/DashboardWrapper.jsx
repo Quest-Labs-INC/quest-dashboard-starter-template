@@ -5,10 +5,9 @@ import { Link, useNavigate } from "react-router-dom";
 import { routesConfig } from "../../assets/Config/routesConfig";
 import { importConfig } from "../../assets/Config/importConfig";
 import { appConfig } from "../../assets/Config/appConfig";
-import GeneralFunction from "../../assets/Functions/GeneralFunction";
 import { FeedbackWorkflow, Search, Survey } from "@questlabs/react-sdk";
 import FeedbackButton from "./FeedbackButton";
-import { generalFunction } from "../../assets/Config/GeneralFunction";
+import { generalFunction } from "../../assets/Config/generalFunction";
 import {
     referal,
     upgrade,

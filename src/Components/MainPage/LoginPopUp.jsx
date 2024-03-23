@@ -3,7 +3,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import Cookies from 'universal-cookie';
 import { appConfig, mainConfig } from '../../assets/Config/appConfig';
-import { generalFunction } from '../../assets/Config/GeneralFunction';
+import { generalFunction } from '../../assets/Config/generalFunction';
 
 const LoginPopUp = ({ loginComplete, setLoginPopup }) => {
     const cookies = new Cookies()

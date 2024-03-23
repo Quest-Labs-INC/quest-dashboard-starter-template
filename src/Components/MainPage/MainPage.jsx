@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { importConfig } from '../../assets/Config/importConfig';
-import { generalFunction } from '../../assets/Config/GeneralFunction';
+import { generalFunction } from '../../assets/Config/generalFunction';
 import toast from 'react-hot-toast';
 import { mainConfig } from '../../assets/Config/appConfig';
 import axios from 'axios';

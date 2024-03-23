@@ -6,7 +6,7 @@ import { ThemeContext } from "../Common/AppContext";
 import { deleteIcon, searchIcon } from "../Common/SideBarSvg";
 import axios from "axios";
 import { uploadImageToBackend } from "../../utils/UploadImage";
-import { generalFunction } from "../../assets/Config/GeneralFunction";
+import { generalFunction } from "../../assets/Config/generalFunction";
 import { mainConfig } from "../../assets/Config/appConfig";
 import EditProfile from "./EditProfile";
 import AdminComponent from "./AdminComponent";

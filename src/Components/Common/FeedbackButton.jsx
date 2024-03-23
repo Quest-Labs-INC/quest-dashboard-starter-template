@@ -1,6 +1,6 @@
 import { memo, useContext, useState } from "react";
 import { FeedbackWorkflow } from "@questlabs/react-sdk";
-import { generalFunction } from "../../assets/Config/GeneralFunction";
+import { generalFunction } from "../../assets/Config/generalFunction";
 import { ThemeContext } from "./AppContext";
 import { color } from "framer-motion";
 
