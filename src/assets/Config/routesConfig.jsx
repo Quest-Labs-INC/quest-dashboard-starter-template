@@ -54,120 +54,7 @@ const ProviderConfig = ({ children }) => {
     )
 }
 
-// export const routesConfig = [
-//     // {
-//     //     path: "/",
-//     //     name: "Home",
-//     //     logo: "",
-//     //     component: <Home />,
-//     //     hidden: true,
-//     // },
-//     {
-//         path: "/create",
-//         name: "Create Template",
-//         logo: "",
-//         component: <MainPage />,
-//         hidden: true,
-//         isUpper: false,
-//     },
-//     {
-//         path: "*",
-//         name: "Create Template",
-//         logo: "",
-//         component: <MainPage />,
-//         hidden: true,
-//         isUpper: false,
-//     },
-//     {
-//         path: "/login",
-//         name: "Login",
-//         logo: "",
-//         component: <ProviderConfig><LoginWrapper><Login /></LoginWrapper></ProviderConfig>,
-//         hidden: true,
-//         isUpper: false,
-//     },
-//     {
-//         path: "/onboarding",
-//         name: "Onboarding",
-//         logo: "",
-//         component: <ProviderConfig><LoginWrapper><Onboarding /></LoginWrapper></ProviderConfig>,
-//         hidden: true,
-//         isUpper: false,
-//     },
-//     {
-//         path: "/dashboard",
-//         name: "Dashboard",
-//         logo: GetStartedSvg(),
-//         component: <ProviderConfig><DashboardWrapper selectdRoute={"Dashboard"}><Dashboard></Dashboard></DashboardWrapper></ProviderConfig>,
-//         hidden: false,
-//         isUpper: true,
-//     },
-//     {
-//         path: "/insights",
-//         name: "Insights",
-//         logo: InsightsSvg(),
-//         component: (
-//             <DashboardWrapper selectdRoute={"insights"}>
-//                 <User></User>
-//             </DashboardWrapper>
-//         ),
-//         hidden: false,
-//         isUpper: true,
-//     },
-//     {
-//         path: "/user",
-//         name: "User",
-//         logo: UsersSvg(),
-//         component: <ProviderConfig><DashboardWrapper selectdRoute={"User"}><User></User></DashboardWrapper></ProviderConfig>,
-//         hidden: false,
-//         isUpper: false,
-//     },
-//     {
-//         path: "/admin",
-//         name: "Admin",
-//         logo: AdminSvg(),
-//         component: <ProviderConfig><DashboardWrapper selectdRoute={"Admin"}><Admin></Admin></DashboardWrapper></ProviderConfig>,
-//         hidden: false,
-//         adminPermission: true,
-//         isUpper: false,
-//     },
-//     {
-//         path: "/settings",
-//         name: "Settings",
-//         logo: SettingsSvg(),
-//         component: <ProviderConfig><DashboardWrapper selectdRoute={"Settings"}><Settings></Settings></DashboardWrapper></ProviderConfig>,
-//         hidden: false,
-//         isUpper: false,
-//     },
-//     {
-//         path: "/settings",
-//         name: "Settings",
-//         logo: SettingsSvg(),
-//         component: <ProviderConfig><DashboardWrapper selectdRoute={"Settings"}><Settings></Settings></DashboardWrapper></ProviderConfig>,
-//         hidden: false,
-//         isUpper: false,
-//     },
-//     {
-//         path: "/referpage",
-//         name: "Refer Friends",
-//         logo: referFriends(),
-//         component: (
-//             <DashboardWrapper selectdRoute={"referpage"}>
-//                 <ReferralPage></ReferralPage>
-//             </DashboardWrapper>
-//         ),
-//         hidden: false,
-//         isUpper: true,
-//     },
-// ]
 export const routesConfig = [
-    // {
-    //   path: "/",
-    //   name: "Home",
-    //   logo: "",
-    //   component: <Home />,
-    //   hidden: true,
-    // },
     {
         path: "/create",
         name: "Create Template",
@@ -184,18 +71,6 @@ export const routesConfig = [
         hidden: true,
         isUpper: false,
     },
-    // {
-    //     path: "/login",
-    //     name: "Login",
-    //     logo: "",
-    //     component: (
-    //         <LoginWrapper>
-    //             <Login />
-    //         </LoginWrapper>
-    //     ),
-    //     hidden: true,
-    //     isUpper: false,
-    // },
     {
         path: "/login",
         name: "Login",
@@ -216,18 +91,6 @@ export const routesConfig = [
         hidden: true,
         isUpper: false,
     },
-    // {
-    //     path: "/onboarding",
-    //     name: "Onboarding",
-    //     logo: "",
-    //     component: (
-    //         <LoginWrapper>
-    //             <Onboarding />
-    //         </LoginWrapper>
-    //     ),
-    //     hidden: true,
-    //     isUpper: false,
-    // },
     {
         path: "/onboarding",
         name: "Onboarding",
@@ -240,7 +103,6 @@ export const routesConfig = [
         path: "/dashboard",
         name: "Getting Started",
         logo: newHome(),
-        //  importConfig.routesIcons.dashboardIcon,
         component: (
             <ProviderConfig>
                 <DashboardWrapper selectdRoute={"Dashboard"}>
@@ -265,30 +127,6 @@ export const routesConfig = [
         hidden: false,
         isUpper: true,
     },
-    // {
-    //   path: "/user",
-    //   name: "User",
-    //   logo: UsersSvg(),
-    //   component: (
-    //     <DashboardWrapper selectdRoute={"User"}>
-    //       <User></User>
-    //     </DashboardWrapper>
-    //   ),
-    //   hidden: false,
-    // },
-    // {
-    //   path: "/admin",
-    //   name: "Admin",
-    //   logo: AdminSvg(),
-    //   component: (
-    //     <DashboardWrapper selectdRoute={"Admin"}>
-    //       <Admin></Admin>
-    //     </DashboardWrapper>
-    //   ),
-    //   hidden: false,
-    //   adminPermission: true,
-    // },
-
     {
         path: "/settings",
         name: "Settings",
@@ -303,133 +141,4 @@ export const routesConfig = [
         hidden: false,
         isUpper: true,
     },
-    // {
-    //     path: "/referpage",
-    //     name: "Refer Friends",
-    //     logo: referFriends(),
-    //     component: (
-    //         <ProviderConfig>
-    //             <DashboardWrapper selectdRoute={"referpage"}>
-    //                 <ReferralPage></ReferralPage>
-    //             </DashboardWrapper>
-    //         </ProviderConfig>
-    //     ),
-    //     hidden: false,
-    //     isUpper: true,
-    // },
-
-];
-
-
-export const routesConfigUpper = [
-    // {
-    //   path: "/",
-    //   name: "Home",
-    //   logo: "",
-    //   component: <Home />,
-    //   hidden: true,
-    // },
-    {
-        path: "/login",
-        name: "Login",
-        logo: "",
-        component: (
-            <LoginWrapper>
-                <Login />
-            </LoginWrapper>
-        ),
-        hidden: true,
-    },
-    {
-        path: "*",
-        name: "Login",
-        logo: "",
-        component: (
-            <LoginWrapper>
-                <Login />
-            </LoginWrapper>
-        ),
-        hidden: true,
-    },
-    {
-        path: "/onboarding",
-        name: "Onboarding",
-        logo: "",
-        component: (
-            <LoginWrapper>
-                <Onboarding />
-            </LoginWrapper>
-        ),
-        hidden: true,
-    },
-    {
-        path: "/dashboard",
-        name: "Getting Started",
-        logo: newHome(),
-        //  importConfig.routesIcons.dashboardIcon,
-        component: (
-            <DashboardWrapper selectdRoute={"Dashboard"}>
-                <Dashboard></Dashboard>
-            </DashboardWrapper>
-        ),
-        hidden: false,
-    },
-    {
-        path: "/insights",
-        name: "Explore",
-        logo: explore(),
-        component: (
-            <DashboardWrapper selectdRoute={"insights"}>
-                <User></User>
-            </DashboardWrapper>
-        ),
-        hidden: false,
-    },
-    // {
-    //   path: "/user",
-    //   name: "User",
-    //   logo: UsersSvg(),
-    //   component: (
-    //     <DashboardWrapper selectdRoute={"User"}>
-    //       <User></User>
-    //     </DashboardWrapper>
-    //   ),
-    //   hidden: false,
-    // },
-    // {
-    //   path: "/admin",
-    //   name: "Admin",
-    //   logo: AdminSvg(),
-    //   component: (
-    //     <DashboardWrapper selectdRoute={"Admin"}>
-    //       <Admin></Admin>
-    //     </DashboardWrapper>
-    //   ),
-    //   hidden: false,
-    //   adminPermission: true,
-    // },
-
-    {
-        path: "/settings",
-        name: "Settings",
-        logo: SettingsSvg(),
-        component: (
-            <DashboardWrapper selectdRoute={"Settings"}>
-                <Settings></Settings>
-            </DashboardWrapper>
-        ),
-        hidden: false,
-    },
-    {
-        path: "/referpage",
-        name: "Refer Friends",
-        logo: referFriends(),
-        component: (
-            <DashboardWrapper selectdRoute={"referpage"}>
-                <ReferralPage></ReferralPage>
-            </DashboardWrapper>
-        ),
-        hidden: false,
-    },
-
 ];

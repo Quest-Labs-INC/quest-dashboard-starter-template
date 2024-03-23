@@ -30,20 +30,21 @@ function createUrl(apiString) {
     };
 }
 
+let count = 0
 export async function uploadImageToBackend(file) {
     if (!file) {
         return null;
     }
-    if (file.size > 1000000 && this.count <= 50) {
+    if (file.size > 1000000 && count <= 50) {
         try {
             // Resize the image to below 1MB
             const compressedImage = await imageCompression(file, {
                 maxSizeMB: 1,
                 maxWidthOrHeight: 1024,
                 useWebWorker: true,
-                initialQuality: 1 - (this.count * 0.05),
+                initialQuality: 1 - (count * 0.05),
             });
-            // this.count++
+            count++
 
             // Call the uploadImageToBackend function recursively with the compressed image
             return await uploadImageToBackend(compressedImage);
@@ -60,7 +61,6 @@ export async function uploadImageToBackend(file) {
         ...baseHeaders,
         "Content-Type": "form-data",
     };
-    // console.log(headers)
 
     const formData = new FormData();
     formData.append("uploaded_file", file);

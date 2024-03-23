@@ -6,6 +6,8 @@ import { importConfig } from "../../assets/Config/importConfig";
 import { uploadImageToBackend } from "../../utils/UploadImage";
 import { generalFunction } from "../../assets/Config/GeneralFunction";
 import { mainConfig } from "../../assets/Config/appConfig";
+import { UserProfile } from "@questlabs/react-sdk";
+import { uploadSVG } from "../../assets/Images/svgAssets";
 
 const EditProfile = () => {
     const { theme, bgColors, appConfig } = useContext(ThemeContext);
@@ -19,6 +21,8 @@ const EditProfile = () => {
     const [selectedFile, setSelectedFile] = useState(null);
     const [customImage, setCustomImage] = useState("");
     const [descLen, setDesclen] = useState(0);
+    const [answer, setAnswer] = useState({});
+    const [loading, setLoading] = useState(true);
     const headers = {
         apikey: appConfig.QUEST_API_KEY,
         userid: generalFunction.getDataFromCookies("questUserId"),
@@ -31,9 +35,10 @@ const EditProfile = () => {
             setTimeout(() => {
                 generalFunction.hideLoader();
             }, 5000);
+            let request = generalFunction.createUrl(`api/users/${headers.userid}`)
             const { data } = await axios.get(
-                `${mainConfig.BACKEND_URL}api/users/${headers.userid}`,
-                { headers: headers }
+                request.url,
+                { headers: request.headers }
             );
             setName(data.data.name);
             setJobTitle(data.data.role);
@@ -46,14 +51,16 @@ const EditProfile = () => {
 
     const inputFileChangeHandler = (event) => {
         if (event.target.files[0]) {
+            console.log(event.target.files)
             setSelectedFile(event.target.files[0]);
-            setImageUrl(event.target.files[0]);
+            setImageUrl(URL.createObjectURL(event.target.files[0]));
             setCustomImage(URL.createObjectURL(event.target.files[0]));
 
-            generalFunction.showLoader();
             const uploadFile = async () => {
-                const { data } = await uploadImageToBackend(selectedFile);
-                setImageUrl(data.imageUrl);
+                generalFunction.showLoader();
+                let data = await uploadImageToBackend(event.target.files[0]);
+                console.log(data)
+                setImageUrl(data?.imageUrl);
                 generalFunction.hideLoader();
             };
             uploadFile();
@@ -65,9 +72,6 @@ const EditProfile = () => {
         const data = await axios.post(
             `${mainConfig.BACKEND_URL}api/users/${headers.userid}`,
             {
-                name: name,
-                about: about,
-                role: jobTitle,
                 imageUrl: imageUrl,
             },
             { headers: headers }
@@ -75,10 +79,19 @@ const EditProfile = () => {
         generalFunction.hideLoader();
     };
 
+
+    const colorRetriver = () => {
+        let mainColor = bgColors[`${theme}-primary-bg-color-0`];
+        let diffColor = mainColor.split(" ")?.filter((ele) => ele.charAt(0) == "#")
+        let pickColor = !!diffColor?.length ? [diffColor[0], diffColor.length > 1 ? diffColor[1] : "#D1ACFF"] : ["#9035FF", "#D1ACFF"];
+        return pickColor;
+    };
+    
+    
     return (
         <div className="w-full max-w-[calc(100vw-184px)] max-h-[calc(100vh-161px)] overflow-x-scroll overflow-y-scroll mt-[18px]">
             <div className="p-8 flex flex-col items-center gap-8 rounded-[10px] border border-gray-200">
-                <div className="w-28 h-28 flex items-center justify-center rounded-full bg-purple-200 relative">
+                <div className="w-28 h-28 flex items-center justify-center rounded-full bg-[#FFF3EC] relative">
                     {(imageUrl || customImage) && (
                         <img
                             className="object-cover h-full w-full rounded-full"
@@ -88,7 +101,10 @@ const EditProfile = () => {
                     )}
                     <div className={`${imageUrl ? "opacity-0" : "opacity-100"}`}>
                         <label className="cursor-pointer" htmlFor="profile-img">
-                            <img className="w-10 absolute top-9 left-9" src={importConfig.main.upload} alt="" />
+                            {/* <img className="w-10 absolute top-9 left-9" src={uploadSVG()} alt="" />/ */}
+                            {
+                                uploadSVG(colorRetriver()[0], colorRetriver()[1])
+                            }
                         </label>
                         <input
                             onChange={inputFileChangeHandler}
@@ -100,7 +116,7 @@ const EditProfile = () => {
                     </div>
                 </div>
 
-                <div className="flex justify-center gap-8 w-full">
+                {/* <div className="flex justify-center gap-8 w-full">
                     <div className="flex flex-col w-full">
                         <p className="self-stretch text-gray-600 font-semibold text-sm">Enter Name*</p>
                         <input
@@ -129,7 +145,7 @@ const EditProfile = () => {
                             }}
                         />
                     </div>
-                </div>
+                </div> */}
 
                 {/* <div className="flex justify-center gap-8 w-full">
                     <div className="flex flex-col w-full">
@@ -162,7 +178,7 @@ const EditProfile = () => {
                     </div>
                 </div> */}
 
-                <div className="w-full">
+                {/* <div className="w-full">
                     <p className="text-gray-600 font-semibold text-sm">Enter Your Description*</p>
                     <div className="flex w-full border border-gray-200 rounded-[10px]">
                         <textarea
@@ -181,9 +197,9 @@ const EditProfile = () => {
                         ></textarea>
                     </div>
                     <p className="text-gray-400 font-normal text-xs">{about?.length || 0}/120 Characters</p>
-                </div>
+                </div> */}
 
-                <button
+                {/* <button
                     className="flex justify-center items-center gap-2 self-stretch py-2 px-4 rounded-[10px]"
                     style={{
                         background: bgColors[`${theme}-primary-bg-color-0`]
@@ -191,7 +207,59 @@ const EditProfile = () => {
                     onClick={updateProfile}
                 >
                     <p className="text-white font-semibold text-md">Update</p>
-                </button>
+                </button> */}
+                <UserProfile
+                    questId={appConfig?.QUEST_ONBOARDING_QUIZ_CAMPAIGN_ID}
+                    userId={generalFunction.getDataFromCookies(
+                        "questUserId"
+                    )}
+                    token={generalFunction.getDataFromCookies(
+                        "questUserToken"
+                    )}
+                    answer={answer}
+                    setAnswer={setAnswer}
+                    getAnswers={updateProfile}
+                    loadingTracker
+                    setLoading={(e) => setLoading(e)}
+                    styleConfig={{
+                        Form: {
+                            width: "100%",
+                            background: "transparent",
+                        },
+                        Label: {
+                            color: bgColors[
+                                `${theme}-color-premitive-grey-6`
+                            ],
+                            fontFamily: "Figtree",
+                            fontSize: "12px",
+                            fontStyle: "normal",
+                            fontWeight: "500",
+                            lineHeight: "16px",
+                        },
+                        Input: {
+                            borderRadius: "10px",
+                            border: "1px solid gray",
+                        },
+                        MultiChoice: {
+                            selectedStyle: {
+                                background: bgColors[`${theme}-primary-bg-color-0`],
+                                color: "#E0E0E0",
+                                border: "1px solid gray"
+                            }
+                        },
+                        SingleChoice: {
+                            style: {
+                                border: "1px solid gray"
+                            },
+                            selectedStyle: {
+                                border: "1px solid gray"
+                            }
+                        },
+                        TextArea: {
+                            border: "1px solid gray"
+                        }
+                    }}
+                />
             </div>
         </div>
     );

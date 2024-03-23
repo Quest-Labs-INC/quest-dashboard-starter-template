@@ -162,7 +162,7 @@ function MainPage() {
 
             generalFunction.hideLoader();
 
-            let apiData = response.data;
+            let apiData = response.data.data;
 
             setEntityDetails(apiData)
             setAppConfig({
@@ -171,8 +171,12 @@ function MainPage() {
                 QUEST_ENTITY_NAME: apiData?.name,
                 QUEST_ENTITY_ID: apiData?.id,
             })
-            let iconSelector = document.querySelector(".iconUrl")
-            // iconSelector.setAttribute("href", "https://quest-media-storage-bucket.s3.us-east-2.amazonaws.com/1709407714542-90319026362-min_500x500.webp")
+
+            localStorage.setItem("themeColor", apiData?.saasDashboard?.dashboardConfig?.colorConfig)
+            localStorage.setItem("brandlogo", apiData?.saasDashboard?.dashboardConfig?.imageUrl || apiData?.imageUrl)
+            localStorage.setItem("entityName", apiData?.saasDashboard?.dashboardConfig?.name)
+            localStorage.setItem("heading", apiData?.saasDashboard?.dashboardConfig?.title)
+            localStorage.setItem("description", apiData?.saasDashboard?.dashboardConfig?.description)
 
             setContentConfig({
                 ...contentConfig,
@@ -210,6 +214,8 @@ function MainPage() {
                             setAdminEntity(communitySelect.id)
                             generalFunction.setDataInCookies("adminCommunityId", communitySelect.id);
                             generalFunction.setDataInCookies("communityImageUrl", communitySelect?.imageUrl || "");
+                            localStorage.setItem("adminCommunityId", communitySelect.id);
+                            localStorage.setItem("communityImageUrl", communitySelect?.imageUrl || "");
                         }
                     }
                     if (!res?.data?.name || res?.data?.name == "" || !res.isAdmin) {
@@ -217,6 +223,8 @@ function MainPage() {
                     } else {
                         generalFunction.setDataInCookies("userName", res?.data?.name);
                         generalFunction.setDataInCookies("userImageUrl", res?.data?.imageUrl);
+                        localStorage.setItem("userName", res?.data?.name);
+                        localStorage.setItem("userImageUrl", res?.data?.imageUrl);
                     }
                 }
             })
@@ -308,7 +316,7 @@ function MainPage() {
                                 <div>Experience</div>
                                 <p>the magic</p>
                             </div>
-                            <div className="description w-[820px] left-0 top-[72px] text-center text-[#545454] text-2xl font-normal font-['Figtree'] leading-9">Let's launch 10x faster! Just make a wish and in a few seconds we will help generate the entire base dashboard for you with Login, Onboarding, Get Started, Feedback Collection, Surveys, Referrals, Search Bar Settings and more..</div>
+                            <div className="description w-[676px] left-0 top-[72px] text-center text-[#545454] text-lg font-normal font-['Figtree'] leading-9">10x faster! Make a wish, and we'll create your dashboard instantly with Login, Onboarding, Feedback, Surveys, Referrals, and more.</div>
                         </div>
 
                         {/* input section  */}
@@ -378,16 +386,16 @@ function MainPage() {
 
                                     <p className="">
                                         {" "}
-                                        What will be your platform about? Give as much details as possible, will be helpful to our AI.*{" "}
+                                        Provide detailed platform information to assist our AI effectively.*{" "}
                                     </p>
                                     <textarea
                                         // className="px-4 py-2.5 rounded-[10px] mt-1.5 w-full min-h-[64px]"
                                         className=""
                                         style={{ resize: "vertical", border: "1px solid #ECECEC" }}
                                         onChange={(e) => {
-                                            if (e.target.value.length <= 120) {
+                                            // if (e.target.value.length <= 120) {
                                                 setDescription(e.target.value)
-                                            }
+                                            // }
 
                                         }}
                                         value={description}

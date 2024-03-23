@@ -19,7 +19,6 @@ export default function Onboarding() {
         navigate("/dashboard");
     };
 
-
     return (
         <div className="h-full min-h-screen overflow-y-scroll flex justify-center items-center pl-[134px] pr-[125px]">
             <div className={`${!loading && "rounded-xl"} m-auto max-w-[500px]`}>
@@ -83,7 +82,7 @@ export default function Onboarding() {
                                 fontStyle: "normal",
                                 fontWeight: "400",
                                 lineHeight: "16px",
-                                margin: "auto"
+                                margin: "auto",
                             },
                             Label: {
                                 color: bgColors[
@@ -101,11 +100,17 @@ export default function Onboarding() {
                             },
                             MultiChoice: {
                                 selectedStyle: {
-                                    background: bgColors[`${theme}-primary-bg-color-0`],
+                                    background:
+                                        bgColors[`${theme}-primary-bg-color-0`],
                                     color: "#E0E0E0",
-                                    border: "1px solid"
-                                }
-                            }
+                                    border: "1px solid",
+                                },
+                            },
+                            SingleChoice: {
+                                selectedStyle: {
+                                    border: "1px solid gray",
+                                },
+                            },
                         }}
                         showFooter={false}
                     />

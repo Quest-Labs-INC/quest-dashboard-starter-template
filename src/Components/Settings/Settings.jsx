@@ -37,7 +37,7 @@ export default function Settings() {
                 </p>
             </div>
 
-            <div className="px-8 pt-[30px] w-full">
+            <div className="px-8 pt-[30px] w-full pr-[96px]">
                 <div className="flex w-full items-start border-b border-[#E0E0E0] h-[52px]">
                     <p
                         className={`text-sm font-semibold font-['Figtree'] h-[52px] p-4 cursor-pointer ${section == "edit" &&

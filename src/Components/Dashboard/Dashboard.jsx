@@ -5,10 +5,11 @@ import { generalFunction } from "../../assets/Config/GeneralFunction";
 import { useContext } from "react";
 import { ThemeContext } from "../Common/appContext";
 import { searchIcon } from "../Common/SideBarSvg";
+import { useNavigate } from "react-router-dom";
 
 export default function Dashboard() {
     const completeAllStatus = () => { };
-
+    const navigate = useNavigate();
     const { theme, bgColors, appConfig } = useContext(ThemeContext);
 
     return (
@@ -71,14 +72,12 @@ export default function Dashboard() {
                         token={generalFunction.getDataFromCookies("questUserToken")}
                         completeAllStatus={completeAllStatus}
                         buttonBg="linear-gradient(90deg, rgba(105,92,254,1) 0%, rgba(0,210,234,1) 50%, rgba(105,92,254,1) 100%)"
-                        // cardBG={}
                         cardHeadingColor={
                             bgColors[`${theme}-color-premitive-grey-5`]
                         }
                         cardDescColor="var(--neutral-grey-200, #AFAFAF)"
                         cardBorderColor="var(--primary-bg-color-2)"
                         descriptionText={`Get started with ${appConfig?.QUEST_ENTITY_NAME} and explore how you can get the best out of the platform`}
-                        // width="50%"
                         iconUrls={[
                             importConfig.routesIcons.userIcon,
                             importConfig.routesIcons.adminIcon,
@@ -86,10 +85,16 @@ export default function Dashboard() {
                         ]}
                         arrowColor="black"
                         cardBackground={bgColors[`${theme}-primary-bg-color-2`]}
+                        onLinkTrigger={(e) => navigate(e)}
+                        allowMultiClick
                         styleConfig={{
                             Form: {
                                 padding: "0px",
                                 background: bgColors[`${theme}-primary-bg-color-3`],
+                            },
+                            Topbar: {
+                                border: "0px",
+                                paddingBottom: "0px"
                             },
                             Heading: {
                                 color: bgColors[`${theme}-color-premitive-grey-5`],
@@ -108,9 +113,16 @@ export default function Dashboard() {
                                 lineHeight: "20px",
                                 margin: "8px 0 0 0",
                             },
-                            Card: {},
+                            ProgressBar: {
+                                barColor: bgColors[`${theme}-primary-bg-color-0`],
+                                ProgressText: {
+                                    color: bgColors[`${theme}-color-premitive-grey-5`],
+                                }
+                            }
                         }}
                         showFooter={false}
+                        showProgressBar
+
                     />
                 </div>
             </div>

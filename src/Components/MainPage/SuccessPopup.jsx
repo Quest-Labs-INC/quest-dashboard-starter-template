@@ -72,12 +72,12 @@ const SuccessPopup = ({ setSuccessPopup }) => {
                                 lineHeight: '20px',
                             }}
                         >
-                            Congrats! You saved months of dev time! Click on Preview below to see how your app looks and Click on fork to get access to the github repo where  you can fork the repo, follow the instructions in readme.
+                            Congratulations on saving months of development time! Preview your app and access GitHub.
                         </p>
                     </div>
 
                     <div className="flex gap-5 w-full ">
-                        <button className='border w-full border-[#D1ACFF] rounded-[10px] text-zinc-800 text-sm font-semibold font-["Figtree"] px-4 py-2.5' onClick={() => { window.location.href = "/login" }}>
+                        <button className='border w-full border-[#6200EE] rounded-[10px] text-zinc-800 text-sm font-semibold font-["Figtree"] px-4 py-2.5' onClick={() => { window.location.href = "/login" }}>
                             Preview
                         </button>
                         <button className='text-white w-full text-sm font-semibold font-["Figtree"] px-4 py-2.5 bg-[linear-gradient(84deg,_#9035FF_0.36%,_#0065FF_100.36%)] rounded-[10px]' onClick={() => window.open("https://github.com/Quest-Labs-INC/quest-dashboard-starter-template")}>
