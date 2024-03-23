@@ -20,13 +20,6 @@ import User from "../../Components/User/User";
 import { importConfig } from "./importConfig";
 
 export const routesConfig = [
-  // {
-  //   path: "/",
-  //   name: "Home",
-  //   logo: "",
-  //   component: <Home />,
-  //   hidden: true,
-  // },
   {
     path: "/login",
     name: "Login",
@@ -37,6 +30,7 @@ export const routesConfig = [
       </LoginWrapper>
     ),
     hidden: true,
+    isUpper: false,
   },
   {
     path: "*",
@@ -48,6 +42,7 @@ export const routesConfig = [
       </LoginWrapper>
     ),
     hidden: true,
+    isUpper: false,
   },
   {
     path: "/onboarding",
@@ -59,6 +54,7 @@ export const routesConfig = [
       </LoginWrapper>
     ),
     hidden: true,
+    isUpper: false,
   },
   {
     path: "/dashboard",
@@ -71,6 +67,7 @@ export const routesConfig = [
       </DashboardWrapper>
     ),
     hidden: false,
+    isUpper: true,
   },
   {
     path: "/insights",
@@ -82,31 +79,8 @@ export const routesConfig = [
       </DashboardWrapper>
     ),
     hidden: false,
+    isUpper: true,
   },
-  {
-    path: "/user",
-    name: "User",
-    logo: UsersSvg(),
-    component: (
-      <DashboardWrapper selectdRoute={"User"}>
-        <User></User>
-      </DashboardWrapper>
-    ),
-    hidden: false,
-  },
-  {
-    path: "/admin",
-    name: "Admin",
-    logo: AdminSvg(),
-    component: (
-      <DashboardWrapper selectdRoute={"Admin"}>
-        <Admin></Admin>
-      </DashboardWrapper>
-    ),
-    hidden: false,
-    adminPermission: true,
-  },
-
   {
     path: "/settings",
     name: "Settings",
@@ -117,5 +91,6 @@ export const routesConfig = [
       </DashboardWrapper>
     ),
     hidden: false,
+    isUpper: true,
   },
 ];

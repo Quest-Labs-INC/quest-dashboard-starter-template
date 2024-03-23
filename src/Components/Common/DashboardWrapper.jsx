@@ -3,142 +3,237 @@ import "./dashboardWrapper.css";
 import { Link, useNavigate } from "react-router-dom";
 import { routesConfig } from "../../assets/Config/routesConfig";
 import { importConfig } from "../../assets/Config/importConfig";
-import { appConfig } from "../../assets/Config/appConfig";
-import GeneralFunction from "../../assets/Functions/GeneralFunction";
-import { FeedbackWorkflow, Search } from "@questlabs/react-sdk";
+import { FeedbackWorkflow, Search, Survey } from "@questlabs/react-sdk";
 import FeedbackButton from "./FeedbackButton";
 import { generalFunction } from "../../assets/Config/GeneralFunction";
-import { referal } from "./SideBarSvg";
+import {
+    upgrade,
+    bookACall,
+    logOutBtn,
+    referFriends,
+} from "./SideBarSvg";
 import ReferralPopup from "../Referral/ReferralPopup";
-import AppContext, { ThemeContext } from "./AppContext";
+import { ThemeContext } from "./AppContext";
+import { mainConfig } from "../../assets/Config/appConfig";
+import SearchComponents from "./SearchComponents";
+import SurveyComponents from "./SurveyComponents";
 
 export default function DashboardWrapper({ children, selectdRoute }) {
-  const [hover, sethover] = useState("close");
-  const [sidebarOpen, setSidebarOpen] = useState(false);
-  const navigate = useNavigate();
-  const [checked, setChecked] = useState(false);
-  const [openPopup, setOpenPopup] = useState(false);
-  const { theme, setTheme, bgColors, appConfig } = useContext(ThemeContext);
+    const [openPopup, setOpenPopup] = useState(false);
+    const { theme, setTheme, bgColors, appConfig, checked, setChecked } =
+        useContext(ThemeContext);
 
-  const toggleTheme = () => {
-    if (theme === "dark") {
-      setTheme("light");
-      localStorage.setItem("theme", "light");
-    } else {
-      setTheme("dark");
-      localStorage.setItem("theme", "dark");
+    const toggleTheme = () => {
+        if (theme === "dark") {
+            setTheme("light");
+            localStorage.setItem("theme", "light");
+        } else {
+            setTheme("dark");
+            localStorage.setItem("theme", "dark");
+        }
+    };
+
+    const handleToggle = () => {
+        setChecked((prev) => !prev);
+        toggleTheme();
+    };
+
+    const handleChange = (e) => {
+        e.stopPropagation();
+        toggleTheme();
+    };
+    const [quesNoFeed, setQuesNoFeed] = useState(1);
+    const [showFeedbackSection, setShowFeedbackSection] = useState(false);
+
+    const diffWithDate = (date, type) => {
+      const inputDate = new Date().getTime();
+      const targetDate = new Date(date).getTime();
+      const differenceInMilliseconds = Math.abs(inputDate - targetDate);
+      const differenceInDays = Math.ceil(differenceInMilliseconds / (type == "days" ? 1000 * 3600 * 24 : 1000 * 3600));
+      return differenceInDays;
     }
-  };
 
-  const handleToggle = () => {
-    setChecked((prev) => !prev);
-    toggleTheme();
-  };
+    useEffect(() => {
+      let websiteVisit = localStorage.getItem("websiteVisit");
+      let feedbackOpen = localStorage.getItem("feedbackOpen");
 
-  const handleChange = (e) => {
-    e.stopPropagation();
-    setChecked(e.target.checked);
-    toggleTheme();
-  };
+      const websiteVisitDiffDate = diffWithDate(websiteVisit, "days");
+      const feedbackOpenDiffDate = diffWithDate(feedbackOpen, "hours");
 
-  return (
-    <div
-      className="flex relative w-screen h-screen bg-customShade-4 transition-all ease-in delay-[40]"
-      style={{ backgroundColor: bgColors[`${theme}-primary-bg-color-3`] }}
-    >
-      <FeedbackButton />
-      {openPopup && <ReferralPopup setOpenPopup={() => setOpenPopup(false)} />}
-      <div className="z-20">
-        <Search
-          questId={appConfig?.QUEST_SEARCH_BAR_CAMPAIGN_ID}
-          userId={generalFunction.getUserId()}
-          token={generalFunction.getUserToken()}
-          open="ON_CTRL_K_KEY"
-          onResultClick={(e) => navigate(e)}
-          icons={[
-            importConfig.routesIcons.dashboardIcon,
-            importConfig.routesIcons.userIcon,
-            importConfig.routesIcons.adminIcon,
-            importConfig.routesIcons.settingIcon,
-          ]}
-        />
-      </div>
+      if (websiteVisitDiffDate > 2) {
+        if (feedbackOpenDiffDate > 2) {
+          localStorage.setItem("feedbackOpen", new Date());
+          setShowFeedbackSection(true);
+        }
+      }
+    }, [])
 
-      <nav
-        className="s_nav_container"
-        // style={{ backgroundColor: bgColors[`${theme}-primary-bg-color-2`] }}
-        style={{ backgroundColor: bgColors[`${theme}-primary-bg-color-3`] }}
-      >
-        <div className="s_nav_header_cont">
-          <div className="s_nav_company_logo_cont">
-            <div className="s_nav_company_logo">
-              <img src={importConfig.brandLogo} alt="" />
-            </div>
-            <p style={{ color: bgColors[`${theme}-color-premitive-grey-5`] }}>
-              {appConfig?.QUEST_ENTITY_NAME}
-            </p>
-          </div>
-        </div>
+    const closeSurveyPopup = (e) => {
+      if (document.getElementById("clickbox_sreferral").contains(e.target)) {
+      } else {
+        setShowFeedbackSection(false);
+      }
+    }
 
-        <div className="s_nav_menu_cont">
-          <ul className="s_nav_menu">
-            {routesConfig.map(
-              (routes, index) =>
-                !routes.hidden && (
-                  <li
-                    className={`s_nav_menu_item ${
-                      window.location.href.includes(routes.path) &&
-                      "s_nav_active"
-                    }`}
-                    key={index}
-                  >
-                    <Link
-                      to={routes.path}
-                      className="s_nav_menu_link"
-                      onClick={() => setSidebarOpen(false)}
-                    >
-                      <div>{routes.logo}</div>
-                      <p>{routes.name}</p>
-                    </Link>
-                  </li>
-                )
+
+    return (
+        <div
+            className="flex relative w-screen h-screen bg-customShade-4 transition-all ease-in delay-[40]"
+            style={{
+                backgroundColor: bgColors[`${theme}-primary-bg-color-3`],
+                position: "relative",
+            }}
+        >
+            {/* feedback sidebar buton */}
+            <FeedbackButton />
+
+            {/* for referral pop up  */}
+            {openPopup && (
+                <ReferralPopup setOpenPopup={() => setOpenPopup(false)} />
             )}
 
-            <li className={`s_nav_menu_item cursor-pointer`}>
-              <div
-                className="s_nav_menu_link"
-                onClick={() => setOpenPopup((prev) => !prev)}
-              >
-                <div>{referal()}</div>
-                <p>Referral</p>
-              </div>
-            </li>
-          </ul>
-        </div>
+            {/* for selected hightlight */}
 
-        <div className={"profileContSecondary"}>
-          <div className={"profileContThird"} onClick={handleToggle}>
-            <label className={"PaymentSwitch2"}>
-              <input
-                id="sidebar-toggle"
-                type="checkbox"
-                checked={checked}
-                onChange={handleChange}
-              />
-              <span className={"slider2"} />
-            </label>
-            <div className={"profileTitle3"}>
-              {checked ? "Light Mode" : "Dark Mode"}
+            <SearchComponents/>
+            
+            { showFeedbackSection &&
+              <SurveyComponents/>
+            }
+
+            <div></div>
+
+            <nav
+                className="s_nav_container"
+                style={{
+                    backgroundColor: bgColors[`${theme}-primary-bg-color-3`],
+                }}
+            >
+                {/* for logo image */}
+                <div className="s_nav_header_cont">
+                    <div className="s_nav_company_logo_cont">
+                        <img
+                            src={appConfig.BRAND_LOGO || importConfig.brandLogo}
+                            alt=""
+                            className=""
+                        />
+                        <p
+                            style={{
+                                color: bgColors[
+                                    `${theme}-color-premitive-grey-5`
+                                ],
+                            }}
+                        >
+                            {appConfig?.QUEST_ENTITY_NAME}
+                        </p>
+                    </div>
+                </div>
+
+                {/* for navigations */}
+                <div className="s_navigation_cont">
+                    {/* upper  */}
+                    <div className="s_nav_menu_cont-upper">
+                        <ul className="s_nav_menu">
+                            {routesConfig.map(
+                                (routes, index) =>
+                                    !routes.hidden &&
+                                    routes.isUpper && (
+                                        <li
+                                            className={`s_nav_menu_item ${
+                                                window.location.href.includes(
+                                                    routes.path
+                                                ) && "s_nav_active"
+                                            }`}
+                                            key={index}
+                                        >
+                                            <Link
+                                                to={routes.path}
+                                                className="s_nav_menu_link"
+                                                onClick={() =>
+                                                    setSidebarOpen(false)
+                                                }
+                                            >
+                                                <div>{routes.logo}</div>
+                                                <p>{routes.name}</p>
+                                            </Link>
+                                        </li>
+                                    )
+                            )}
+
+                            <li className={`s_nav_menu_item cursor-pointer`}>
+                                <div
+                                    className="s_nav_menu_link"
+                                    onClick={() =>
+                                        setOpenPopup((prev) => !prev)
+                                    }
+                                >
+                                    <div>{referFriends()}</div>
+                                    <p>Refer Friends</p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+
+                    {/* lwer */}
+                    <div className="s_nav_menu_cont-lower">
+                        <ul className="s_nav_menu">
+                            <li>
+                                <Link
+                                    className="s_nav_menu_link"
+                                    onClick={() => setSidebarOpen(false)}
+                                >
+                                    <div>{upgrade()}</div>
+                                    <p>Upgrade</p>
+                                </Link>
+                            </li>
+
+                            <li>
+                                <Link
+                                    className="s_nav_menu_link"
+                                    onClick={() => {setSidebarOpen(false); window.open(mainConfig.CALENDLY_LINK, "_blank")}}
+                                >
+                                    <div>{bookACall()}</div>
+                                    <p>Book a call</p>
+                                </Link>
+                            </li>
+
+                            <li className={"profileContSecondary toggle-btn"}>
+                                <div
+                                    className={"profileContThird"}
+                                    onClick={handleToggle}
+                                >
+                                    <label className={"PaymentSwitch2"}>
+                                        <input
+                                            id="sidebar-toggle"
+                                            type="checkbox"
+                                            checked={checked}
+                                            onChange={handleChange}
+                                        />
+                                        <span className={"slider2"} />
+                                    </label>
+                                    <div className={"profileTitle3"}>
+                                        {checked ? "Light Mode" : "Dark Mode"}
+                                    </div>
+                                </div>
+                            </li>
+
+                            <li>
+                                <Link
+                                    // to={routes.path}
+                                    className="s_nav_menu_link"
+                                    onClick={() => setSidebarOpen(false)}
+                                >
+                                    <div>{logOutBtn()}</div>
+                                    <p>Logout</p>
+                                </Link>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+
+            <div className="w-[calc(100vw-185px)]">
+                <div className="">{children}</div>
             </div>
-          </div>
         </div>
-      </nav>
-
-      <div className="w-full">
-        <div className="p-4 w-full md:w-[calc(100vw-185px)] h-screen overflow-auto">
-          {children}
-        </div>
-      </div>
-    </div>
-  );
+    );
 }

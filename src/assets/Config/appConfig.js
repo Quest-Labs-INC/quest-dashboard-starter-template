@@ -1,19 +1,8 @@
-
-export const appConfig = {
-    QUEST_ENTITY_ID: "",
-    QUEST_ENTITY_NAME: "",
-    QUEST_API_KEY: "",
-    QUEST_ONBOARDING_QUIZ_CAMPAIGN_ID: "",
+export const mainConfig = {
+    QUEST_BASE_URL : "https://staging.questprotocol.xyz/",
+    QUEST_ENTITY_ID: "e-0da7e5e8-ba73-4b9e-9006-81b30bc21861",
+    QUEST_API_KEY: "k-5f9f25c7-ae1e-4d87-bdfb-4dc7ef6367e4",
+    CALENDLY_LINK: "",
     GOOGLE_REDIRECT_URI: "",
     GOOGLE_CLIENT_ID: "",
-    QUEST_GET_STARTED_CAMPAIGN_ID: "",
-    QUEST_SEARCH_BAR_CAMPAIGN_ID: '',
-}
-
-
-export const contentConfig = {
-    login: {
-        heading: "Supercharge your User Experience",
-        description: "Start your journey to unlocking product-driven growth with Quest 💫"
-    }
 }
