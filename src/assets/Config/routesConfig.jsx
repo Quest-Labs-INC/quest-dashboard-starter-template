@@ -9,7 +9,7 @@ import Onboarding from "../../Components/Onboarding/Onboarding";
 import Settings from "../../Components/Settings/Settings";
 import User from "../../Components/User/User";
 import { importConfig } from "./importConfig";
-import { ThemeContext } from "../../Components/Common/appContext";
+import { ThemeContext } from "../../Components/Common/AppContext";
 import MainPage from "../../Components/MainPage/MainPage";
 import { QuestProvider } from "@questlabs/react-sdk";
 import {

@@ -3,7 +3,7 @@ import DashboardWrapper from "../Common/DashboardWrapper";
 import { importConfig } from "../../assets/Config/importConfig";
 import { generalFunction } from "../../assets/Config/GeneralFunction";
 import { useContext } from "react";
-import { ThemeContext } from "../Common/appContext";
+import { ThemeContext } from "../Common/AppContext";
 import { searchIcon } from "../Common/SideBarSvg";
 import { useNavigate } from "react-router-dom";
 
