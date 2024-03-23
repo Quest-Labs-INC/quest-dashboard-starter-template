@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { importConfig } from "../../assets/Config/importConfig";
-import { ThemeContext } from "./appContext";
+import { ThemeContext } from "./AppContext";
 import "./LoginWrapper.css";
 
 export default function LoginWrapper({ children }) {

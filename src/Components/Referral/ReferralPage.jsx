@@ -3,7 +3,7 @@ import { useContext, useEffect, useState } from "react";
 // import './Settings.css'
 import InputComponent from "../Common/CommonComponents/InputComponent";
 import { importConfig } from "../../assets/Config/importConfig";
-import { ThemeContext } from "../Common/appContext";
+import { ThemeContext } from "../Common/AppContext";
 import { deleteIcon, searchIcon } from "../Common/SideBarSvg";
 import './ReferralPage.css'
 import ReferFriend from './Images/ReferFriend.svg'

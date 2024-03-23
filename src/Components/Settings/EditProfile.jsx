@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
-import { ThemeContext } from "../Common/appContext";
+import { ThemeContext } from "../Common/AppContext";
 import InputComponent from "../Common/CommonComponents/InputComponent";
 import { importConfig } from "../../assets/Config/importConfig";
 import { uploadImageToBackend } from "../../utils/UploadImage";

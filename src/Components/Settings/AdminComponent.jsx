@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import "./AdminComponent.css";
 import InputComponent from "../Common/CommonComponents/InputComponent";
 import { importConfig } from "../../assets/Config/importConfig";
-import { ThemeContext } from "../Common/appContext";
+import { ThemeContext } from "../Common/AppContext";
 import { deleteIcon, searchIcon } from "../Common/SideBarSvg";
 import axios from "axios";
 import { uploadImageToBackend } from "../../utils/UploadImage";

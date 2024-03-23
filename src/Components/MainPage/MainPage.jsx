@@ -10,7 +10,7 @@ import Cookies from 'universal-cookie';
 import { QuestProvider } from '@questlabs/react-sdk';
 import ChangeEntityPopup from './ChangeEntityPopup';
 import SuccessPopup from './SuccessPopup';
-import { ThemeContext } from '../Common/appContext';
+import { ThemeContext } from '../Common/AppContext';
 import './MainPage.css'
 import CreateSuccessPopUp from './CreateSuccessPopUp';
 
