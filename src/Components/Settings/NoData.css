@@ -1,0 +1,20 @@
+.no-admin-data {
+    width: 100%;
+    height: calc(100vh - 350px);
+    /* background-color: yellow; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.no-admin-data>div {
+    text-align: center;
+    /* Display lg/600 */
+    font-family: Figtree;
+    font-size: 48px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 60px;
+    /* 125% */
+    letter-spacing: -1.92px;
+}

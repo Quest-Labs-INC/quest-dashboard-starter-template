@@ -20,8 +20,8 @@ function App() {
           <Toaster
             position="top-right"
           />
-            <AllRoutes />
-            {/* <MainPage/> */}
+          <AllRoutes />
+          {/* <MainPage/> */}
         </div>
       </AppContext>
     </>

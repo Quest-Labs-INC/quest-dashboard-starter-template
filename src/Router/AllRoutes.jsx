@@ -11,7 +11,7 @@ export default function AllRoutes() {
         <Routes>
             {
                 routesConfig.map((routes, index) => (
-                    <Route path={routes.path} element={routes.component} key={index}/>
+                    <Route path={routes.path} element={routes.component} key={index} />
                 ))
             }
         </Routes>

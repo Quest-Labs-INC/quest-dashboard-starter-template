@@ -1,0 +1,101 @@
+.settings-page {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    /* gap: 25px; */
+    /* width: 100%; */
+    /* padding: 40px; */
+    /* background-color: red; */
+}
+
+/* settings header  */
+.settings-page-header {
+    display: flex;
+    width: 100%;
+    padding: 20px 40px;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1.5px solid #ececec;
+    background: var(--Neutral-White-100, #FFF);
+    /* background-color: #00F260; */
+}
+
+.settings-page-header>div {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    flex: 1 0 0;
+    width: 100%;
+}
+
+.settings-page-header>div>p {
+    color: var(--Neutral-Black-400, #2C2C2C);
+    font-family: Figtree;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 28px;
+    /* 155.556% */
+}
+
+/* for buttons: edit/manage */
+.settings-page-edit-btns-div {
+    width: 100%;
+}
+
+.settings-page-edit-btns {
+    display: flex;
+    width: 1196px;
+    width: 100%;
+    align-items: flex-start;
+    border-bottom: 1px solid var(--Neutral-White-400, #E0E0E0);
+    /* background-color: yellow; */
+    height: 52px;
+}
+
+/* if button selected  */
+.settings-page-edit-btns>.selected {
+    display: flex;
+    padding: 16px;
+    justify-content: center;
+    align-items: flex-start;
+    border-radius: 12px 12px 0px 0px;
+    border-bottom: 1px solid var(--Neutral-Black-100, #939393);
+    background: var(--Neutral-White-400, #E0E0E0);
+}
+
+.settings-page-edit-btns>.selected>p {
+    width: 94px;
+    color: var(--Neutral-Black-400, #2C2C2C);
+    /* Body md/600 */
+    font-family: Figtree;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 20px;
+    /* 142.857% */
+}
+
+/* if button not selected  */
+.settings-page-edit-btns>.not-selected {
+    display: flex;
+    padding: 16px;
+    align-items: flex-start;
+}
+
+.settings-page-edit-btns>.not-selected>p {
+    width: 104px;
+    color: var(--Neutral-Black-400, #2C2C2C);
+    /* Body md/600 */
+    font-family: Figtree;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 20px;
+    /* 142.857% */
+}
+
+.edit-admin {
+    width: 100%;
+}
