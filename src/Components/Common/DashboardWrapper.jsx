@@ -56,7 +56,7 @@ export default function DashboardWrapper({ children, selectdRoute }) {
       const inputDate = new Date().getTime();
       const targetDate = new Date(date).getTime();
       const differenceInMilliseconds = Math.abs(inputDate - targetDate);
-      const differenceInDays = Math.ceil(differenceInMilliseconds / (type == "days" ? 1000 * 3600 * 24 : 1000 * 3600));
+      const differenceInDays = Math.ceil(differenceInMilliseconds / (type == "days" ? (1000 * 3600 * 24) : (1000 * 3600)));
       return differenceInDays;
     }
 
@@ -67,11 +67,13 @@ export default function DashboardWrapper({ children, selectdRoute }) {
       const websiteVisitDiffDate = diffWithDate(websiteVisit, "days");
       const feedbackOpenDiffDate = diffWithDate(feedbackOpen, "hours");
 
-      if (websiteVisitDiffDate > 2) {
+      if (!!websiteVisit && !!feedbackOpen && websiteVisitDiffDate > 2) {
         if (feedbackOpenDiffDate > 2) {
           localStorage.setItem("feedbackOpen", new Date());
           setShowFeedbackSection(true);
         }
+      } else {
+        localStorage.setItem("websiteVisit", new Date());
       }
     }, [])
 

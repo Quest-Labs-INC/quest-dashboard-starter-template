@@ -341,11 +341,11 @@ function MainPage() {
                                     )
                                 }
                                 <div
-                                    className={`q-input-container ${(imageUrl || customImage) ? "opacity-0" : "opacity-100"}`}
+                                    className={`q-input-container ${(imageUrl || customImage) ? "opacity-0" : "opacity-100"} w-full h-full`}
                                 >
-                                    <label className="cursor-pointer" htmlFor='profile-img'>
+                                    <label className="cursor-pointer w-full h-full" htmlFor='profile-img'>
                                         <img
-                                            className="w-10 absolute top-7 left-7"
+                                            className="w-24  p-7 absolute"
                                             src={importConfig.main.upload}
                                             alt=""
                                         />
@@ -449,7 +449,7 @@ function MainPage() {
                         <div className='w-full border-b border-[#4B4B4B]'></div>
                         <div className="footer-text-cont ">
 
-                            <div className="copyright-text">Copyright © 2023 AI Saas Template</div>
+                            <div className="copyright-text">Copyright © 2023 AI Saas GPT</div>
 
                             <div className="terns-privacy-cont">
                                 <div className="text-[#4C4C4C] text-lg font-normal font-['Hanken Grotesk'] leading-7">Terms of service  </div>
