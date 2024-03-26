@@ -1,8 +1,8 @@
 import React, { useContext } from 'react';
 import { ThemeContext } from './AppContext';
-import { generalFunction } from '../../assets/Config/GeneralFunction';
+import { generalFunction } from '../../assets/Config/generalFunction';
 
-const SurveyComponents = () => {
+const SurveyComponents = ({closeSurveyPopup}) => {
     const { theme, bgColors } =
         useContext(ThemeContext);
 

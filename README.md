@@ -1,11 +1,11 @@
-# SAAS Dashboard Template Guide
+# SAAS GPT Guide
 
-Welcome to our SAAS template! This guide will walk you through the steps to fork and set up your own website with minimal changes. Our template is designed to be easy to use and customizable to suit your needs.
+Welcome to our SAAS GPT! This guide will walk you through the steps to fork and set up your own website with minimal changes. Our template is designed to be easy to use and customizable to suit your needs.
 
 ## Getting Started
 
 ### Step 1: Fork from Github
-- Fork the SAAS template from our Github repository.
+- Fork the SAAS GPT from our Github repository.
 - Open the forked repository in your preferred Integrated Development Environment (IDE).
 
 ### Step 2: Setting up Credentials
@@ -60,6 +60,6 @@ Configure all background color in index.css and colors in tailwind.config.js (ad
 - Paste the questId into the `QUEST_ONBOARDING_QUIZ_CAMPAIGN_ID` key in the `appConfig` file.
 
 ## You're All Set!
-With these steps completed, your SAAS template is ready to use. Feel free to explore and customize further to create the perfect website for your needs. If you have any questions or need assistance, don't hesitate to reach out to our support team. Happy building!
+With these steps completed, your SAAS GPT is ready to use. Feel free to explore and customize further to create the perfect website for your needs. If you have any questions or need assistance, don't hesitate to reach out to our support team. Happy building!
 
 

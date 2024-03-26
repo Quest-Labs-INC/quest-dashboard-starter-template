@@ -1,7 +1,7 @@
 import { OnBoarding } from "@questlabs/react-sdk";
 import LoginWrapper from "../Common/LoginWrapper";
 import { useContext, useEffect, useState } from "react";
-import { generalFunction } from "../../assets/Config/GeneralFunction";
+import { generalFunction } from "../../assets/Config/generalFunction";
 import { useNavigate } from "react-router-dom";
 import { ThemeContext } from "../Common/AppContext";
 
@@ -77,7 +77,7 @@ export default function Onboarding() {
                                 color: "#939393",
                                 textAlign: "center",
                                 fontFamily: "Figtree",
-                                fontSize: "12px",
+                                fontSize: "14px",
                                 fontStyle: "normal",
                                 fontWeight: "400",
                                 lineHeight: "16px",
@@ -88,7 +88,7 @@ export default function Onboarding() {
                                     `${theme}-color-premitive-grey-6`
                                 ],
                                 fontFamily: "Figtree",
-                                fontSize: "12px",
+                                fontSize: "14px",
                                 fontStyle: "normal",
                                 fontWeight: "500",
                                 lineHeight: "16px",

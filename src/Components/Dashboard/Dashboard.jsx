@@ -1,9 +1,9 @@
 import { GetStarted } from "@questlabs/react-sdk";
 import DashboardWrapper from "../Common/DashboardWrapper";
 import { importConfig } from "../../assets/Config/importConfig";
-import { generalFunction } from "../../assets/Config/GeneralFunction";
+import { generalFunction } from "../../assets/Config/generalFunction";
 import { useContext } from "react";
-import { ThemeContext } from "../Common/appContext";
+import { ThemeContext } from "../Common/AppContext";
 import { searchIcon } from "../Common/SideBarSvg";
 import { useNavigate } from "react-router-dom";
 

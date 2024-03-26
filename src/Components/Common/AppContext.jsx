@@ -1,5 +1,5 @@
 import React, { createContext, useEffect, useState } from "react";
-import { generalFunction } from "../../assets/Config/GeneralFunction";
+import { generalFunction } from "../../assets/Config/generalFunction";
 import axios from "axios";
 import { mainConfig } from "../../assets/Config/appConfig";
 

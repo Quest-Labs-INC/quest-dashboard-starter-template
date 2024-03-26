@@ -12,10 +12,10 @@ function App() {
     <>
       <div>
         <AppContext>
-          <ProviderConfig>
+          {/* <ProviderConfig> */}
             <Loader />
             <AllRoutes />
-          </ProviderConfig>
+          {/* </ProviderConfig> */}
         </AppContext>
       </div>
     </>

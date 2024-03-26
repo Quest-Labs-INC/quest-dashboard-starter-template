@@ -65,10 +65,9 @@ export default function Login() {
                         lineHeight: "20px",
                     },
                     Label: {
-                        // color: bgColors[`${theme}-color-premitive-grey-6`],
                         color: bgColors[`${theme}-color-premitive-grey-8`],
                         fontFamily: "Figtree",
-                        fontSize: "12px",
+                        fontSize: "14px",
                         fontStyle: "normal",
                         fontWeight: "400",
                         lineHeight: "16px",

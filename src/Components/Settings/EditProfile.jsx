@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
-import { generalFunction } from "../../assets/Config/GeneralFunction";
+import { generalFunction } from "../../assets/Config/generalFunction";
 import { UserProfile } from "@questlabs/react-sdk";
 import { ThemeContext } from "../Common/AppContext";
 import { uploadSVG } from "../Common/SideBarSvg";

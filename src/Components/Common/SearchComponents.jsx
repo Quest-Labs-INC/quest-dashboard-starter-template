@@ -1,7 +1,7 @@
 import { Search } from '@questlabs/react-sdk';
 import React, { useContext } from 'react';
 import { ThemeContext } from './AppContext';
-import { generalFunction } from '../../assets/Config/GeneralFunction';
+import { generalFunction } from '../../assets/Config/generalFunction';
 import { importConfig } from '../../assets/Config/importConfig';
 import { useNavigate } from 'react-router';
 

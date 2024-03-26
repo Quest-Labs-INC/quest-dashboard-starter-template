@@ -5,23 +5,20 @@ import { routesConfig } from "../../assets/Config/routesConfig";
 import { importConfig } from "../../assets/Config/importConfig";
 import { FeedbackWorkflow, Search, Survey } from "@questlabs/react-sdk";
 import FeedbackButton from "./FeedbackButton";
-import { generalFunction } from "../../assets/Config/GeneralFunction";
-import {
-    upgrade,
-    bookACall,
-    logOutBtn,
-    referFriends,
-} from "./SideBarSvg";
+import { generalFunction } from "../../assets/Config/generalFunction";
+import { upgrade, bookACall, logOutBtn, referFriends } from "./SideBarSvg";
 import ReferralPopup from "../Referral/ReferralPopup";
 import { ThemeContext } from "./AppContext";
 import { mainConfig } from "../../assets/Config/appConfig";
 import SearchComponents from "./SearchComponents";
 import SurveyComponents from "./SurveyComponents";
+import Cookies from "universal-cookie";
 
 export default function DashboardWrapper({ children, selectdRoute }) {
     const [openPopup, setOpenPopup] = useState(false);
     const { theme, setTheme, bgColors, appConfig, checked, setChecked } =
         useContext(ThemeContext);
+    const navigate = useNavigate();
 
     const toggleTheme = () => {
         if (theme === "dark") {
@@ -46,35 +43,39 @@ export default function DashboardWrapper({ children, selectdRoute }) {
     const [showFeedbackSection, setShowFeedbackSection] = useState(false);
 
     const diffWithDate = (date, type) => {
-      const inputDate = new Date().getTime();
-      const targetDate = new Date(date).getTime();
-      const differenceInMilliseconds = Math.abs(inputDate - targetDate);
-      const differenceInDays = Math.ceil(differenceInMilliseconds / (type == "days" ? 1000 * 3600 * 24 : 1000 * 3600));
-      return differenceInDays;
-    }
+        const inputDate = new Date().getTime();
+        const targetDate = new Date(date).getTime();
+        const differenceInMilliseconds = Math.abs(inputDate - targetDate);
+        const differenceInDays = Math.ceil(
+            differenceInMilliseconds /
+                (type == "days" ? 1000 * 3600 * 24 : 1000 * 3600)
+        );
+        return differenceInDays;
+    };
 
     useEffect(() => {
-      let websiteVisit = localStorage.getItem("websiteVisit");
-      let feedbackOpen = localStorage.getItem("feedbackOpen");
+        let websiteVisit = localStorage.getItem("websiteVisit");
+        let feedbackOpen = localStorage.getItem("feedbackOpen");
 
-      const websiteVisitDiffDate = diffWithDate(websiteVisit, "days");
-      const feedbackOpenDiffDate = diffWithDate(feedbackOpen, "hours");
+        const websiteVisitDiffDate = diffWithDate(websiteVisit, "days");
+        const feedbackOpenDiffDate = diffWithDate(feedbackOpen, "hours");
 
-      if (websiteVisitDiffDate > 2) {
-        if (feedbackOpenDiffDate > 2) {
-          localStorage.setItem("feedbackOpen", new Date());
-          setShowFeedbackSection(true);
+        if (!!websiteVisit && !!feedbackOpen && websiteVisitDiffDate > 2) {
+            if (feedbackOpenDiffDate > 2) {
+                localStorage.setItem("feedbackOpen", new Date());
+                setShowFeedbackSection(true);
+            }
+        } else {
+            localStorage.setItem("websiteVisit", new Date());
         }
-      }
-    }, [])
+    }, []);
 
     const closeSurveyPopup = (e) => {
-      if (document.getElementById("clickbox_sreferral").contains(e.target)) {
-      } else {
-        setShowFeedbackSection(false);
-      }
-    }
-
+        if (document.getElementById("clickbox_sreferral").contains(e.target)) {
+        } else {
+            setShowFeedbackSection(false);
+        }
+    };
 
     return (
         <div
@@ -94,11 +95,11 @@ export default function DashboardWrapper({ children, selectdRoute }) {
 
             {/* for selected hightlight */}
 
-            <SearchComponents/>
-            
-            { showFeedbackSection &&
-              <SurveyComponents/>
-            }
+            <SearchComponents />
+
+            {showFeedbackSection && (
+                <SurveyComponents closeSurveyPopup={closeSurveyPopup} />
+            )}
 
             <div></div>
 
@@ -144,13 +145,13 @@ export default function DashboardWrapper({ children, selectdRoute }) {
                                                 ) && "s_nav_active"
                                             }`}
                                             key={index}
+                                            onClick={() =>
+                                                setSidebarOpen(false)
+                                            }
                                         >
                                             <Link
                                                 to={routes.path}
                                                 className="s_nav_menu_link"
-                                                onClick={() =>
-                                                    setSidebarOpen(false)
-                                                }
                                             >
                                                 <div>{routes.logo}</div>
                                                 <p>{routes.name}</p>
@@ -179,7 +180,7 @@ export default function DashboardWrapper({ children, selectdRoute }) {
                             <li>
                                 <Link
                                     className="s_nav_menu_link"
-                                    onClick={() => setSidebarOpen(false)}
+                                    // onClick={() => setSidebarOpen(false)}
                                 >
                                     <div>{upgrade()}</div>
                                     <p>Upgrade</p>
@@ -189,7 +190,13 @@ export default function DashboardWrapper({ children, selectdRoute }) {
                             <li>
                                 <Link
                                     className="s_nav_menu_link"
-                                    onClick={() => {setSidebarOpen(false); window.open(mainConfig.CALENDLY_LINK, "_blank")}}
+                                    onClick={() => {
+                                        setSidebarOpen(false);
+                                        window.open(
+                                            mainConfig.CALENDLY_LINK,
+                                            "_blank"
+                                        );
+                                    }}
                                 >
                                     <div>{bookACall()}</div>
                                     <p>Book a call</p>
@@ -217,16 +224,25 @@ export default function DashboardWrapper({ children, selectdRoute }) {
                             </li>
 
                             <li>
-                                <Link
+                                <div
                                     // to={routes.path}
-                                    className="s_nav_menu_link"
-                                    onClick={() => setSidebarOpen(false)}
+                                    className="s_nav_menu_link cursor-pointer"
+                                    onClick={() => {
+                                        generalFunction.logout();
+                                        navigate("/login");
+                                    }}
                                 >
                                     <div>{logOutBtn()}</div>
                                     <p>Logout</p>
-                                </Link>
+                                </div>
                             </li>
                         </ul>
+                        <div
+                            className="text-xs text-[#939393] mt-3 w-full flex items-center justify-center cursor-pointer"
+                            onClick={() => window.open("https://questlabs.ai/")}
+                        >
+                            <p>Powered by Quest Labs</p>
+                        </div>
                     </div>
                 </div>
             </nav>
