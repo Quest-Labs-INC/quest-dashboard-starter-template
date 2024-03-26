@@ -452,8 +452,8 @@ function MainPage() {
                             <div className="copyright-text">Copyright © 2023 AI Saas GPT</div>
 
                             <div className="terns-privacy-cont">
-                                <div className="text-[#4C4C4C] text-lg font-normal font-['Hanken Grotesk'] leading-7">Terms of service  </div>
-                                <div className="text-[#4C4C4C] text-lg font-normal font-['Hanken Grotesk'] leading-7">Privacy Policy</div>
+                                <div className="text-[#4C4C4C] text-lg font-normal font-['Hanken Grotesk'] leading-7" onClick={() => window.open("https://crimson-chord-1b6.notion.site/Terms-and-Conditions-a0ab54d1a42a47f6bac1773dea9fdc9c", "_blank")}>Terms of service  </div>
+                                <div className="text-[#4C4C4C] text-lg font-normal font-['Hanken Grotesk'] leading-7" onClick={() => window.open("https://crimson-chord-1b6.notion.site/Privacy-Policy-for-SAAS-GPT-5f2132e3d1bc47f7bb5c04a5180190bf", "_blank")}>Privacy Policy</div>
                             </div>
                         </div>
 
