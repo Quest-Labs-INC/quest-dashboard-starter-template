@@ -34,7 +34,7 @@ const ChangeEntityPopup = ({setChangeEntityPopup, setAdminEntity}) => {
                         ))
                     }
                 </select>
-                <button className='mt-8 px-4 py-2.5 bg-violet-700 rounded-[10px] text-white text-sm font-semibold font-["Figtree"]' onClick={handleSave}>Save selected entity</button>
+                <button className='mt-8 px-4 py-2.5 bg-[radial-gradient(3361.38%_131.94%_at_0%_100%,_#6200EE_0%,_#1F3EFE_100%)] rounded-[10px] text-white text-sm font-semibold font-["Figtree"]' onClick={handleSave}>Save selected entity</button>
             </div>
         </div>
     );

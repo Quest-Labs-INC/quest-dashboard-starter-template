@@ -103,7 +103,7 @@ function MainPage() {
             // setName(response?.data?.data?.name);
             setImageUrl(response?.data?.data?.imageUrl);
             let apiData = response.data;
-            setEntityDetails(apiData)
+            setEntityDetails(apiData.data)
 
             setAppConfig({
                 ...appConfig,
@@ -393,9 +393,9 @@ function MainPage() {
                                         className=""
                                         style={{ resize: "vertical", border: "1px solid #ECECEC" }}
                                         onChange={(e) => {
-                                            // if (e.target.value.length <= 120) {
+                                            if (e.target.value.length <= 1000) {
                                                 setDescription(e.target.value)
-                                            // }
+                                            }
 
                                         }}
                                         value={description}
@@ -406,7 +406,7 @@ function MainPage() {
                                         rows={5}
 
                                     />
-                                    <p className='char-count-para'>{description.length}/120 characters</p>
+                                    <p className='char-count-para'>{description.length}/1000 characters</p>
                                 </div>
                             </form>
 
@@ -436,7 +436,7 @@ function MainPage() {
                             </div>
 
                             <button className="w-full px-4 py-2.5 bg-[radial-gradient(3361.38%_131.94%_at_0%_100%,_#6200EE_0%,_#1F3EFE_100%)] rounded-[10px] text-white text-sm font-semibold font-['Figtree']" onClick={() => createTemplate()}>
-                                {entityDetails?.saasDashboard ? "Update AI Template" : "Generate"}
+                                {entityDetails?.saasDashboard ? "Update" : "Generate"}
                             </button>
                         </section>
 
