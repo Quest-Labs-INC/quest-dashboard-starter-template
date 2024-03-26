@@ -306,6 +306,9 @@ export default function DashboardWrapper({ children, selectdRoute }) {
                                 </Link>
                             </li>
                         </ul>
+                        <div className='text-xs text-[#939393] mt-3 w-full flex items-center justify-center cursor-pointer' onClick={() => window.open("https://questlabs.ai/")}>
+                            <p>Powered by Quest Labs</p>
+                        </div>
                     </div>
                 </div>
             </nav>

@@ -51,7 +51,6 @@ const EditProfile = () => {
 
     const inputFileChangeHandler = (event) => {
         if (event.target.files[0]) {
-            console.log(event.target.files)
             setSelectedFile(event.target.files[0]);
             setImageUrl(URL.createObjectURL(event.target.files[0]));
             setCustomImage(URL.createObjectURL(event.target.files[0]));
@@ -59,7 +58,6 @@ const EditProfile = () => {
             const uploadFile = async () => {
                 generalFunction.showLoader();
                 let data = await uploadImageToBackend(event.target.files[0]);
-                console.log(data)
                 setImageUrl(data?.imageUrl);
                 generalFunction.hideLoader();
             };

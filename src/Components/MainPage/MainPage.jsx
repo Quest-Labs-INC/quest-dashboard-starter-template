@@ -345,7 +345,7 @@ function MainPage() {
                                 >
                                     <label className="cursor-pointer w-full h-full" htmlFor='profile-img'>
                                         <img
-                                            className="w-24  p-7 absolute"
+                                            className="w-24 p-7 absolute"
                                             src={importConfig.main.upload}
                                             alt=""
                                         />

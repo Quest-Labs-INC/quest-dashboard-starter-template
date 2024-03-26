@@ -6,12 +6,6 @@ import "./LoginWrapper.css";
 export default function LoginWrapper({ children }) {
     const { appConfig, theme, bgColors, contentConfig } =
         useContext(ThemeContext);
-    console.log("login wrapper");
-    console.log("app", appConfig);
-    console.log("theme", theme);
-    console.log("bgColors", bgColors);
-    console.log("contentConfig", contentConfig);
-    console.log(appConfig.BRAND_LOGO);
 
     return (
         <div className="login-wrapper flex h-screen">

@@ -66,7 +66,6 @@ const OnboardingPopUp = ({ isAdmin, setOnboardingPopup, setAdminEntity }) => {
     }
 
     const clickHadnler = (e) => {
-        console.log("submit")
         if (document.getElementById("clickboxonb").contains(e.target)) {
         } else {
             setOnboardingPopup(false);
@@ -119,7 +118,7 @@ const OnboardingPopUp = ({ isAdmin, setOnboardingPopup, setAdminEntity }) => {
                             color: "var(--Neutral-Black-100, #939393)",
                             textAlign: "center",
                             fontFamily: "Figtree",
-                            fontSize: "12px",
+                            fontSize: "14px",
                             fontStyle: "normal",
                             fontWeight: "400",
                             lineHeight: "16px",
@@ -128,7 +127,7 @@ const OnboardingPopUp = ({ isAdmin, setOnboardingPopup, setAdminEntity }) => {
                         Label: {
                             color: "var(--Neutral-Black-300, #4C4C4C)",
                             fontFamily: "Figtree",
-                            fontSize: "12px",
+                            fontSize: "14px",
                             fontStyle: "normal",
                             fontWeight: "500",
                             lineHeight: "16px",
@@ -152,7 +151,7 @@ const OnboardingPopUp = ({ isAdmin, setOnboardingPopup, setAdminEntity }) => {
                             fontFamily: "Figtree"
                         },
                     }}
-                    showFooter={true}
+                    showFooter={false}
                 />
             </div>
         </div>

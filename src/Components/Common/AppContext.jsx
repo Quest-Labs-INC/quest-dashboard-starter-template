@@ -126,7 +126,6 @@ const AppContext = ({ children }) => {
                     .then((res) => res.json())
                     .then((data) => {
                         let apiData = data.data;
-                        console.log("99 data", data);
                         setContentConfig({
                             ...contentConfig,
                             login: {

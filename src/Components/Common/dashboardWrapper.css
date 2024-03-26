@@ -310,11 +310,10 @@ body.dark .switch::before {
 
 .s_nav_container {
     display: inline-flex;
-    /* height: 896px; */
     width: 100%;
     max-width: 184px;
     height: 100vh;
-    padding-bottom: 40px;
+    padding-bottom: 30px;
     flex-direction: column;
     align-items: center;
     gap: 20px;

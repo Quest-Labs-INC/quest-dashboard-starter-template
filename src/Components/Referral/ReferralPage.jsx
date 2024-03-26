@@ -211,7 +211,6 @@ export default function ReferralPage() {
 
     useEffect(() => {
         const fetchAdmins = async () => {
-            console.log("fet")
             const { data } = await axios.get('https://staging.questprotocol.xyz/api/entities/e-c6895222-ac01-4640-8c59-6101661deb8d/admins', {
                 headers: {
                     apikey: "k-2fb4e0f9-3808-4def-a3a6-89e93e84c3f7",
@@ -221,8 +220,6 @@ export default function ReferralPage() {
 
             });
 
-            console.log(data);
-            console.log(data.data);
             setAdminData(data.data);
         }
         fetchAdmins();
@@ -365,7 +362,6 @@ export default function ReferralPage() {
 
                 {
                     adminData.map((user, index) => {
-                        console.log(user)
                         return (
                             <div className="referral-sr-user-user-row" style={{ backgroundColor: bgColors[`${theme}-primary-bg-color-3`] }}>
                                 <div className="sr">

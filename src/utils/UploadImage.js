@@ -15,14 +15,12 @@ function getToken() {
 
 function createUrl(apiString) {
     const url = `${mainConfig.BACKEND_URL}${apiString}`;
-    // console.log(url)
     const headers = {
         apiKey: mainConfig.API_KEY,
         apisecret: appConfig.QUEST_PROTOCOL_API_SECRET,
         userId: getUserId(),
         token: getToken()
     };
-    // console.log()
 
     return {
         url,
@@ -50,7 +48,6 @@ export async function uploadImageToBackend(file) {
             return await uploadImageToBackend(compressedImage);
         } catch (error) {
             // this.showErrorMessage("Error resizing image.");
-            console.log("Error")
             return null;
         }
     }
@@ -70,7 +67,6 @@ export async function uploadImageToBackend(file) {
         return res;
     } catch (error) {
         // this.showErrorMessage("Error uploading image.");
-        console.log("error")
         return null;
     }
 }
