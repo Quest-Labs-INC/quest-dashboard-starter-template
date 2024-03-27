@@ -25,13 +25,14 @@ import {
     referal,
 } from "../../Components/Common/SideBarSvg";
 import ReferralPage from "../../Components/Referral/ReferralPage";
+import ReferalPage2 from "../../Components/Referral/ReferalPage2";
 
 const ProviderConfig = ({ children, showTag }) => {
     const { theme, bgColors, appConfig } = useContext(ThemeContext);
     return (
         <div>
             <QuestProvider
-                apiKey={appConfig?.QUEST_API_KEY}
+                apiKey={appConfig?.QUEST_API_KEY }
                 entityId={appConfig?.QUEST_ENTITY_ID}
                 apiType='STAGING'
                 themeConfig={{
@@ -121,6 +122,20 @@ export const routesConfig = [
             <ProviderConfig showTag={false}>
                 <DashboardWrapper selectdRoute={"Settings"}>
                     <Settings></Settings>
+                </DashboardWrapper>
+            </ProviderConfig>
+        ),
+        hidden: false,
+        isUpper: true,
+    },
+    {
+        path: "/referal",
+        name: "Refer Friends",
+        logo: referFriends(),
+        component: (
+            <ProviderConfig showTag={false}>
+                <DashboardWrapper selectdRoute={"referal"}>
+                    <ReferalPage2></ReferalPage2>
                 </DashboardWrapper>
             </ProviderConfig>
         ),

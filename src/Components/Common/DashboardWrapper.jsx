@@ -238,17 +238,6 @@ export default function DashboardWrapper({ children, selectdRoute }) {
                                     )
                             )}
 
-                            <li className={`s_nav_menu_item cursor-pointer`}>
-                                <div
-                                    className="s_nav_menu_link"
-                                    onClick={() =>
-                                        setOpenPopup((prev) => !prev)
-                                    }
-                                >
-                                    <div>{referFriends()}</div>
-                                    <p>Refer Friends</p>
-                                </div>
-                            </li>
                         </ul>
                     </div>
 

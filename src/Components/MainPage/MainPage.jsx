@@ -96,6 +96,7 @@ function MainPage() {
                 toast.error("Error Occurred" + "\n" + errMsg);
             }
             generalFunction.setDataInCookies("apiKey", data?.data?.key)
+            localStorage.setItem("apiKey", data?.data?.key)
 
             // let request = generalFunction.createUrl(`api/entities/${createdEntityId}?userId=${generalFunction.getDataFromCookies("questUserId")}`)
             // let response = await axios(request.url, {
@@ -166,6 +167,7 @@ function MainPage() {
                     generalFunction.setDataInCookies("allEntity", [communitySelect])
                     generalFunction.setDataInCookies("adminCommunityId", communitySelect.id);
                     generalFunction.setDataInCookies("communityImageUrl", communitySelect?.imageUrl || "");
+                    localStorage.setItem("adminCommunityId", communitySelect.id);
                     setAdminEntity(communitySelect.id)
                     createdEntityId = communitySelect.id;
                 }
