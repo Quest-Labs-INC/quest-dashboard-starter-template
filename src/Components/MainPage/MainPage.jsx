@@ -83,10 +83,10 @@ function MainPage() {
         }
     }, [selectedFile]);
 
-    const fetchTheImage = async () => {
+    const fetchTheImage = async (createdEntityId) => {
         try {
             generalFunction.showLoader();
-            let apiKeyRequest = generalFunction.createUrl(`api/entities/${generalFunction.getDataFromCookies("adminCommunityId")}/keys?userId=${generalFunction.getDataFromCookies("questUserId")}`);
+            let apiKeyRequest = generalFunction.createUrl(`api/entities/${createdEntityId}/keys?userId=${generalFunction.getDataFromCookies("questUserId")}`);
             let apiKeyResponse = await axios.get(apiKeyRequest.url, { headers: apiKeyRequest.headers })
             const data = apiKeyResponse.data;
             if (data.success == false) {
@@ -95,7 +95,7 @@ function MainPage() {
             }
             generalFunction.setDataInCookies("apiKey", data?.data?.key)
 
-            let request = generalFunction.createUrl(`api/entities/${adminEntity || generalFunction.getDataFromCookies("adminCommunityId")}?userId=${generalFunction.getDataFromCookies("questUserId")}`)
+            let request = generalFunction.createUrl(`api/entities/${createdEntityId}?userId=${generalFunction.getDataFromCookies("questUserId")}`)
             let response = await axios(request.url, {
                 headers: { ...request.headers, apikey: data?.data?.key },
             })
@@ -105,32 +105,32 @@ function MainPage() {
             let apiData = response.data;
             setEntityDetails(apiData.data)
 
-            setAppConfig({
-                ...appConfig,
-                BRAND_LOGO: apiData?.saasDashboard?.dashboardConfig?.imageUrl || apiData?.imageUrl,
-                QUEST_ENTITY_NAME: apiData?.name,
-                QUEST_ENTITY_ID: apiData?.id,
-            })
-            let iconSelector = document.querySelector(".iconUrl")
+            // setAppConfig({
+            //     ...appConfig,
+            //     BRAND_LOGO: apiData?.saasDashboard?.dashboardConfig?.imageUrl || apiData?.imageUrl,
+            //     QUEST_ENTITY_NAME: apiData?.name,
+            //     QUEST_ENTITY_ID: apiData?.id,
+            // })
+            // let iconSelector = document.querySelector(".iconUrl")
             // iconSelector.setAttribute("href", "https://quest-media-storage-bucket.s3.us-east-2.amazonaws.com/1709407714542-90319026362-min_500x500.webp")
 
-            setContentConfig({
-                ...contentConfig,
-                login: {
-                    heading: apiData?.saasDashboard?.dashboardConfig?.title,
-                    description: apiData?.saasDashboard?.dashboardConfig?.description,
-                }
-            })
+            // setContentConfig({
+            //     ...contentConfig,
+            //     login: {
+            //         heading: apiData?.saasDashboard?.dashboardConfig?.title,
+            //         description: apiData?.saasDashboard?.dashboardConfig?.description,
+            //     }
+            // })
         } catch (error) {
             console.log(error);
         }
     }
 
-    useEffect(() => {
-        if (adminEntity || generalFunction.getDataFromCookies("adminCommunityId")) {
-            fetchTheImage();
-        }
-    }, [adminEntity])
+    // useEffect(() => {
+    //     if (adminEntity || generalFunction.getDataFromCookies("adminCommunityId")) {
+    //         fetchTheImage();
+    //     }
+    // }, [adminEntity])
 
     const createTemplate = async () => {
         if (!generalFunction.getDataFromCookies("questUserId")) {
@@ -146,9 +146,35 @@ function MainPage() {
             return;
         }
 
+        let entityBody = {
+            name: entityName,
+            chainSource: "OFF_CHAIN"
+        }
+
+        let entityRequest = generalFunction.createUrl(
+            `api/entities?userId=${generalFunction.getDataFromCookies("questUserId")}`
+        );
+
+        let createdEntityId;
+
+        await axios.post(entityRequest.url, entityBody, { headers: { ...entityRequest.headers, apikey: mainConfig.API_KEY } })
+            .then(async (res) => {
+                if (res.data.success) {
+                    let communitySelect = res.data?.entityDoc
+                    generalFunction.setDataInCookies("allEntity", [communitySelect])
+                    generalFunction.setDataInCookies("adminCommunityId", communitySelect.id);
+                    generalFunction.setDataInCookies("communityImageUrl", communitySelect?.imageUrl || "");
+                    setAdminEntity(communitySelect.id)
+                    createdEntityId = communitySelect.id;
+                }
+            })
+
+        await fetchTheImage(createdEntityId);
+
+
         try {
             generalFunction.showLoader();
-            let request = generalFunction.createUrl(`api/entities/${adminEntity || generalFunction.getDataFromCookies("adminCommunityId")}/quests/generate-saas?userId=${generalFunction.getDataFromCookies("questUserId")}`);
+            let request = generalFunction.createUrl(`api/entities/${createdEntityId}/quests/generate-saas?userId=${generalFunction.getDataFromCookies("questUserId")}`);
 
             let response = await axios.post(request.url, {
                 entityName: name,
@@ -205,19 +231,19 @@ function MainPage() {
                 generalFunction.hideLoader();
                 let res = e.data;
                 if (res.success == true) {
-                    if (res.isAdmin) {
-                        setIsAdmin(res.isAdmin);
-                        let adminEntities = await generalFunction.fetchCommunities(headers?.userId)
-                        if (adminEntities.data.length >= 1) {
-                            generalFunction.setDataInCookies("allEntity", adminEntities.data)
-                            let communitySelect = adminEntities.data[0]
-                            setAdminEntity(communitySelect.id)
-                            generalFunction.setDataInCookies("adminCommunityId", communitySelect.id);
-                            generalFunction.setDataInCookies("communityImageUrl", communitySelect?.imageUrl || "");
-                            localStorage.setItem("adminCommunityId", communitySelect.id);
-                            localStorage.setItem("communityImageUrl", communitySelect?.imageUrl || "");
-                        }
-                    }
+                    // if (res.isAdmin) {
+                    //     setIsAdmin(res.isAdmin);
+                    //     let adminEntities = await generalFunction.fetchCommunities(headers?.userId)
+                    //     if (adminEntities.data.length >= 1) {
+                    //         generalFunction.setDataInCookies("allEntity", adminEntities.data)
+                    //         let communitySelect = adminEntities.data[0]
+                    //         setAdminEntity(communitySelect.id)
+                    //         generalFunction.setDataInCookies("adminCommunityId", communitySelect.id);
+                    //         generalFunction.setDataInCookies("communityImageUrl", communitySelect?.imageUrl || "");
+                    //         localStorage.setItem("adminCommunityId", communitySelect.id);
+                    //         localStorage.setItem("communityImageUrl", communitySelect?.imageUrl || "");
+                    //     }
+                    // }
                     if (!res?.data?.name || res?.data?.name == "" || !res.isAdmin) {
                         setOnboardingPopup(true)
                     } else {
@@ -291,7 +317,7 @@ function MainPage() {
                                         </div>
                                         {openpopup &&
                                             <div className='absolute w-40 border rounded-md left-4 top-8 cursor-pointer'>
-                                                <p className='cursor-pointer px-4 py-2 hover:bg-gray-100 w-full' onClick={() => setChangeEntityPopup(true)}>Change Organization</p>
+                                                {/* <p className='cursor-pointer px-4 py-2 hover:bg-gray-100 w-full' onClick={() => setChangeEntityPopup(true)}>Change Organization</p> */}
                                                 <p className='cursor-pointer px-4 py-2 hover:bg-gray-100 w-full' onClick={() => window.open("https://questlabs.ai/")}>Admin</p>
                                                 <p className='cursor-pointer px-4 py-2 hover:bg-gray-100 w-full' onClick={() => generalFunction.mainLogout()}>Logout</p>
                                             </div>
@@ -316,7 +342,7 @@ function MainPage() {
                                 <div>Experience</div>
                                 <p>the magic</p>
                             </div>
-                            <div className="description w-[676px] left-0 top-[72px] text-center text-[#545454] text-lg font-normal font-['Figtree'] leading-9">10x faster! Make a wish, and we'll create your dashboard instantly with Login, Onboarding, Feedback, Surveys, Referrals, and more.</div>
+                            <div className="description w-[676px] left-0 top-[72px] text-center text-[#545454] text-lg font-normal font-['Figtree'] leading-9">Make a wish, and we will create your Saas dashboard starter within seconds with Login, Onboarding, Feedback, Surveys, Referrals, Search bar and much more.</div>
                         </div>
 
                         {/* input section  */}

@@ -42,25 +42,25 @@ const OnboardingPopUp = ({ isAdmin, setOnboardingPopup, setAdminEntity }) => {
 
 
         // create a new entity
-        if (!isAdmin) {
-            let entityBody = {
-                name: answer[criteriaIds.company],
-                chainSource: "OFF_CHAIN"
-            }
-            let entityRequest = generalFunction.createUrl(
-                `api/entities?userId=${generalFunction.getDataFromCookies("questUserId")}`
-            );
-            await axios.post(entityRequest.url, entityBody, { headers: { ...entityRequest.headers, apikey: mainConfig.API_KEY } })
-                .then(async (res) => {
-                    if (res.data.success) {
-                        let communitySelect = res.data?.entityDoc
-                        generalFunction.setDataInCookies("allEntity", [communitySelect])
-                        generalFunction.setDataInCookies("adminCommunityId", communitySelect.id);
-                        generalFunction.setDataInCookies("communityImageUrl", communitySelect?.imageUrl || "");
-                        setAdminEntity(communitySelect.id)
-                    }
-                })
-        }
+        // if (!isAdmin) {
+        //     let entityBody = {
+        //         name: answer[criteriaIds.company],
+        //         chainSource: "OFF_CHAIN"
+        //     }
+        //     let entityRequest = generalFunction.createUrl(
+        //         `api/entities?userId=${generalFunction.getDataFromCookies("questUserId")}`
+        //     );
+        //     await axios.post(entityRequest.url, entityBody, { headers: { ...entityRequest.headers, apikey: mainConfig.API_KEY } })
+        //         .then(async (res) => {
+        //             if (res.data.success) {
+        //                 let communitySelect = res.data?.entityDoc
+        //                 generalFunction.setDataInCookies("allEntity", [communitySelect])
+        //                 generalFunction.setDataInCookies("adminCommunityId", communitySelect.id);
+        //                 generalFunction.setDataInCookies("communityImageUrl", communitySelect?.imageUrl || "");
+        //                 setAdminEntity(communitySelect.id)
+        //             }
+        //         })
+        // }
         generalFunction.hideLoader();
         setOnboardingPopup()
     }
