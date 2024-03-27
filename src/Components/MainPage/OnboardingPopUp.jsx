@@ -148,7 +148,8 @@ const OnboardingPopUp = ({ isAdmin, setOnboardingPopup, setAdminEntity }) => {
                         },
                         PrimaryButton: {
                             margin: '0',
-                            fontFamily: "Figtree"
+                            fontFamily: "Figtree",
+                            border: 'none'
                         },
                     }}
                     showFooter={false}

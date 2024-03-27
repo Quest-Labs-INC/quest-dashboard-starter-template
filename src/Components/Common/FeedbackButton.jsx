@@ -85,6 +85,9 @@ function FeedbackButton() {
                     Footer: {
                         background: bgColors[`${theme}-primary-bg-color-1`],
                     },
+                    PrimaryButton: {
+                        border: "none",
+                    },
                 }}
             />
         </div>

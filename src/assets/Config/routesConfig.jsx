@@ -88,7 +88,7 @@ export const routesConfig = [
     {
         path: "/dashboard",
         name: "Getting Started",
-        logo: newHome(),
+        logo: GetStartedSvg(),
         component: (
             <ProviderConfig showTag={false}>
                 <DashboardWrapper selectdRoute={"Dashboard"}>

@@ -93,7 +93,12 @@ export default function Login() {
 
                     IconStyle: {
                         Background: bgColors[`${theme}-primary-bg-color-0`],
+                        BorderColor: bgColors[`${theme}-primary-bg-color-0`],
                     },
+                    PrimaryButton:{
+                        border: "none"
+                    }
+
                 }}
                 showFooter={false}
             />

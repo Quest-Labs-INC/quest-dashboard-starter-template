@@ -255,7 +255,10 @@ const EditProfile = () => {
                         },
                         TextArea: {
                             border: "1px solid gray"
-                        }
+                        },
+                        PrimaryButton: {
+                            border: "none",
+                        },
                     }}
                 />
             </div>

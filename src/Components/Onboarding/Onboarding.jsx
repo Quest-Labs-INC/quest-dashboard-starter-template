@@ -111,6 +111,10 @@ export default function Onboarding() {
                                     border: "1px solid gray",
                                 },
                             },
+                            PrimaryButton: {
+                                
+                                border: "none",
+                            },
                         }}
                         showFooter={false}
                     />

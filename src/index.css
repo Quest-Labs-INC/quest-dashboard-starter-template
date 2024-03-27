@@ -95,7 +95,7 @@ button:focus-visible {
   --primary-sidebar-border: #4c4c4c;
   --primary-sidebar-icon: #2c2c2c;
   --primary-sidebar-toggle: #2c2c2c;
-
+ 
   /* ===== Colors ===== */
   --body-color: #e4e9f7;
   --sidebar-color: #fff;
@@ -104,6 +104,7 @@ button:focus-visible {
   --primary-color-light: #f6f5ff;
   --toggle-color: #ddd;
   --text-color: #707070;
+  --table-header-color: #EAECF0;
 
   /* ====== Transition ====== */
   --tran-02: all 0.2s ease;
@@ -133,6 +134,7 @@ button:focus-visible {
   --primary-sidebar-border: #695cfe;
   --primary-sidebar-icon: #fff;
   --primary-sidebar-toggle: #5142f6;
+  --table-header-color: none;
 }
 
 .btn-gradient {

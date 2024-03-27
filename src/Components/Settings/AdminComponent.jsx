@@ -109,10 +109,10 @@ const AdminComponent = () => {
 
             {filterData?.length != 0 ? (
                 <div className="mt-[16px] rounded-xl border border-[#F0F0F0] overflow-y-auto">
-                    <table className="min-w-[1100px] w-full " style={{
-                        color: bgColors[`${theme}-primary-bg-color-8`]
+                    <table  className="min-w-[1100px] w-full " style={{
+                        color: bgColors[`${theme}-primary-bg-color-8`],
                     }}>
-                        <thead>
+                        <thead style={{background: theme == "dark" ? 'transparent' : '#F0F0F0'}}>
                             <tr className="border-b border-[#F0F0F0] text-sm font-medium font-['Figtree']">
                                 <th className="w-[10%] text-start pl-6 py-[18px]  rounded-tl-xl"
                                     style={{

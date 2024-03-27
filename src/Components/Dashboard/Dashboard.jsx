@@ -65,7 +65,7 @@ export default function Dashboard() {
                 </div>
 
 
-                <div className="get-started pt-[10px]">
+                <div className="get-started pt-[4px]">
                     <GetStarted
                         questId={appConfig?.QUEST_GET_STARTED_CAMPAIGN_ID}
                         userId={generalFunction.getDataFromCookies("questUserId")}
@@ -86,6 +86,7 @@ export default function Dashboard() {
                         arrowColor="black"
                         cardBackground={bgColors[`${theme}-primary-bg-color-2`]}
                         onLinkTrigger={(e) => navigate(e)}
+                        showProgressBar={false}
                         allowMultiClick
                         styleConfig={{
                             Form: {
@@ -121,7 +122,7 @@ export default function Dashboard() {
                             }
                         }}
                         showFooter={false}
-                        showProgressBar
+                        // showProgressBar
 
                     />
                 </div>

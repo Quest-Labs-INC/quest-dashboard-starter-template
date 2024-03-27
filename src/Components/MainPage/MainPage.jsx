@@ -61,27 +61,29 @@ function MainPage() {
         }
     };
 
-    useEffect(() => {
+    const UploadImage = async () => {  
         if (selectedFile) {
-            generalFunction
-                .uploadImageToBackend(selectedFile)
-                .then((imageResponse) => {
-                    if (imageResponse == null || !imageResponse?.data || imageResponse?.data.success == false || !imageResponse?.data?.imageUrl) {
-                        setSelectedFile(null);
-                        imageResponse != null && toast.error("Unable to upload image");
-                        return;
-                    } else {
-                        setImageUrl(null)
-                        setCustomImage(imageResponse?.data.imageUrl)
-                    }
-                })
-                .catch((err) => {
-                    console.log(err)
+            try {
+                const imageResponse = await generalFunction.uploadImageToBackend(selectedFile);
+                if (imageResponse?.data?.success && imageResponse?.data?.imageUrl) {
+                    // Update state with the uploaded image URL
+                    setCustomImage(imageResponse.data.imageUrl);
+                    return imageResponse.data.imageUrl; 
+                } else {
                     setSelectedFile(null);
-                    toast.error("Unable to upload image.");
-                });
+                    toast.error("Unable to upload image");
+                    return null; // Return null or any other indicator of failure
+                }
+            } catch (error) {
+                console.log(error);
+                setSelectedFile(null);
+                toast.error("Unable to upload image.");
+                return null; // Return null or any other indicator of failure
+            }
         }
-    }, [selectedFile]);
+        return null; 
+    };
+    
 
     const fetchTheImage = async (createdEntityId) => {
         try {
@@ -95,15 +97,15 @@ function MainPage() {
             }
             generalFunction.setDataInCookies("apiKey", data?.data?.key)
 
-            let request = generalFunction.createUrl(`api/entities/${createdEntityId}?userId=${generalFunction.getDataFromCookies("questUserId")}`)
-            let response = await axios(request.url, {
-                headers: { ...request.headers, apikey: data?.data?.key },
-            })
+            // let request = generalFunction.createUrl(`api/entities/${createdEntityId}?userId=${generalFunction.getDataFromCookies("questUserId")}`)
+            // let response = await axios(request.url, {
+            //     headers: { ...request.headers, apikey: data?.data?.key },
+            // })
             generalFunction.hideLoader()
             // setName(response?.data?.data?.name);
-            setImageUrl(response?.data?.data?.imageUrl);
-            let apiData = response.data;
-            setEntityDetails(apiData.data)
+            // setImageUrl(response?.data?.data?.imageUrl);
+            // let apiData = response.data;
+            // setEntityDetails(apiData.data)
 
             // setAppConfig({
             //     ...appConfig,
@@ -137,17 +139,17 @@ function MainPage() {
             setLoginPopup(true);
             return;
         } else if (!generalFunction.getDataFromCookies("userName") || !generalFunction.getDataFromCookies("adminCommunityId")) {
-            setOnboardingPopup(true);
-            return;
+            // setOnboardingPopup(true);
+            // return;
         }
 
-        if (!name && !description && !imageUrl && !bg) {
+        if (!name || !description || !imageUrl || !bg) {
             toast.error("Please fill the required information");
             return;
         }
 
         let entityBody = {
-            name: entityName,
+            name: name,
             chainSource: "OFF_CHAIN"
         }
 
@@ -168,9 +170,9 @@ function MainPage() {
                     createdEntityId = communitySelect.id;
                 }
             })
-
+       
         await fetchTheImage(createdEntityId);
-
+        const uploadedImageUrl = await UploadImage();
 
         try {
             generalFunction.showLoader();
@@ -179,7 +181,7 @@ function MainPage() {
             let response = await axios.post(request.url, {
                 entityName: name,
                 entityDetails: description,
-                imageUrl: customImage,
+                imageUrl: customImage || uploadedImageUrl,
                 colorConfig: bg,
             }, { headers: request.headers })
             if (response.success) {
@@ -189,7 +191,6 @@ function MainPage() {
             generalFunction.hideLoader();
 
             let apiData = response.data.data;
-
             setEntityDetails(apiData)
             setAppConfig({
                 ...appConfig,
