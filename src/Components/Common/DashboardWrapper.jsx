@@ -31,6 +31,7 @@ export default function DashboardWrapper({ children, selectdRoute }) {
         useContext(ThemeContext);
 
     const toggleTheme = () => {
+        document.getElementsByTagName("BODY")[0].classList.toggle("dark");
         if (theme === "dark") {
             setTheme("light");
             localStorage.setItem("theme", "light");
@@ -302,7 +303,9 @@ export default function DashboardWrapper({ children, selectdRoute }) {
                 </div>
             </nav>
 
-            <div className="w-[calc(100vw-185px)]">
+            <div className="w-[calc(100vw-185px)]" style={{
+                    backgroundColor: theme === "dark" ? "black" : "white",
+                }}>
                 <div className="">{children}</div>
             </div>
         </div>

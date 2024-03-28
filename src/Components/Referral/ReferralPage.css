@@ -575,6 +575,7 @@
 .referral-sr-user-user-row>.actions>button {
     width: 25px;
     height: 25px;
+    
     flex-shrink: 0;
 }
 

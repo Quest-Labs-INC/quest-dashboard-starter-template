@@ -30,41 +30,46 @@ const AppContext = ({ children }) => {
     },
   });
   const [bgColors, setBgColors] = useState({
-    "dark-color-premitive-grey-0": "#afafaf",
-    "dark-color-premitive-grey-5": "#ffffff",
-    "dark-primary-bg-color-0": localStorage.getItem("themeColor") || "#111018", // "#1c1a27"
-    "dark-primary-bg-color-1": "#1c1a27", // "#fbfafe"
-    "dark-primary-bg-color-2": "#111018",
-    "dark-primary-bg-color-3": "#0D0D0D", // "#1c1a27"
-    "dark-primary-bg-color-4": "#3e3a58",
-    "dark-primary-tile-color-0": "#f0fcec",
-    "dark-primary-border-color": "#455a64",
+      "dark-color-premitive-grey-0": "#afafaf",
+      "dark-color-premitive-grey-5": "#ffffff",
+      "dark-primary-bg-color-0":
+          localStorage.getItem("themeColor") || "#111018", // "#1c1a27"
+      "dark-primary-bg-color-1": "#1c1a27", // "#fbfafe"
+      "dark-primary-bg-color-2": "#0D0D0D",
+      "dark-primary-bg-color-3": "#121212", // "#1c1a27"
+      "dark-primary-bg-color-4": "#3e3a58",
+      "dark-primary-tile-color-0": "#f0fcec",
+      "dark-primary-border-color": "rgba(255, 255, 255, 0.20)",
 
-    "dark-color-premitive-grey-5": "var(--Neutral-Black-400, #ffffff)",
-    "dark-color-premitive-grey-6": "var(--Neutral-Black-400, #ffffff)",
-    "dark-color-premitive-grey-7": "var(--Neutral-Black-400, #ffffff)",
-    "dark-color-premitive-grey-8": "var(--Neutral-Black-400, #ffffff)",
-    "dark-color-premitive-grey-9": "var(--Neutral-Black-400, #ffffff)",
-    "dark-primary-bg-color-7": "#1c1a27",
-    "dark-primary-bg-color-8": "#1c1a27",
+      "dark-color-premitive-grey-5": "var(--Neutral-Black-400, #ffffff)",
+      "dark-color-premitive-grey-6": "var(--Neutral-Black-400, #ffffff)",
+      "dark-color-premitive-grey-7": "var(--Neutral-Black-400, #ffffff)",
+      "dark-color-premitive-grey-8": "var(--Neutral-Black-400, #ffffff)",
+      "dark-color-premitive-grey-9": "var(--Neutral-Black-400, #ffffff)",
+      "dark-primary-bg-color-7": "#1c1a27",
+      "dark-primary-bg-color-8": "#1c1a27",
+      "dark-primary-bg-color-9": "rgba(255, 255, 255, 0.08)",
 
-    "light-color-premitive-grey-0": "#afafaf",
-    "light-primary-bg-color-0": localStorage.getItem("themeColor") || "#7B68EE", // login page left side
-    "light-primary-bg-color-1": "#ffffff", // login page right side #edf3ff
-    "light-primary-bg-color-2": "#e4e9f7", // navbar and components background color
-    "light-primary-bg-color-3": "#ffffff", // dashboard background color
-    "light-primary-bg-color-4": "#ffffff", // input background color
-    "light-primary-tile-color-0": "#d7f1f",
-    "light-primary-tile-color": "#9a7ada",
+      "light-color-premitive-grey-0": "#afafaf",
+      "light-primary-bg-color-0":
+          localStorage.getItem("themeColor") || "#7B68EE", // login page left side
+      "light-primary-bg-color-1": "#ffffff", // login page right side #edf3ff
+      "light-primary-bg-color-2": "#e4e9f7", // navbar and components background color
+      "light-primary-bg-color-3": "#ffffff", // dashboard background color
+      "light-primary-bg-color-4": "#ffffff", // input background color
+      "light-primary-tile-color-0": "#d7f1f",
+      "light-primary-tile-color": "#9a7ada",
+      "light-primary-border-color": "rgba(13, 13, 13, 0.08)",
 
-    "light-color-premitive-grey-5": "var(--Neutral-Black-400, #2C2C2C)",
-    "light-color-premitive-grey-6": "var(--Neutral-Black-400, #4C4C4C)",
-    "light-color-premitive-grey-7": "var(--Neutral-Black-400, #252525)",
-    "light-color-premitive-grey-8": "var(--Neutral-Black-500, #0D0D0D)",
-    "light-color-premitive-grey-9":
-      "var(--Perks-Color-Palette-Secondary-Black-Black---900, #141414)",
-    "light-primary-bg-color-7": "var(--Neutral-White-200, #FBFBFB)",
-    "light-primary-bg-color-8": "var(--Neutral-White-200, #FCFCFD)",
+      "light-color-premitive-grey-5": "var(--Neutral-Black-400, #2C2C2C)",
+      "light-color-premitive-grey-6": "var(--Neutral-Black-400, #4C4C4C)",
+      "light-color-premitive-grey-7": "var(--Neutral-Black-400, #252525)",
+      "light-color-premitive-grey-8": "var(--Neutral-Black-500, #0D0D0D)",
+      "light-color-premitive-grey-9":
+          "var(--Perks-Color-Palette-Secondary-Black-Black---900, #141414)",
+      "light-primary-bg-color-7": "var(--Neutral-White-200, #FBFBFB)",
+      "light-primary-bg-color-8": "var(--Neutral-White-200, #FCFCFD)",
+      "light-primary-bg-color-9": "#EFEFEF",
   });
   const [theme, setTheme] = useState("dark");
   const [checked, setChecked] = useState(false);
