@@ -1,5 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import QuestFooter from '../../assets/Images/QuestFooter.svg'
 
 const SuccessPopup = ({ setSuccessPopup }) => {
     const navigate = useNavigate();
@@ -16,27 +17,32 @@ const SuccessPopup = ({ setSuccessPopup }) => {
             onClick={clickHadnler}
         >
             <div className="rounded-xl overflow-hidden">
-                <div style={{
+                {/* <div style={{
                     height: "60px",
                     width: "100%",
                     padding: '20px',
                     // background: 'var(--neutral-opacity-white-80, rgba(255, 255, 255, 0.80))'
                     background: 'white'
                 }}>
-                </div>
+                </div> */}
 
                 {/* <div id="clickboxsucc" className="w-full max-w-[376px] bg-white flex flex-col p-6 rounded-xl items-center"> */}
-                <div id="clickboxsucc" className="w-full max-w-[376px] bg-white flex flex-col p-[20px]  items-center gap-[20px]">
+                <div id="clickboxsucc" className="w-full max-w-[376px] bg-white flex flex-col p-[20px] pt-[32px]  items-center gap-[16px]">
 
                     {/* <div className="w-[173px] text-center text-white text-6xl font-bold font-['Hanken Grotesk'] leading-9 mt-10"> */}
-                    <div className="w-[173px] h-[81px] text-center  text-6xl font-bold font-['Hanken Grotesk'] leading-9"
-                        style={{
-                            color: 'var(--grey-5, #FFF)',
-                            fontStyle: "normal",
-                        }}>
-                        🎉
-                        {/* <br /> */}
+                    <div className="flex items-center text-[35px] font-bold font-['Hanken Grotesk'] leading-9">
+                        <div className='flex items-center justify-center w-[64px] h-[64px] text-center rounded-full bg-[#F4EBFF]'>
+                            <div className=""
+                                style={{
+                                    color: 'var(--grey-5, #FFF)',
+                                    fontStyle: "normal",
+                                }}>
+                                🎉
+                            </div>
+                        </div>
+
                     </div>
+
 
                     <div className="flex flex-col items-center justify-center w-full ">
                         {/* <p className='text-center text-neutral-800 text-lg font-semibold font-["Figtree"] leading-7 mt-14'> */}
@@ -53,17 +59,17 @@ const SuccessPopup = ({ setSuccessPopup }) => {
 
                             /* Title sm/600 */
                             fontFamily: 'Figtree',
-                            fontSize: '18px',
+                            fontSize: '24px',
                             fontStyle: 'normal',
                             fontWeight: '600',
-                            lineHeight: '28px', /* 155.556% */
+                            lineHeight: '32px', /* 155.556% */
                             letterSpacing: '-0.18px',
                         }}>
                             You Are All Set!
                         </p>
 
                         {/* <p className="w-[336px] text-center text-zinc-400 text-sm font-normal font-['Figtree'] leading-tight"> */}
-                        <p className="w-[336px] text-center   text-sm font-normal font-['Figtree'] "
+                        <p className="w-[336px] text-center mt-[8px]  text-sm font-normal font-['Figtree'] "
                             style={{
                                 alignSelf: 'stretch',
                                 color: 'var(--Grey-0, var(--Neutral-Grey-200, #AFAFAF))',
@@ -85,6 +91,24 @@ const SuccessPopup = ({ setSuccessPopup }) => {
                         </button>
                     </div>
 
+                </div>
+                <div className="flex py-[12px] px-[20px] justify-center items-center gap-[12px] " style={{
+                    background: 'var(--Neutral-White-200, #FBFBFB)',
+                }}>
+                    <div style={{
+                        flex: '1 0 0',
+                        color: 'var(--Neutral-Black-100, #939393)',
+                        fontFamily: 'Figtree',
+                        fontSize: '10px',
+                        fontStyle: 'normal',
+                        fontWeight: '400',
+                        lineHeight: '12px', /* 120% */
+                        letterSpacing: '-0.1px',
+
+                    }}>
+                        Powered by QuestLabs
+                    </div>
+                    <img src={QuestFooter} alt="" />
                 </div>
             </div>
         </div>

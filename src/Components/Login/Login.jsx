@@ -80,6 +80,7 @@ export default function Login() {
                         fontStyle: "normal",
                         fontWeight: "400",
                         lineHeight: "20px",
+                        border: `1px solid ${bgColors[`${theme}-primary-border-color`]}`
                     },
                     OtpInput: {
                         color: "var(--Neutral- Grey - 300, #8E8E8E)",
@@ -89,11 +90,22 @@ export default function Login() {
                         fontStyle: "normal",
                         fontWeight: "400",
                         lineHeight: "20px",
+                        border: `1px solid ${bgColors[`${theme}-primary-border-color`]}`
                     },
 
                     IconStyle: {
                         Background: bgColors[`${theme}-primary-bg-color-0`],
+                        BorderColor: bgColors[`${theme}-primary-bg-color-0`],
                     },
+                    PrimaryButton:{
+                        border: "none"
+                    },
+                    SecondaryButton: {
+                        background: "transparent",
+                        border: `1px solid ${bgColors[`${theme}-primary-border-color`]}`,
+                        color: bgColors[`${theme}-color-premitive-grey-8`],
+                    }
+
                 }}
                 showFooter={false}
             />

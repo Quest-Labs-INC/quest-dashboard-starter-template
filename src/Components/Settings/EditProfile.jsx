@@ -88,8 +88,11 @@ const EditProfile = () => {
     
     return (
         <div className="w-full max-w-[calc(100vw-184px)] max-h-[calc(100vh-161px)] overflow-x-scroll overflow-y-scroll mt-[18px]">
-            <div className="p-8 flex flex-col items-center gap-8 rounded-[10px] border border-gray-200">
-                <div className="w-28 h-28 flex items-center justify-center rounded-full bg-[#FFF3EC] relative">
+            <div 
+                className="p-8 flex flex-col items-center gap-8 rounded-[10px]"
+                style={{border: `1.5px solid ${bgColors[`${theme}-primary-border-color`]}`}}
+            >
+                <div className="w-28 h-28 flex items-center justify-center rounded-full bg-[#F4EBFF] relative">
                     {(imageUrl || customImage) && (
                         <img
                             className="object-cover h-full w-full rounded-full"
@@ -236,26 +239,32 @@ const EditProfile = () => {
                         },
                         Input: {
                             borderRadius: "10px",
-                            border: "1px solid gray",
+                            border: `1px solid ${bgColors[`${theme}-primary-border-color`]}`,
                         },
                         MultiChoice: {
                             selectedStyle: {
                                 background: bgColors[`${theme}-primary-bg-color-0`],
                                 color: "#E0E0E0",
-                                border: "1px solid gray"
+                                border: `1px solid ${bgColors[`${theme}-primary-border-color`]}`
+                            },
+                            style: {
+                                border: `1px solid ${bgColors[`${theme}-primary-border-color`]}`,
                             }
                         },
                         SingleChoice: {
                             style: {
-                                border: "1px solid gray"
+                                border: `1px solid ${bgColors[`${theme}-primary-border-color`]}`
                             },
                             selectedStyle: {
-                                border: "1px solid gray"
+                                border: `1px solid ${bgColors[`${theme}-primary-border-color`]}`
                             }
                         },
                         TextArea: {
-                            border: "1px solid gray"
-                        }
+                            border: `1px solid ${bgColors[`${theme}-primary-border-color`]}`
+                        },
+                        PrimaryButton: {
+                            border: "none"
+                        },
                     }}
                 />
             </div>

@@ -27,16 +27,19 @@ const CreateSuccessPopUp = ({ setCreateSuccessPopUp }) => {
                 </div> */}
 
                 {/* <div id="clickboxsucc" className="w-full max-w-[376px] bg-white flex flex-col p-6 rounded-xl items-center"> */}
-                <div id="clickboxsucc" className="w-full max-w-[376px] bg-white flex flex-col p-[20px]  items-center gap-[20px] pt-[80px]">
+                <div id="clickboxsucc" className="w-full max-w-[376px] bg-white flex flex-col p-[20px]  items-center gap-[20px] pt-[32px]">
 
-                    {/* <div className="w-[173px] text-center text-white text-6xl font-bold font-['Hanken Grotesk'] leading-9 mt-10"> */}
-                    <div className="w-[173px] h-[81px] text-center  text-6xl font-bold font-['Hanken Grotesk'] leading-9"
-                        style={{
-                            color: 'var(--grey-5, #FFF)',
-                            fontStyle: "normal",
-                        }}>
-                        🎉
-                        {/* <br /> */}
+                <div className="flex items-center text-[35px] font-bold font-['Hanken Grotesk'] leading-9">
+                        <div className='flex items-center justify-center w-[64px] h-[64px] text-center rounded-full bg-[#F4EBFF]'>
+                            <div className=""
+                                style={{
+                                    color: 'var(--grey-5, #FFF)',
+                                    fontStyle: "normal",
+                                }}>
+                                🎉
+                            </div>
+                        </div>
+
                     </div>
 
                     <div className="flex flex-col items-center justify-center w-full ">
@@ -54,17 +57,17 @@ const CreateSuccessPopUp = ({ setCreateSuccessPopUp }) => {
 
                             /* Title sm/600 */
                             fontFamily: 'Figtree',
-                            fontSize: '18px',
+                            fontSize: '24px',
                             fontStyle: 'normal',
                             fontWeight: '600',
-                            lineHeight: '28px', /* 155.556% */
+                            lineHeight: '32px', /* 155.556% */
                             letterSpacing: '-0.18px',
                         }}>
                             Welcome
                         </p>
 
                         {/* <p className="w-[336px] text-center text-zinc-400 text-sm font-normal font-['Figtree'] leading-tight"> */}
-                        <p className="w-[336px] text-center   text-sm font-normal font-['Figtree'] "
+                        <p className="w-[336px] text-center mt-[8px]  text-sm font-normal font-['Figtree'] "
                             style={{
                                 alignSelf: 'stretch',
                                 color: 'var(--Grey-0, var(--Neutral-Grey-200, #AFAFAF))',
