@@ -578,3 +578,13 @@
     
     flex-shrink: 0;
 }
+
+.referral-black{
+    font-family: Figtree;
+    color:#2C2C2C
+}
+
+.referral-grey{
+    font-family: Figtree;
+    color:#939393
+}

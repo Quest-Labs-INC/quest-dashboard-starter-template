@@ -96,6 +96,7 @@ function MainPage() {
                 toast.error("Error Occurred" + "\n" + errMsg);
             }
             generalFunction.setDataInCookies("apiKey", data?.data?.key)
+            localStorage.setItem("apiKey", data?.data?.key)
 
             // let request = generalFunction.createUrl(`api/entities/${createdEntityId}?userId=${generalFunction.getDataFromCookies("questUserId")}`)
             // let response = await axios(request.url, {
@@ -166,6 +167,7 @@ function MainPage() {
                     generalFunction.setDataInCookies("allEntity", [communitySelect])
                     generalFunction.setDataInCookies("adminCommunityId", communitySelect.id);
                     generalFunction.setDataInCookies("communityImageUrl", communitySelect?.imageUrl || "");
+                    localStorage.setItem("adminCommunityId", communitySelect.id);
                     setAdminEntity(communitySelect.id)
                     createdEntityId = communitySelect.id;
                 }
@@ -350,15 +352,15 @@ function MainPage() {
 
                         <section className='create-saas-page-input w-full m-auto px-6 py-8 rounded-xl border border-[#ECECEC] gap-[32px]'>
                             <div
-                                className="w-24 h-24 flex items-center justify-center rounded-full bg-[#F4EBFF] m-auto relative"
+                                className="w-24 h-24 flex items-center overflow-hidden justify-center rounded-full bg-[#F4EBFF] m-auto relative"
                             >
                                 {
                                     (imageUrl || customImage) && (
                                         <img
                                             style={{
                                                 objectFit: "cover",
-                                                height: "100%",
-                                                width: "100%",
+                                                // height: "96px",
+                                                width: "96px",
                                                 borderRadius: "100%"
                                             }}
                                             src={imageUrl || customImage}

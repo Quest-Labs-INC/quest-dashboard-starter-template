@@ -22,7 +22,7 @@ export default function Settings() {
     return (
         <div className="flex flex-col justify-between items-center">
             <div
-                className="flex w-full px-8 py-5 justify-between items-center border-b"
+                className="flex w-full px-10 py-5 justify-between items-center border-b"
                 style={{
                     borderBottom: `1.5px solid ${bgColors[`${theme}-primary-border-color`]}`
                 }}
