@@ -113,6 +113,9 @@ export default function Onboarding() {
                                 selectedStyle: {
                                     border: `1px solid ${bgColors[`${theme}-primary-border-color`]}`,
                                 },
+                                style: {
+                                    border: `1px solid ${bgColors[`${theme}-primary-border-color`]}`,
+                                }
                             },
                             PrimaryButton: {
                                 border: "none",
