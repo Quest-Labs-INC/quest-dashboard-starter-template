@@ -63,9 +63,6 @@ function FeedbackButton() {
                     Form: {
                         background: bgColors[`${theme}-primary-bg-color-1`],
                     },
-                    PrimaryButton: {
-                        background: bgColors[`${theme}-primary-bg-color-0`],
-                    },
                     Heading: {
                         fontSize: "20px",
                         color: bgColors[`${theme}-color-premitive-grey-5`],

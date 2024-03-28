@@ -78,7 +78,11 @@ const AdminComponent = () => {
     return (
         <div className="w-full h-full">
             <div className="w-full flex items-center justify-between gap-4 mt-[24px]">
-                <div className="flex h-10 border py-2.5 items-center border-[#EFEFEF] rounded-[10px] w-full">
+                <div className="flex h-10 border py-2.5 items-center rounded-[10px] w-full"
+                    style={{
+                        border: `1.5px solid ${bgColors[`${theme}-primary-border-color`]}`
+                    }}
+                >
                     <div className="flex items-center h-full mx-5">
                         {searchIcon()}
                     </div>
@@ -96,7 +100,7 @@ const AdminComponent = () => {
                     />
                 </div>
                 <button
-                    className="text-sm px-8 py-2.5 rounded-[5px] pl-[40px] pr-[40px]"
+                    className="text-sm px-8 py-2.5 rounded-[10px] pl-[40px] pr-[40px]"
                     style={{
                         background: bgColors[`${theme}-primary-bg-color-0`],
                         color: "#eaebed",
@@ -108,40 +112,52 @@ const AdminComponent = () => {
             </div>
 
             {filterData?.length != 0 ? (
-                <div className="mt-[16px] rounded-xl border border-[#F0F0F0] overflow-y-auto">
+                <div 
+                    className="mt-[16px] rounded-xl border overflow-y-auto"
+                    style={{border: `1.5px solid ${bgColors[`${theme}-primary-border-color`]}`}}
+                >
                     <table  className="min-w-[1100px] w-full " style={{
                         color: bgColors[`${theme}-primary-bg-color-8`],
                     }}>
                         <thead style={{background: theme == "dark" ? 'transparent' : '#F0F0F0'}}>
-                            <tr className="border-b border-[#F0F0F0] text-sm font-medium font-['Figtree']">
+                            <tr 
+                                className="text-sm font-medium font-['Figtree']"
+                                style={{borderBottom: `1px solid ${bgColors[`${theme}-primary-border-color`]}`}}
+                            >
                                 <th className="w-[10%] text-start pl-6 py-[18px]  rounded-tl-xl"
                                     style={{
-                                        color: bgColors[`${theme}-color-premitive-grey-9`]
+                                        color: bgColors[`${theme}-color-premitive-grey-9`],
+                                        background: bgColors[`${theme}-primary-bg-color-9`]
                                     }}>
                                     Sr
                                 </th>
                                 <th className="w-[25%] text-start pl-6 py-[18px]  " style={{
-                                    color: bgColors[`${theme}-color-premitive-grey-9`]
+                                    color: bgColors[`${theme}-color-premitive-grey-9`],
+                                    background: bgColors[`${theme}-primary-bg-color-9`]
                                 }}>
                                     User
                                 </th>
                                 <th className="w-[25%] text-start pl-6 py-[18px] " style={{
-                                    color: bgColors[`${theme}-color-premitive-grey-9`]
+                                    color: bgColors[`${theme}-color-premitive-grey-9`],
+                                    background: bgColors[`${theme}-primary-bg-color-9`]
                                 }}>
                                     Email Address
                                 </th>
                                 <th className="w-[20%] text-start pl-6 py-[18px] " style={{
-                                    color: bgColors[`${theme}-color-premitive-grey-9`]
+                                    color: bgColors[`${theme}-color-premitive-grey-9`],
+                                    background: bgColors[`${theme}-primary-bg-color-9`]
                                 }}>
                                     Role
                                 </th>
                                 <th className="w-[10%] text-start pl-6 py-[18px] " style={{
-                                    color: bgColors[`${theme}-color-premitive-grey-9`]
+                                    color: bgColors[`${theme}-color-premitive-grey-9`],
+                                    background: bgColors[`${theme}-primary-bg-color-9`]
                                 }}>
                                     Status
                                 </th>
                                 <th className="w-[10%] px-6 py-[18px]  rounded-tr-xl" style={{
-                                    color: bgColors[`${theme}-color-premitive-grey-9`]
+                                    color: bgColors[`${theme}-color-premitive-grey-9`],
+                                    background: bgColors[`${theme}-primary-bg-color-9`]
                                 }}>
                                     Action
                                 </th>
@@ -150,11 +166,20 @@ const AdminComponent = () => {
 
                         <tbody>
                             {filterData?.map((user, index) => (
-                                <tr className="border-b border-[#F0F0F0] text-[#4C4C4C]">
-                                    <td className="w-[10%] px-6 py-4 text-[#455A64]">
+                                <tr 
+                                    className="text-[#4C4C4C]"
+                                    style={{borderBottom: !(filterData?.length == index + 1) && `1px solid ${bgColors[`${theme}-primary-border-color`]}`}}
+                                >
+                                    <td 
+                                        className="w-[10%] px-6 py-4 text-[#455A64]"
+                                        style={{color: bgColors[`${theme}-color-premitive-grey-9`]}}
+                                    >
                                         {index + 1}
                                     </td>
-                                    <td className="w-[25%] px-6 py-4 text-[#455A64]">
+                                    <td 
+                                        className="w-[25%] px-6 py-4 text-[#455A64]"
+                                        style={{color: bgColors[`${theme}-color-premitive-grey-9`]}}
+                                    >
                                         {user.name}
                                     </td>
                                     <td className="w-[25%] px-6 py-4">

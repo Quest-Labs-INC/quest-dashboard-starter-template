@@ -81,7 +81,7 @@ export const routesConfig = [
         path: "/onboarding",
         name: "Onboarding",
         logo: "",
-        component: <ProviderConfig showTag={true}><LoginWrapper><Onboarding/></LoginWrapper></ProviderConfig>,
+        component: <ProviderConfig showTag={false}><LoginWrapper><Onboarding/></LoginWrapper></ProviderConfig>,
         hidden: true,
         isUpper: false,
     },

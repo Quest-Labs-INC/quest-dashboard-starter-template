@@ -22,9 +22,9 @@ export default function Settings() {
     return (
         <div className="flex flex-col justify-between items-center">
             <div
-                className="flex w-full px-8 py-5 justify-between items-center border-b border-[#ececec] bg-white"
+                className="flex w-full px-8 py-5 justify-between items-center border-b"
                 style={{
-                    backgroundColor: bgColors[`${theme}-primary-bg-color-3`],
+                    borderBottom: `1.5px solid ${bgColors[`${theme}-primary-border-color`]}`
                 }}
             >
                 <p
@@ -38,25 +38,32 @@ export default function Settings() {
             </div>
 
             <div className="px-8 pt-[30px] w-full pr-[96px]">
-                <div className="flex w-full items-start border-b border-[#E0E0E0] h-[52px]">
+                <div 
+                    className="flex w-full items-start h-[52px]"
+                    style={{
+                        borderBottom: `1px solid ${bgColors[`${theme}-primary-border-color`]}`
+                    }}
+                >
                     <p
                         className={`text-sm font-semibold font-['Figtree'] h-[52px] p-4 cursor-pointer ${section == "edit" &&
-                            "rounded-t-xl border-b bg-[#E0E0E0] border-[#939393]"
+                            "rounded-t-xl border-b border-[#939393]"
                             }`}
                         onClick={() => handleSectionChange("edit")}
                         style={{
-                            color: section == "edit" ? "" : bgColors[`${theme}-color-premitive-grey-5`]
+                            color: bgColors[`${theme}-color-premitive-grey-5`],
+                            background: section == "edit" ? bgColors[`${theme}-primary-bg-color-9`] : ""
                         }}
                     >
                         Edit Profile
                     </p>
                     <p
                         className={`text-sm font-semibold font-['Figtree'] h-[52px] p-4 cursor-pointer ${section == "manage" &&
-                            "rounded-t-xl border-b bg-[#E0E0E0] border-[#939393]"
+                            "rounded-t-xl border-b border-[#939393]"
                             }`}
                         onClick={() => handleSectionChange("manage")}
                         style={{
-                            color: section == "manage" ? "" : bgColors[`${theme}-color-premitive-grey-5`]
+                            color: bgColors[`${theme}-color-premitive-grey-5`],
+                            background: section == "manage" ? bgColors[`${theme}-primary-bg-color-9`] : ""
                         }}
                     >
                         Manage Admins
