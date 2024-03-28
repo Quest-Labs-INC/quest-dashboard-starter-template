@@ -12,23 +12,20 @@ const ReferralComp = () => {
             questId={"q-saas-referral"}
             bgColor="white"
             color=""
-            heading={"Referral link and code"}
+            heading={"Your referral link"}
             description={
-                "Share your unique referral link with friends and receive up to 6,000 credits each time a friend signs up!"
+                "Copy and share your referral link with friends or on social media using the icons below."
             }
-            referralLink={`${window.location.origin}?ref=`}
+            referralLink={`${window.location.origin}/login?ref=`}
             showReferralCode={false}
             // headingColor="blue"
             shareButtonText="Share Referral Link"
             styleConfig={{
-                PrimaryButton: {
-                    background: bgColors[`${theme}-primary-bg-color-0`],
-                },
                 Form: {
-                    background: bgColors[`${theme}-primary-bg-color-1`],
+                    background: theme == "dark" ? "black" : "white",
                     paddingTop: "28px",
                     boxShadow: "0px 0px 0px 0px",
-                    border: "1px solid #ECECEC",
+                    border: `1.5px solid ${bgColors[`${theme}-primary-border-color`]}`,
                 },
                 Description: {
                     alignSelf: "stretch",
@@ -66,8 +63,6 @@ const ReferralComp = () => {
                     flex: "1 0 0",
                     color: "var(--Neutral-Black-100, #939393)",
                     textAlign: "center",
-
-                    /* Caption/400 */
                     fontFamily: "Figtree",
                     fontSize: "10px",
                     fontStyle: "normal",
@@ -76,11 +71,11 @@ const ReferralComp = () => {
                     letterSpacing: "-0.1px",
                 },
                 PrimaryButton: {
+                    background: bgColors[`${theme}-primary-bg-color-0`],
                     border: "none",
                 },
-                React,
                 Icon: {
-                    // color: bgColors[`${theme}-color-premitive-grey-5`]
+                    background: bgColors[`${theme}-primary-border-color`]
                 }
             }}
             gradientBackgroundColor={

@@ -124,32 +124,32 @@ const AdminComponent = () => {
                                 className="text-sm font-medium font-['Figtree']"
                                 style={{borderBottom: `1px solid ${bgColors[`${theme}-primary-border-color`]}`}}
                             >
-                                <th className="w-[10%] text-start pl-6 py-[18px]  rounded-tl-xl"
+                                <th className="w-[10%] py-[18px] text-center rounded-tl-xl"
                                     style={{
                                         color: bgColors[`${theme}-color-premitive-grey-9`],
                                         background: bgColors[`${theme}-primary-bg-color-9`]
                                     }}>
                                     Sr
                                 </th>
-                                <th className="w-[25%] text-start pl-6 py-[18px]  " style={{
+                                <th className="w-[25%] py-[18px] text-center" style={{
                                     color: bgColors[`${theme}-color-premitive-grey-9`],
                                     background: bgColors[`${theme}-primary-bg-color-9`]
                                 }}>
                                     User
                                 </th>
-                                <th className="w-[25%] text-start pl-6 py-[18px] " style={{
+                                <th className="w-[25%] text-center py-[18px] " style={{
                                     color: bgColors[`${theme}-color-premitive-grey-9`],
                                     background: bgColors[`${theme}-primary-bg-color-9`]
                                 }}>
                                     Email Address
                                 </th>
-                                <th className="w-[20%] text-start pl-6 py-[18px] " style={{
+                                <th className="w-[20%] text-center py-[18px] " style={{
                                     color: bgColors[`${theme}-color-premitive-grey-9`],
                                     background: bgColors[`${theme}-primary-bg-color-9`]
                                 }}>
                                     Role
                                 </th>
-                                <th className="w-[10%] text-start pl-6 py-[18px] " style={{
+                                <th className="w-[10%] text-center py-[18px] " style={{
                                     color: bgColors[`${theme}-color-premitive-grey-9`],
                                     background: bgColors[`${theme}-primary-bg-color-9`]
                                 }}>
@@ -171,29 +171,29 @@ const AdminComponent = () => {
                                     style={{borderBottom: !(filterData?.length == index + 1) && `1px solid ${bgColors[`${theme}-primary-border-color`]}`}}
                                 >
                                     <td 
-                                        className="w-[10%] px-6 py-4 text-[#455A64]"
+                                        className="w-[10%] px-6 py-4 text-[#455A64] text-center"
                                         style={{color: bgColors[`${theme}-color-premitive-grey-9`]}}
                                     >
                                         {index + 1}
                                     </td>
                                     <td 
-                                        className="w-[25%] px-6 py-4 text-[#455A64]"
+                                        className="w-[25%] px-6 py-4 text-[#455A64] text-center"
                                         style={{color: bgColors[`${theme}-color-premitive-grey-9`]}}
                                     >
                                         {user.name}
                                     </td>
-                                    <td className="w-[25%] px-6 py-4">
+                                    <td className="w-[25%] px-6 py-4 text-center">
                                         {user.emails[0]}
                                     </td>
-                                    <td className="w-[20%] px-6 py-4">
+                                    <td className="w-[20%] px-6 py-4 text-center">
                                         {user.role}
                                     </td>
-                                    <td className="w-[10%] px-6 py-4">
+                                    <td className="w-[10%] px-6 py-4 text-center">
                                         {user.isActive === true
                                             ? "Active"
                                             : "Inactive"}
                                     </td>
-                                    <td className="w-[10%] px-6 py-4">
+                                    <td className="w-[10%] px-6 py-4 text-center">
                                         <div className="flex items-center justify-center cursor-pointer">
                                             {deleteIcon()}
                                         </div>

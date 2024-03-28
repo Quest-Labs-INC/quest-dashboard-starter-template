@@ -80,6 +80,7 @@ const AppContext = ({ children }) => {
       if (theme && theme == "dark") {
         setTheme("dark");
         localStorage.setItem("theme", "dark");
+        document.getElementsByTagName("BODY")[0].classList.add("dark");
         setChecked(false);
       } else {
         setTheme("light");

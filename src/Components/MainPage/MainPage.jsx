@@ -352,15 +352,15 @@ function MainPage() {
 
                         <section className='create-saas-page-input w-full m-auto px-6 py-8 rounded-xl border border-[#ECECEC] gap-[32px]'>
                             <div
-                                className="w-24 h-24 flex items-center justify-center rounded-full bg-[#F4EBFF] m-auto relative"
+                                className="w-24 h-24 flex items-center overflow-hidden justify-center rounded-full bg-[#F4EBFF] m-auto relative"
                             >
                                 {
                                     (imageUrl || customImage) && (
                                         <img
                                             style={{
                                                 objectFit: "cover",
-                                                height: "100%",
-                                                width: "100%",
+                                                // height: "96px",
+                                                width: "96px",
                                                 borderRadius: "100%"
                                             }}
                                             src={imageUrl || customImage}
