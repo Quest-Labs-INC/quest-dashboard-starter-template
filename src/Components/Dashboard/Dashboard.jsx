@@ -118,7 +118,7 @@ export default function Dashboard() {
                                 }
                             },
                             Card: {
-                                background: bgColors[`${theme}-primary-bg-color-2`],
+                                background: theme == "dark" ? bgColors[`${theme}-primary-bg-color-2`] : "transparent",
                                 border: `1px solid ${bgColors[`${theme}-primary-border-color`]}`,
                             }
                         }}

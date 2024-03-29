@@ -92,16 +92,16 @@ const EditProfile = () => {
                 className="p-8 flex flex-col items-center gap-8 rounded-[10px]"
                 style={{border: `1.5px solid ${bgColors[`${theme}-primary-border-color`]}`}}
             >
-                <div className="w-28 h-28 flex items-center justify-center rounded-full bg-[#F4EBFF] relative">
+                <div className="w-28 h-28 flex items-center justify-center rounded-full bg-[#F4EBFF] relative overflow-hidden">
                     {(imageUrl || customImage) && (
                         <img
-                            className="object-cover h-full w-full rounded-full"
+                            className="object-cover w-full rounded-full static z-10"
                             src={imageUrl || customImage}
                             alt=""
                         />
                     )}
-                    <div className={`${imageUrl ? "opacity-0" : "opacity-100"}`}>
-                        <label className="cursor-pointer" htmlFor="profile-img">
+                    <div className={`${imageUrl ? "opacity-0" : "opacity-100"} absolute`}>
+                        <label className="cursor-pointer w-28 h-28 flex items-center justify-center rounded-full" htmlFor="profile-img">
                             {/* <img className="w-10 absolute top-9 left-9" src={uploadSVG()} alt="" />/ */}
                             {
                                 uploadSVG(colorRetriver()[0], colorRetriver()[1])

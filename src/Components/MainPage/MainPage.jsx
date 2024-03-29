@@ -149,9 +149,12 @@ function MainPage() {
             return;
         }
 
+        const uploadedImageUrl = await UploadImage();
+
         let entityBody = {
             name: name,
-            chainSource: "OFF_CHAIN"
+            chainSource: "OFF_CHAIN",
+            imageUrl: uploadedImageUrl
         }
 
         let entityRequest = generalFunction.createUrl(
@@ -174,7 +177,7 @@ function MainPage() {
             })
        
         await fetchTheImage(createdEntityId);
-        const uploadedImageUrl = await UploadImage();
+        
 
         try {
             generalFunction.showLoader();
@@ -419,7 +422,7 @@ function MainPage() {
                                     </p>
                                     <textarea
                                         // className="px-4 py-2.5 rounded-[10px] mt-1.5 w-full min-h-[64px]"
-                                        className=""
+                                        className="text-sm"
                                         style={{ resize: "vertical", border: "1px solid #ECECEC" }}
                                         onChange={(e) => {
                                             if (e.target.value.length <= 1000) {
@@ -450,7 +453,7 @@ function MainPage() {
                                             key={index}
                                             style={{
                                                 background: `${gradient}`, borderRadius: "5px",
-                                                border: selectedBox === index ? "3px solid var(--color-premitive-grey-5)" : "none",
+                                                border: selectedBox === index ? "3px solid #4C4C4C" : "none",
                                                 cursor: 'pointer'
                                             }}
                                             // className="w-10 h-10"

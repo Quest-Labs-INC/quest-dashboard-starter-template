@@ -52,13 +52,14 @@ function FeedbackButton() {
                 RequestFeature={{
                     description: "Suggest, we innovate together.",
                 }}
+                contactUrl={`mailto:${localStorage.getItem("questUserCredentials").email}`}
                 styleConfig={{
                     listHeading: {},
                     listHover: {
                         background:
                             theme == "dark"
                                 ? "rgba(162, 162, 162, 0.5)"
-                                : "#f4ebff",
+                                : "#FBFBFB",
                     },
                     Form: {
                         background: bgColors[`${theme}-primary-bg-color-1`],

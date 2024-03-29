@@ -344,11 +344,17 @@ body.dark .switch::before {
     /* background-color: red; */
 }
 
-.s_nav_company_logo_cont>img {
+.s_nav_company_logo_cont > div{
     width: 30px;
     height: 30px;
     border-radius: 30px;
-    /* overflow: hidden; */
+    overflow: hidden;
+}
+
+.s_nav_company_logo_cont > div > img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
 .s_nav_company_logo_cont>.s_nav_company_logo {
