@@ -1,5 +1,5 @@
 import Cookies from "universal-cookie";
-import { mainConfig } from "./appConfig";
+import { appConfig, mainConfig } from "./appConfig";
 import axios from "axios";
 
 export const generalFunction = {
@@ -111,6 +111,8 @@ export const generalFunction = {
       generalFunction.createUrl(`api/upload-img`);
     const headers = {
       ...baseHeaders,
+      apiKey: appConfig.QUEST_API_KEY,
+      entityId: appConfig.QUEST_ENTITY_ID,
       "Content-Type": "form-data",
     };
 

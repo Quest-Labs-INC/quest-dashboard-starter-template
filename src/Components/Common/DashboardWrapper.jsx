@@ -191,11 +191,13 @@ export default function DashboardWrapper({ children, selectdRoute }) {
                 {/* for logo image */}
                 <div className="s_nav_header_cont">
                     <div className="s_nav_company_logo_cont">
-                        <img
-                            src={appConfig.BRAND_LOGO || importConfig.brandLogo}
-                            alt=""
-                            className=""
-                        />
+                        <div>
+                            <img
+                                src={appConfig.BRAND_LOGO || importConfig.brandLogo}
+                                alt=""
+                                className=""
+                            />
+                        </div>
                         <p
                             style={{
                                 color: bgColors[
