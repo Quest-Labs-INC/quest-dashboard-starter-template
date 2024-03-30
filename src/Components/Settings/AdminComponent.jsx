@@ -9,6 +9,8 @@ import { uploadImageToBackend } from "../../utils/UploadImage";
 import { generalFunction } from "../../assets/Config/generalFunction";
 import { mainConfig } from "../../assets/Config/appConfig";
 import NoData from "./NoData";
+import AddAdminPopup from "./AddAdminPopup";
+import { Toast } from "@questlabs/react-sdk";
 
 const AdminComponent = () => {
     const { theme, bgColors, appConfig } = useContext(ThemeContext);
@@ -16,10 +18,12 @@ const AdminComponent = () => {
     const [filterData, setFilterData] = useState([]);
     const [loading, setLoading] = useState(false);
     const [search, setSearch] = useState("");
+    const [adminPopup, setAdminPopup] = useState(false);
+    const [flag, setFlag] = useState(false);
 
     const headers = {
         apikey: appConfig.QUEST_API_KEY,
-        userid: generalFunction.getDataFromCookies("questUserId"),
+        userid: generalFunction.getDataFromCookies("questUserId") || generalFunction.getUserId(),
         token: generalFunction.getDataFromCookies("questUserToken"),
     };
 
@@ -43,7 +47,7 @@ const AdminComponent = () => {
             setLoading(false);
         };
         getAdmins();
-    }, []);
+    }, [flag]);
 
     useEffect(() => {
         let data = adminData?.filter((user) => {
@@ -56,7 +60,7 @@ const AdminComponent = () => {
         try {
             generalFunction.showLoader();
             await axios.post(
-                `${mainConfig.BACKEND_URL}api/entities/${generalFunction.getDataFromCookies("adminCommunityId")}/remove-admin?userId=${headers.userid}`,
+                `${mainConfig.BACKEND_URL}api/entities/${generalFunction.getDataFromCookies("adminCommunityId")}/remove-admin`,
                 {
                     ownerUserId: generalFunction.getDataFromCookies("questUserId"),
                     userId,
@@ -64,16 +68,32 @@ const AdminComponent = () => {
                 {
                     headers: headers,
                 }
-            );
-
-            const data = adminData?.filter((user) => user.userId != userId);
-            setAdminData(data);
-            setAdminData(data);
-            generalFunction.hideLoader();
+            ).then((res) => {
+                const data = res.data;
+                console.log(data);
+                if (data.success == false) {
+                    let errMsg = data.message ? data.message : "Unable to Delete Member";
+                    generalFunction.hideLoader();
+                    Toast.error({ text: "Error Occurred" + "\n" + errMsg ,
+                    // image: `${appConfig.BRAND_LOGO || importConfig.brandLogo}`
+                 });
+                    return;
+                } else {
+                    Toast.success({
+                        text: "Admin Removed Successfully",
+                        // image: `${appConfig.BRAND_LOGO || importConfig.brandLogo}`
+                    });
+                    const data = adminData?.filter((user) => user.userId != userId);
+                    setAdminData(data);
+                    setFlag((prev) => !prev);
+                    generalFunction.hideLoader();
+                }
+            });
         } catch (error) {
             console.log(error);
         }
     }
+
 
     return (
         <div className="w-full h-full">
@@ -103,26 +123,27 @@ const AdminComponent = () => {
                     className="text-sm px-8 py-2.5 rounded-[10px] pl-[40px] pr-[40px]"
                     style={{
                         background: bgColors[`${theme}-primary-bg-color-0`],
-                        color: "#eaebed",
+                        color: "white",
                         whiteSpace: "nowrap",
                     }}
+                    onClick={() => setAdminPopup(true)}
                 >
-                    Search
+                    Invite Team Member
                 </button>
             </div>
-
+            {adminPopup && <AddAdminPopup setAdminPopup={setAdminPopup} setFlag={setFlag} adminPopup={adminPopup} />}
             {filterData?.length != 0 ? (
-                <div 
+                <div
                     className="mt-[16px] rounded-xl border overflow-y-auto"
-                    style={{border: `1.5px solid ${bgColors[`${theme}-primary-border-color`]}`}}
+                    style={{ border: `1.5px solid ${bgColors[`${theme}-primary-border-color`]}` }}
                 >
-                    <table  className="min-w-[1100px] w-full " style={{
+                    <table className="min-w-[1100px] w-full " style={{
                         color: bgColors[`${theme}-primary-bg-color-8`],
                     }}>
-                        <thead style={{background: theme == "dark" ? 'transparent' : '#F0F0F0'}}>
-                            <tr 
+                        <thead style={{ background: theme == "dark" ? 'transparent' : '#F0F0F0' }}>
+                            <tr
                                 className="text-sm font-medium font-['Figtree']"
-                                style={{borderBottom: `1px solid ${bgColors[`${theme}-primary-border-color`]}`}}
+                                style={{ borderBottom: `1px solid ${bgColors[`${theme}-primary-border-color`]}` }}
                             >
                                 <th className="w-[10%] py-[18px] text-center rounded-tl-xl"
                                     style={{
@@ -166,19 +187,19 @@ const AdminComponent = () => {
 
                         <tbody>
                             {filterData?.map((user, index) => (
-                                <tr 
+                                <tr
                                     className="text-[#4C4C4C]"
-                                    style={{borderBottom: !(filterData?.length == index + 1) && `1px solid ${bgColors[`${theme}-primary-border-color`]}`}}
+                                    style={{ borderBottom: !(filterData?.length == index + 1) && `1px solid ${bgColors[`${theme}-primary-border-color`]}` }}
                                 >
-                                    <td 
+                                    <td
                                         className="w-[10%] px-6 py-4 text-[#455A64] text-center"
-                                        style={{color: bgColors[`${theme}-color-premitive-grey-9`]}}
+                                        style={{ color: bgColors[`${theme}-color-premitive-grey-9`] }}
                                     >
                                         {index + 1}
                                     </td>
-                                    <td 
+                                    <td
                                         className="w-[25%] px-6 py-4 text-[#455A64] text-center"
-                                        style={{color: bgColors[`${theme}-color-premitive-grey-9`]}}
+                                        style={{ color: bgColors[`${theme}-color-premitive-grey-9`] }}
                                     >
                                         {user.name}
                                     </td>
@@ -194,7 +215,7 @@ const AdminComponent = () => {
                                             : "Inactive"}
                                     </td>
                                     <td className="w-[10%] px-6 py-4 text-center">
-                                        <div className="flex items-center justify-center cursor-pointer">
+                                        <div className="flex items-center justify-center cursor-pointer" onClick={() => deleteAdmin(user.userId)}>
                                             {deleteIcon()}
                                         </div>
                                     </td>
