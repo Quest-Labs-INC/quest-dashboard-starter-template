@@ -191,22 +191,24 @@ export default function DashboardWrapper({ children, selectdRoute }) {
                 {/* for logo image */}
                 <div className="s_nav_header_cont">
                     <div className="s_nav_company_logo_cont">
-                        <div>
+                        <div className="s_nav_company_img">
                             <img
                                 src={appConfig.BRAND_LOGO || importConfig.brandLogo}
                                 alt=""
                                 className=""
                             />
                         </div>
-                        <p
-                            style={{
-                                color: bgColors[
-                                    `${theme}-color-premitive-grey-5`
-                                ],
-                            }}
-                        >
-                            {appConfig?.QUEST_ENTITY_NAME}
-                        </p>
+                        <div className="s_nav_company_name">
+                            <p
+                                style={{
+                                    color: bgColors[
+                                        `${theme}-color-premitive-grey-5`
+                                    ],
+                                }}
+                            >
+                                {appConfig?.QUEST_ENTITY_NAME}
+                            </p>
+                        </div>
                     </div>
                 </div>
 
@@ -260,7 +262,7 @@ export default function DashboardWrapper({ children, selectdRoute }) {
                             <li>
                                 <Link
                                     className="s_nav_menu_link"
-                                    onClick={() => {setSidebarOpen(false); window.open(appConfig.CALENDLY_LINK, "_blank")}}
+                                    onClick={() => {setSidebarOpen(false); window.open("https://calendly.com/shubham-quest/chat", "_blank")}}
                                 >
                                     <div>{bookACall()}</div>
                                     <p>Book a call</p>

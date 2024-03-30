@@ -11,10 +11,18 @@ import ReferralComp from "./ReferralComp";
 import { generalFunction } from "../../assets/Config/generalFunction";
 import axios from "axios";
 
-const ReferalPage2 = () => {
-    const { theme, bgColors, appConfig } = useContext(ThemeContext);
-    const [userData, setUserData] = useState([]);
 
+const ReferalPage2 = () => {
+  const { theme, bgColors, appConfig } = useContext(ThemeContext);
+  const [userData, setUserData] = useState([]);
+  
+  const colorRetriver = () => {
+    let mainColor = bgColors[`${theme}-primary-bg-color-0`];
+    let diffColor = mainColor.split(" ")?.filter((ele) => ele.charAt(0) == "#")
+    let pickColor = !!diffColor?.length ? [diffColor[0], diffColor.length > 1 ? diffColor[1] : "#D1ACFF"] : ["#9035FF", "#D1ACFF"];
+    return pickColor;
+  };
+  
     useEffect(() => {
         const getSubmission = async () => {
             let request = generalFunction.createUrl(
@@ -94,9 +102,7 @@ const ReferalPage2 = () => {
                                             }}
                                         >
                                             {/* <img /> */}
-                                            <MessageSvg
-                                                gradientId={"paint0_linear"}
-                                            />
+                                            {MessageSvg( colorRetriver()[0], colorRetriver()[1] )}
                                         </div>
                                     </div>
                                     <div className="flex flex-col gap-[4px] justify-center w-full">
@@ -129,7 +135,7 @@ const ReferalPage2 = () => {
                                             }}
                                         >
                                             {/* <img /> */}
-                                            {ProfileSvg()}
+                                            {ProfileSvg( colorRetriver()[0], colorRetriver()[1] )}
                                         </div>
                                     </div>
                                     <div className="flex flex-col gap-[4px] justify-center w-full">
@@ -162,7 +168,7 @@ const ReferalPage2 = () => {
                                             }}
                                         >
                                             {/* <img /> */}
-                                            {StarSvg()}
+                                            {StarSvg(colorRetriver()[0], colorRetriver()[1])}
                                         </div>
                                     </div>
                                     <div className="flex flex-col gap-[4px] justify-center w-full">
@@ -185,7 +191,7 @@ const ReferalPage2 = () => {
                             </div>
                         </div>
                         <div>
-                            <ReferralComp />
+                            <ReferralComp colorPicker={colorRetriver()[1]} />
                         </div>
                     </div>
                 </div>

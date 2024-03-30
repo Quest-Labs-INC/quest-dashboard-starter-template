@@ -58,7 +58,7 @@ const EditProfile = () => {
             const uploadFile = async () => {
                 generalFunction.showLoader();
                 let data = await uploadImageToBackend(event.target.files[0]);
-                setImageUrl(data?.imageUrl);
+                setImageUrl(data?.data?.imageUrl);
                 generalFunction.hideLoader();
             };
             uploadFile();
@@ -95,17 +95,19 @@ const EditProfile = () => {
                 <div className="w-28 h-28 flex items-center justify-center rounded-full bg-[#F4EBFF] relative overflow-hidden">
                     {(imageUrl || customImage) && (
                         <img
-                            className="object-cover w-full rounded-full static z-10"
+                            className="object-cover w-full h-full rounded-full static z-10"
                             src={imageUrl || customImage}
                             alt=""
                         />
                     )}
-                    <div className={`${imageUrl ? "opacity-0" : "opacity-100"} absolute`}>
+                    <div className={`${imageUrl ? "opacity-0" : "opacity-100"} absolute z-50 left-0 top-0`}>
                         <label className="cursor-pointer w-28 h-28 flex items-center justify-center rounded-full" htmlFor="profile-img">
                             {/* <img className="w-10 absolute top-9 left-9" src={uploadSVG()} alt="" />/ */}
-                            {
-                                uploadSVG(colorRetriver()[0], colorRetriver()[1])
-                            }
+                            <div className={`${(imageUrl || customImage) && "hidden"}`}>
+                                {
+                                    uploadSVG(colorRetriver()[0], colorRetriver()[1])
+                                }
+                            </div>
                         </label>
                         <input
                             onChange={inputFileChangeHandler}

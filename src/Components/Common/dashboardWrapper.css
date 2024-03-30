@@ -344,16 +344,16 @@ body.dark .switch::before {
     /* background-color: red; */
 }
 
-.s_nav_company_logo_cont > div{
+.s_nav_company_img{
     width: 30px;
     height: 30px;
-    border-radius: 30px;
+    border-radius: 100%;
     overflow: hidden;
 }
 
-.s_nav_company_logo_cont > div > img {
-    width: 100%;
-    height: 100%;
+.s_nav_company_img > img {
+    width: 30px;
+    height: 30px;
     object-fit: cover;
 }
 
@@ -364,22 +364,22 @@ body.dark .switch::before {
     /* background-color: "yellow"; */
 }
 
-.s_nav_company_logo_cont p {
+.s_nav_company_name{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 100px;
+}
 
+.s_nav_company_name>p {
     color: var(--Neutral-Black-400, #2C2C2C);
-
-    /* Title md/600 */
     font-family: Figtree;
     font-size: 20px;
     font-style: normal;
     font-weight: 600;
     line-height: 30px;
-    /* 150% */
-    letter-spacing: -0.4px;
-
     text-align: center;
-    /* white-space: nowrap; */
-    /* white-space: wrap; */
+
 }
 
 

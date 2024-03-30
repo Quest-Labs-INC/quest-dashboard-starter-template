@@ -122,9 +122,10 @@ const AdminComponent = () => {
                 <button
                     className="text-sm px-8 py-2.5 rounded-[10px] pl-[40px] pr-[40px]"
                     style={{
-                        background: bgColors[`${theme}-primary-bg-color-0`],
-                        color: "white",
+                        background: `linear-gradient(${theme == "dark" ? "black" : "white"},${theme == "dark" ? "black" : "white"}) padding-box,${bgColors[`${theme}-primary-bg-color-0`]}border-box`,
+                        color: bgColors[`${theme}-color-premitive-grey-9`],
                         whiteSpace: "nowrap",
+                        border: "1.5px solid #0000"
                     }}
                     onClick={() => setAdminPopup(true)}
                 >
