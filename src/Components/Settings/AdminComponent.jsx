@@ -36,7 +36,7 @@ const AdminComponent = () => {
                 setLoading(false);
             }, 5000);
             const { data } = await axios.get(
-                `${mainConfig.BACKEND_URL}api/entities/${generalFunction.getDataFromCookies("adminCommunityId")}/admins?userId=${headers.userid}`,
+                `${mainConfig.BACKEND_URL}api/entities/${appConfig.QUEST_ENTITY_ID}/admins?userId=${headers.userid}`,
                 {
                     headers: headers,
                 }
@@ -60,7 +60,7 @@ const AdminComponent = () => {
         try {
             generalFunction.showLoader();
             await axios.post(
-                `${mainConfig.BACKEND_URL}api/entities/${generalFunction.getDataFromCookies("adminCommunityId")}/remove-admin`,
+                `${mainConfig.BACKEND_URL}api/entities/${appConfig.QUEST_ENTITY_ID}/remove-admin`,
                 {
                     ownerUserId: generalFunction.getDataFromCookies("questUserId"),
                     userId,

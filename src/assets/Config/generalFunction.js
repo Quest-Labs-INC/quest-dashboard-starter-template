@@ -19,6 +19,7 @@ export const generalFunction = {
     );
     return questUserCredentials;
   },
+  
   getDataFromLocalStorage: (key) => {
     let id = localStorage.getItem(key);
     return id;
