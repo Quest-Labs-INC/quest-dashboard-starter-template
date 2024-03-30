@@ -33,7 +33,7 @@ export const generalFunction = {
   setDataInCookies: (keyName, data) => {
     const cookies = new Cookies();
     const date = new Date();
-    date.setHours(date.getHours() + 48);
+    date.setDate(date.getDate() + 6);
     cookies.set(keyName, data, { path: "/", expires: date });
   },
 

@@ -98,42 +98,12 @@ function MainPage() {
             generalFunction.setDataInCookies("apiKey", data?.data?.key)
             localStorage.setItem("apiKey", data?.data?.key)
 
-            // let request = generalFunction.createUrl(`api/entities/${createdEntityId}?userId=${generalFunction.getDataFromCookies("questUserId")}`)
-            // let response = await axios(request.url, {
-            //     headers: { ...request.headers, apikey: data?.data?.key },
-            // })
             generalFunction.hideLoader()
-            // setName(response?.data?.data?.name);
-            // setImageUrl(response?.data?.data?.imageUrl);
-            // let apiData = response.data;
-            // setEntityDetails(apiData.data)
-
-            // setAppConfig({
-            //     ...appConfig,
-            //     BRAND_LOGO: apiData?.saasDashboard?.dashboardConfig?.imageUrl || apiData?.imageUrl,
-            //     QUEST_ENTITY_NAME: apiData?.name,
-            //     QUEST_ENTITY_ID: apiData?.id,
-            // })
-            // let iconSelector = document.querySelector(".iconUrl")
-            // iconSelector.setAttribute("href", "https://quest-media-storage-bucket.s3.us-east-2.amazonaws.com/1709407714542-90319026362-min_500x500.webp")
-
-            // setContentConfig({
-            //     ...contentConfig,
-            //     login: {
-            //         heading: apiData?.saasDashboard?.dashboardConfig?.title,
-            //         description: apiData?.saasDashboard?.dashboardConfig?.description,
-            //     }
-            // })
         } catch (error) {
             console.log(error);
         }
     }
 
-    // useEffect(() => {
-    //     if (adminEntity || generalFunction.getDataFromCookies("adminCommunityId")) {
-    //         fetchTheImage();
-    //     }
-    // }, [adminEntity])
 
     const createTemplate = async () => {
         if (!generalFunction.getDataFromCookies("questUserId")) {
@@ -250,7 +220,7 @@ function MainPage() {
                     //         localStorage.setItem("communityImageUrl", communitySelect?.imageUrl || "");
                     //     }
                     // }
-                    if (!res?.data?.name || res?.data?.name == "" || !res.isAdmin) {
+                    if (!res?.data?.name || res?.data?.name == "") {
                         setOnboardingPopup(true)
                     } else {
                         generalFunction.setDataInCookies("userName", res?.data?.name);
@@ -362,7 +332,7 @@ function MainPage() {
                                         <img
                                             style={{
                                                 objectFit: "cover",
-                                                // height: "96px",
+                                                height: "96px",
                                                 width: "96px",
                                                 borderRadius: "100%"
                                             }}
@@ -373,11 +343,11 @@ function MainPage() {
                                     )
                                 }
                                 <div
-                                    className={`q-input-container ${(imageUrl || customImage) ? "opacity-0" : "opacity-100"} w-full h-full`}
+                                    className={`q-input-container ${(imageUrl || customImage) ? "opacity-0" : "opacity-100"} h-full`}
                                 >
                                     <label className="cursor-pointer w-full h-full" htmlFor='profile-img'>
                                         <img
-                                            className="w-24 p-7 absolute"
+                                            className="w-24 h-24 p-7 absolute left-0 top-0"
                                             src={importConfig.main.upload}
                                             alt=""
                                         />

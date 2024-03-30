@@ -3,7 +3,7 @@ import { ThemeContext } from '../Common/AppContext';
 import { generalFunction } from '../../assets/Config/generalFunction';
 import { Referral } from '@questlabs/react-sdk';
 
-const ReferralComp = () => {
+const ReferralComp = ({colorPicker}) => {
     const { theme, bgColors, appConfig } = useContext(ThemeContext);
     return (
         <Referral
@@ -75,7 +75,8 @@ const ReferralComp = () => {
                     border: "none",
                 },
                 Icon: {
-                    background: bgColors[`${theme}-primary-border-color`]
+                    background: bgColors[`${theme}-primary-border-color`],
+                    color: colorPicker
                 }
             }}
             gradientBackgroundColor={

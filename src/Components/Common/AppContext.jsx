@@ -35,7 +35,7 @@ const AppContext = ({ children }) => {
       "dark-primary-bg-color-0":
           localStorage.getItem("themeColor") || "#111018", // "#1c1a27"
       "dark-primary-bg-color-1": "#1c1a27", // "#fbfafe"
-      "dark-primary-bg-color-2": "#0D0D0D",
+      "dark-primary-bg-color-2": "#0D0D0D", 
       "dark-primary-bg-color-3": "#121212", // "#1c1a27"
       "dark-primary-bg-color-4": "#3e3a58",
       "dark-primary-tile-color-0": "#f0fcec",
