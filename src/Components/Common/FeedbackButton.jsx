@@ -52,7 +52,7 @@ function FeedbackButton() {
                 RequestFeature={{
                     description: "Suggest, we innovate together.",
                 }}
-                contactUrl={`mailto:${localStorage.getItem("questUserCredentials").email}`}
+                contactUrl={`mailto:${generalFunction.getDataFromCookies("questUserCredentials")?.email}`}
                 styleConfig={{
                     listHeading: {},
                     listHover: {

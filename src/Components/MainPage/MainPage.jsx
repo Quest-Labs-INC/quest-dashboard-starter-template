@@ -87,7 +87,7 @@ function MainPage() {
 
     const fetchTheImage = async (createdEntityId) => {
         try {
-            generalFunction.showLoader();
+            // generalFunction.showLoader();
             let apiKeyRequest = generalFunction.createUrl(`api/entities/${createdEntityId}/keys?userId=${generalFunction.getDataFromCookies("questUserId")}`);
             let apiKeyResponse = await axios.get(apiKeyRequest.url, { headers: apiKeyRequest.headers })
             const data = apiKeyResponse.data;
@@ -98,7 +98,7 @@ function MainPage() {
             generalFunction.setDataInCookies("apiKey", data?.data?.key)
             localStorage.setItem("apiKey", data?.data?.key)
 
-            generalFunction.hideLoader()
+            // generalFunction.hideLoader()
         } catch (error) {
             console.log(error);
         }
@@ -118,6 +118,8 @@ function MainPage() {
             toast.error("Please fill the required information");
             return;
         }
+
+        generalFunction.showLoader();
 
         const uploadedImageUrl = await UploadImage();
 
@@ -150,7 +152,6 @@ function MainPage() {
         
 
         try {
-            generalFunction.showLoader();
             let request = generalFunction.createUrl(`api/entities/${createdEntityId}/quests/generate-saas?userId=${generalFunction.getDataFromCookies("questUserId")}`);
 
             let response = await axios.post(request.url, {

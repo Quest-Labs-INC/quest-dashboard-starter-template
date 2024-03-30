@@ -101,7 +101,8 @@ export default function Login() {
                         fontStyle: "normal",
                         fontWeight: "400",
                         lineHeight: "20px",
-                        border: `1px solid ${bgColors[`${theme}-primary-border-color`]}`
+                        border: `1px solid ${bgColors[`${theme}-primary-border-color`]}`,
+                        height: "40px",
                     },
                     OtpInput: {
                         color: bgColors[`${theme}-color-premitive-grey-7`],
