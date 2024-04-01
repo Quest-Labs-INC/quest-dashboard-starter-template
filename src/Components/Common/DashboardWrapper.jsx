@@ -109,7 +109,7 @@ export default function DashboardWrapper({ children, selectdRoute }) {
                     userId={generalFunction.getDataFromCookies("questUserId")}
                     token={generalFunction.getDataFromCookies("questUserToken")}
                     open="ON_CTRL_K_KEY"
-                    onResultClick={(e) => e == "/book-a-call" ? window.open(appConfig.CALENDLY_LINK, "_blank") : navigate(e)}
+                    onResultClick={(e) => e == "/book-a-call" ? window.open("https://calendly.com/shubham-quest/chat", "_blank") : navigate(e)}
                     // data={{}}
                     icons={[
                         importConfig.routesIcons.dashboardIcon,
