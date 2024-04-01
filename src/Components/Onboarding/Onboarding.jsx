@@ -35,7 +35,7 @@ export default function Onboarding() {
                         headingScreen={[
                             {
                                 name: "Welcome Aboard!",
-                                desc: "Start your journey with us. Quick setup - lasting success.",
+                                desc: "Join our voyage towards innovation and excellence! ⚡",
                             },
                         ]}
                         singleChoose="modal3"

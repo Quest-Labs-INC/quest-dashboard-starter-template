@@ -29,6 +29,7 @@ function MainPage() {
     const [name, setName] = useState("");
     const [description, setDescription] = useState("");
     const [createSuccessPopUp, setCreateSuccessPopUp] = useState(false);
+    const [loggedIn, setLoggedIn] = useState(false);
 
 
     const gradientCSS2 = [
@@ -208,6 +209,7 @@ function MainPage() {
                 generalFunction.hideLoader();
                 let res = e.data;
                 if (res.success == true) {
+                    setLoggedIn(true);
                     // if (res.isAdmin) {
                     //     setIsAdmin(res.isAdmin);
                     //     let adminEntities = await generalFunction.fetchCommunities(headers?.userId)
@@ -280,7 +282,7 @@ function MainPage() {
                         <img src={importConfig.brandLogo} className='w-20' alt="" />
                         {/* header login  */}
                         {
-                            generalFunction.getDataFromCookies("questUserId") ?
+                            (loggedIn || generalFunction.getDataFromCookies("questUserId")) ?
                                 <div className='flex items-center gap-4'>
                                     <div className='relative text-xs' onMouseLeave={() => setOpenPopup(false)}>
                                         <div className='flex items-center gap-3 py-3' onMouseEnter={() => setOpenPopup(true)} >
@@ -294,13 +296,11 @@ function MainPage() {
                                         </div>
                                         {openpopup &&
                                             <div className='absolute w-40 border rounded-md left-4 top-8 cursor-pointer'>
-                                                {/* <p className='cursor-pointer px-4 py-2 hover:bg-gray-100 w-full' onClick={() => setChangeEntityPopup(true)}>Change Organization</p> */}
-                                                <p className='cursor-pointer px-4 py-2 hover:bg-gray-100 w-full' onClick={() => window.open("https://questlabs.ai/")}>Admin</p>
-                                                <p className='cursor-pointer px-4 py-2 hover:bg-gray-100 w-full' onClick={() => generalFunction.mainLogout()}>Logout</p>
+                                                <p className='cursor-pointer px-4 py-2 hover:bg-gray-100 w-full rounded-t-md' onClick={() => window.open(`${mainConfig.QUEST_LABS_URL}/admin`, "_blank")}>Admin</p>
+                                                <p className='cursor-pointer px-4 py-2 hover:bg-gray-100 w-full rounded-b-md' onClick={() => {generalFunction.mainLogout(); setLoggedIn(false)}}>Logout</p>
                                             </div>
                                         }
                                     </div>
-                                    {/* <button className='px-4 py-2.5 bg-violet-700 rounded-[10px] border border-purple-300 justify-center items-center gap-1 inline-flex text-white text-sm font-semibold font-["Figtree"] leading-tight' onClick={() => setChangeEntityPopup(true)}>Change Organization</button> */}
                                 </div>
                                 :
                                 <button className='px-4 py-2.5 bg-[radial-gradient(3361.38%_131.94%_at_0%_100%,_#6200EE_0%,_#1F3EFE_100%)] rounded-[10px] border border-purple-300 justify-center items-center gap-1 inline-flex text-white text-sm font-semibold font-["Figtree"] leading-tight' onClick={() => setLoginPopup(true)}>

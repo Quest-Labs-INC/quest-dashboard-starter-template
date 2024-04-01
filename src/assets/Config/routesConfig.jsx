@@ -7,7 +7,6 @@ import Home from "../../Components/Home/Home";
 import Login from "../../Components/Login/Login";
 import Onboarding from "../../Components/Onboarding/Onboarding";
 import Settings from "../../Components/Settings/Settings";
-import User from "../../Components/User/User";
 import { importConfig } from "./importConfig";
 import { ThemeContext } from "../../Components/Common/AppContext";
 import MainPage from "../../Components/MainPage/MainPage";
@@ -26,6 +25,7 @@ import {
 } from "../../Components/Common/SideBarSvg";
 import ReferralPage from "../../Components/Referral/ReferralPage";
 import ReferalPage2 from "../../Components/Referral/ReferalPage2";
+import ComingSoon from "../../Components/ComingSoon/ComingSoon";
 
 const ProviderConfig = ({ children, showTag }) => {
     const { theme, bgColors, appConfig } = useContext(ThemeContext);
@@ -107,7 +107,7 @@ export const routesConfig = [
         component: (
             <ProviderConfig showTag={false}>
                 <DashboardWrapper selectdRoute={"insights"}>
-                    <User></User>
+                    <ComingSoon></ComingSoon>
                 </DashboardWrapper>
             </ProviderConfig>
         ),

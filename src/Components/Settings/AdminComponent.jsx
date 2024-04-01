@@ -204,18 +204,30 @@ const AdminComponent = () => {
                                     >
                                         {user.name}
                                     </td>
-                                    <td className="w-[25%] px-6 py-4 text-center">
+                                    <td 
+                                        className="w-[25%] px-6 py-4 text-center"
+                                        style={{ color: bgColors[`${theme}-color-premitive-grey-9`] }}
+                                    >
                                         {user.emails[0]}
                                     </td>
-                                    <td className="w-[20%] px-6 py-4 text-center">
+                                    <td 
+                                        className="w-[20%] px-6 py-4 text-center"
+                                        style={{ color: bgColors[`${theme}-color-premitive-grey-9`] }}
+                                    >
                                         {user.role}
                                     </td>
-                                    <td className="w-[10%] px-6 py-4 text-center">
+                                    <td 
+                                        className="w-[10%] px-6 py-4 text-center"
+                                        style={{ color: bgColors[`${theme}-color-premitive-grey-9`] }}
+                                    >
                                         {user.isActive === true
                                             ? "Active"
                                             : "Inactive"}
                                     </td>
-                                    <td className="w-[10%] px-6 py-4 text-center">
+                                    <td 
+                                        className="w-[10%] px-6 py-4 text-center"
+                                        style={{ color: bgColors[`${theme}-color-premitive-grey-9`] }}
+                                    >
                                         <div className="flex items-center justify-center cursor-pointer" onClick={() => deleteAdmin(user.userId)}>
                                             {deleteIcon()}
                                         </div>
