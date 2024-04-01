@@ -129,7 +129,6 @@ export default function DashboardWrapper({ children, selectdRoute }) {
                             background: bgColors[`${theme}-primary-bg-color-3`],
                         },
                     }}
-                    onSearch={(e) => navigate(e)}
                 />
             </div>
             { showFeedbackSection &&

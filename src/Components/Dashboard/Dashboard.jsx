@@ -32,7 +32,7 @@ export default function Dashboard() {
             {/* here */}
             <div className="pl-5 pr-[96px] pt-[30px]">
                 {/* for search cont  */}
-                <div className="w-full flex items-center justify-between gap-4 px-5">
+                {/* <div className="w-full flex items-center justify-between gap-4 px-5">
                     <div className="flex h-10 border py-2.5 items-center rounded-[10px] w-full" style={{borderColor: bgColors[`${theme}-primary-border-color`]}}>
                         <div className="flex items-center h-full mx-5">
                             {searchIcon()}
@@ -60,7 +60,7 @@ export default function Dashboard() {
                     >
                         Search
                     </button>
-                </div>
+                </div> */}
 
 
                 <div className="get-started pt-[4px]">
@@ -82,7 +82,7 @@ export default function Dashboard() {
                             importConfig.routesIcons.settingIcon,
                         ]}
                         arrowColor="black"
-                        onLinkTrigger={(e) => navigate(e)}
+                        onLinkTrigger={(e) => window.open(e, "_blank")}
                         showProgressBar={false}
                         allowMultiClick
                         styleConfig={{
@@ -92,7 +92,8 @@ export default function Dashboard() {
                             },
                             Topbar: {
                                 border: "0px",
-                                paddingBottom: "0px"
+                                paddingBottom: "0px",
+                                paddingTop: "0px",
                             },
                             Heading: {
                                 color: bgColors[`${theme}-color-premitive-grey-5`],

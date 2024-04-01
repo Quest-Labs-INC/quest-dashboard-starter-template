@@ -332,10 +332,24 @@ const ReferalPage2 = () => {
                                         >
                                             {user?.Name || `User ${index + 1}`}
                                         </td>
-                                        <td className="w-[30%] px-6 py-4 text-center">
+                                        <td
+                                            className="w-[30%] px-6 py-4 text-center" 
+                                            style={{
+                                                color: bgColors[
+                                                    `${theme}-color-premitive-grey-9`
+                                                ],
+                                            }}
+                                        >
                                             {user?.email}
                                         </td>
-                                        <td className="w-[20%] px-6 py-4  text-center">
+                                        <td 
+                                            className="w-[20%] px-6 py-4  text-center"
+                                            style={{
+                                                color: bgColors[
+                                                    `${theme}-color-premitive-grey-9`
+                                                ],
+                                            }}
+                                        >
                                             {new Date(
                                                 user?.submittedAt
                                             ).getUTCDate() +
@@ -348,7 +362,14 @@ const ReferalPage2 = () => {
                                                     user?.submittedAt
                                                 ).getUTCFullYear()}
                                         </td>
-                                        <td className="w-[15%] px-6 py-4 text-center">
+                                        <td
+                                            className="w-[15%] px-6 py-4 text-center"
+                                            style={{
+                                                color: bgColors[
+                                                    `${theme}-color-premitive-grey-9`
+                                                ],
+                                            }}
+                                        >
                                             {user.credits || "$0"}
                                         </td>
                                     </tr>
