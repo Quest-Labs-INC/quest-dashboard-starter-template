@@ -1,6 +1,7 @@
 import Cookies from "universal-cookie";
 import { appConfig, mainConfig } from "./appConfig";
 import axios from "axios";
+import imageCompression from 'browser-image-compression';
 
 export const generalFunction = {
   getUserId: () => {
