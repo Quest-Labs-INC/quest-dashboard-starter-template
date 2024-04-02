@@ -108,7 +108,7 @@ export const generalFunction = {
       }
     }
 
-    const { url, headers: baseHeaders } =
+    const { url, baseHeaders } =
       generalFunction.createUrl(`api/upload-img`);
     const headers = {
       ...baseHeaders,
