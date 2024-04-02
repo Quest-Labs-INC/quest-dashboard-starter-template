@@ -1,4 +1,4 @@
-import { OnBoarding } from "@questlabs/react-sdk";
+import { OnBoarding, Toast } from "@questlabs/react-sdk";
 import LoginWrapper from "../Common/LoginWrapper";
 import { useContext, useEffect, useState } from "react";
 import { generalFunction } from "../../assets/Config/generalFunction";
@@ -34,7 +34,7 @@ export default function Onboarding() {
                         headingScreen={[
                             {
                                 name: "Welcome Aboard!",
-                                desc: "Start your journey with us. Quick setup - lasting success.",
+                                desc: "Join our voyage towards innovation and excellence! ⚡",
                             },
                         ]}
                         singleChoose="modal3"
@@ -45,6 +45,7 @@ export default function Onboarding() {
                         loadingTracker={true}
                         setLoading={setLoading}
                         getAnswers={completeAnswer}
+                        onError={(e) => Toast.error({ text: e.error })}
                         styleConfig={{
                             Form: {
                                 borderRadius: "10px",
@@ -52,7 +53,7 @@ export default function Onboarding() {
                                 backgroundColor:
                                     theme === "dark"
                                         ? bgColors[
-                                              `${theme}-primary-bg-color-3`
+                                              `${theme}-primary-bg-color-2`
                                           ]
                                         : "",
                             },
@@ -95,24 +96,41 @@ export default function Onboarding() {
                             },
                             Input: {
                                 borderRadius: "10px",
-                                border: "1px solid #ECECEC",
+                                border: `1px solid ${bgColors[`${theme}-primary-border-color`]}`,
                             },
                             MultiChoice: {
                                 selectedStyle: {
                                     background:
                                         bgColors[`${theme}-primary-bg-color-0`],
                                     color: "#E0E0E0",
-                                    border: "1px solid",
+                                    border: `1px solid ${bgColors[`${theme}-primary-border-color`]}`,
                                 },
+                                style: {
+                                    border: `1px solid ${bgColors[`${theme}-primary-border-color`]}`,
+                                }
                             },
                             SingleChoice: {
                                 selectedStyle: {
-                                    border: "1px solid gray",
+                                    border: `1px solid ${bgColors[`${theme}-primary-border-color`]}`,
                                 },
+                                style: {
+                                    border: `1px solid ${bgColors[`${theme}-primary-border-color`]}`,
+                                }
                             },
+                            PrimaryButton: {
+                                border: "none",
+                            },
+                            TextArea: {
+                                border: `1px solid ${bgColors[`${theme}-primary-border-color`]}`
+                            }
                         }}
                         showFooter={false}
                     />
+                )}
+                {appConfig.QUEST_API_KEY != "" && (
+                    <div className='m-auto text-xs px-4 py-2 text-[#939393] rounded-md flex items-center justify-center gap-3 cursor-pointer' onClick={() => window.open("https://questlabs.ai/")}>
+                        <p>Powered by Quest Labs</p>
+                    </div>
                 )}
             </div>
         </div>

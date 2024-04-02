@@ -4,6 +4,8 @@ import { generalFunction } from "../../assets/Config/generalFunction";
 import { deleteIcon, searchIcon } from "../Common/SideBarSvg";
 import { ThemeContext } from "../Common/AppContext";
 import { mainConfig } from "../../assets/Config/appConfig";
+import AddAdminPopup from "./AddAdminPopup";
+import { Toast } from "@questlabs/react-sdk";
 
 const AdminComponent = () => {
     const { theme, bgColors, appConfig } = useContext(ThemeContext);
@@ -11,6 +13,8 @@ const AdminComponent = () => {
     const [filterData, setFilterData] = useState([]);
     const [loading, setLoading] = useState(false);
     const [search, setSearch] = useState("");
+    const [adminPopup, setAdminPopup] = useState(false);
+    const [flag, setFlag] = useState(false);
 
 
     useEffect(() => {
@@ -34,7 +38,7 @@ const AdminComponent = () => {
             setLoading(false);
         };
         getAdmins();
-    }, []);
+    }, [flag]);
 
     useEffect(() => {
         let data = adminData?.filter((user) => {
@@ -50,18 +54,31 @@ const AdminComponent = () => {
             await axios.post(
                 request.url,
                 {
-                    ownerUserId: generalFunction.getDataFromCookies("questUserId"),
+                    ownerUserId: generalFunction.getUserId(),
                     userId,
                 },
                 {
                     headers: request.headers,
                 }
-            );
-
-            const data = adminData?.filter((user) => user.userId != userId);
-            setAdminData(data);
-            setAdminData(data);
-            generalFunction.hideLoader();
+            ).then((res) => {
+                const data = res.data;
+                if (data.success == false) {
+                    let errMsg = data.message ? data.message : "Unable to Delete Member";
+                    generalFunction.hideLoader();
+                    Toast.error({ text: "Error Occurred" + "\n" + errMsg ,
+                    // image: `${appConfig.BRAND_LOGO || importConfig.brandLogo}`
+                 });
+                    return;
+                } else {
+                    Toast.success({
+                        text: "Admin Removed Successfully",
+                    });
+                    const data = adminData?.filter((user) => user.userId != userId);
+                    setAdminData(data);
+                    setFlag((prev) => !prev);
+                    generalFunction.hideLoader();
+                }
+            });
         } catch (error) {
             console.log(error);
         }
@@ -70,7 +87,11 @@ const AdminComponent = () => {
     return (
         <div className="w-full h-full">
             <div className="w-full flex items-center justify-between gap-4 mt-[24px]">
-                <div className="flex h-10 border py-2.5 items-center border-[#EFEFEF] rounded-[10px] w-full">
+                <div className="flex h-10 border py-2.5 items-center rounded-[10px] w-full"
+                    style={{
+                        border: `1.5px solid ${bgColors[`${theme}-primary-border-color`]}`
+                    }}
+                >
                     <div className="flex items-center h-full mx-5">
                         {searchIcon()}
                     </div>
@@ -88,52 +109,67 @@ const AdminComponent = () => {
                     />
                 </div>
                 <button
-                    className="text-sm px-8 py-2.5 rounded-[5px] pl-[40px] pr-[40px]"
+                    className="text-sm px-8 py-2.5 rounded-[10px] pl-[40px] pr-[40px]"
                     style={{
-                        background: bgColors[`${theme}-primary-bg-color-0`],
-                        color: "#eaebed",
+                        background: `linear-gradient(${theme == "dark" ? "black" : "white"},${theme == "dark" ? "black" : "white"}) padding-box,${bgColors[`${theme}-primary-bg-color-0`]}border-box`,
+                        color: bgColors[`${theme}-color-premitive-grey-9`],
                         whiteSpace: "nowrap",
+                        border: "1.5px solid #0000"
                     }}
                 >
-                    Search
+                    Invite Team Member
                 </button>
             </div>
 
+            {adminPopup && <AddAdminPopup setAdminPopup={setAdminPopup} setFlag={setFlag} adminPopup={adminPopup} />}
+
             {filterData?.length != 0 ? (
-                <div className="mt-[16px] rounded-xl border border-[#F0F0F0] overflow-y-auto">
+                <div 
+                    className="mt-[16px] rounded-xl border overflow-y-auto"
+                    style={{border: `1.5px solid ${bgColors[`${theme}-primary-border-color`]}`}}
+                >
                     <table className="min-w-[1100px] w-full " style={{
                         color: bgColors[`${theme}-primary-bg-color-8`]
                     }}>
-                        <thead>
-                            <tr className="border-b border-[#F0F0F0] text-sm font-medium font-['Figtree']">
-                                <th className="w-[10%] text-start pl-6 py-[18px]  rounded-tl-xl"
+                        <thead style={{background: theme == "dark" ? 'transparent' : '#F0F0F0'}}>
+                            <tr 
+                                className="text-sm font-medium font-['Figtree']"
+                                style={{borderBottom: `1px solid ${bgColors[`${theme}-primary-border-color`]}`}}
+                            >
+                                <th className="w-[10%] text-center py-[18px]  rounded-tl-xl"
                                     style={{
-                                        color: bgColors[`${theme}-color-premitive-grey-9`]
+                                        color: bgColors[`${theme}-color-premitive-grey-9`],
+                                        background: bgColors[`${theme}-primary-bg-color-9`]
                                     }}>
                                     Sr
                                 </th>
-                                <th className="w-[25%] text-start pl-6 py-[18px]  " style={{
-                                    color: bgColors[`${theme}-color-premitive-grey-9`]
+                                <th className="w-[25%] text-center py-[18px]" style={{
+                                    color: bgColors[`${theme}-color-premitive-grey-9`],
+                                    background: bgColors[`${theme}-primary-bg-color-9`]
                                 }}>
                                     User
                                 </th>
-                                <th className="w-[25%] text-start pl-6 py-[18px] " style={{
-                                    color: bgColors[`${theme}-color-premitive-grey-9`]
+                                <th className="w-[25%] text-center py-[18px] " style={{
+                                    color: bgColors[`${theme}-color-premitive-grey-9`],
+                                    background: bgColors[`${theme}-primary-bg-color-9`]
                                 }}>
                                     Email Address
                                 </th>
-                                <th className="w-[20%] text-start pl-6 py-[18px] " style={{
-                                    color: bgColors[`${theme}-color-premitive-grey-9`]
+                                <th className="w-[20%] text-center py-[18px] " style={{
+                                    color: bgColors[`${theme}-color-premitive-grey-9`],
+                                    background: bgColors[`${theme}-primary-bg-color-9`]
                                 }}>
                                     Role
                                 </th>
-                                <th className="w-[10%] text-start pl-6 py-[18px] " style={{
-                                    color: bgColors[`${theme}-color-premitive-grey-9`]
+                                <th className="w-[10%] text-center py-[18px] " style={{
+                                    color: bgColors[`${theme}-color-premitive-grey-9`],
+                                    background: bgColors[`${theme}-primary-bg-color-9`]
                                 }}>
                                     Status
                                 </th>
                                 <th className="w-[10%] px-6 py-[18px]  rounded-tr-xl" style={{
-                                    color: bgColors[`${theme}-color-premitive-grey-9`]
+                                    color: bgColors[`${theme}-color-premitive-grey-9`],
+                                    background: bgColors[`${theme}-primary-bg-color-9`]
                                 }}>
                                     Action
                                 </th>
@@ -142,26 +178,63 @@ const AdminComponent = () => {
 
                         <tbody>
                             {filterData?.map((user, index) => (
-                                <tr className="border-b border-[#F0F0F0] text-[#4C4C4C]">
-                                    <td className="w-[10%] px-6 py-4 text-[#455A64]">
+                                <tr 
+                                    className="text-[#4C4C4C]"
+                                    style={{borderBottom: !(filterData?.length == index + 1) && `1px solid ${bgColors[`${theme}-primary-border-color`]}`}}
+                                >
+                                    <td 
+                                        className="w-[10%] px-6 py-4 text-[#455A64] text-center"
+                                        style={{color: bgColors[`${theme}-color-premitive-grey-9`]}}
+                                    >
                                         {index + 1}
                                     </td>
-                                    <td className="w-[25%] px-6 py-4 text-[#455A64]">
+                                    <td 
+                                        className="w-[25%] px-6 py-4 text-[#455A64] text-center"
+                                        style={{color: bgColors[`${theme}-color-premitive-grey-9`]}}
+                                    >
                                         {user.name}
                                     </td>
-                                    <td className="w-[25%] px-6 py-4">
+                                    <td 
+                                        className="w-[25%] px-6 py-4 text-center"
+                                        style={{
+                                            color: bgColors[
+                                                `${theme}-color-premitive-grey-9`
+                                            ],
+                                        }}
+                                    >
                                         {user.emails[0]}
                                     </td>
-                                    <td className="w-[20%] px-6 py-4">
+                                    <td 
+                                        className="w-[20%] px-6 py-4 text-center"
+                                        style={{
+                                            color: bgColors[
+                                                `${theme}-color-premitive-grey-9`
+                                            ],
+                                        }}
+                                    >
                                         {user.role}
                                     </td>
-                                    <td className="w-[10%] px-6 py-4">
+                                    <td 
+                                        className="w-[10%] px-6 py-4 text-center"
+                                        style={{
+                                            color: bgColors[
+                                                `${theme}-color-premitive-grey-9`
+                                            ],
+                                        }}
+                                    >
                                         {user.isActive === true
                                             ? "Active"
                                             : "Inactive"}
                                     </td>
-                                    <td className="w-[10%] px-6 py-4">
-                                        <div className="flex items-center justify-center cursor-pointer">
+                                    <td 
+                                        className="w-[10%] px-6 py-4 text-center"
+                                        style={{
+                                            color: bgColors[
+                                                `${theme}-color-premitive-grey-9`
+                                            ],
+                                        }}
+                                    >
+                                        <div className="flex items-center justify-center cursor-pointer" onClick={() => deleteAdmin(user.userId)}>
                                             {deleteIcon()}
                                         </div>
                                     </td>

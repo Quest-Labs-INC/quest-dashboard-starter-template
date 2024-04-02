@@ -14,6 +14,7 @@ const EditProfile = () => {
     const [selectedFile, setSelectedFile] = useState(null);
     const [customImage, setCustomImage] = useState("");
     const [answer, setAnswer] = useState({});
+    const fileInputRef = useRef();
 
     useEffect(() => {
         generalFunction.showLoader();
@@ -44,7 +45,7 @@ const EditProfile = () => {
             const uploadFile = async () => {
                 generalFunction.showLoader();
                 let data = await generalFunction.uploadImageToBackend(event.target.files[0]);
-                setImageUrl(data?.imageUrl);
+                setImageUrl(data?.data?.imageUrl);
                 generalFunction.hideLoader();
             };
             uploadFile();
@@ -75,18 +76,21 @@ const EditProfile = () => {
     
     return (
         <div className="w-full max-w-[calc(100vw-184px)] max-h-[calc(100vh-161px)] overflow-x-scroll overflow-y-scroll mt-[18px]">
-            <div className="p-8 flex flex-col items-center gap-8 rounded-[10px] border border-gray-200">
-                <div className="w-28 h-28 flex items-center justify-center rounded-full bg-[#FFF3EC] relative">
+            <div 
+                className="p-8 flex flex-col items-center gap-8 rounded-[10px]"
+                style={{border: `1.5px solid ${bgColors[`${theme}-primary-border-color`]}`}}
+            >
+                <div className="w-28 h-28 flex items-center justify-center rounded-full bg-[#F4EBFF] relative overflow-hidden" onClick={() => fileInputRef.current.click()}>
                     {(imageUrl || customImage) && (
                         <img
-                            className="object-cover h-full w-full rounded-full"
+                        className="object-cover w-full h-full rounded-full static z-10"
                             src={imageUrl || customImage}
                             alt=""
                         />
                     )}
-                    <div className={`${imageUrl ? "opacity-0" : "opacity-100"}`}>
-                        <label className="cursor-pointer" htmlFor="profile-img">
-                            <div className="w-10 absolute top-9 left-9">
+                    <div className={`${imageUrl ? "opacity-0" : "opacity-100"} absolute left-0 top-0`}>
+                        <label className="cursor-pointer w-28 h-28 flex items-center justify-center rounded-full">
+                            <div className={`${(imageUrl || customImage) && "hidden"}`}>
                                 {
                                     uploadSVG(colorRetriver()[0], colorRetriver()[1])
                                 }
@@ -98,6 +102,7 @@ const EditProfile = () => {
                             type="file"
                             accept="image/*"
                             className="hidden"
+                            ref={fileInputRef}
                         />
                     </div>
                 </div>
@@ -125,26 +130,32 @@ const EditProfile = () => {
                         },
                         Input: {
                             borderRadius: "10px",
-                            border: "1px solid gray",
+                            border: `1px solid ${bgColors[`${theme}-primary-border-color`]}`,
                         },
                         MultiChoice: {
                             selectedStyle: {
                                 background: bgColors[`${theme}-primary-bg-color-0`],
                                 color: "#E0E0E0",
-                                border: "1px solid gray"
+                                border: `1px solid ${bgColors[`${theme}-primary-border-color`]}`
+                            },
+                            style: {
+                                border: `1px solid ${bgColors[`${theme}-primary-border-color`]}`,
                             }
                         },
                         SingleChoice: {
                             style: {
-                                border: "1px solid gray"
+                                border: `1px solid ${bgColors[`${theme}-primary-border-color`]}`
                             },
                             selectedStyle: {
-                                border: "1px solid gray"
+                                border: `1px solid ${bgColors[`${theme}-primary-border-color`]}`
                             }
                         },
                         TextArea: {
-                            border: "1px solid gray"
-                        }
+                            border: `1px solid ${bgColors[`${theme}-primary-border-color`]}`
+                        },
+                        PrimaryButton: {
+                            border: "none",
+                        },
                     }}
                 />
             </div>

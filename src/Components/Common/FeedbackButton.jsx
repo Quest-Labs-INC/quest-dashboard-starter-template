@@ -59,13 +59,10 @@ function FeedbackButton() {
                         background:
                             theme == "dark"
                                 ? "rgba(162, 162, 162, 0.5)"
-                                : "#f4ebff",
+                                : "#FBFBFB",
                     },
                     Form: {
                         background: bgColors[`${theme}-primary-bg-color-1`],
-                    },
-                    PrimaryButton: {
-                        background: bgColors[`${theme}-primary-bg-color-0`],
                     },
                     Heading: {
                         fontSize: "20px",
@@ -85,6 +82,9 @@ function FeedbackButton() {
                     },
                     Footer: {
                         background: bgColors[`${theme}-primary-bg-color-1`],
+                    },
+                    PrimaryButton: {
+                        border: "none",
                     },
                 }}
             />

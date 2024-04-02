@@ -3,22 +3,17 @@ import DashboardWrapper from "../../Components/Common/DashboardWrapper";
 import LoginWrapper from "../../Components/Common/LoginWrapper";
 import { ProviderConfig } from "../../Components/Common/ProviderConfig";
 import {
-    AdminSvg,
     GetStartedSvg,
     InsightsSvg,
     SettingsSvg,
-    Switch,
-    UsersSvg,
-    referal,
+    referFriends,
 } from "../../Components/Common/SideBarSvg";
 import Dashboard from "../../Components/Dashboard/Dashboard";
-import Home from "../../Components/Home/Home";
 import Login from "../../Components/Login/Login";
 import Onboarding from "../../Components/Onboarding/Onboarding";
-import ReferralPopup from "../../Components/Referral/ReferralPopup";
+import ReferralPage from "../../Components/Referral/ReferralPage";
 import Settings from "../../Components/Settings/Settings";
-import User from "../../Components/User/User";
-import { importConfig } from "./importConfig";
+import ComingSoon from "../../Components/ComingSoon/ComingSoon";
 
 export const routesConfig = [
     {
@@ -54,7 +49,7 @@ export const routesConfig = [
         name: "Onboarding",
         logo: "",
         component: (
-            <ProviderConfig showTag={true}>
+            <ProviderConfig showTag={false}>
                 <LoginWrapper>
                     <Onboarding />
                 </LoginWrapper>
@@ -85,7 +80,7 @@ export const routesConfig = [
         component: (
             <ProviderConfig showTag={false}>
                 <DashboardWrapper selectdRoute={"insights"}>
-                    <User></User>
+                    <ComingSoon></ComingSoon>
                 </DashboardWrapper>
             </ProviderConfig>
         ),
@@ -100,6 +95,20 @@ export const routesConfig = [
             <ProviderConfig showTag={false}>
                 <DashboardWrapper selectdRoute={"Settings"}>
                     <Settings></Settings>
+                </DashboardWrapper>
+            </ProviderConfig>
+        ),
+        hidden: false,
+        isUpper: true,
+    },
+    {
+        path: "/referral",
+        name: "Refer Friends",
+        logo: referFriends(),
+        component: (
+            <ProviderConfig showTag={false}>
+                <DashboardWrapper selectdRoute={"referal"}>
+                    <ReferralPage></ReferralPage>
                 </DashboardWrapper>
             </ProviderConfig>
         ),

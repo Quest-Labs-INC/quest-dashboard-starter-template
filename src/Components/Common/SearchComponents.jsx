@@ -33,13 +33,20 @@ const SearchComponents = () => {
                             background: theme == "dark" ? "rgba(162, 162, 162, 0.5)" : "#f4ebff"
                         },
                         Form: {
-                            background: bgColors[`${theme}-primary-bg-color-3`],
+                            background: bgColors[`${theme}-primary-bg-color-1`],
                         },
                         Footer: {
-                            background: bgColors[`${theme}-primary-bg-color-3`],
+                            background: bgColors[`${theme}-primary-bg-color-1`],
                         },
+                        CommandButton: {
+                            background: theme == "dark" ? "rgba(162, 162, 162, 0.5)" : "#f4ebff",
+                            border: "none",
+                            color: bgColors[`${theme}-color-premitive-grey-6`]
+                        },
+                        Topbar: {
+                            borderColor: bgColors[`${theme}-primary-border-color`]
+                        }
                     }}
-                    onSearch={(e) => navigate(e)}
                 />
             </div>
     );

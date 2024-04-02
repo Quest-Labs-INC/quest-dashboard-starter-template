@@ -6,13 +6,15 @@ import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { ThemeContext } from "../Common/AppContext";
 import { mainConfig } from "../../assets/Config/appConfig";
+import { generalFunction } from "../../assets/Config/generalFunction";
 
 export default function Login() {
     const navigate = useNavigate();
     const { appConfig, theme, bgColors, contentConfig } =
         useContext(ThemeContext);
+        const refQuery = new URLSearchParams(window.location.search)?.get("ref");
 
-    const completeLogin = (e) => {
+    const completeLogin = async(e) => {
         const { userId, token, userCredentials } = e;
         if (userId && token) {
             localStorage.setItem("questUserId", userId);
@@ -21,6 +23,24 @@ export default function Login() {
                 "questUserCredentials",
                 JSON.stringify(userCredentials)
             );
+            
+            if (refQuery) {
+                let request = generalFunction.createUrl(`api/entities/${mainConfig.QUEST_ENTITY_ID}/quests/${appConfig.QUEST_REFERRAL_CAMPAIGN_ID}/claim`);
+                await fetch(request.url, {
+                    method: "POST",
+                    headers: {
+                      "content-type": "application/json",
+                      apikey: mainConfig.QUEST_API_KEY,
+                      userId: userId,
+                      token: token,
+                    },
+                    body: JSON.stringify({
+                      userId: userId,
+                      referralCode: refQuery,
+                    })
+                });
+            }
+
             navigate("/onboarding");
         }
     };
@@ -73,26 +93,37 @@ export default function Login() {
                         lineHeight: "16px",
                     },
                     Input: {
-                        color: "var(--Neutral-White-500, #B9B9B9)",
+                        color: bgColors[`${theme}-color-premitive-grey-7`],
                         fontFamily: "Figtree",
                         fontSize: "14px",
                         fontStyle: "normal",
                         fontWeight: "400",
                         lineHeight: "20px",
+                        border: `1px solid ${bgColors[`${theme}-primary-border-color`]}`,
+                        height: "40px",
                     },
                     OtpInput: {
-                        color: "var(--Neutral- Grey - 300, #8E8E8E)",
+                        color: bgColors[`${theme}-color-premitive-grey-7`],
                         textAlign: "center",
                         fontFamily: "Figtree",
                         fontSize: "14px",
                         fontStyle: "normal",
                         fontWeight: "400",
                         lineHeight: "20px",
+                        border: `1px solid ${bgColors[`${theme}-primary-border-color`]}`
                     },
-
                     IconStyle: {
                         Background: bgColors[`${theme}-primary-bg-color-0`],
+                        BorderColor: bgColors[`${theme}-primary-bg-color-0`],
                     },
+                    PrimaryButton:{
+                        border: "none"
+                    },
+                    SecondaryButton: {
+                        background: "transparent",
+                        border: `1px solid ${bgColors[`${theme}-primary-border-color`]}`,
+                        color: bgColors[`${theme}-color-premitive-grey-8`],
+                    }
                 }}
                 showFooter={false}
             />

@@ -17,9 +17,7 @@ export default function Dashboard() {
             {/* get started head  */}
             <div
                 className="dashboard-page-header"
-                style={{
-                    backgroundColor: bgColors[`${theme}-primary-bg-color-3`],
-                }}
+                style={{borderBottom: `1.5px solid ${bgColors[`${theme}-primary-border-color`]}`}}
             >
                 <p
                     style={{
@@ -34,8 +32,8 @@ export default function Dashboard() {
             {/* here */}
             <div className="pl-5 pr-[96px] pt-[30px]">
                 {/* for search cont  */}
-                <div className="w-full flex items-center justify-between gap-4 px-5">
-                    <div className="flex h-10 border py-2.5 items-center border-[#EFEFEF] rounded-[10px] w-full ">
+                {/* <div className="w-full flex items-center justify-between gap-4 px-5">
+                    <div className="flex h-10 border py-2.5 items-center border-[#EFEFEF] rounded-[10px] w-full" style={{borderColor: bgColors[`${theme}-primary-border-color`]}}>
                         <div className="flex items-center h-full mx-5">
                             {searchIcon()}
                         </div>
@@ -53,7 +51,7 @@ export default function Dashboard() {
                     </div>
 
                     <button
-                        className="text-sm px-8 py-2.5 rounded-[5px]"
+                        className="text-sm px-8 py-2.5 rounded-[10px]"
                         style={{
                             background: bgColors[`${theme}-primary-bg-color-0`],
                             color: "#eaebed",
@@ -62,9 +60,9 @@ export default function Dashboard() {
                     >
                         Search
                     </button>
-                </div>
+                </div> */}
 
-                <div className="get-started pt-[10px]">
+                <div className="get-started pt-[4px]">
                     <GetStarted
                         questId={appConfig?.QUEST_GET_STARTED_CAMPAIGN_ID}
                         userId={generalFunction.getUserId()}
@@ -83,18 +81,17 @@ export default function Dashboard() {
                             importConfig.routesIcons.settingIcon,
                         ]}
                         arrowColor="black"
-                        cardBackground={bgColors[`${theme}-primary-bg-color-2`]}
-                        onLinkTrigger={(e) => navigate(e)}
+                        onLinkTrigger={(e) => window.open(e, "_blank")}
                         allowMultiClick
                         styleConfig={{
                             Form: {
                                 padding: "0px",
-                                background:
-                                    bgColors[`${theme}-primary-bg-color-3`],
+                                background: "transparent",
                             },
                             Topbar: {
                                 border: "0px",
                                 paddingBottom: "0px",
+                                paddingTop: "0px",
                             },
                             Heading: {
                                 color: bgColors[
@@ -124,9 +121,13 @@ export default function Dashboard() {
                                     ],
                                 },
                             },
+                            Card: {
+                                background: theme == "dark" ? bgColors[`${theme}-primary-bg-color-2`] : "transparent",
+                                border: `1px solid ${bgColors[`${theme}-primary-border-color`]}`,
+                            }
                         }}
                         showFooter={false}
-                        showProgressBar
+                        // showProgressBar
                     />
                 </div>
             </div>

@@ -31,6 +31,7 @@ export default function DashboardWrapper({ children, selectdRoute }) {
     };
 
     const handleToggle = () => {
+        document.getElementsByTagName("BODY")[0].classList.toggle("dark");
         setChecked((prev) => !prev);
         toggleTheme();
     };
@@ -112,20 +113,24 @@ export default function DashboardWrapper({ children, selectdRoute }) {
                 {/* for logo image */}
                 <div className="s_nav_header_cont">
                     <div className="s_nav_company_logo_cont">
-                        <img
-                            src={appConfig.BRAND_LOGO || importConfig.brandLogo}
-                            alt=""
-                            className=""
-                        />
-                        <p
-                            style={{
-                                color: bgColors[
-                                    `${theme}-color-premitive-grey-5`
-                                ],
-                            }}
-                        >
-                            {appConfig?.QUEST_ENTITY_NAME}
-                        </p>
+                        <div className="s_nav_company_img">
+                            <img
+                                src={appConfig.BRAND_LOGO || importConfig.brandLogo}
+                                alt=""
+                                className=""
+                            />
+                        </div>
+                        <div className="s_nav_company_name">
+                            <p
+                                style={{
+                                    color: bgColors[
+                                        `${theme}-color-premitive-grey-5`
+                                    ],
+                                }}
+                            >
+                                {appConfig?.QUEST_ENTITY_NAME}
+                            </p>
+                        </div>
                     </div>
                 </div>
 
@@ -159,18 +164,6 @@ export default function DashboardWrapper({ children, selectdRoute }) {
                                         </li>
                                     )
                             )}
-
-                            <li className={`s_nav_menu_item cursor-pointer`}>
-                                <div
-                                    className="s_nav_menu_link"
-                                    onClick={() =>
-                                        setOpenPopup((prev) => !prev)
-                                    }
-                                >
-                                    <div>{referFriends()}</div>
-                                    <p>Refer Friends</p>
-                                </div>
-                            </li>
                         </ul>
                     </div>
 
@@ -247,7 +240,12 @@ export default function DashboardWrapper({ children, selectdRoute }) {
                 </div>
             </nav>
 
-            <div className="w-[calc(100vw-185px)]">
+            <div
+                className="w-[calc(100vw-185px)]" 
+                style={{
+                    backgroundColor: theme === "dark" ? "black" : "white",
+                }}
+            >
                 <div className="">{children}</div>
             </div>
         </div>
