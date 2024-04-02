@@ -42,6 +42,7 @@ const LoginPopUp = ({ loginComplete, setLoginPopup }) => {
                     onSubmit={(e) => completeLogin(e)}
                     descriptionText='Please select a way to continue'
                     googleButtonText='Continue with Google'
+                    onError={(e) => Toast.error({ text: e.error })}
                     styleConfig={{
                         Form: {
                             boxShadow: "0px 0px 0px 0px",
