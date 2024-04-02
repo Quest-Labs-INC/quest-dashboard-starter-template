@@ -1,4 +1,4 @@
-import { QuestLogin } from '@questlabs/react-sdk';
+import { QuestLogin, Toast } from '@questlabs/react-sdk';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import Cookies from 'universal-cookie';
