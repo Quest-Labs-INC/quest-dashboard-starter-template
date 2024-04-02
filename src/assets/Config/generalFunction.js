@@ -108,10 +108,10 @@ export const generalFunction = {
       }
     }
 
-    const { url, baseHeaders } =
+    const { url, headers } =
       generalFunction.createUrl(`api/upload-img`);
-    const headers = {
-      ...baseHeaders,
+    const baseHeaders = {
+      ...headers,
       apiKey: mainConfig.QUEST_API_KEY,
       entityId: mainConfig.QUEST_ENTITY_ID,
       "Content-Type": "form-data",
@@ -121,7 +121,7 @@ export const generalFunction = {
     formData.append("uploaded_file", file);
 
     try {
-      const res = await axios.post(url, formData, { headers });
+      const res = await axios.post(url, formData, { headers: baseHeaders });
       return res;
     } catch (error) {
       return null;
