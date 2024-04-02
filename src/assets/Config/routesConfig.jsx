@@ -34,7 +34,7 @@ const ProviderConfig = ({ children, showTag }) => {
             <QuestProvider
                 apiKey={appConfig?.QUEST_API_KEY }
                 entityId={appConfig?.QUEST_ENTITY_ID}
-                apiType='STAGING'
+                apiType='PRODUCTION'
                 themeConfig={{
                     buttonColor: bgColors[`${theme}-primary-bg-color-0`],
                     primaryColor: bgColors[`${theme}-color-premitive-grey-5`],

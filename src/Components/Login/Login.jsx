@@ -1,4 +1,4 @@
-import { QuestLogin } from "@questlabs/react-sdk";
+import { QuestLogin, Toast } from "@questlabs/react-sdk";
 import { importConfig } from "../../assets/Config/importConfig";
 import LoginWrapper from "../Common/LoginWrapper";
 import Cookies from "universal-cookie";
@@ -61,6 +61,7 @@ export default function Login() {
                 onSubmit={(e) => completeLogin(e)}
                 googleButtonText="Continue with Google"
                 descriptionText={`Welcome to ${appConfig?.QUEST_ENTITY_NAME}`}
+                onError={(e) => Toast.error({ text: e.error })}
                 styleConfig={{
                     Form: {
                         boxShadow: "0px 0px 0px 0px",

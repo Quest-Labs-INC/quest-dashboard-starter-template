@@ -245,7 +245,7 @@ function MainPage() {
         <QuestProvider
             apiKey={mainConfig?.API_KEY}
             entityId={mainConfig?.ENTITY_ID}
-            apiType='STAGING'
+            apiType='PRODUCTION'
             themeConfig={{
                 // buttonColor: bgColors[`${theme}-primary-bg-color-0`],
                 // primaryColor: bgColors[`${theme}-color-premitive-grey-5`],
