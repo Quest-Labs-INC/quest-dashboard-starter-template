@@ -109,7 +109,7 @@ export default function DashboardWrapper({ children, selectdRoute }) {
                     userId={generalFunction.getDataFromCookies("questUserId")}
                     token={generalFunction.getDataFromCookies("questUserToken")}
                     open="ON_CTRL_K_KEY"
-                    onResultClick={(e) => e == "/book-a-call" ? window.open(appConfig.CALENDLY_LINK, "_blank") : navigate(e)}
+                    onResultClick={(e) => e == "/book-a-call" ? window.open("https://calendly.com/shubham-quest/chat", "_blank") : navigate(e)}
                     // data={{}}
                     icons={[
                         importConfig.routesIcons.dashboardIcon,
@@ -123,10 +123,10 @@ export default function DashboardWrapper({ children, selectdRoute }) {
                             background: theme == "dark" ? "rgba(162, 162, 162, 0.5)" : "#f4ebff"
                         },
                         Form: {
-                            background: bgColors[`${theme}-primary-bg-color-3`],
+                            background: bgColors[`${theme}-primary-bg-color-1`],
                         },
                         Footer: {
-                            background: bgColors[`${theme}-primary-bg-color-3`],
+                            background: bgColors[`${theme}-primary-bg-color-1`],
                         },
                         CommandButton: {
                             background: theme == "dark" ? "rgba(162, 162, 162, 0.5)" : "#f4ebff",
@@ -298,9 +298,8 @@ export default function DashboardWrapper({ children, selectdRoute }) {
 
                             <li>
                                 <Link
-                                    // to={routes.path}
+                                    to={"/login"}
                                     className="s_nav_menu_link"
-                                    onClick={() => setSidebarOpen(false)}
                                 >
                                     <div>{logOutBtn()}</div>
                                     <p>Logout</p>

@@ -32,14 +32,14 @@ const ReferalPage2 = () => {
                 headers: {
                     ...request.headers,
                     apikey: appConfig.QUEST_API_KEY,
-                    userId: localStorage.getItem("questUserId"),
-                    token: localStorage.getItem("questUserToken"),
+                    userId: generalFunction.getDataFromCookies("questUserId"),
+                    token: generalFunction.getDataFromCookies("questUserToken"),
                 },
             }).then((res) => {
                 let totalData = res?.data?.data;
                 let filterData = totalData?.filter(
                     (ele) =>
-                        ele.referredBy == localStorage.getItem("questUserId")
+                        ele.referredBy == generalFunction.getDataFromCookies("questUserCredentials")?.email
                 );
                 setUserData(filterData);
             });
