@@ -2,6 +2,7 @@ import React, { createContext, useEffect, useState } from "react";
 import { generalFunction } from "../../assets/Config/generalFunction";
 import axios from "axios";
 import { mainConfig } from "../../assets/Config/appConfig";
+import { Toast } from "@questlabs/react-sdk";
 
 export const ThemeContext = createContext();
 
@@ -111,7 +112,7 @@ const AppContext = ({ children }) => {
           let errMsg = data.error
             ? data.error
             : "Unable to Get Developer Details";
-          toast.error("Error Occurred" + "\n" + errMsg);
+          Toast.error({text: "Error Occurred" + "\n" + errMsg});
         }
         generalFunction.setDataInCookies("apiKey", data?.data?.key);
 
