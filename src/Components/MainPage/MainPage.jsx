@@ -1,13 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { importConfig } from '../../assets/Config/importConfig';
 import { generalFunction } from '../../assets/Config/generalFunction';
-import toast from 'react-hot-toast';
 import { mainConfig } from '../../assets/Config/appConfig';
 import axios from 'axios';
 import LoginPopUp from './LoginPopUp';
 import OnboardingPopUp from './OnboardingPopUp';
 import Cookies from 'universal-cookie';
-import { QuestProvider } from '@questlabs/react-sdk';
+import { QuestProvider, Toast } from '@questlabs/react-sdk';
 import ChangeEntityPopup from './ChangeEntityPopup';
 import SuccessPopup from './SuccessPopup';
 import { ThemeContext } from '../Common/AppContext';
@@ -72,13 +71,13 @@ function MainPage() {
                     return imageResponse.data.imageUrl; 
                 } else {
                     setSelectedFile(null);
-                    toast.error("Unable to upload image");
+                    Toast.error({text: "Unable to upload image"});
                     return null; // Return null or any other indicator of failure
                 }
             } catch (error) {
                 console.log(error);
                 setSelectedFile(null);
-                toast.error("Unable to upload image.");
+                Toast.error({text: "Unable to upload image."});
                 return null; // Return null or any other indicator of failure
             }
         }
@@ -94,7 +93,7 @@ function MainPage() {
             const data = apiKeyResponse.data;
             if (data.success == false) {
                 let errMsg = data.error ? data.error : "Unable to Get Developer Details"
-                toast.error("Error Occurred" + "\n" + errMsg);
+                Toast.error({text: "Error Occurred" + "\n" + errMsg});
             }
             generalFunction.setDataInCookies("apiKey", data?.data?.key)
             localStorage.setItem("apiKey", data?.data?.key)
@@ -116,7 +115,7 @@ function MainPage() {
         }
 
         if (!name || !description || !imageUrl || !bg) {
-            toast.error("Please fill the required information");
+            Toast.error({text: "Please fill the required information"});
             return;
         }
 
@@ -162,7 +161,7 @@ function MainPage() {
                 colorConfig: bg,
             }, { headers: request.headers })
             if (response.success) {
-                toast.success("Successfully generated")
+                Toast.success({text: "Successfully generated"})
             }
 
             generalFunction.hideLoader();
@@ -192,7 +191,7 @@ function MainPage() {
 
             setSuccessPopup(true);
 
-            toast.success("Template successfully created")
+            Toast.success({text: "Template successfully created"})
         } catch (error) {
             console.log(error);
         }
