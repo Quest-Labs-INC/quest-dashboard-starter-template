@@ -113,8 +113,8 @@ export const generalFunction = {
       generalFunction.createUrl(`api/upload-img`);
     const headers = {
       ...baseHeaders,
-      apiKey: appConfig.QUEST_API_KEY,
-      entityId: appConfig.QUEST_ENTITY_ID,
+      apiKey: mainConfig.QUEST_API_KEY,
+      entityId: mainConfig.QUEST_ENTITY_ID,
       "Content-Type": "form-data",
     };
 

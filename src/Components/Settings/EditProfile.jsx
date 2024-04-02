@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState, useRef } from "react";
 import { ThemeContext } from "../Common/AppContext";
 import InputComponent from "../Common/CommonComponents/InputComponent";
 import { importConfig } from "../../assets/Config/importConfig";
@@ -23,6 +23,7 @@ const EditProfile = () => {
     const [descLen, setDesclen] = useState(0);
     const [answer, setAnswer] = useState({});
     const [loading, setLoading] = useState(true);
+    const fileInputRef = useRef();
     const headers = {
         apikey: appConfig.QUEST_API_KEY,
         userid: generalFunction.getDataFromCookies("questUserId"),
@@ -92,7 +93,7 @@ const EditProfile = () => {
                 className="p-8 flex flex-col items-center gap-8 rounded-[10px]"
                 style={{border: `1.5px solid ${bgColors[`${theme}-primary-border-color`]}`}}
             >
-                <div className="w-28 h-28 flex items-center justify-center rounded-full bg-[#F4EBFF] relative overflow-hidden">
+                <div className="w-28 h-28 flex items-center justify-center rounded-full bg-[#F4EBFF] relative overflow-hidden" onClick={() =>  fileInputRef.current.click()}>
                     {(imageUrl || customImage) && (
                         <img
                             className="object-cover w-full h-full rounded-full static z-10"
@@ -100,8 +101,8 @@ const EditProfile = () => {
                             alt=""
                         />
                     )}
-                    <div className={`${imageUrl ? "opacity-0" : "opacity-100"} absolute z-50 left-0 top-0`}>
-                        <label className="cursor-pointer w-28 h-28 flex items-center justify-center rounded-full" htmlFor="profile-img">
+                    <div className={`${imageUrl ? "opacity-0" : "opacity-100"} absolute left-0 top-0`}>
+                        <label className="cursor-pointer w-28 h-28 flex items-center justify-center rounded-full">
                             {/* <img className="w-10 absolute top-9 left-9" src={uploadSVG()} alt="" />/ */}
                             <div className={`${(imageUrl || customImage) && "hidden"}`}>
                                 {
@@ -115,6 +116,7 @@ const EditProfile = () => {
                             type="file"
                             accept="image/*"
                             className="hidden"
+                            ref={fileInputRef}
                         />
                     </div>
                 </div>
