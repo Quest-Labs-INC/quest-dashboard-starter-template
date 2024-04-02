@@ -1,9 +1,9 @@
 export const mainConfig = {
     ENTITY_ID: "e-0000000000",
-    API_KEY: "k-6fe7e7dc-ac8f-44a1-8bbf-a1754ddf88be",
+    API_KEY: "k-0d087a04-f631-41e1-80dd-fdc9ab2abb07", //"k-6fe7e7dc-ac8f-44a1-8bbf-a1754ddf88be"
     BACKEND_URL: "https://api.questprotocol.xyz/",
     QUEST_LABS_URL: "https://app.questlabs.ai",
-    ONBOARDING_QUEST_ID: "q-7e55d259-9b65-4821-ada6-e40c1beedbe8",
+    ONBOARDING_QUEST_ID:  "q-2c92b0c4-c3e5-4df0-871e-3367032aa74d", //"q-7e55d259-9b65-4821-ada6-e40c1beedbe8"
     REDIRECT_URI: `${window.location.origin}/create`,
     GOOGLE_CLIENT_ID: "55807106386-g68a2ecrld4ul9dppvla4ns6qnn9957t.apps.googleusercontent.com"
 }
