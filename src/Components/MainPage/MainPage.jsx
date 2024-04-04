@@ -321,18 +321,6 @@ function MainPage() {
                             <div className="description w-[676px] left-0 top-[72px] text-center text-[#545454] text-lg font-normal font-['Figtree'] leading-9">Make a wish, and we will create your Saas dashboard starter within seconds with Login, Onboarding, Feedback, Surveys, Referrals, Search bar and much more.</div>
                         </div>
 
-                        <section className='flex items-center gap-[20px] px-6 py-5 border rounded-[12px]  w-[512px]'>
-                            <div className='w-[124px] h-[98px] border'></div>
-                            <div className='flex flex-col gap-[12px]'>
-                                <p>Learn How It Works</p>
-                                <p>Uncover every feature and function in our brief, informative video</p>
-                                <div className='flex items-center gap-[12px]'>
-                                    <p>Watch Video</p>
-                                    <img src={watch} alt="" />
-                                </div>
-                            </div>
-                        </section>
-
                         {/* input section  */}
 
                         <section className='create-saas-page-input w-full m-auto px-6 py-8 rounded-xl border border-[#ECECEC] gap-[32px]'>
