@@ -16,7 +16,7 @@ const ReferralComp = ({colorPicker}) => {
             description={
                 "Copy and share your referral link with friends or on social media using the icons below."
             }
-            referralLink={`${window.location.origin}/login?ref=`}
+            referralLink={`https://yourdomain.com?ref=`}
             showReferralCode={false}
             // headingColor="blue"
             shareButtonText="Share Referral Link"
