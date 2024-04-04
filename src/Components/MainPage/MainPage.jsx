@@ -55,9 +55,19 @@ function MainPage() {
     const { appConfig, setAppConfig, contentConfig, setContentConfig } = useContext(ThemeContext)
 
     const inputFileChangeHandler = (event) => {
-        if (event.target.files[0]) {
-            setSelectedFile(event.target.files[0]);
-            setImageUrl(URL.createObjectURL(event.target.files[0]));
+        const allowedExtensions = ['jpeg', 'jpg', 'png'];
+        const file = event.target.files[0];
+        if (file) {
+            const extension = file.name.split('.').pop().toLowerCase();
+            if (allowedExtensions.includes(extension)) {
+                setSelectedFile(file);
+                setImageUrl(URL.createObjectURL(file));
+            } else {
+                setSelectedFile(null);
+                setImageUrl("");    
+                Toast.error({text:'Please select an image file with either JPEG (.jpeg/.jpg) or PNG (.png) ',pauseOnHover:true});
+              
+            }
         }
     };
 
