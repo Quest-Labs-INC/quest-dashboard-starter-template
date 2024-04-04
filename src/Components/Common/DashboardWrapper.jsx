@@ -150,9 +150,6 @@ export default function DashboardWrapper({ children, selectdRoute }) {
                                                 ) && "s_nav_active"
                                             }`}
                                             key={index}
-                                            onClick={() =>
-                                                setSidebarOpen(false)
-                                            }
                                         >
                                             <Link
                                                 to={routes.path}
@@ -173,7 +170,6 @@ export default function DashboardWrapper({ children, selectdRoute }) {
                             <li>
                                 <Link
                                     className="s_nav_menu_link"
-                                    // onClick={() => setSidebarOpen(false)}
                                 >
                                     <div>{upgrade()}</div>
                                     <p>Upgrade</p>
@@ -184,7 +180,6 @@ export default function DashboardWrapper({ children, selectdRoute }) {
                                 <Link
                                     className="s_nav_menu_link"
                                     onClick={() => {
-                                        setSidebarOpen(false);
                                         window.open(
                                             mainConfig.CALENDLY_LINK,
                                             "_blank"

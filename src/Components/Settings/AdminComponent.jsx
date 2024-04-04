@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { generalFunction } from "../../assets/Config/generalFunction";
-import { deleteIcon, searchIcon } from "../Common/SideBarSvg";
+import { deleteIcon, searchIcon, inviteButton } from "../Common/SideBarSvg";
 import { ThemeContext } from "../Common/AppContext";
 import { mainConfig } from "../../assets/Config/appConfig";
 import AddAdminPopup from "./AddAdminPopup";
@@ -109,15 +109,17 @@ const AdminComponent = () => {
                     />
                 </div>
                 <button
-                    className="text-sm px-8 py-2.5 rounded-[10px] pl-[40px] pr-[40px]"
+                    className="flex items-center text-sm py-[10px] rounded-[10px] px-[32px] gap-1"
                     style={{
                         background: `linear-gradient(${theme == "dark" ? "black" : "white"},${theme == "dark" ? "black" : "white"}) padding-box,${bgColors[`${theme}-primary-bg-color-0`]}border-box`,
                         color: bgColors[`${theme}-color-premitive-grey-9`],
                         whiteSpace: "nowrap",
                         border: "1.5px solid #0000"
                     }}
+                    onClick={() => setAdminPopup(true)}
                 >
                     Invite Team Member
+                    {inviteButton(bgColors[`${theme}-color-premitive-grey-9`])}
                 </button>
             </div>
 

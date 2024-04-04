@@ -80,7 +80,10 @@ const ReferralComp = ({colorPicker}) => {
                 Icon: {
                     background: bgColors[`${theme}-primary-border-color`],
                     color: colorPicker
-                }
+                },
+                Input: {
+                    borderColor: theme == "dark" ? 'rgba(255, 255, 255, 0.2)' : ''
+                },
             }}
             gradientBackgroundColor={
                 bgColors[`${theme}-primary-bg-color-0`]

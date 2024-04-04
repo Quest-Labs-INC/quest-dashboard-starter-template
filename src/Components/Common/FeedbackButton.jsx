@@ -8,9 +8,49 @@ import { mainConfig } from "../../assets/Config/appConfig";
 function FeedbackButton() {
     const [openFeedback, setOpenFeedback] = useState(false);
     const { theme, bgColors } = useContext(ThemeContext);
+    const getLighterColor = (color1, color2) => {
+        const calculateLuminance = (color) => {
+            const r = parseInt(color.slice(1, 3), 16);
+            const g = parseInt(color.slice(3, 5), 16);
+            const b = parseInt(color.slice(5, 7), 16);
+            return (0.2126 * r + 0.7152 * g + 0.0722 * b) / 255;
+        };
+        const luminance1 = calculateLuminance(color1);
+        const luminance2 = calculateLuminance(color2);
+
+        return luminance1 > luminance2 ? color1 : color2;
+    };
+
+    const colorRetriver = () => {
+        let mainColor = bgColors[`${theme}-primary-bg-color-0`] || "#FBFBFB";
+        let diffColor = mainColor
+            .split(" ")
+            ?.filter((ele) => ele.charAt(0) == "#");
+        let pickColor = !!diffColor?.length
+            ? [diffColor[0], diffColor.length > 1 ? diffColor[1] : "#D1ACFF"]
+            : ["#9035FF", "#D1ACFF"];
+        const lighterColor = getLighterColor(diffColor[0], diffColor[1]);
+
+        return lighterColor;
+    };
+
+    function hexToRgb(hex) {
+        hex = hex.replace(/^#/, "");
+        const bigint = parseInt(hex, 16);
+        const r = (bigint >> 16) & 255;
+        const g = (bigint >> 8) & 255;
+        const b = bigint & 255;
+        return `${r}, ${g}, ${b}`;
+    }
+    const originalColor = hexToRgb(colorRetriver())
+        .split(",")
+        .map((value) => parseInt(value.trim()));
+    const darkerColor = originalColor.map((value) => Math.max(value - 50, 0));
+    const clampedDarkerColor = darkerColor.map((value) => Math.min(value, 255));
+    const darkerColorString = clampedDarkerColor.join(", ");
 
     return (
-        <div>
+        <div className="z-50">
             <div
                 className="fixed -right-11 top-[50vh] -rotate-90 cursor-pointer"
                 style={{
@@ -23,6 +63,7 @@ function FeedbackButton() {
             >
                 <p>Feedback</p>
             </div>
+
             <FeedbackWorkflow
                 questIds={[
                     "q-general-feedback",
@@ -38,7 +79,6 @@ function FeedbackButton() {
                 topbarColor={"white"}
                 starColor="blue"
                 showFooter={true}
-                contactUrl={mainConfig.CALENDLY_LINK}
                 ReportBug={{
                     description: "Help us squash those bugs!",
                 }}
@@ -53,6 +93,10 @@ function FeedbackButton() {
                 RequestFeature={{
                     description: "Suggest, we innovate together.",
                 }}
+                contactUrl={`mailto:${
+                    generalFunction.getUserCredentials()
+                        ?.email
+                }`}
                 styleConfig={{
                     listHeading: {},
                     listHover: {
@@ -60,6 +104,14 @@ function FeedbackButton() {
                             theme == "dark"
                                 ? "rgba(162, 162, 162, 0.5)"
                                 : "#FBFBFB",
+                        iconColor:
+                            theme == "dark"
+                                ? ""
+                                : `rgba(${darkerColorString}, 1)`,
+                        iconBackground:
+                            theme == "dark"
+                                ? ""
+                                : `rgba(${hexToRgb(colorRetriver())}, 0.2)`,
                     },
                     Form: {
                         background: bgColors[`${theme}-primary-bg-color-1`],
@@ -85,6 +137,22 @@ function FeedbackButton() {
                     },
                     PrimaryButton: {
                         border: "none",
+                    },
+
+                    Input: {
+                        borderColor:
+                            theme == "dark" ? "rgba(255, 255, 255, 0.2)" : "",
+                    },
+                    TextArea: {
+                        borderColor:
+                            theme == "dark" ? "rgba(255, 255, 255, 0.2)" : "",
+                    },
+                    SecondaryButton: {
+                        color: bgColors[`${theme}-color-premitive-grey-5`],
+                    },
+                    TopBar: {
+                        borderColor:
+                            theme == "dark" ? "rgba(255, 255, 255, 0.2)" : "",
                     },
                 }}
             />

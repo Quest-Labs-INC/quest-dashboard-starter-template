@@ -10,6 +10,7 @@ import Referral from "./ReferralComp";
 import ReferralComp from "./ReferralComp";
 import { mainConfig } from "../../assets/Config/appConfig";
 import { generalFunction } from "../../assets/Config/generalFunction";
+import axios from "axios";
 
 const ReferralPage = () => {
     const { theme, bgColors, appConfig } = useContext(ThemeContext);
