@@ -129,7 +129,7 @@ export const routesConfig = [
         isUpper: true,
     },
     {
-        path: "/your-app-referal",
+        path: "/your-app-referral",
         name: "Refer Friends",
         logo: referFriends(),
         component: (
