@@ -161,12 +161,21 @@ button:focus-visible {
   filter: brightness(0) invert(var(--img-invert-white));
 }
 
-input:-webkit-autofill,
+/* input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
 input:-webkit-autofill:active {
   -webkit-box-shadow: 0 0 0 30px var(--primary-bg-color-4) inset !important;
   -webkit-text-fill-color: var(--color-premitive-grey-5);
+} */
+
+input:-webkit-autofill,
+input:-webkit-autofill:focus {
+  transition: background-color 600000s 0s, color 600000s 0s;
+}
+
+input[data-autocompleted] {
+  background-color: transparent !important;
 }
 
 @keyframes slide {

@@ -4,13 +4,48 @@ import { importConfig } from "../../assets/Config/importConfig";
 import { generalFunction } from "../../assets/Config/generalFunction";
 import { useContext } from "react";
 import { ThemeContext } from "../Common/AppContext";
-import { searchIcon } from "../Common/SideBarSvg";
+import { adminIcon, searchIcon, settingIcon, userIcon } from "../Common/SideBarSvg";
 import { useNavigate } from "react-router-dom";
 
 export default function Dashboard() {
     const completeAllStatus = () => { };
     const navigate = useNavigate();
     const { theme, bgColors, appConfig } = useContext(ThemeContext);
+
+    const getLighterColor = (color1, color2) => {
+        const calculateLuminance = (color) => {
+            const r = parseInt(color.slice(1, 3), 16);
+            const g = parseInt(color.slice(3, 5), 16);
+            const b = parseInt(color.slice(5, 7), 16);
+            return (0.2126 * r + 0.7152 * g + 0.0722 * b) / 255;
+        };
+        const luminance1 = calculateLuminance(color1);
+        const luminance2 = calculateLuminance(color2);
+     
+    
+        return luminance1 > luminance2 ? color1 : color2;
+    };
+    
+    
+    const colorRetriver = () => {
+        let mainColor = bgColors[`${theme}-primary-bg-color-0`] || "#FBFBFB"; 
+        let diffColor = mainColor.split(" ")?.filter((ele) => ele.charAt(0) == "#");
+        let pickColor = !!diffColor?.length
+          ? [diffColor[0], diffColor.length > 1 ? diffColor[1] : "#D1ACFF"]
+          : ["#9035FF", "#D1ACFF"];
+        const lighterColor = getLighterColor(diffColor[0], diffColor[1]); 
+    
+        return lighterColor;
+    };
+    
+      function hexToRgb(hex) {
+        hex = hex.replace(/^#/, "");
+        const bigint = parseInt(hex, 16);
+        const r = (bigint >> 16) & 255;
+        const g = (bigint >> 8) & 255;
+        const b = bigint & 255;
+        return `${r}, ${g}, ${b}`;
+      }
 
     return (
         <div className="dashboard-page transition-all ease-in delay-[40]">
@@ -63,7 +98,7 @@ export default function Dashboard() {
                 </div> */}
 
 
-                <div className="get-started pt-[4px]">
+                <div id='get-started' className="get-started pt-[4px]">
                     <GetStarted
                         questId={appConfig?.QUEST_GET_STARTED_CAMPAIGN_ID}
                         userId={generalFunction.getDataFromCookies("questUserId")}
@@ -77,11 +112,11 @@ export default function Dashboard() {
                         cardBorderColor="var(--primary-bg-color-2)"
                         descriptionText={`Get started with ${appConfig?.QUEST_ENTITY_NAME} and explore how you can get the best out of the platform`}
                         iconUrls={[
-                            importConfig.routesIcons.userIcon,
-                            importConfig.routesIcons.adminIcon,
-                            importConfig.routesIcons.settingIcon,
+                            userIcon(bgColors[`${theme}-color-premitive-grey-5`]),
+                            adminIcon(bgColors[`${theme}-color-premitive-grey-5`]),
+                            settingIcon(bgColors[`${theme}-color-premitive-grey-5`]),
                         ]}
-                        arrowColor="black"
+                        arrowColor="#939393"
                         onLinkTrigger={(e) => window.open(e, "_blank")}
                         showProgressBar={false}
                         allowMultiClick
@@ -121,6 +156,13 @@ export default function Dashboard() {
                             Card: {
                                 background: theme == "dark" ? bgColors[`${theme}-primary-bg-color-2`] : "transparent",
                                 border: `1px solid ${bgColors[`${theme}-primary-border-color`]}`,
+                            },
+                            Icon: {
+                                background: theme == "dark" ? "rgba(255, 255, 255, 0.08)" : `rgba(${hexToRgb(colorRetriver())}, 0.1)`,
+                            },
+                            Arrow:{
+                                Background: theme == "dark" ? '#202020' : "",
+                                CompletedBackground: theme == "dark" ? "#202020" : "",
                             }
                         }}
                         showFooter={false}

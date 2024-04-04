@@ -3,7 +3,7 @@ import "./AdminComponent.css";
 import InputComponent from "../Common/CommonComponents/InputComponent";
 import { importConfig } from "../../assets/Config/importConfig";
 import { ThemeContext } from "../Common/AppContext";
-import { deleteIcon, searchIcon } from "../Common/SideBarSvg";
+import { deleteIcon, inviteButton, searchIcon } from "../Common/SideBarSvg";
 import axios from "axios";
 import { uploadImageToBackend } from "../../utils/UploadImage";
 import { generalFunction } from "../../assets/Config/generalFunction";
@@ -120,7 +120,7 @@ const AdminComponent = () => {
                     />
                 </div>
                 <button
-                    className="text-sm px-8 py-2.5 rounded-[10px] pl-[40px] pr-[40px]"
+                    className="flex items-center text-sm  py-[10px] rounded-[10px] px-[32px] gap-1"
                     style={{
                         background: `linear-gradient(${theme == "dark" ? "black" : "white"},${theme == "dark" ? "black" : "white"}) padding-box,${bgColors[`${theme}-primary-bg-color-0`]}border-box`,
                         color: bgColors[`${theme}-color-premitive-grey-9`],
@@ -130,6 +130,7 @@ const AdminComponent = () => {
                     onClick={() => setAdminPopup(true)}
                 >
                     Invite Team Member
+                    {inviteButton(bgColors[`${theme}-color-premitive-grey-9`])}
                 </button>
             </div>
             {adminPopup && <AddAdminPopup setAdminPopup={setAdminPopup} setFlag={setFlag} adminPopup={adminPopup} />}

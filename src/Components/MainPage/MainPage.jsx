@@ -372,7 +372,7 @@ function MainPage() {
                                     </p>
                                     <input
                                         // className="px-4 py-2.5 border border-[#ECECEC] rounded-[10px] mt-1.5 w-full"
-                                        className=""
+                                        className="outline-none"
                                         onChange={(e) => setName(e.target.value)}
                                         value={name}
                                         placeholder="eg. Quest Labs"
