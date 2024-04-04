@@ -98,7 +98,7 @@ export default function Dashboard() {
                 </div> */}
 
 
-                <div id='get-started' className="get-started pt-[4px]">
+                <div className="get-started pt-[4px]">
                     <GetStarted
                         questId={appConfig?.QUEST_GET_STARTED_CAMPAIGN_ID}
                         userId={generalFunction.getDataFromCookies("questUserId")}
