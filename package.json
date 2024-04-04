@@ -10,7 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@questlabs/react-sdk": "1.4.9",
+    "@questlabs/react-sdk": "1.5.1",
     "axios": "^1.6.7",
     "browser-image-compression": "^2.0.2",
     "framer-motion": "^10.17.9",

@@ -12,7 +12,7 @@ import SuccessPopup from './SuccessPopup';
 import { ThemeContext } from '../Common/AppContext';
 import './MainPage.css'
 import CreateSuccessPopUp from './CreateSuccessPopUp';
-
+import watch from '../../assets/Images/watch.svg'
 function MainPage() {
     const cookies = new Cookies()
     const [isAdmin, setIsAdmin] = useState(false);
@@ -61,29 +61,29 @@ function MainPage() {
         }
     };
 
-    const UploadImage = async () => {  
+    const UploadImage = async () => {
         if (selectedFile) {
             try {
                 const imageResponse = await generalFunction.uploadImageToBackend(selectedFile);
                 if (imageResponse?.data?.success && imageResponse?.data?.imageUrl) {
                     // Update state with the uploaded image URL
                     setCustomImage(imageResponse.data.imageUrl);
-                    return imageResponse.data.imageUrl; 
+                    return imageResponse.data.imageUrl;
                 } else {
                     setSelectedFile(null);
-                    Toast.error({text: "Unable to upload image"});
+                    Toast.error({ text: "Unable to upload image" });
                     return null; // Return null or any other indicator of failure
                 }
             } catch (error) {
                 console.log(error);
                 setSelectedFile(null);
-                Toast.error({text: "Unable to upload image."});
+                Toast.error({ text: "Unable to upload image." });
                 return null; // Return null or any other indicator of failure
             }
         }
-        return null; 
+        return null;
     };
-    
+
 
     const fetchTheImage = async (createdEntityId) => {
         try {
@@ -93,7 +93,7 @@ function MainPage() {
             const data = apiKeyResponse.data;
             if (data.success == false) {
                 let errMsg = data.error ? data.error : "Unable to Get Developer Details"
-                Toast.error({text: "Error Occurred" + "\n" + errMsg});
+                Toast.error({ text: "Error Occurred" + "\n" + errMsg });
             }
             generalFunction.setDataInCookies("apiKey", data?.data?.key)
             localStorage.setItem("apiKey", data?.data?.key)
@@ -147,9 +147,9 @@ function MainPage() {
                     createdEntityId = communitySelect.id;
                 }
             })
-       
+
         await fetchTheImage(createdEntityId);
-        
+
 
         try {
             let request = generalFunction.createUrl(`api/entities/${createdEntityId}/quests/generate-saas?userId=${generalFunction.getDataFromCookies("questUserId")}`);
@@ -161,7 +161,7 @@ function MainPage() {
                 colorConfig: bg,
             }, { headers: request.headers })
             if (response.success) {
-                Toast.success({text: "Successfully generated"})
+                Toast.success({ text: "Successfully generated" })
             }
 
             generalFunction.hideLoader();
@@ -191,7 +191,7 @@ function MainPage() {
 
             setSuccessPopup(true);
 
-            Toast.success({text: "Template successfully created"})
+            Toast.success({ text: "Template successfully created" })
         } catch (error) {
             console.log(error);
         }
@@ -296,7 +296,7 @@ function MainPage() {
                                         {openpopup &&
                                             <div className='absolute w-40 border rounded-md left-4 top-8 cursor-pointer'>
                                                 <p className='cursor-pointer px-4 py-2 hover:bg-gray-100 w-full rounded-t-md' onClick={() => window.open(`${mainConfig.QUEST_LABS_URL}/admin`, "_blank")}>Admin</p>
-                                                <p className='cursor-pointer px-4 py-2 hover:bg-gray-100 w-full rounded-b-md' onClick={() => {generalFunction.mainLogout(); setLoggedIn(false)}}>Logout</p>
+                                                <p className='cursor-pointer px-4 py-2 hover:bg-gray-100 w-full rounded-b-md' onClick={() => { generalFunction.mainLogout(); setLoggedIn(false) }}>Logout</p>
                                             </div>
                                         }
                                     </div>
@@ -382,7 +382,7 @@ function MainPage() {
                                     </p>
                                     <input
                                         // className="px-4 py-2.5 border border-[#ECECEC] rounded-[10px] mt-1.5 w-full"
-                                        className=""
+                                        className="outline-none"
                                         onChange={(e) => setName(e.target.value)}
                                         value={name}
                                         placeholder="eg. Quest Labs"

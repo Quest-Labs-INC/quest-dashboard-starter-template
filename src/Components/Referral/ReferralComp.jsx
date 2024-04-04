@@ -67,7 +67,7 @@ const ReferralComp = ({colorPicker}) => {
                     fontSize: "10px",
                     fontStyle: "normal",
                     fontWeight: "400",
-                    lineHeight: "12px" /* 120% */,
+                    lineHeight: "12px" ,
                     letterSpacing: "-0.1px",
                 },
                 PrimaryButton: {
@@ -77,7 +77,10 @@ const ReferralComp = ({colorPicker}) => {
                 Icon: {
                     background: bgColors[`${theme}-primary-border-color`],
                     color: colorPicker
-                }
+                },
+                Input: {
+                    borderColor: theme == "dark" ? 'rgba(255, 255, 255, 0.2)' : ''
+                },
             }}
             gradientBackgroundColor={
                 bgColors[`${theme}-primary-bg-color-0`]
