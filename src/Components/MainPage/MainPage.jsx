@@ -115,7 +115,7 @@ function MainPage() {
         }
 
         if (!name || !description || !imageUrl || !bg) {
-            Toast.error({ text: "Please fill the required information" });
+            Toast.error({text: "Please fill all the information including the logo"});
             return;
         }
 
@@ -321,17 +321,14 @@ function MainPage() {
                             <div className="description w-[676px] left-0 top-[72px] text-center text-[#545454] text-lg font-normal font-['Figtree'] leading-9">Make a wish, and we will create your Saas dashboard starter within seconds with Login, Onboarding, Feedback, Surveys, Referrals, Search bar and much more.</div>
                         </div>
 
-                        <section className='flex items-center gap-[20px] px-6 py-5 border rounded-[12px]  w-[512px]'>
-                            <div className='w-[124px] h-[98px] border'></div>
-                            <div className='flex flex-col gap-[12px]'>
-                                <p>Learn How It Works</p>
-                                <p>Uncover every feature and function in our brief, informative video</p>
-                                <div className='flex items-center gap-[12px]'>
-                                    <p>Watch Video</p>
-                                    <img src={watch} alt="" />
-                                </div>
-                            </div>
-                        </section>
+                        <div className='flex items-center justify-center gap-2' onClick={() => window.open("https://www.loom.com/share/c286b044781c4307a3c26f89bb999af0", "_blank")}>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" fill="none">
+                                <path d="M9 1.5C4.875 1.5 1.5 4.875 1.5 9C1.5 13.125 4.875 16.5 9 16.5C13.125 16.5 16.5 13.125 16.5 9C16.5 4.875 13.125 1.5 9 1.5Z" stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M9 12L9 8.25" stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M9.00391 6L8.99717 6" stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                            <p className='cursor-pointer font-semibold'>Learn How It Works</p>
+                        </div>
 
                         {/* input section  */}
 
@@ -373,6 +370,7 @@ function MainPage() {
                                     />
                                 </div>
                             </div>
+                            <p className='text-[#2C2C2C] -mt-4 text-sm font-medium font-["Figtree"] leading-tight'>Upload Logo*</p>
 
 
                             <form action="" className='create-saas-page-form'>
@@ -427,7 +425,7 @@ function MainPage() {
                             {/* <div className='mt-8'> */}
                             <div className='theme-colors-cont'>
 
-                                <p className="">Choose Theme</p>
+                                <p className="">Choose Theme*</p>
 
                                 <div className="flex gap-4 mt-1.5">
                                     {gradientCSS.map((gradient, index) => (
@@ -463,7 +461,7 @@ function MainPage() {
                         <div className='w-full border-b border-[#4B4B4B]'></div>
                         <div className="footer-text-cont ">
 
-                            <div className="copyright-text">Copyright © 2023 AI Saas GPT</div>
+                            <div className="copyright-text">Copyright © 2024 AI Saas GPT</div>
 
                             <div className="terns-privacy-cont">
                                 <div className="text-[#4C4C4C] text-lg font-normal font-['Hanken Grotesk'] leading-7" onClick={() => window.open("https://crimson-chord-1b6.notion.site/Terms-and-Conditions-a0ab54d1a42a47f6bac1773dea9fdc9c", "_blank")}>Terms of service  </div>
