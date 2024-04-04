@@ -16,7 +16,7 @@ export default function Onboarding() {
     const [key, setKey] = useState("");
 
     const completeAnswer = (e) => {
-        navigate("/dashboard");
+        navigate("/your-app-dashboard");
     };
 
     return (

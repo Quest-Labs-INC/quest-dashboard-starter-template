@@ -83,7 +83,7 @@ const SuccessPopup = ({ setSuccessPopup }) => {
                     </div>
 
                     <div className="flex gap-5 w-full ">
-                        <button className='border w-full border-[#6200EE] rounded-[10px] text-zinc-800 text-sm font-semibold font-["Figtree"] px-4 py-2.5' onClick={() => { window.location.href = "/login" }}>
+                        <button className='border w-full border-[#6200EE] rounded-[10px] text-zinc-800 text-sm font-semibold font-["Figtree"] px-4 py-2.5' onClick={() => { window.location.href = "/your-app-login" }}>
                             Preview
                         </button>
                         <button className='text-white w-full text-sm font-semibold font-["Figtree"] px-4 py-2.5 bg-[linear-gradient(84deg,_#9035FF_0.36%,_#0065FF_100.36%)] rounded-[10px]' onClick={() => window.open("https://github.com/Quest-Labs-INC/quest-dashboard-starter-template")}>

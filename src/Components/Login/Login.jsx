@@ -42,7 +42,7 @@ export default function Login() {
                     })
                 });
             }
-            navigate("/onboarding");
+            navigate("/your-app-dashboard");
         }
     };
 
