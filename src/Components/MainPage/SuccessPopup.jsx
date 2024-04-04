@@ -14,7 +14,7 @@ const SuccessPopup = ({ setSuccessPopup }) => {
     return (
         <div
             className="w-screen h-screen flex justify-center items-center fixed top-0 left-0 bg-[rgba(0,0,0,.15)] backdrop-blur-sm z-10 "
-            onClick={clickHadnler}
+            // onClick={clickHadnler}
         >
             <div className="rounded-xl overflow-hidden">
                 {/* <div style={{
@@ -65,7 +65,7 @@ const SuccessPopup = ({ setSuccessPopup }) => {
                             lineHeight: '32px', /* 155.556% */
                             letterSpacing: '-0.18px',
                         }}>
-                            You Are All Set!
+                            Your App is Generated!
                         </p>
 
                         {/* <p className="w-[336px] text-center text-zinc-400 text-sm font-normal font-['Figtree'] leading-tight"> */}
@@ -78,7 +78,7 @@ const SuccessPopup = ({ setSuccessPopup }) => {
                                 lineHeight: '20px',
                             }}
                         >
-                            Congratulations on saving months of development time! Preview your app and access GitHub.
+                            Congratulations on saving months of development time to create your own saas dashboard application. Preview your app or directly fork the react starter repo and get started on your localhost.
                         </p>
                     </div>
 
@@ -87,14 +87,16 @@ const SuccessPopup = ({ setSuccessPopup }) => {
                             Preview
                         </button>
                         <button className='text-white w-full text-sm font-semibold font-["Figtree"] px-4 py-2.5 bg-[linear-gradient(84deg,_#9035FF_0.36%,_#0065FF_100.36%)] rounded-[10px]' onClick={() => window.open("https://github.com/Quest-Labs-INC/quest-dashboard-starter-template")}>
-                            Fork
+                            Fork Repo
                         </button>
                     </div>
 
                 </div>
                 <div className="flex py-[12px] px-[20px] justify-center items-center gap-[12px] " style={{
                     background: 'var(--Neutral-White-200, #FBFBFB)',
-                }}>
+                }}
+                    onClick={() => window.open("https://questlabs.ai/", "_blank")}
+                >
                     <div style={{
                         flex: '1 0 0',
                         color: 'var(--Neutral-Black-100, #939393)',
