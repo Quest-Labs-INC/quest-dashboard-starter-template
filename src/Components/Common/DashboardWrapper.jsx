@@ -298,7 +298,7 @@ export default function DashboardWrapper({ children, selectdRoute }) {
 
                             <li>
                                 <Link
-                                    to={"/login"}
+                                    to={"/your-app-login"}
                                     className="s_nav_menu_link"
                                 >
                                     <div>{logOutBtn()}</div>

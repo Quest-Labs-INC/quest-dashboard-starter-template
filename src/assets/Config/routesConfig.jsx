@@ -71,7 +71,7 @@ export const routesConfig = [
         isUpper: false,
     },
     {
-        path: "/login",
+        path: "/your-app-login",
         name: "Login",
         logo: "",
         component: <ProviderConfig showTag={true}><LoginWrapper><Login/></LoginWrapper></ProviderConfig>,
@@ -79,7 +79,7 @@ export const routesConfig = [
         isUpper: false,
     },
     {
-        path: "/onboarding",
+        path: "/your-app-onboarding",
         name: "Onboarding",
         logo: "",
         component: <ProviderConfig showTag={false}><LoginWrapper><Onboarding/></LoginWrapper></ProviderConfig>,
@@ -87,7 +87,7 @@ export const routesConfig = [
         isUpper: false,
     },
     {
-        path: "/dashboard",
+        path: "/your-app-dashboard",
         name: "Getting Started",
         logo: GetStartedSvg(),
         component: (
@@ -101,7 +101,7 @@ export const routesConfig = [
         isUpper: true,
     },
     {
-        path: "/insights",
+        path: "/your-app-insights",
         name: "Explore",
         logo: explore(),
         component: (
@@ -115,7 +115,7 @@ export const routesConfig = [
         isUpper: true,
     },
     {
-        path: "/settings",
+        path: "/your-app-settings",
         name: "Settings",
         logo: SettingsSvg(),
         component: (
@@ -129,7 +129,7 @@ export const routesConfig = [
         isUpper: true,
     },
     {
-        path: "/referral",
+        path: "/your-app-referral",
         name: "Refer Friends",
         logo: referFriends(),
         component: (
