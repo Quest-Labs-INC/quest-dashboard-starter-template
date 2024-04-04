@@ -15,8 +15,11 @@ Welcome to our SAAS GPT! This guide will walk you through the steps to fork and 
   ![image](https://github.com/Quest-Labs-INC/quest-dashboard-starter-template/assets/107596444/627b8efd-5c41-4b14-8c67-80b235265c26)
 
 - In the settings page, navigate to the organization tab to find your `QUEST_ENTITY_NAME`, `QUEST_API_KEY`, and `QUEST_ENTITY_ID`.
+- Do check if the `QUEST_BASE_URL` is pointing to 'https://app.questlabs.ai/'
 - Copy these credentials and navigate to the forked folder where you'll find a file named `appConfig`.
 - Paste the copied credentials into the `appConfig` file.
+
+ ![image](https://github.com/Quest-Labs-INC/quest-dashboard-starter-template/assets/107596444/8fd56d4f-259b-4800-a86d-7d15886adcf2)
 
 ### Step 3: Setting up Theme
 
