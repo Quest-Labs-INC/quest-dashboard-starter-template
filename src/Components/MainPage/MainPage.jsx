@@ -64,9 +64,9 @@ function MainPage() {
                 setImageUrl(URL.createObjectURL(file));
             } else {
                 setSelectedFile(null);
-                setImageUrl("");    
-                Toast.error({text:'Please select an image file with either JPEG (.jpeg/.jpg) or PNG (.png) ',pauseOnHover:true});
-              
+                setImageUrl("");
+                Toast.error({ text: 'Please select an image file with either JPEG (.jpeg/.jpg) or PNG (.png) ', pauseOnHover: true });
+
             }
         }
     };
@@ -117,6 +117,9 @@ function MainPage() {
 
     const createTemplate = async () => {
         if (!generalFunction.getDataFromCookies("questUserId")) {
+            if (name || description || bg || selectedBox) {
+                localStorage.setItem("saasData", JSON.stringify({ name, description, bg, selectedBox }))
+            }
             setLoginPopup(true);
             return;
         } else if (!generalFunction.getDataFromCookies("userName") || !generalFunction.getDataFromCookies("adminCommunityId")) {
@@ -125,7 +128,7 @@ function MainPage() {
         }
 
         if (!name || !description || !imageUrl || !bg) {
-            Toast.error({text: "Please fill all the information including the logo"});
+            Toast.error({ text: "Please fill all the information including the logo" });
             return;
         }
 
@@ -202,6 +205,7 @@ function MainPage() {
             setSuccessPopup(true);
 
             Toast.success({ text: "Template successfully created" })
+            localStorage.removeItem("saasData")
         } catch (error) {
             console.log(error);
         }
@@ -247,6 +251,13 @@ function MainPage() {
     useEffect(() => {
         if (generalFunction.getDataFromCookies("questUserId")) {
             fetchUser(generalFunction.getDataFromCookies("questUserId"), generalFunction.getDataFromCookies("questUserToken"))
+        }
+        if (localStorage.getItem("saasData")) {
+            let data = JSON.parse(localStorage.getItem("saasData"))
+            data.name && setName(data.name)
+            data.description && setDescription(data.description)
+            data.bg && setBg(data.bg)
+            data.selectedBox && setSelectedBox(data.selectedBox)
         }
     }, [])
 
@@ -333,9 +344,9 @@ function MainPage() {
 
                         <div className='flex items-center justify-center gap-2' onClick={() => window.open("https://www.loom.com/share/c286b044781c4307a3c26f89bb999af0", "_blank")}>
                             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" fill="none">
-                                <path d="M9 1.5C4.875 1.5 1.5 4.875 1.5 9C1.5 13.125 4.875 16.5 9 16.5C13.125 16.5 16.5 13.125 16.5 9C16.5 4.875 13.125 1.5 9 1.5Z" stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                <path d="M9 12L9 8.25" stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                <path d="M9.00391 6L8.99717 6" stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M9 1.5C4.875 1.5 1.5 4.875 1.5 9C1.5 13.125 4.875 16.5 9 16.5C13.125 16.5 16.5 13.125 16.5 9C16.5 4.875 13.125 1.5 9 1.5Z" stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                <path d="M9 12L9 8.25" stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                <path d="M9.00391 6L8.99717 6" stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
                             </svg>
                             <p className='cursor-pointer font-semibold'>Learn How It Works</p>
                         </div>
