@@ -88,6 +88,20 @@ export const routesConfig = [
         isUpper: true,
     },
     {
+        path: "/measurement",
+        name: "Measurement",
+        logo: InsightsSvg(),
+        component: (
+            <ProviderConfig showTag={false}>
+                <DashboardWrapper selectdRoute={"measurement"}>
+                    <ComingSoon></ComingSoon>
+                </DashboardWrapper>
+            </ProviderConfig>
+        ),
+        hidden: false,
+        isUpper: true,
+    },
+    {
         path: "/settings",
         name: "Settings",
         logo: SettingsSvg(),
