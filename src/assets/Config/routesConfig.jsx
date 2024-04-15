@@ -14,6 +14,7 @@ import Onboarding from "../../Components/Onboarding/Onboarding";
 import ReferralPage from "../../Components/Referral/ReferralPage";
 import Settings from "../../Components/Settings/Settings";
 import ComingSoon from "../../Components/ComingSoon/ComingSoon";
+import Measurement from "../../Components/Measurement/measurement";
 
 export const routesConfig = [
     {
@@ -94,7 +95,7 @@ export const routesConfig = [
         component: (
             <ProviderConfig showTag={false}>
                 <DashboardWrapper selectdRoute={"measurement"}>
-                    <ComingSoon></ComingSoon>
+                    <Measurement></Measurement>
                 </DashboardWrapper>
             </ProviderConfig>
         ),
