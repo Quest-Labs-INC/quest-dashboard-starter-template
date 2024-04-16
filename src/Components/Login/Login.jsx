@@ -1,4 +1,4 @@
-import { QuestLogin } from "@questlabs/react-sdk";
+import { QuestLogin, Toast } from "@questlabs/react-sdk";
 import { importConfig } from "../../assets/Config/importConfig";
 import LoginWrapper from "../Common/LoginWrapper";
 import Cookies from "universal-cookie";
@@ -12,7 +12,7 @@ export default function Login() {
     const navigate = useNavigate();
     const { appConfig, theme, bgColors, contentConfig } =
         useContext(ThemeContext);
-        const refQuery = new URLSearchParams(window.location.search)?.get("ref");
+    const refQuery = new URLSearchParams(window.location.search)?.get("ref");
 
     const completeLogin = async(e) => {
         const { userId, token, userCredentials } = e;
@@ -41,7 +41,26 @@ export default function Login() {
                 });
             }
 
-            navigate("/onboarding");
+            let claimedStatus = false;
+            let request = generalFunction.createUrl(`api/entities/${mainConfig.QUEST_ENTITY_ID}/quests/${appConfig.QUEST_ONBOARDING_QUIZ_CAMPAIGN_ID}?userId=${userId}`);
+            await fetch(request.url, {
+                method: "GET",
+                headers: {
+                  "content-type": "application/json",
+                  apikey: mainConfig.QUEST_API_KEY,
+                  userId: userId,
+                  token: token,
+                },
+            }).then((res) => res.json()).then((res) => {
+                claimedStatus = res.claimStatus;
+            });
+
+
+            if (!claimedStatus) {
+                navigate("/onboarding");
+            } else {
+                navigate("/dashboard");
+            }
         }
     };
 
@@ -58,6 +77,7 @@ export default function Login() {
                 google={true}
                 email={true}
                 onSubmit={(e) => completeLogin(e)}
+                onError={(e) => Toast.error({ text: e.error })}
                 googleButtonText="Continue with Google"
                 descriptionText={`Welcome to ${appConfig?.QUEST_ENTITY_NAME}`}
                 styleConfig={{
