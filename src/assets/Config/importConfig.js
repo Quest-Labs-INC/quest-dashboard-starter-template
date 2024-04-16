@@ -3,7 +3,7 @@ import settingIcon from "../Images/setting.svg";
 import bookIcon from "../Images/book.svg";
 import adminIcon from "../Images/admin.svg";
 import helpIcon from "../Images/help.svg";
-import logoutIcon from "../Images/logout.svg";
+import logoutIcon from "../Images/Logout.svg";
 import dashboardIcon from "../Images/dashboard.svg";
 import upgradeIcon from "../Images/upgrade.svg";
 import userIcon from "../Images/user.svg";

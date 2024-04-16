@@ -5,4 +5,5 @@ export const mainConfig = {
     CALENDLY_LINK: "",
     GOOGLE_REDIRECT_URI: "",
     GOOGLE_CLIENT_ID: "",
+    CONTACT_EMAIL: "",
 }
