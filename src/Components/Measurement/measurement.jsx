@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+
 
 export default function Measurment() {
   const [tableData, setTableData] = useState([]);
@@ -46,10 +48,11 @@ export default function Measurment() {
         </thead>
         <tbody>
           {tableData.map((row, index) => (
-            <tr key={index}>
+            <tr key={index}> <Link to={`/measurement/${row.parameter}`}>
               <td className="border border-gray-300 px-4 py-2">{row.parameter}</td>
               <td className="border border-gray-300 px-4 py-2">{row.factory1}</td>
               <td className="border border-gray-300 px-4 py-2">{row.factory2}</td>
+              </Link>
             </tr>
           ))}
         </tbody>
