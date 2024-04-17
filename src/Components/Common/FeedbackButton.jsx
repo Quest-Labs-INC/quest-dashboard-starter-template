@@ -66,10 +66,10 @@ function FeedbackButton() {
 
             <FeedbackWorkflow
                 questIds={[
-                    "q-general-feedback",
-                    "q-report-a-bug",
-                    "q-request-a-feature",
-                    "q-contact-us",
+                    'q-saas-feedback-workflow-general-feedback',
+                    'q-saas-feedback-workflow-bug-report',
+                    'q-saas-feedback-workflow-feature-request',
+                    'q-saas-feedback-workflow-contact-us'
                 ]}
                 userId={generalFunction.getUserId()}
                 token={generalFunction.getUserToken()}
@@ -94,8 +94,7 @@ function FeedbackButton() {
                     description: "Suggest, we innovate together.",
                 }}
                 contactUrl={`mailto:${
-                    generalFunction.getUserCredentials()
-                        ?.email
+                    mainConfig.CONTACT_EMAIL
                 }`}
                 styleConfig={{
                     listHeading: {},

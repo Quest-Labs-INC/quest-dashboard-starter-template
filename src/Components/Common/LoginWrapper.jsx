@@ -25,7 +25,7 @@ export default function LoginWrapper({ children }) {
                 <p className="text-center text-3xl font-semibold font-['Figtree'] mt-6 text-white">
                     {contentConfig?.login?.heading}
                 </p>
-                <p className="text-customShade-500">
+                <p className="text-center text-xl font-normal font-['Figtree'] leading-[30px] text-[#E0E0E0]">
                     {contentConfig?.login?.description}
                 </p>
             </div>
