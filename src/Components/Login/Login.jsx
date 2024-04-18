@@ -16,6 +16,10 @@ export default function Login() {
 
     const completeLogin = async(e) => {
         const { userId, token, userCredentials } = e;
+
+        // store email in supabase
+        // await generalFunction.supabase_addData("users", userCredentials);
+        
         if (userId && token) {
             localStorage.setItem("questUserId", userId);
             localStorage.setItem("questUserToken", token);

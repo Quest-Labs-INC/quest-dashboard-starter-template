@@ -6,4 +6,6 @@ export const mainConfig = {
     GOOGLE_REDIRECT_URI: "https://quest-dashboard-starter-template-26sa.vercel.app/",
     GOOGLE_CLIENT_ID: "48459226857-eobo616j32erioo3dab9nid98fmvjom7.apps.googleusercontent.com",
     CONTACT_EMAIL: "",
+    REACT_APP_SUPABASE_URL: "",
+    REACT_APP_SUPABASE_ANON_KEY: "",
 }
