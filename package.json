@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@questlabs/react-sdk": "1.5.2",
+    "@supabase/supabase-js": "^2.42.4",
     "axios": "^1.6.2",
     "framer-motion": "^10.17.9",
     "jotai": "^2.6.0",

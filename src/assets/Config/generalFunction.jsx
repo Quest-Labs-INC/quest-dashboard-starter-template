@@ -110,5 +110,37 @@ export const generalFunction = {
         } catch (error) {
             return { success: false, loginAgain: true };
         }
+    },
+
+    supabase_addData: async (table, rowData) => {
+        const { data, error } = await supabase.from(table).select('*').eq("email", rowData.email).maybeSingle();
+        if (error) {
+            throw error;
+        }
+        
+        if (!data || !data?.email) {
+            const { data: newUserData, error: insertError } = await supabase
+              .from(table)
+              .insert([{
+                email: rowData.email,
+                ...(!!rowData?.name && { name: rowData?.name }),
+              }])
+              .select();
+            if (insertError) {
+              throw insertError;
+            }
+        }
+    },
+
+    supabase_updateData: async (table, email, rowData) => {
+        const { data, error } = await supabase
+        .from(table)
+        .update(rowData)
+        .eq("email", email)
+        .select()
+
+        if (error) {
+            throw error;
+        }
     }
 }

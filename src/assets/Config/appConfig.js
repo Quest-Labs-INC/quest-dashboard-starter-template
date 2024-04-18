@@ -6,4 +6,6 @@ export const mainConfig = {
     GOOGLE_REDIRECT_URI: "",
     GOOGLE_CLIENT_ID: "",
     CONTACT_EMAIL: "",
+    REACT_APP_SUPABASE_URL: "",
+    REACT_APP_SUPABASE_ANON_KEY: "",
 }
