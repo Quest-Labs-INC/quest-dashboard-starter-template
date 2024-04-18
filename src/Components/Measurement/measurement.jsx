@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { supabase } from '../../assets/Config/createClient';
+import { supabase } from '../../supabaseClient';
 
 export default function Measurment() {
   const [tableData, setTableData] = useState([]);
@@ -25,6 +25,7 @@ export default function Measurment() {
   const handleClosePopup = () => {
     setIsPopupOpen(false);
     // Clear input fields when closing the popup
+    createMeasurement();
     setNewRowData({ parameter: '', factory1: '', factory2: '' });
   };
 
@@ -40,6 +41,12 @@ export default function Measurment() {
     setTableData((prevData) => [...prevData, newRowData]);
     handleClosePopup();
   };
+
+  async function createMeasurement() {
+    await supabase
+      .from(`measurement`)
+      .insert({ parameter: newRowData.parameter, factory1: newRowData.factory1 , factory2: newRowData.factory2 })
+  }
 
   return (
     <div className="relative flex flex-col justify-center overflow-hidden mt-20">
@@ -59,11 +66,22 @@ export default function Measurment() {
         </thead>
         <tbody>
           {tableData.map((row, index) => (
-            <tr key={index}> <Link to={`/measurement/${row.parameter}`}>
-              <td className="border border-gray-300 px-4 py-2">{row.parameter}</td>
-              <td className="border border-gray-300 px-4 py-2">{row.factory1}</td>
-              <td className="border border-gray-300 px-4 py-2">{row.factory2}</td>
+            <tr key={index}>
+              <td className="border border-gray-300 px-4 py-2">
+              <Link to={`/measurement/${row.parameter}`}>
+                {row.parameter}
               </Link>
+              </td>
+              <td className="border border-gray-300 px-4 py-2">
+              <Link to={`/measurement/${row.parameter}`}>
+                {row.factory1}
+              </Link>
+              </td>
+              <td className="border border-gray-300 px-4 py-2">
+              <Link to={`/measurement/${row.parameter}`}>
+                {row.factory2}
+              </Link>
+              </td>
             </tr>
           ))}
         </tbody>
