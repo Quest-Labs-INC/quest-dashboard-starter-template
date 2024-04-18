@@ -1,11 +1,22 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-
+import { supabase } from '../../assets/Config/createClient';
 
 export default function Measurment() {
   const [tableData, setTableData] = useState([]);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [newRowData, setNewRowData] = useState({ parameter: '', factory1: '', factory2: '' });
+
+  useEffect(() => {
+    fetchMeasurement()
+  }, [])
+
+  async function fetchMeasurement() {
+    const { data } = await supabase
+      .from(`measurement`)
+      .select('*')
+    setTableData(data);
+  }
 
   const handleOpenPopup = () => {
     setIsPopupOpen(true);

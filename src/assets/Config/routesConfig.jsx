@@ -114,7 +114,7 @@ export const routesConfig = [
                 </DashboardWrapper>
             </ProviderConfig>
         ),
-        hidden: false,
+        hidden: true,
         isUpper: true,
     },
     {
@@ -128,7 +128,7 @@ export const routesConfig = [
                 </DashboardWrapper>
             </ProviderConfig>
         ),
-        hidden: false,
+        hidden: true,
         isUpper: true,
     },
     {
