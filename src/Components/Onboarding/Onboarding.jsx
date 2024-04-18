@@ -14,14 +14,14 @@ export default function Onboarding() {
     const [key, setKey] = useState("");
 
     const completeAnswer = async(e) => {
-        // await generalFunction.supabase_updateData(
-        //     "users",
-        //     generalFunction.getUserCredentials()?.email,
-        //     {
-        //         // for storing the data in supabase add the following key and value
-        //         // eg. name: answer["ec-cf14a2e1-9ea5-448f-aaa4-d6f866a853e9"]
-        //     }
-        // );
+        await generalFunction.supabase_updateData(
+            "users",
+            generalFunction.getUserCredentials()?.email,
+            {
+                // for storing the data in supabase add the following key and value
+                name: answer["ec-cf14a2e1-9ea5-448f-aaa4-d6f866a853e9"]
+            }
+        );
 
         navigate("/dashboard");
     };

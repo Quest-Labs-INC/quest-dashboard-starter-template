@@ -1,5 +1,6 @@
 import Cookies from "universal-cookie";
 import { mainConfig } from "./appConfig";
+import { supabase } from "../../supabaseClient";
 
 export const generalFunction = {
     getUserId : () => {
