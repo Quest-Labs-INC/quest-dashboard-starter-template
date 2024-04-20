@@ -14,8 +14,8 @@ import Onboarding from "../../Components/Onboarding/Onboarding";
 import ReferralPage from "../../Components/Referral/ReferralPage";
 import Settings from "../../Components/Settings/Settings";
 import ComingSoon from "../../Components/ComingSoon/ComingSoon";
-import Measurement from "../../Components/Measurement/measurement";
-import Parameter from "../../Components/Measurement/parameter";
+import Metrics from "../../Components/DataCollection/metrics";
+import DataSource from "../../Components/DataCollection/datasources";
 
 export const routesConfig = [
     {
@@ -90,13 +90,13 @@ export const routesConfig = [
         isUpper: true,
     },
     {
-        path: "/measurement",
-        name: "Measurement",
+        path: "/metrics",
+        name: "Metrics",
         logo: InsightsSvg(),
         component: (
             <ProviderConfig showTag={false}>
-                <DashboardWrapper selectdRoute={"measurement"}>
-                    <Measurement></Measurement>
+                <DashboardWrapper selectdRoute={"metrics"}>
+                    <Metrics></Metrics>
                 </DashboardWrapper>
             </ProviderConfig>
         ),
@@ -104,13 +104,13 @@ export const routesConfig = [
         isUpper: true,
     },
     {
-        path: "/measurement/:parameter_id",
-        name: "Parameter",
+        path: "/metrics/:data_sources",
+        name: "Datasource",
         logo: InsightsSvg(),
         component: (
             <ProviderConfig showTag={false}>
-                <DashboardWrapper selectdRoute={"measurement"}>
-                    <Parameter></Parameter>
+                <DashboardWrapper selectdRoute={"datasources"}>
+                    <DataSource></DataSource>
                 </DashboardWrapper>
             </ProviderConfig>
         ),
@@ -118,12 +118,12 @@ export const routesConfig = [
         isUpper: true,
     },
     {
-        path: "/measurement/admin",
-        name: "Parameter",
+        path: "/metrics/admin",
+        name: "Datasource",
         logo: InsightsSvg(),
         component: (
             <ProviderConfig showTag={false}>
-                <DashboardWrapper selectdRoute={"measurement"}>
+                <DashboardWrapper selectdRoute={"datasources"}>
                     <Admin></Admin>
                 </DashboardWrapper>
             </ProviderConfig>

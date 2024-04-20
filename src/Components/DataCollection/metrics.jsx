@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { supabase } from '../../supabaseClient';
 
-export default function Measurment() {
+export default function Metrics() {
   const [tableData, setTableData] = useState([]);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [newRowData, setNewRowData] = useState({ parameter: '', factory1: '', factory2: '' });
@@ -13,7 +13,7 @@ export default function Measurment() {
 
   async function fetchMeasurement() {
     const { data } = await supabase
-      .from(`measurement`)
+      .from(`metrics`)
       .select('*')
     setTableData(data);
   }
@@ -44,14 +44,14 @@ export default function Measurment() {
 
   async function createMeasurement() {
     await supabase
-      .from(`measurement`)
+      .from(`metrics`)
       .insert({ parameter: newRowData.parameter, factory1: newRowData.factory1 , factory2: newRowData.factory2 })
   }
 
   return (
     <div className="relative flex flex-col justify-center overflow-hidden mt-20">
     <div className="w-full p-6 m-auto bg-white rounded-md shadow-xl shadow-black-600/40 lg:max-w-4xl">
-      <h1 className="text-2xl text-center mb-4">Measure</h1>
+      <h1 className="text-2xl text-center mb-4">Sustainability Metrics</h1>
     <div className="container mx-auto">
       <button onClick={handleOpenPopup} className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
         Add Row
@@ -68,17 +68,17 @@ export default function Measurment() {
           {tableData.map((row, index) => (
             <tr key={index}>
               <td className="border border-gray-300 px-4 py-2">
-              <Link to={`/measurement/${row.parameter}`}>
+              <Link to={`/metrics/${row.parameter}`}>
                 {row.parameter}
               </Link>
               </td>
               <td className="border border-gray-300 px-4 py-2">
-              <Link to={`/measurement/${row.parameter}`}>
+              <Link to={`/metrics/${row.parameter}`}>
                 {row.factory1}
               </Link>
               </td>
               <td className="border border-gray-300 px-4 py-2">
-              <Link to={`/measurement/${row.parameter}`}>
+              <Link to={`/metrics/${row.parameter}`}>
                 {row.factory2}
               </Link>
               </td>
@@ -93,7 +93,7 @@ export default function Measurment() {
             <form onSubmit={(e) => e.preventDefault()}>
               <div className="mb-4">
                 <label htmlFor="name" className="block text-sm font-medium text-gray-700">
-                  Parameter
+                  Metrics
                 </label>
                 <input
                   type="text"
