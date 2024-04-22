@@ -76,7 +76,11 @@ export default function DataSource() {
               <td className="border border-gray-300 px-4 py-2">{row.name}</td>
               <td className="border border-gray-300 px-4 py-2">{row.value}</td>
               <td className="border border-gray-300 px-4 py-2">{row.meter}</td>
-              <td className="border border-gray-300 px-4 py-2">{row.assigned_to}</td>
+              <td className="border border-gray-300 px-4 py-2">
+              <Link to={`/datacollection/${metric}/${row.name}/${row.assigned_to}`}>
+                {row.assigned_to}
+              </Link>
+              </td>
             </tr>
           ))}
         </tbody>

@@ -15,6 +15,7 @@ import ReferralPage from "../../Components/Referral/ReferralPage";
 import Settings from "../../Components/Settings/Settings";
 import ComingSoon from "../../Components/ComingSoon/ComingSoon";
 import Metrics from "../../Components/DataCollection/metrics";
+import DataCollection from "../../Components/DataCollection/datacollection";
 import DataSource from "../../Components/DataCollection/datasources";
 
 export const routesConfig = [
@@ -120,6 +121,34 @@ export const routesConfig = [
     {
         path: "/metrics/admin",
         name: "Datasource",
+        logo: InsightsSvg(),
+        component: (
+            <ProviderConfig showTag={false}>
+                <DashboardWrapper selectdRoute={"datasources"}>
+                    <Admin></Admin>
+                </DashboardWrapper>
+            </ProviderConfig>
+        ),
+        hidden: true,
+        isUpper: true,
+    },
+    {
+        path: "/datacollection/:metric/:name/:assigned_to",
+        name: "DataPoint",
+        logo: InsightsSvg(),
+        component: (
+            <ProviderConfig showTag={false}>
+                <DashboardWrapper selectdRoute={"datasources"}>
+                    <DataCollection></DataCollection>
+                </DashboardWrapper>
+            </ProviderConfig>
+        ),
+        hidden: true,
+        isUpper: true,
+    },
+    {
+        path: "/datacollection/:admin/:admin/:admin",
+        name: "DataPoint",
         logo: InsightsSvg(),
         component: (
             <ProviderConfig showTag={false}>
