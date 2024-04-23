@@ -74,7 +74,7 @@ const OnboardingPopUp = ({ isAdmin, setOnboardingPopup, setAdminEntity }) => {
 
     return (
         <div className='w-screen h-screen flex justify-center items-center fixed top-0 left-0 bg-[rgba(0,0,0,.15)] backdrop-blur-sm z-10' onClick={clickHadnler}>
-            <div className='w-full max-w-[376px] h-fit max-h-screen overflow-y-auto py-5' id='clickboxonb'>
+            <div className='w-full max-w-[376px] h-fit max-h-screen py-5' id='clickboxonb'>
                 <OnBoarding
                     questId={mainConfig?.ONBOARDING_QUEST_ID}
                     userId={generalFunction.getDataFromCookies("questUserId")}

@@ -63,3 +63,15 @@
     transform: scale(1);
   }
 }
+
+/* Quick FIX - Form Overflow */
+.q-onb-home{
+  overflow: visible !important;
+}
+.q-onb-home .q-onb-main-heading{
+  border-top-right-radius: 10px;
+  border-top-left-radius: 10px;
+}
+.css-x5knkp-menu{
+  overflow: hidden !important;
+}

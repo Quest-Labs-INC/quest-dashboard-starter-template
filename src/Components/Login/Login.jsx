@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { ThemeContext } from "../Common/AppContext";
 import { generalFunction } from "../../assets/Config/generalFunction";
+import { mainConfig } from "../../assets/Config/appConfig";
 
 export default function Login() {
     const cookies = new Cookies();
@@ -17,6 +18,10 @@ export default function Login() {
 
     const completeLogin = async(e) => {
         const { userId, token, userCredentials } = e;
+
+        // store email in supabase
+        // await generalFunction.supabase_addData("users", userCredentials);
+        
         if (userId && token) {
             localStorage.setItem("questUserId", userId);
             localStorage.setItem("questUserToken", token);
@@ -26,13 +31,12 @@ export default function Login() {
             );
             
             if (refQuery) {
-                let request = generalFunction.createUrl(`api/entities/${appConfig.QUEST_ENTITY_ID}/quests/${appConfig.QUEST_REFERRAL_CAMPAIGN_ID}/claim`);
+                let request = generalFunction.createUrl(`api/entities/${mainConfig.QUEST_ENTITY_ID}/quests/${appConfig.QUEST_REFERRAL_CAMPAIGN_ID}/claim`);
                 await fetch(request.url, {
                     method: "POST",
-                    // credentials: "include",
                     headers: {
                       "content-type": "application/json",
-                      apikey: appConfig.QUEST_API_KEY,
+                      apikey: mainConfig.QUEST_API_KEY,
                       userId: userId,
                       token: token,
                     },
@@ -42,9 +46,30 @@ export default function Login() {
                     })
                 });
             }
-            navigate("/your-app-onboarding");
+
+            let claimedStatus = false;
+            let request = generalFunction.createUrl(`api/entities/${mainConfig.QUEST_ENTITY_ID}/quests/${appConfig.QUEST_ONBOARDING_QUIZ_CAMPAIGN_ID}?userId=${userId}`);
+            await fetch(request.url, {
+                method: "GET",
+                headers: {
+                  "content-type": "application/json",
+                  apikey: mainConfig.QUEST_API_KEY,
+                  userId: userId,
+                  token: token,
+                },
+            }).then((res) => res.json()).then((res) => {
+                claimedStatus = res.claimStatus;
+            });
+
+
+            if (!claimedStatus) {
+                navigate("/onboarding");
+            } else {
+                navigate("/dashboard");
+            }
         }
     };
+
 
     return (
         <div className="flex items-center justify-center h-full">

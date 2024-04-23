@@ -68,11 +68,11 @@ const colorRetriver = () => {
 
       <FeedbackWorkflow
         questIds={[
-          "q-general-feedback",
-          "q-report-a-bug",
-          "q-request-a-feature",
-          "q-contact-us",
-        ]}
+          'q-saas-feedback-workflow-general-feedback',
+          'q-saas-feedback-workflow-bug-report',
+          'q-saas-feedback-workflow-feature-request',
+          'q-saas-feedback-workflow-contact-us'
+      ]}
         userId={generalFunction.getDataFromCookies("questUserId")}
         token={generalFunction.getDataFromCookies("questUserToken")}
         isOpen={openFeedback}

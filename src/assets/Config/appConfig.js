@@ -8,7 +8,6 @@ export const mainConfig = {
     GOOGLE_CLIENT_ID: "55807106386-g68a2ecrld4ul9dppvla4ns6qnn9957t.apps.googleusercontent.com"
 }
 
-
 export const appConfig = {
     QUEST_ENTITY_ID: "e-3cf894e2-8e3e-4691-b449-f99c9d965a58",
     QUEST_ENTITY_NAME: "Quest Labs",
