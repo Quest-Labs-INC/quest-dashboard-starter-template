@@ -16,6 +16,8 @@ import Settings from "../../Components/Settings/Settings";
 import ComingSoon from "../../Components/ComingSoon/ComingSoon";
 import Metrics from "../../Components/DataCollection/metrics";
 import DataCollection from "../../Components/DataCollection/datacollection";
+import Certification from "../../Components/DataCollection/certification";
+import BuyerManagement from "../../Components/DataCollection/buyerManagement";
 import DataSource from "../../Components/DataCollection/datasources";
 
 export const routesConfig = [
@@ -98,6 +100,34 @@ export const routesConfig = [
             <ProviderConfig showTag={false}>
                 <DashboardWrapper selectdRoute={"metrics"}>
                     <Metrics></Metrics>
+                </DashboardWrapper>
+            </ProviderConfig>
+        ),
+        hidden: false,
+        isUpper: true,
+    },
+    {
+        path: "/certification",
+        name: "Certifications",
+        logo: InsightsSvg(),
+        component: (
+            <ProviderConfig showTag={false}>
+                <DashboardWrapper selectdRoute={"certification"}>
+                    <Certification></Certification>
+                </DashboardWrapper>
+            </ProviderConfig>
+        ),
+        hidden: false,
+        isUpper: true,
+    },
+    {
+        path: "/buyermanagement",
+        name: "Buyer Management",
+        logo: InsightsSvg(),
+        component: (
+            <ProviderConfig showTag={false}>
+                <DashboardWrapper selectdRoute={"buyermanagement"}>
+                    <BuyerManagement></BuyerManagement>
                 </DashboardWrapper>
             </ProviderConfig>
         ),
