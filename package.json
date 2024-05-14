@@ -10,7 +10,6 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@netlify/plugin-nextjs": "^5.2.2",
     "@questlabs/react-sdk": "1.5.2",
     "@supabase/supabase-js": "^2.42.4",
     "axios": "^1.6.2",
