@@ -19,7 +19,7 @@ export default function Onboarding() {
             generalFunction.getUserCredentials()?.email,
             {
                 // for storing the data in supabase add the following key and value
-                name: answer["ec-cf14a2e1-9ea5-448f-aaa4-d6f866a853e9"]
+                name: answer["q-775b3c4f-0637-46a2-b5e4-5ce9404834a4"]
             }
         );
 

@@ -55,7 +55,7 @@ const ReferralPage = () => {
 
     return (
         <div className="h-full max-h-screen overflow-y-auto">
-            <div
+            {/* <div
                 className="dashboard-page-header"
                 style={{
                     color: bgColors[`${theme}-color-premitive-grey-5`],
@@ -65,8 +65,8 @@ const ReferralPage = () => {
                 }}
             >
                 Refer Friends
-            </div>
-            <div className="flex-col  my-[30px] ml-[30px] mr-[96px] gap-[24px]">
+            </div> */}
+            <div className="flex-col  my-[30px] mr-[96px] gap-[24px]">
                 <div className="flex-col">
                     <div className="flex gap-[12px]">
                         <div

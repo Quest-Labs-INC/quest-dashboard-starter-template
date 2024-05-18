@@ -63,7 +63,7 @@ export default function Login() {
             if (!claimedStatus) {
                 navigate("/onboarding");
             } else {
-                navigate("/dashboard");
+                navigate("/insights");
             }
         }
     };

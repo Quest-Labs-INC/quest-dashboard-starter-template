@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import EditProfile from "./EditProfile";
 import AdminComponent from "./AdminComponent";
 import { ThemeContext } from "../Common/AppContext";
+import ReferralPage from "../Referral/ReferralPage";
 
 export default function Settings() {
     const { theme, bgColors, appConfig } = useContext(ThemeContext);
@@ -29,7 +30,7 @@ export default function Settings() {
                 </p>
             </div>
 
-            <div className="px-8 pt-[30px] w-full pr-[96px]">
+            <div className="px-8 pt-[30px]  w-full pr-[96px]">
                 <div 
                     className="flex w-full items-start h-[52px]"
                     style={{
@@ -49,7 +50,7 @@ export default function Settings() {
                         Edit Profile
                     </p>
                     <p
-                        className={`text-sm font-semibold font-['Figtree'] h-[52px] p-4 cursor-pointer ${section == "manage" &&
+                        className={` text-sm font-semibold font-['Figtree'] h-[52px] p-4 cursor-pointer ${section == "manage" &&
                             "rounded-t-xl border-b border-[#939393]"
                             }`}
                         onClick={() => handleSectionChange("manage")}
@@ -60,10 +61,22 @@ export default function Settings() {
                     >
                         Manage Admins
                     </p>
+                    <p
+                        className={` text-sm font-semibold font-['Figtree'] h-[52px] p-4 cursor-pointer ${section == "refer" &&
+                            "rounded-t-xl border-b border-[#939393]"
+                            }`}
+                        onClick={() => handleSectionChange("refer")}
+                        style={{
+                            color: bgColors[`${theme}-color-premitive-grey-5`],
+                            background: section == "refer" ? bgColors[`${theme}-primary-bg-color-9`] : ""
+                        }}
+                    >
+                        Refer Friends
+                    </p>
                 </div>
 
                 <div className="edit-admin">
-                    {section === "edit" ? <EditProfile /> : <AdminComponent />}
+                {section === "edit" ? <EditProfile /> : section === "refer" ? <ReferralPage /> : <AdminComponent />}
                 </div>
             </div>
         </div>
