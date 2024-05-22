@@ -13,6 +13,9 @@ import { mainConfig } from "../../assets/Config/appConfig";
 import SearchComponents from "./SearchComponents";
 import SurveyComponents from "./SurveyComponents";
 import Cookies from "universal-cookie";
+import { SettingsSvg } from "./SideBarSvg";
+import { ProviderConfig } from "./ProviderConfig";
+import Settings from "../Settings/Settings";
 
 export default function DashboardWrapper({ children, selectdRoute }) {
     const [openPopup, setOpenPopup] = useState(false);
@@ -80,7 +83,7 @@ export default function DashboardWrapper({ children, selectdRoute }) {
 
     return (
         <div
-            className="flex relative w-screen h-screen bg-customShade-4 transition-all ease-in delay-[40]"
+            className="flex  relative w-screen h-screen bg-customShade-4 transition-all ease-in delay-[40]"
             style={{
                 backgroundColor: bgColors[`${theme}-primary-bg-color-3`],
                 position: "relative",
@@ -112,15 +115,17 @@ export default function DashboardWrapper({ children, selectdRoute }) {
             >
                 {/* for logo image */}
                 <div className="s_nav_header_cont">
-                    <div className="s_nav_company_logo_cont">
-                        <div className="s_nav_company_img">
-                            <img
-                                src={appConfig.BRAND_LOGO || importConfig.brandLogo}
-                                alt=""
-                                className=""
-                            />
+                    <div className="">
+                        <img
+                            src={appConfig.BRAND_LOGO || importConfig.brandLogo}
+                            alt=""
+                            className="w-[200px]"
+                        />
+                    </div>
+                    {/* <div className="s_nav_company_logo_cont  ">
+                        <div className="s_nav_company_img  flex  justify-center ">
                         </div>
-                        <div className="s_nav_company_name">
+                        <div className="s_nav_company_name hidden">
                             <p
                                 style={{
                                     color: bgColors[
@@ -131,7 +136,7 @@ export default function DashboardWrapper({ children, selectdRoute }) {
                                 {appConfig?.QUEST_ENTITY_NAME}
                             </p>
                         </div>
-                    </div>
+                    </div> */}
                 </div>
 
                 {/* for navigations */}
@@ -167,27 +172,19 @@ export default function DashboardWrapper({ children, selectdRoute }) {
                     {/* lwer */}
                     <div className="s_nav_menu_cont-lower">
                         <ul className="s_nav_menu">
-                            <li>
+                            {/* <li>
                                 <Link
                                     className="s_nav_menu_link"
                                 >
                                     <div>{upgrade()}</div>
                                     <p>Upgrade</p>
                                 </Link>
-                            </li>
+                            </li> */}
 
                             <li>
-                                <Link
-                                    className="s_nav_menu_link"
-                                    onClick={() => {
-                                        window.open(
-                                            mainConfig.CALENDLY_LINK,
-                                            "_blank"
-                                        );
-                                    }}
-                                >
-                                    <div>{bookACall()}</div>
-                                    <p>Book a call</p>
+                                <Link className="s_nav_menu_link" to="/settings">
+                                    <div>{SettingsSvg()}</div>
+                                    <p>Settings</p>
                                 </Link>
                             </li>
 

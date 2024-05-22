@@ -10,7 +10,7 @@ const AppContext = ({ children }) => {
     const [appConfig, setAppConfig] = useState({
         QUEST_ENTITY_NAME: localStorage.getItem("entityName") || "",
         BRAND_LOGO: localStorage.getItem("brandlogo") || "",
-        QUEST_ONBOARDING_QUIZ_CAMPAIGN_ID: "q-saas-onboarding-quiz",
+        QUEST_ONBOARDING_QUIZ_CAMPAIGN_ID: "q-775b3c4f-0637-46a2-b5e4-5ce9404834a4",
         QUEST_GET_STARTED_CAMPAIGN_ID: "q-saas-get-started",
         QUEST_SEARCH_BAR_CAMPAIGN_ID: "q-saas-search-bar",
         QUEST_REFERRAL_CAMPAIGN_ID: "q-saas-referral",

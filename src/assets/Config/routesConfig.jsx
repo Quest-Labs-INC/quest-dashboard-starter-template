@@ -19,7 +19,6 @@ import DataCollection from "../../Components/DataCollection/datacollection";
 import Certification from "../../Components/DataCollection/certification";
 import BuyerManagement from "../../Components/DataCollection/buyerManagement";
 import DataSource from "../../Components/DataCollection/datasources";
-
 export const routesConfig = [
     {
         path: "/login",
@@ -75,7 +74,7 @@ export const routesConfig = [
                 </DashboardWrapper>
             </ProviderConfig>
         ),
-        hidden: false,
+        hidden: true,
         isUpper: true,
     },
     {
@@ -201,7 +200,7 @@ export const routesConfig = [
                 </DashboardWrapper>
             </ProviderConfig>
         ),
-        hidden: false,
+        hidden: true,
         isUpper: true,
     },
     {
@@ -215,7 +214,7 @@ export const routesConfig = [
                 </DashboardWrapper>
             </ProviderConfig>
         ),
-        hidden: false,
+        hidden: true,
         isUpper: true,
     },
 ];
