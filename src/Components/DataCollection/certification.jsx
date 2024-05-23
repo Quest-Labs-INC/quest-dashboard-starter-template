@@ -1,47 +1,71 @@
+// import react features to control states + use effects + use links
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+// import database
 import { supabase } from '../../supabaseClient';
 
+// declare + export Certification component
 export default function Certification() {
+  // tableData - state var that keeps track of all data in table, initially empty array
+  // setTableData - function used to update tableData
   const [tableData, setTableData] = useState([]);
+  // isPopupOpen - state var that keeps track if popup is open or not, initially set to false
+  // setIsPopupOpen - function used to update state of isPopupOpen 
   const [isPopupOpen, setIsPopupOpen] = useState(false);
+  // newRowData - state var that keeps track of new row data, initially an object with props set to empty strings
+  // setNewRowData - function that updates newRowData
   const [newRowData, setNewRowData] = useState({ certification: '', status: '', due_date: '', task_assigned: '',  checklist: '' });
 
+  // useEffect - effect that runs once when component mounts
   useEffect(() => {
+    // call fetchMeasurement function 
     fetchMeasurement()
-  }, [])
+  }, []) // <-- '[]' as the dependency array means it runs once
 
+  // async function that fetches data from db
   async function fetchMeasurement() {
+    // awaits data collection from all of certification table
     const { data } = await supabase
       .from(`certification`)
       .select('*')
+    // sets tableData var to fetched data
     setTableData(data);
   }
 
+  // function that sets isPopupOpen var to true
   const handleOpenPopup = () => {
     setIsPopupOpen(true);
   };
 
+  // function that handles when popup is closed
   const handleClosePopup = () => {
+    // sets isPopupOpen var to false
     setIsPopupOpen(false);
-    // Clear input fields when closing the popup
+    // clear input fields when closing the popup
+    // creates new row data
     createMeasurement();
+    // sets newRowData var obj props to empty strings
     setNewRowData({ certification: '', status: '', due_date: '', task_assigned: '',  checklist: '' });
   };
 
+  // function that handles any changes to input
   const handleInputChange = (e) => {
+    // saves name + value from event target
     const { name, value } = e.target;
+    // sets NewRo
     setNewRowData((prevData) => ({
       ...prevData,
       [name]: value,
     }));
   };
 
+  // function that adds new rows to tableData
   const handleAddRow = () => {
     setTableData((prevData) => [...prevData, newRowData]);
     handleClosePopup();
   };
 
+  // function that creates new row in db
   async function createMeasurement() {
     await supabase
       .from(`certification`)

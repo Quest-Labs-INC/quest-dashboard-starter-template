@@ -18,6 +18,8 @@ import Metrics from "../../Components/DataCollection/metrics";
 import DataCollection from "../../Components/DataCollection/datacollection";
 import Certification from "../../Components/DataCollection/certification";
 import BuyerManagement from "../../Components/DataCollection/buyerManagement";
+// added new SupplierManagement Component - change by Sahar
+import SupplierManagement from "../../Components/DataCollection/supplierManagement";
 import DataSource from "../../Components/DataCollection/datasources";
 export const routesConfig = [
     {
@@ -127,6 +129,20 @@ export const routesConfig = [
             <ProviderConfig showTag={false}>
                 <DashboardWrapper selectdRoute={"buyermanagement"}>
                     <BuyerManagement></BuyerManagement>
+                </DashboardWrapper>
+            </ProviderConfig>
+        ),
+        hidden: false,
+        isUpper: true,
+    },
+    {
+        path: "/suppliermanagement",
+        name: "Supplier Management",
+        logo: InsightsSvg(),
+        component: (
+            <ProviderConfig showTag={false}>
+                <DashboardWrapper selectdRoute={"buyermanagement"}>
+                    <SupplierManagement></SupplierManagement>
                 </DashboardWrapper>
             </ProviderConfig>
         ),

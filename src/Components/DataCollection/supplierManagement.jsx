@@ -4,8 +4,8 @@ import { Link } from 'react-router-dom';
 // import database
 import { supabase } from '../../supabaseClient';
 
-// declare + export BuyerManagement component
-export default function BuyerManagement() {
+// declare + export supplierManagement component
+export default function SupplierManagement() {
   // tableData - state var that stores all table data, initially an empty array
   // setTableData - function used to update value of tableData
   const [tableData, setTableData] = useState([]);
@@ -14,7 +14,7 @@ export default function BuyerManagement() {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   // newRowData - state var that stores obj containing properties for new row of data, all props initially set to empty string
   // setNewRowData - function to set new row data
-  const [newRowData, setNewRowData] = useState({ buyer: '', compliance_work: '', due_date: '', task_assigned: '',  checklist: '' });
+  const [newRowData, setNewRowData] = useState({ supplier_name: '', location: '', key_product: '',  sustainability_score: '' });
 
   // useEffect - effect that runs once when component mounts
   useEffect(() => {
@@ -24,9 +24,9 @@ export default function BuyerManagement() {
 
   // fetches data from db + updates tableData var w/ fetched data
   async function fetchMeasurement() {
-    // await async data retrieval from db; selects all info from buyer_management table
+    // await async data retrieval from db; selects all info from supplier_management table
     const { data } = await supabase
-      .from(`buyer_management`)
+      .from(`supplier_management`)
       .select('*')
     // updates tableData var with data from db
     setTableData(data); 
@@ -43,7 +43,7 @@ export default function BuyerManagement() {
     // clear input fields when closing the popup + create new row of data
     createMeasurement();
     // resets newRowData props to empty strings
-    setNewRowData({ buyer: '', compliance_work: '', due_date: '', task_assigned: '',  checklist: '' });
+    setNewRowData({ supplier_name: '', location: '', key_product: '',  sustainability_score: '' });
   };
 
   // updates newRowData var when input changes
@@ -66,54 +66,48 @@ export default function BuyerManagement() {
   // inserts new row of data into db buyer_management table w/ values from newRowData
   async function createMeasurement() {
     await supabase
-      .from(`buyer_management`)
-      .insert({ buyer: newRowData.buyer, compliance_work: newRowData.compliance_work , due_date: newRowData.due_date , task_assigned: newRowData.task_assigned , checklist: newRowData.checklist })
+      .from(`supplier_management`)
+      .insert({ supplier_name: newRowData.supplier_name, location: newRowData.location , key_product: newRowData.key_product , sustainability_score: newRowData.sustainability_score })
   }
 
   return (
     <div className="relative flex flex-col justify-center overflow-hidden mt-20">
     <div className="w-full p-6 m-auto bg-white rounded-md shadow-xl shadow-black-600/40 lg:max-w-4xl">
-      <h1 className="text-2xl text-center mb-4">Buyer Management</h1>
+      <h1 className="text-2xl text-center mb-4">Supplier Management</h1>
     <div className="container mx-auto">
       <button onClick={handleOpenPopup} className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
-        Add Certificate
-      </button>
+        Add Supplier 
+      </button> 
       <table className="mt-4 w-full border-collapse border border-gray-300">
         <thead>
           <tr>
-            <th className="border border-gray-300 px-4 py-2">Buyer</th>
-            <th className="border border-gray-300 px-4 py-2">Compliance Work</th>
-            <th className="border border-gray-300 px-4 py-2">Due Date</th>
-            <th className="border border-gray-300 px-4 py-2">Task Assigned</th>
-            <th className="border border-gray-300 px-4 py-2">Checklist</th>
+            <th className="border border-gray-300 px-4 py-2">Supplier Name</th>
+            <th className="border border-gray-300 px-4 py-2">Location</th>
+            <th className="border border-gray-300 px-4 py-2">Key Product</th>
+            <th className="border border-gray-300 px-4 py-2">Sustainability Score</th>
           </tr>
         </thead>
         <tbody>
           {tableData.map((row, index) => (
             <tr key={index}>
               <td className="border border-gray-300 px-4 py-2">
-              <Link to={`/buyer_management/${row.buyer}`}>
-                {row.buyer}
+              <Link to={`/supplier_management/${row.supplier_name}`}>
+                {row.supplier_name}
               </Link>
               </td>
               <td className="border border-gray-300 px-4 py-2">
-              <Link to={`/buyer_management/${row.compliance_work}`}>
-                {row.compliance_work}
+              <Link to={`/supplier_management/${row.location}`}>
+                {row.location}
               </Link>
               </td>
               <td className="border border-gray-300 px-4 py-2">
-              <Link to={`/buyer_management/${row.due_date}`}>
-                {row.due_date}
+              <Link to={`/supplier_management/${row.key_product}`}>
+                {row.key_product}
               </Link>
               </td>
               <td className="border border-gray-300 px-4 py-2">
-              <Link to={`/buyer_management/${row.task_assigned}`}>
-                {row.task_assigned}
-              </Link>
-              </td>
-              <td className="border border-gray-300 px-4 py-2">
-              <Link to={`/buyer_management/${row.checklist}`}>
-                {row.checklist}
+              <Link to={`/supplier_management/${row.sustainability_score}`}>
+                {row.sustainability_score}
               </Link>
               </td>
             </tr>
@@ -126,66 +120,53 @@ export default function BuyerManagement() {
             <h2 className="text-lg font-bold mb-4">Add New Row</h2>
             <form onSubmit={(e) => e.preventDefault()}>
               <div className="mb-4">
-                <label htmlFor="name" className="block text-sm font-medium text-gray-700">
-                  Buyer
+                <label htmlFor="supplier_name" className="block text-sm font-medium text-gray-700">
+                  Supplier Name
                 </label>
                 <input
                   type="text"
-                  id="buyer"
-                  name="buyer"
-                  value={newRowData.buyer}
+                  id="supplier_name"
+                  name="supplier_name"
+                  value={newRowData.supplier_name}
                   onChange={handleInputChange}
                   className="border border-gray-300 rounded-md shadow-sm mt-1 block w-full"
                 />
               </div>
               <div className="mb-4">
-                <label htmlFor="age" className="block text-sm font-medium text-gray-700">
-                  Complicance Work
+                <label htmlFor="location" className="block text-sm font-medium text-gray-700">
+                  Location
                 </label>
                 <input
                   type="text"
-                  id="compliance_work"
-                  name="compliance_work"
-                  value={newRowData.compliance_work}
+                  id="location"
+                  name="location"
+                  value={newRowData.location}
                   onChange={handleInputChange}
                   className="border border-gray-300 rounded-md shadow-sm mt-1 block w-full"
                 />
               </div>
               <div className="mb-4">
-                <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-                  Due Date
+                <label htmlFor="key_product" className="block text-sm font-medium text-gray-700">
+                  Key Product
                 </label>
                 <input
-                  type="date"
-                  id="due_date"
-                  name="due_date"
-                  value={newRowData.due_date}
+                  type="text"
+                  id="key_product"
+                  name="key_product"
+                  value={newRowData.key_product}
                   onChange={handleInputChange}
                   className="border border-gray-300 rounded-md shadow-sm mt-1 block w-full"
                 />
               </div>
               <div className="mb-4">
-                <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-                  Task Assigned
+                <label htmlFor="sustainability_score" className="block text-sm font-medium text-gray-700">
+                  Sustainability Score
                 </label>
                 <input
                   type="text"
-                  id="task_assigned"
-                  name="task_assigned"
-                  value={newRowData.task_assigned}
-                  onChange={handleInputChange}
-                  className="border border-gray-300 rounded-md shadow-sm mt-1 block w-full"
-                />
-              </div>
-              <div className="mb-4">
-                <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-                  Checklist
-                </label>
-                <input
-                  type="text"
-                  id="checklist"
-                  name="checklist"
-                  value={newRowData.checklist}
+                  id="sustainability_score"
+                  name="sustainability_score"
+                  value={newRowData.sustainability_score}
                   onChange={handleInputChange}
                   className="border border-gray-300 rounded-md shadow-sm mt-1 block w-full"
                 />
