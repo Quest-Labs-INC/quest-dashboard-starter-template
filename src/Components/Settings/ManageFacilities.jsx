@@ -11,6 +11,7 @@ const ManageFacilities = () => {
     const [facilities, setFacilities] = useState([]);
     const [newFacility, setNewFacility] = useState({ name: '', type: '', address: '', processes: '' });
     const [isPopupOpen, setIsPopupOpen] = useState(false);
+    const [isEditPopupOpen, setIsEditPopupOpen] = useState(false);
 
     useEffect(() => {
         fetchFacilities();
@@ -44,22 +45,51 @@ const ManageFacilities = () => {
 
     // function to add new facility to db using supabase client
     const handleAddFacility = async () => {
-        let { data, error } = await supabase
-        .from('facility')
-        .insert([{ 
+        // Insert the new facility into the facility table
+        let { data: facilityData, error: facilityError } = await supabase
+          .from('facility')
+          .insert([{ 
             facility_name: newFacility.name, 
             type: newFacility.type, 
-            address: newFacility.address, 
-            processes: newFacility.processes.split(',').map(p => p.trim()),
+            address: newFacility.address,
             is_active: true
-        }]);
-        if (error) console.error(error);
-        else {
-            
-        setFacilities([...facilities, data[0]]);
-        setNewFacility({ name: '', type: '', address: '', processes: '' });
+          }])
+          .select('*'); // Ensure to return the inserted data
+      
+        if (facilityError) {
+          console.error(facilityError);
+          return;
         }
-    };
+
+        console.log(facilityData[0]);
+      
+        // Extract the new facility ID
+        const facilityId = facilityData[0].facility_id;
+      
+        // Prepare the processes data
+        const processesData = newFacility.processes.split(',').map(processName => ({
+          process_name: processName.trim(),
+          facility_id: facilityId,
+          is_active : true
+        }));
+      
+        // Insert the processes into the process table
+        let { data: processData, error: processError } = await supabase
+          .from('process')
+          .insert(processesData);
+      
+        if (processError) {
+          console.error(processError);
+          return;
+        }
+      
+        // Fetch the updated facilities list with processes
+        await fetchFacilities();
+      
+        // Clear the form inputs
+        setNewFacility({ name: '', type: '', address: '', processes: '' });
+      };
+      
 
   return (
     <div className="relative flex flex-col justify-center overflow-hidden mt-20">
@@ -85,7 +115,7 @@ const ManageFacilities = () => {
                   <td className="border border-gray-300 px-4 py-2">{facility.address}</td>
                   <td className="border border-gray-300 px-4 py-2">{facility.processes.join(', ')}</td>
                   <td className="border border-gray-300 px-4 py-2">
-                    <button className="text-blue-500 hover:text-blue-700">Edit</button>
+                    <button className="text-blue-500 hover:text-blue-700" onClick={() => setIsEditPopupOpen(True)}>Edit</button>
                   </td>
                 </tr>
               ))}
