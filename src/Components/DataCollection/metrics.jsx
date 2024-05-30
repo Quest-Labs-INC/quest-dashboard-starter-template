@@ -12,6 +12,7 @@ export default function Metrics() {
     fetchMeasurement()
   }, [])
 
+  // fetches data from db using supabase client
   async function fetchMeasurement() {
     let { data, error } = await supabase.rpc('fetch_aggregated_metrics')
 
@@ -42,6 +43,7 @@ export default function Metrics() {
   const formatdata = (data) => {
 
     const result = {};
+     // Iterate over each item in the data array and organize it by facility, then by process, and then by parameter.
     data.forEach(item => {
       const { facility_name, process_name, para_name, total_value } = item;
       if (!result[facility_name]) {
@@ -66,10 +68,13 @@ export default function Metrics() {
       .insert({ parameter: newRowData.parameter, factory1: newRowData.factory1 , factory2: newRowData.factory2 })
   }
 
+  //
   const renderTable = () => {
+    // Extracting facility names
     const facilities = Object.keys(tableData);
     if (facilities.length === 0) return <p>No data available</p>;
 
+    // Using forEach to gather unique parameters
     const parameters = new Set();
     facilities.forEach(facility => {
       Object.values(tableData[facility]).forEach(processData => {
@@ -77,6 +82,7 @@ export default function Metrics() {
       });
     });
 
+    // Using reduce to gather unique process names
     const processes = facilities.reduce((acc, facility) => {
       const processNames = Object.keys(tableData[facility]);
       processNames.forEach(process => {
