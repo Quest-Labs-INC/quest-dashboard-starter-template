@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { supabase } from '../../supabaseClient';
+import './metrics.css'; 
 
 export default function Metrics() {
   const [tableData, setTableData] = useState([]);
@@ -11,11 +12,13 @@ export default function Metrics() {
     fetchMeasurement()
   }, [])
 
+  // fetches data from db using supabase client
   async function fetchMeasurement() {
-    const { data } = await supabase
-      .from(`metrics`)
-      .select('*')
-    setTableData(data);
+    let { data, error } = await supabase.rpc('fetch_aggregated_metrics')
+
+    if (error) console.error(error)
+    else console.log(data)
+    setTableData(formatdata(data));
   }
 
   const handleOpenPopup = () => {
@@ -37,6 +40,23 @@ export default function Metrics() {
     }));
   };
 
+  const formatdata = (data) => {
+
+    const result = {};
+     // Iterate over each item in the data array and organize it by facility, then by process, and then by parameter.
+    data.forEach(item => {
+      const { facility_name, process_name, para_name, total_value } = item;
+      if (!result[facility_name]) {
+        result[facility_name] = {};
+      }
+      if (!result[facility_name][process_name]) {
+        result[facility_name][process_name] = {};
+      }
+      result[facility_name][process_name][para_name] = total_value;
+    });
+    return result;
+  };
+
   const handleAddRow = () => {
     setTableData((prevData) => [...prevData, newRowData]);
     handleClosePopup();
@@ -48,6 +68,69 @@ export default function Metrics() {
       .insert({ parameter: newRowData.parameter, factory1: newRowData.factory1 , factory2: newRowData.factory2 })
   }
 
+  //
+  const renderTable = () => {
+    // Extracting facility names
+    const facilities = Object.keys(tableData);
+    if (facilities.length === 0) return <p>No data available</p>;
+
+    // Using forEach to gather unique parameters
+    const parameters = new Set();
+    facilities.forEach(facility => {
+      Object.values(tableData[facility]).forEach(processData => {
+        Object.keys(processData).forEach(parameter => parameters.add(parameter));
+      });
+    });
+
+    // Using reduce to gather unique process names
+    const processes = facilities.reduce((acc, facility) => {
+      const processNames = Object.keys(tableData[facility]);
+      processNames.forEach(process => {
+        if (!acc.includes(process)) acc.push(process);
+      });
+      return acc;
+    }, []);
+
+    return (
+      <table className="metrics-table">
+        <thead>
+          <tr>
+            <th>Parameter</th>
+            {facilities.map(facility => (
+              <th key={facility} colSpan={processes.length} className="text-center">
+                {facility}
+              </th>
+            ))}
+          </tr>
+          <tr>
+            <th></th>
+            {facilities.map(facility =>
+              processes.map(process => (
+                <th key={`${facility}-${process}`} className="text-center">
+                  {process}
+                </th>
+              ))
+            )}
+          </tr>
+        </thead>
+        <tbody>
+          {Array.from(parameters).map(parameter => (
+            <tr key={parameter}>
+              <td>{parameter}</td>
+              {facilities.map(facility =>
+                processes.map(process => (
+                  <td key={`${facility}-${process}-${parameter}`} className="text-center">
+                    {tableData[facility][process]?.[parameter] || '-'}
+                  </td>
+                ))
+              )}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    );
+  };
+
   return (
     <div className="relative flex flex-col justify-center overflow-hidden mt-20">
     <div className="w-full p-6 m-auto bg-white rounded-md shadow-xl shadow-black-600/40 lg:max-w-4xl">
@@ -56,36 +139,7 @@ export default function Metrics() {
       <button onClick={handleOpenPopup} className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
         Add Row
       </button>
-      <table className="mt-4 w-full border-collapse border border-gray-300">
-        <thead>
-          <tr>
-            <th className="border border-gray-300 px-4 py-2">Parameter</th>
-            <th className="border border-gray-300 px-4 py-2">Factory 1</th>
-            <th className="border border-gray-300 px-4 py-2">Factory 2</th>
-          </tr>
-        </thead>
-        <tbody>
-          {tableData.map((row, index) => (
-            <tr key={index}>
-              <td className="border border-gray-300 px-4 py-2">
-              <Link to={`/metrics/${row.parameter}`}>
-                {row.parameter}
-              </Link>
-              </td>
-              <td className="border border-gray-300 px-4 py-2">
-              <Link to={`/metrics/${row.parameter}`}>
-                {row.factory1}
-              </Link>
-              </td>
-              <td className="border border-gray-300 px-4 py-2">
-              <Link to={`/metrics/${row.parameter}`}>
-                {row.factory2}
-              </Link>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      {renderTable()}
       {isPopupOpen && (
         <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center">
           <div className="bg-white p-6 rounded-lg">
