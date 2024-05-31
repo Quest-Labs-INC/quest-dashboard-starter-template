@@ -14,7 +14,7 @@ export default function SupplierManagement() {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   // newRowData - state var that stores obj containing properties for new row of data, all props initially set to empty string
   // setNewRowData - function to set new row data
-  const [newRowData, setNewRowData] = useState({ supplier_name: '', location: '', key_product: '',  sustainability_score: '' });
+  const [newRowData, setNewRowData] = useState({ supplier_name: '', location: '', key_product: '',  sustainability_score: '', key_contact: '', key_email: '' });
 
   // useEffect - effect that runs once when component mounts
   useEffect(() => {
@@ -40,10 +40,8 @@ export default function SupplierManagement() {
   // sets isPopupOpen to false, closing popup + adding new row of data
   const handleClosePopup = () => {
     setIsPopupOpen(false);
-    // clear input fields when closing the popup + create new row of data
-    createMeasurement();
     // resets newRowData props to empty strings
-    setNewRowData({ supplier_name: '', location: '', key_product: '',  sustainability_score: '' });
+    setNewRowData({ supplier_name: '', location: '', key_product: '',  sustainability_score: '', key_contact: '', key_email: '' });
   };
 
   // updates newRowData var when input changes
@@ -60,6 +58,7 @@ export default function SupplierManagement() {
   // adds new row of data to tableData var + closes popup
   const handleAddRow = () => {
     setTableData((prevData) => [...prevData, newRowData]);
+    createMeasurement();
     handleClosePopup();
   };
 
@@ -67,7 +66,7 @@ export default function SupplierManagement() {
   async function createMeasurement() {
     await supabase
       .from(`supplier_management`)
-      .insert({ supplier_name: newRowData.supplier_name, location: newRowData.location , key_product: newRowData.key_product , sustainability_score: newRowData.sustainability_score })
+      .insert({ supplier_name: newRowData.supplier_name, location: newRowData.location , key_product: newRowData.key_product , sustainability_score: newRowData.sustainability_score , key_contact: newRowData.key_contact , key_email: newRowData.key_email })
   }
 
   return (
@@ -75,9 +74,6 @@ export default function SupplierManagement() {
     <div className="w-full p-6 m-auto bg-white rounded-md shadow-xl shadow-black-600/40 lg:max-w-4xl">
       <h1 className="text-2xl text-center mb-4">Supplier Management</h1>
     <div className="container mx-auto">
-      <button onClick={handleOpenPopup} className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
-        Add Supplier 
-      </button> 
       <table className="mt-4 w-full border-collapse border border-gray-300">
         <thead>
           <tr>
@@ -91,22 +87,22 @@ export default function SupplierManagement() {
           {tableData.map((row, index) => (
             <tr key={index}>
               <td className="border border-gray-300 px-4 py-2">
-              <Link to={`/supplier_management/${row.supplier_name}`}>
+              <Link to={`/suppliermanagement/${row.supplier_name}`}>
                 {row.supplier_name}
               </Link>
               </td>
               <td className="border border-gray-300 px-4 py-2">
-              <Link to={`/supplier_management/${row.location}`}>
+              <Link to={`/suppliermanagement/${row.supplier_name}`}>
                 {row.location}
               </Link>
               </td>
               <td className="border border-gray-300 px-4 py-2">
-              <Link to={`/supplier_management/${row.key_product}`}>
+              <Link to={`/suppliermanagement/${row.supplier_name}`}>
                 {row.key_product}
               </Link>
               </td>
               <td className="border border-gray-300 px-4 py-2">
-              <Link to={`/supplier_management/${row.sustainability_score}`}>
+              <Link to={`/suppliermanagement/${row.supplier_name}`}>
                 {row.sustainability_score}
               </Link>
               </td>
@@ -114,6 +110,11 @@ export default function SupplierManagement() {
           ))}
         </tbody>
       </table>
+      <div className="flex justify-center mt-4">
+        <button onClick={handleOpenPopup} className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
+            Add Supplier
+        </button>
+      </div>
       {isPopupOpen && (
         <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center">
           <div className="bg-white p-6 rounded-lg">
@@ -162,11 +163,41 @@ export default function SupplierManagement() {
                 <label htmlFor="sustainability_score" className="block text-sm font-medium text-gray-700">
                   Sustainability Score
                 </label>
-                <input
+                <select
                   type="text"
                   id="sustainability_score"
                   name="sustainability_score"
                   value={newRowData.sustainability_score}
+                  onChange={handleInputChange}
+                  className="border border-gray-300 rounded-md shadow-sm mt-1 block w-full">
+                  <option value="No Information">No Information</option>
+                  <option value="Low">Low</option>
+                  <option value="Medium">Medium</option>
+                  <option value="High">High</option>
+                </select>
+              </div>
+              <div className="mb-4">
+                <label htmlFor="location" className="block text-sm font-medium text-gray-700">
+                  Key Contact
+                </label>
+                <input
+                  type="text"
+                  id="key_contact"
+                  name="key_contact"
+                  value={newRowData.key_contact}
+                  onChange={handleInputChange}
+                  className="border border-gray-300 rounded-md shadow-sm mt-1 block w-full"
+                />
+              </div>
+              <div className="mb-4">
+                <label htmlFor="location" className="block text-sm font-medium text-gray-700">
+                  Key Email
+                </label>
+                <input
+                  type="text"
+                  id="key_email"
+                  name="key_email"
+                  value={newRowData.key_email}
                   onChange={handleInputChange}
                   className="border border-gray-300 rounded-md shadow-sm mt-1 block w-full"
                 />
