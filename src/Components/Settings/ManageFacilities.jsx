@@ -9,6 +9,9 @@ const ManageFacilities = () => {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [isEditPopupOpen, setIsEditPopupOpen] = useState(false);
   const [editFacility, setEditFacility] = useState({ name: '', type: '', address: '', processes: [''] });
+  const [isDeletePopupOpen, setIsDeletePopupOpen] = useState(false);
+  const [facilityToDelete, setFacilityToDelete] = useState(null);
+  
 
   useEffect(() => {
     fetchFacilities();
@@ -50,6 +53,11 @@ const ManageFacilities = () => {
 
   const handleAddProcess = (facilitySetter, facility) => {
     facilitySetter({ ...facility, processes: [...facility.processes, ''] });
+  };
+
+  const handleDeleteProcess = (index, facilitySetter, facility) => {
+    const newProcesses = facility.processes.filter((_, i) => i !== index);
+    facilitySetter({ ...facility, processes: newProcesses });
   };
 
   const handleAddFacility = async () => {
@@ -120,6 +128,13 @@ const ManageFacilities = () => {
 
     const newProcesses = [];
     const updateProcesses = [];
+    const deleteProcesses = [];
+
+    existingProcesses.forEach(existingProcess => {
+      if (!editFacility.processes.includes(existingProcess.process_name)) {
+        deleteProcesses.push(existingProcess.process_id);
+      }
+    });
 
     editFacility.processes.forEach((processName, index) => {
       const trimmedProcessName = processName.trim();
@@ -134,12 +149,60 @@ const ManageFacilities = () => {
       }
     });
 
+    await deleteExistingProcesses(deleteProcesses);
     await updateExistingProcesses(updateProcesses);
     await insertNewProcesses(newProcesses);
 
     await fetchFacilities();
     resetEditFacility();
     setIsEditPopupOpen(false);
+  };
+
+  const handleDeleteFacility = async () => {
+    if (facilityToDelete) {
+      const { error: deleteProcessError } = await supabase
+        .from('process')
+        .delete()
+        .eq('facility_id', facilityToDelete);
+  
+      if (deleteProcessError) {
+        console.error(deleteProcessError);
+        return;
+      }
+  
+      const { error: deleteFacilityError } = await supabase
+        .from('facility')
+        .delete()
+        .eq('facility_id', facilityToDelete);
+  
+      if (deleteFacilityError) {
+        console.error(deleteFacilityError);
+        return;
+      }
+  
+      await fetchFacilities();
+      setIsDeletePopupOpen(false);
+      setFacilityToDelete(null);
+    }
+  };
+
+  const handleCloseDeletePopup = () => {
+    setIsDeletePopupOpen(false);
+    setFacilityToDelete(null);
+  };
+
+  const deleteExistingProcesses = async (deleteProcesses) => {
+    for (const processId of deleteProcesses) {
+      const { error: deleteError } = await supabase
+        .from('process')
+        .delete()
+        .eq('process_id', processId);
+
+      if (deleteError) {
+        console.error(deleteError);
+        return;
+      }
+    }
   };
 
   const updateExistingProcesses = async (updateProcesses) => {
@@ -154,6 +217,11 @@ const ManageFacilities = () => {
         return;
       }
     }
+  };
+
+  const handleDeleteFacilityConfirmation = (facilityId) => {
+    setFacilityToDelete(facilityId);
+    setIsDeletePopupOpen(true);
   };
 
   const insertNewProcesses = async (newProcesses) => {
@@ -194,7 +262,7 @@ const ManageFacilities = () => {
                 <th className="border border-gray-300 px-4 py-2">Facility Type</th>
                 <th className="border border-gray-300 px-4 py-2">Address</th>
                 <th className="border border-gray-300 px-4 py-2">Processes</th>
-                <th className="border border-gray-300 px-4 py-2">Edit</th>
+                <th className="border border-gray-300 px-4 py-2">Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -214,8 +282,9 @@ const ManageFacilities = () => {
                       </tbody>
                     </table>
                   </td>
-                  <td className="border border-gray-300 px-4 py-2">
-                    <button className="text-blue-500 hover:text-blue-700" onClick={() => EditPopup(facility)}>Edit</button>
+                  <td className="border border-gray-300 px-4 py-2 flex justify-between">
+                  <button className="text-blue-500 hover:text-blue-700" onClick={() => EditPopup(facility)}>Edit</button>
+                  <button className="text-red-500 hover:text-red-700" onClick={() => handleDeleteFacilityConfirmation(facility.facility_id)}>Delete</button>
                   </td>
                 </tr>
               ))}
@@ -229,13 +298,36 @@ const ManageFacilities = () => {
           </button>
         </div>
       </div>
+      {isDeletePopupOpen && (
+      <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center">
+        <div className="bg-white p-6 rounded-lg">
+          <h2 className="text-lg font-bold mb-4">Delete Facility</h2>
+          <p>Are you sure you want to delete this facility?</p>
+          <div className="flex justify-end mt-4">
+            <button
+              className="mr-2 px-4 py-2 text-sm font-medium text-gray-700 border border-gray-300 rounded-md hover:bg-gray-50"
+              onClick={handleCloseDeletePopup}
+            >
+              No
+            </button>
+            <button
+              className="px-4 py-2 text-sm font-medium text-white bg-red-500 rounded-md hover:bg-red-600"
+              onClick={handleDeleteFacility}
+            >
+              Yes
+            </button>
+          </div>
+        </div>
+      </div>
+      )}
 
       {isEditPopupOpen && (
         <PopupForm 
           facility={editFacility}
           handleInputChange={(e) => handleInputChange(e, setEditFacility)}
           handleProcessChange={(index, event) => handleProcessChange(index, event, setEditFacility, editFacility)}
-          handleAddProcess={() => handleAddEditProcess(setEditFacility, editFacility)}
+          handleAddProcess={() => handleAddProcess(setEditFacility, editFacility)}
+          handleDeleteProcess={(index) => handleDeleteProcess(index, setEditFacility, editFacility)}
           handleSubmit={handleEditFacility}
           handleClose={() => setIsEditPopupOpen(false)}
         />
@@ -247,6 +339,7 @@ const ManageFacilities = () => {
           handleInputChange={(e) => handleInputChange(e, setNewFacility)}
           handleProcessChange={(index, event) => handleProcessChange(index, event, setNewFacility, newFacility)}
           handleAddProcess={() => handleAddProcess(setNewFacility, newFacility)}
+          handleDeleteProcess={(index) => handleDeleteProcess(index, setNewFacility, newFacility)}
           handleSubmit={handleAddFacility}
           handleClose={() => setIsPopupOpen(false)}
         />
@@ -255,7 +348,7 @@ const ManageFacilities = () => {
   );
 };
 
-const PopupForm = ({ facility, handleInputChange, handleProcessChange, handleAddProcess, handleSubmit, handleClose }) => (
+const PopupForm = ({ facility, handleInputChange, handleProcessChange, handleAddProcess, handleDeleteProcess, handleSubmit, handleClose }) => (
   <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center">
     <div className="bg-white p-6 rounded-lg">
       <h2 className="text-lg font-bold mb-4">{facility.facility_id ? "Edit Existing Facility" : "Add New Facility"}</h2>
@@ -305,6 +398,13 @@ const PopupForm = ({ facility, handleInputChange, handleProcessChange, handleAdd
                 onChange={(event) => handleProcessChange(index, event)}
                 className="border border-gray-300 rounded-md shadow-sm block w-full"
               />
+              <button
+                type="button"
+                onClick={() => handleDeleteProcess(index)}
+                className="ml-2 text-red-500 hover:text-red-700"
+              >
+                X
+              </button>
             </div>
           ))}
           <button
