@@ -17,6 +17,7 @@ const ManageFacilities = () => {
     fetchFacilities();
   }, []);
 
+  //Fetching facilities along with associated processes data from the database
   const fetchFacilities = async () => {
     const { data, error } = await supabase
       .from('facility')
@@ -60,6 +61,7 @@ const ManageFacilities = () => {
     facilitySetter({ ...facility, processes: newProcesses });
   };
 
+  //Adding new facility to the database
   const handleAddFacility = async () => {
     const { data: facilityData, error: facilityError } = await supabase
       .from('facility')
@@ -77,7 +79,7 @@ const ManageFacilities = () => {
     }
 
     const facilityId = facilityData[0].facility_id;
-
+    //Parsing processes data and extracting processname and adding it to the process table with (process_name, facility_id, is_active)
     const processesData = newFacility.processes.map(processName => ({
       process_name: processName.trim(),
       facility_id: facilityId,
@@ -98,6 +100,7 @@ const ManageFacilities = () => {
     setIsPopupOpen(false);
   };
 
+  //Updating existing facility data in the database
   const handleEditFacility = async () => {
     const { data: facilityData, error: facilityError } = await supabase
       .from('facility')
@@ -126,6 +129,8 @@ const ManageFacilities = () => {
       return;
     }
 
+    //Checking for whether there any changes to existing processes data and updating them in the database
+    //If there are any new processes, adding them to the process table
     const newProcesses = [];
     const updateProcesses = [];
     const deleteProcesses = [];
@@ -158,6 +163,7 @@ const ManageFacilities = () => {
     setIsEditPopupOpen(false);
   };
 
+  //Deleting facility data from the database
   const handleDeleteFacility = async () => {
     if (facilityToDelete) {
       const { error: deleteProcessError } = await supabase
@@ -347,7 +353,7 @@ const ManageFacilities = () => {
     </div>
   );
 };
-
+//Common Popup form for adding new facility or editing existing facility
 const PopupForm = ({ facility, handleInputChange, handleProcessChange, handleAddProcess, handleDeleteProcess, handleSubmit, handleClose }) => (
   <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center">
     <div className="bg-white p-6 rounded-lg">
