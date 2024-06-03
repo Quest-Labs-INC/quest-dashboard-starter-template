@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { supabase } from '../../supabaseClient';
-import './metrics.css'; 
+import './metrics.css';
 
 export default function Metrics() {
   const [tableData, setTableData] = useState([]);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [isParameterPopupOpen, setIsParameterPopupOpen] = useState(false);
   const [newRowData, setNewRowData] = useState({ parameter: '', factory1: '', factory2: '' });
-  const [newParameterData, setNewParameterData] = useState({ parameter: '', unit: '', facility: '', dataCollectionPoints: [{ name: '', assigned: '', method: '' }] });
+  const [newParameterData, setNewParameterData] = useState({ parameter: '', unit: '', facility: '', process: '', dataCollectionPoints: [{ name: '', assigned: '', method: '' }] });
   const [facilities, setFacilities] = useState([]);
+  const [processes, setProcesses] = useState([]);
 
   useEffect(() => {
     fetchMeasurement();
@@ -21,6 +22,13 @@ export default function Metrics() {
     let { data, error } = await supabase.from('facility').select('*');
     if (error) console.error(error);
     else setFacilities(data);
+  }
+
+  // Fetch processes based on selected facility
+  async function fetchProcesses(facilityId) {
+    let { data, error } = await supabase.from('process').select('*').eq('facility_id', facilityId);
+    if (error) console.error(error);
+    else setProcesses(data);
   }
 
   // Fetch measurement data from the database using supabase client
@@ -62,7 +70,7 @@ export default function Metrics() {
   const handleCloseParameterPopup = () => {
     setIsParameterPopupOpen(false);
     createParameter();
-    setNewParameterData({ parameter: '', unit: '', facility: '', dataCollectionPoints: [{ name: '', assigned: '', method: '' }] });
+    setNewParameterData({ parameter: '', unit: '', facility: '', process: '', dataCollectionPoints: [{ name: '', assigned: '', method: '' }] });
   };
 
   const handleInputChange = (e, setData, data) => {
@@ -71,6 +79,15 @@ export default function Metrics() {
       ...prevData,
       [name]: value,
     }));
+  };
+
+  const handleFacilityChange = async (e) => {
+    const { value } = e.target;
+    setNewParameterData(prevData => ({
+      ...prevData,
+      facility: value,
+    }));
+    await fetchProcesses(value);
   };
 
   const handleDataCollectionPointChange = (index, e) => {
@@ -109,7 +126,7 @@ export default function Metrics() {
   async function createParameter() {
     const { data, error } = await supabase
       .from('parameters')
-      .insert([{ parameter_name: newParameterData.parameter, unit: newParameterData.unit, facility_id: newParameterData.facility }]);
+      .insert([{ parameter_name: newParameterData.parameter, unit: newParameterData.unit, facility_id: newParameterData.facility, process_name: newParameterData.process }]);
 
     if (error) {
       console.error(error);
@@ -196,7 +213,7 @@ export default function Metrics() {
             Add Row
           </button>
           {renderTable()}
-          <button onClick={handleOpenParameterPopup} className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
+          <button onClick={handleOpenParameterPopup} className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
             Add Parameter
           </button>
 
@@ -290,7 +307,7 @@ export default function Metrics() {
                       id="facility"
                       name="facility"
                       value={newParameterData.facility}
-                      onChange={(e) => handleInputChange(e, setNewParameterData, newParameterData)}
+                      onChange={handleFacilityChange}
                       className="border border-gray-300 rounded-md shadow-sm mt-1 block w-full"
                     >
                       <option value="">Select a facility</option>
@@ -301,8 +318,27 @@ export default function Metrics() {
                       ))}
                     </select>
                   </div>
+                  {processes.length > 0 && (
+                    <div className="mb-4">
+                      <label htmlFor="process" className="block text-sm font-medium text-gray-700">Select Process</label>
+                      <select
+                        id="process"
+                        name="process"
+                        value={newParameterData.process}
+                        onChange={(e) => handleInputChange(e, setNewParameterData, newParameterData)}
+                        className="border border-gray-300 rounded-md shadow-sm mt-1 block w-full"
+                      >
+                        <option value="">Select a process</option>
+                        {processes.map(process => (
+                          <option key={process.process_id} value={process.process_name}>
+                            {process.process_name}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  )}
                   <div className="mb-4">
-                    <h3 className="text-md font-bold mb-2 ">Add Data Collection Points</h3>
+                    <h3 className="text-md font-bold mb-2">Add Data Collection Points</h3>
                     {newParameterData.dataCollectionPoints.map((point, index) => (
                       <div key={index} className="mb-2 flex items-center">
                         <input
@@ -332,7 +368,7 @@ export default function Metrics() {
                         <button
                           type="button"
                           onClick={() => removeDataCollectionPoint(index)}
-                          className="text-red-500 hover:text-red-700 "
+                          className="text-red-500 hover:text-red-700"
                         >
                           X
                         </button>
