@@ -3,6 +3,7 @@ import EditProfile from "./EditProfile";
 import AdminComponent from "./AdminComponent";
 import { ThemeContext } from "../Common/AppContext";
 import ReferralPage from "../Referral/ReferralPage";
+import ManageFacilities from "./ManageFacilities";
 
 export default function Settings() {
     const { theme, bgColors, appConfig } = useContext(ThemeContext);
@@ -62,6 +63,18 @@ export default function Settings() {
                         Manage Admins
                     </p>
                     <p
+                        className={` text-sm font-semibold font-['Figtree'] h-[52px] p-4 cursor-pointer ${section == "managefacilities" &&
+                            "rounded-t-xl border-b border-[#939393]"
+                            }`}
+                        onClick={() => handleSectionChange("managefacilities")}
+                        style={{
+                            color: bgColors[`${theme}-color-premitive-grey-5`],
+                            background: section == "managefacilities" ? bgColors[`${theme}-primary-bg-color-9`] : ""
+                        }}
+                    >
+                        Manage Facilities
+                    </p>
+                    <p
                         className={` text-sm font-semibold font-['Figtree'] h-[52px] p-4 cursor-pointer ${section == "refer" &&
                             "rounded-t-xl border-b border-[#939393]"
                             }`}
@@ -76,7 +89,15 @@ export default function Settings() {
                 </div>
 
                 <div className="edit-admin">
-                {section === "edit" ? <EditProfile /> : section === "refer" ? <ReferralPage /> : <AdminComponent />}
+                    {section === "edit" ? (
+                        <EditProfile />
+                    ) : section === "manage" ? (
+                        <AdminComponent />
+                    ) : section === "managefacilities" ? (
+                        <ManageFacilities /> // Render the Facilities component
+                    ) : (
+                        <ReferralPage />
+                    )}
                 </div>
             </div>
         </div>
