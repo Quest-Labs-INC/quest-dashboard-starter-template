@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { supabase } from '../../supabaseClient';
-import './metrics.css';
+import './parameteroverview.css';
 
-export default function Metrics() {
+export default function Parameteroverview() {
   const [tableData, setTableData] = useState([]);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [isParameterPopupOpen, setIsParameterPopupOpen] = useState(false);

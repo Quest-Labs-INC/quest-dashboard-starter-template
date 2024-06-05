@@ -14,7 +14,7 @@ import Onboarding from "../../Components/Onboarding/Onboarding";
 import ReferralPage from "../../Components/Referral/ReferralPage";
 import Settings from "../../Components/Settings/Settings";
 import ComingSoon from "../../Components/ComingSoon/ComingSoon";
-import Metrics from "../../Components/DataCollection/metrics";
+import Parameteroverview from "../../Components/DataCollection/parameteroverview";
 import DataCollection from "../../Components/DataCollection/datacollection";
 import Certification from "../../Components/DataCollection/certification";
 import BuyerManagement from "../../Components/DataCollection/buyerManagement";
@@ -96,13 +96,13 @@ export const routesConfig = [
         isUpper: true,
     },
     {
-        path: "/metrics",
-        name: "Metrics",
+        path: "/parameteroverview",
+        name: "Overview",
         logo: InsightsSvg(),
         component: (
             <ProviderConfig showTag={false}>
-                <DashboardWrapper selectdRoute={"metrics"}>
-                    <Metrics></Metrics>
+                <DashboardWrapper selectdRoute={"parameteroverview"}>
+                    <Parameteroverview></Parameteroverview>
                 </DashboardWrapper>
             </ProviderConfig>
         ),
@@ -167,7 +167,7 @@ export const routesConfig = [
         isUpper: true,
     },
     {
-        path: "/metrics/:data_sources",
+        path: "/parameteroverview/:data_sources",
         name: "Datasource",
         logo: InsightsSvg(),
         component: (
@@ -181,7 +181,7 @@ export const routesConfig = [
         isUpper: true,
     },
     {
-        path: "/metrics/admin",
+        path: "/parameteroverview/admin",
         name: "Datasource",
         logo: InsightsSvg(),
         component: (
