@@ -53,6 +53,7 @@ export default function Metrics() {
     return result;
   };
 
+  //Functions to handle popup open and close
   const handleOpenPopup = () => {
     setIsPopupOpen(true);
   };
@@ -123,6 +124,7 @@ export default function Metrics() {
       .insert({ parameter: newRowData.parameter, factory1: newRowData.factory1, factory2: newRowData.factory2 });
   }
 
+  //Function to create a new parameter in the database
   async function createParameter() {
     const { data, error } = await supabase
       .from('parameters')
@@ -145,6 +147,7 @@ export default function Metrics() {
     }
   }
 
+  //Function to dynamically render the table based on the data
   const renderTable = () => {
     const facilities = Object.keys(tableData);
     if (facilities.length === 0) return <p>No data available</p>;
