@@ -16,7 +16,6 @@ import Login from "../../Components/Login/Login";
 import Onboarding from "../../Components/Onboarding/Onboarding";
 import ReferralPage from "../../Components/Referral/ReferralPage";
 import Settings from "../../Components/Settings/Settings";
-import ComingSoon from "../../Components/ComingSoon/ComingSoon";
 import Metrics from "../../Components/DataCollection/metrics";
 import DataCollection from "../../Components/DataCollection/datacollection";
 import Certification from "../../Components/DataCollection/certification";
