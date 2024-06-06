@@ -74,7 +74,7 @@ export default function Settings() {
                     >
                         Manage Facilities
                     </p>
-                    <p
+                    {/* <p
                         className={` text-sm font-semibold font-['Figtree'] h-[52px] p-4 cursor-pointer ${section == "refer" &&
                             "rounded-t-xl border-b border-[#939393]"
                             }`}
@@ -85,7 +85,7 @@ export default function Settings() {
                         }}
                     >
                         Refer Friends
-                    </p>
+                    </p> */}
                 </div>
 
                 <div className="edit-admin">
