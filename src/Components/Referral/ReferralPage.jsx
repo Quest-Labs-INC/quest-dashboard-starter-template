@@ -30,7 +30,7 @@ const ReferralPage = () => {
     useEffect(() => {
         const getSubmission = async () => {
             let request = generalFunction.createUrl(
-                `api/entities/${mainConfig.QUEST_ENTITY_ID}/quests/${appConfig.QUEST_REFERRAL_CAMPAIGN_ID}/submissions?parentEntityId=${mainConfig.QUEST_ENTITY_ID}`
+                `api/v2/entities/${mainConfig.QUEST_ENTITY_ID}/campaigns/${appConfig.QUEST_REFERRAL_CAMPAIGN_ID}/referral-summary?duration=all`
             );
             await axios(request.url, {
                 headers: {
@@ -311,7 +311,7 @@ const ReferralPage = () => {
                             </tr>
                         </thead>
 
-                        {!!userData.length && (
+                        {!!userData?.length && (
                             <tbody>
                                 {userData?.map((user, index) => (
                                     <tr
@@ -389,7 +389,7 @@ const ReferralPage = () => {
                             </tbody>
                         )}
                     </table>
-                    {!userData.length && (
+                    {!userData?.length && (
                         <div
                             className="w-full text-center py-[18px]"
                             style={{
