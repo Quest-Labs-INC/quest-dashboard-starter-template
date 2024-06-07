@@ -118,7 +118,7 @@ export default function SupplierManagement() {
       {isPopupOpen && (
         <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center">
           <div className="bg-white p-6 rounded-lg">
-            <h2 className="text-lg font-bold mb-4">Add New Row</h2>
+            <h2 className="text-lg font-bold mb-4">Add a Supplier</h2>
             <form onSubmit={(e) => e.preventDefault()}>
               <div className="mb-4">
                 <label htmlFor="supplier_name" className="block text-sm font-medium text-gray-700">

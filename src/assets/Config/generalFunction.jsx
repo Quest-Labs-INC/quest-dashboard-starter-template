@@ -143,6 +143,23 @@ export const generalFunction = {
         if (error) {
             throw error;
         }
+    },
+
+    fetchCompliances: async () => {
+        const { data } = await supabase
+          .from(`certification`)
+          .select('*')
+        return data;
+    },
+    
+    createCompliance: async (newRowData) => {
+        const { data, error } =    await supabase
+              .from(`certification`)
+              .insert({ certification: newRowData.certification, status: newRowData.status , due_date: newRowData.due_date , task_assigned: newRowData.task_assigned , checklist: newRowData.checklist })
+        
+        if (error) {
+            throw error;
+        }
     }
     
 }

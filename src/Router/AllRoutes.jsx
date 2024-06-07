@@ -1,12 +1,7 @@
 import { Route, Routes } from "react-router-dom";
 import { routesConfig } from "../assets/Config/routesConfig";
 
-
-
-
 export default function AllRoutes() {
-
-
     return (
         <Routes>
             {

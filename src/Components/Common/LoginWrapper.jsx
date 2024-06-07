@@ -14,7 +14,7 @@ export default function LoginWrapper({ children }) {
                     background: bgColors[`${theme}-primary-bg-color-0`],
                 }}
             >
-                <div className="w-[100px] h-[100px] rounded-[56px] overflow-hidden">
+                <div className="w-[350px] h-[350px] -mt-28 rounded-[56px] overflow-hidden">
                     <img
                         src={appConfig.BRAND_LOGO || ""}
                         alt=""
@@ -22,10 +22,10 @@ export default function LoginWrapper({ children }) {
                     />
                 </div>
 
-                <p className="text-center text-3xl font-semibold font-['Figtree'] mt-6 text-white">
+                {/* <p className="text-center text-3xl font-semibold font-['Figtree'] mt-6 text-white">
                     {contentConfig?.login?.heading}
-                </p>
-                <p className="text-center text-xl font-normal font-['Figtree'] leading-[30px] text-[#E0E0E0]">
+                </p> */}
+                <p className="text-center text-xl font-normal font-['Figtree'] -mt-28 leading-[30px] text-[#E0E0E0]">
                     {contentConfig?.login?.description}
                 </p>
             </div>
