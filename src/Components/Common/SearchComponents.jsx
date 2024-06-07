@@ -9,9 +9,6 @@ const SearchComponents = () => {
     const { theme, bgColors, appConfig } =
         useContext(ThemeContext);
     const navigate = useNavigate();
-
-
-
     return (
         <div className="z-20">
                 <Search
