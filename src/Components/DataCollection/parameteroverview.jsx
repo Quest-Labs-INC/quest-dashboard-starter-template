@@ -1,37 +1,44 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import { supabase } from '../../supabaseClient';
 import './parameteroverview.css';
 
 export default function Parameteroverview() {
   const [tableData, setTableData] = useState([]);
-  const [isPopupOpen, setIsPopupOpen] = useState(false);
+  //const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [isParameterPopupOpen, setIsParameterPopupOpen] = useState(false);
   const [newRowData, setNewRowData] = useState({ parameter: '', factory1: '', factory2: '' });
-  const [newParameterData, setNewParameterData] = useState({ parameter: '', unit: '', facility: '', process: '', dataCollectionPoints: [{ name: '', assigned: '', method: '' }] });
+  const [newParameterData, setNewParameterData] = useState({ parameter: '', unit: '', dataCollectionPoints: [{ name: '', assigned_to: '', method: '' }], processFacilityMappings: [] });
   const [facilities, setFacilities] = useState([]);
   const [processes, setProcesses] = useState([]);
+  const [selectedFacility, setSelectedFacility] = useState('');
+  const [selectedProcess, setSelectedProcess] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [buttonColor, setButtonColor] = useState('bg-blue-500');
+  const [users, SetUsers] = useState([]);
 
   useEffect(() => {
     fetchMeasurement();
     fetchFacilities();
   }, []);
 
-  // Fetch facilities data from the database
   async function fetchFacilities() {
     let { data, error } = await supabase.from('facility').select('*');
     if (error) console.error(error);
     else setFacilities(data);
   }
 
-  // Fetch processes based on selected facility
   async function fetchProcesses(facilityId) {
     let { data, error } = await supabase.from('process').select('*').eq('facility_id', facilityId);
     if (error) console.error(error);
     else setProcesses(data);
   }
 
-  // Fetch measurement data from the database using supabase client
+  async function fetchUsers() {
+    let {data, error} = await supabase.from('users').select('*');
+    if (error) console.error(error);
+    else SetUsers(data);
+  }
+
   async function fetchMeasurement() {
     let { data, error } = await supabase.rpc('fetch_aggregated_metrics');
     if (error) console.error(error);
@@ -53,8 +60,7 @@ export default function Parameteroverview() {
     return result;
   };
 
-  //Functions to handle popup open and close
-  const handleOpenPopup = () => {
+/*  const handleOpenPopup = () => {
     setIsPopupOpen(true);
   };
 
@@ -63,15 +69,15 @@ export default function Parameteroverview() {
     createMeasurement();
     setNewRowData({ parameter: '', factory1: '', factory2: '' });
   };
-
+*/
   const handleOpenParameterPopup = () => {
     setIsParameterPopupOpen(true);
+    fetchUsers();
   };
 
   const handleCloseParameterPopup = () => {
     setIsParameterPopupOpen(false);
-    createParameter();
-    setNewParameterData({ parameter: '', unit: '', facility: '', process: '', dataCollectionPoints: [{ name: '', assigned: '', method: '' }] });
+    setNewParameterData({ parameter: '', unit: '', dataCollectionPoints: [{ name: '', assigned_to: '', method: '' }], processFacilityMappings: [] });
   };
 
   const handleInputChange = (e, setData, data) => {
@@ -84,11 +90,28 @@ export default function Parameteroverview() {
 
   const handleFacilityChange = async (e) => {
     const { value } = e.target;
+    setSelectedFacility(value);
+    await fetchProcesses(value);
+  };
+
+  const handleProcessChange = (e) => {
+    const { value } = e.target;
+    setSelectedProcess(value);
+  };
+
+  const addProcessFacilityMapping = () => {
+    console.log(selectedFacility);
+    console.log(selectedProcess);
+    console.log(facilities);
+    console.log(processes);
+    const temp_facilityName = facilities.find(facility => facility.facility_id === Number(selectedFacility))?.facility_name;
+    const temp_processName = processes.find(process => process.process_id === Number(selectedProcess))?.process_name;
     setNewParameterData(prevData => ({
       ...prevData,
-      facility: value,
+      processFacilityMappings: [...prevData.processFacilityMappings, { facility_id: selectedFacility, process_id: selectedProcess, facility_name : temp_facilityName, process_name : temp_processName }]
     }));
-    await fetchProcesses(value);
+    setSelectedFacility('');
+    setSelectedProcess('');
   };
 
   const handleDataCollectionPointChange = (index, e) => {
@@ -99,10 +122,17 @@ export default function Parameteroverview() {
     });
   };
 
+  const removeProcessFacilityMapping = (index) => {
+    setNewParameterData(prevData => ({
+      ...prevData,
+      processFacilityMappings: prevData.processFacilityMappings.filter((_, i) => i !== index),
+    }));
+  };
+
   const addDataCollectionPoint = () => {
     setNewParameterData(prevData => ({
       ...prevData,
-      dataCollectionPoints: [...prevData.dataCollectionPoints, { name: '', assigned: '', method: '' }],
+      dataCollectionPoints: [...prevData.dataCollectionPoints, { name: '', assigned_to: '', method: '' }],
     }));
   };
 
@@ -112,68 +142,103 @@ export default function Parameteroverview() {
       dataCollectionPoints: prevData.dataCollectionPoints.filter((_, i) => i !== index),
     }));
   };
-
+  /*
   const handleAddRow = () => {
     setTableData(prevData => [...prevData, newRowData]);
     handleClosePopup();
   };
-
-  async function createMeasurement() {
+*/
+/*  async function createMeasurement() {
     await supabase
       .from('metrics')
       .insert({ parameter: newRowData.parameter, factory1: newRowData.factory1, factory2: newRowData.factory2 });
   }
-
-  //Function to create a new parameter in the database
+*/
   async function createParameter() {
+    console.log(newParameterData.processFacilityMappings);
+    setLoading(true);
+    setButtonColor('bg-yellow-500');
     const { data, error } = await supabase
-      .from('parameters')
-      .insert([{ parameter_name: newParameterData.parameter, unit: newParameterData.unit, facility_id: newParameterData.facility, process_name: newParameterData.process }]);
+    .from('parameter')
+    .insert([{ created_by: 17, para_name: newParameterData.parameter, para_metric: newParameterData.unit, para_description: newParameterData.parameter }])
+    .select('para_id');
 
     if (error) {
       console.error(error);
+      setButtonColor('bg-red-500');
+      setLoading(false);
+      setTimeout(() => {
+        setButtonColor('bg-blue-500');
+        handleCloseParameterPopup();
+      }, 2000);
       return;
     }
 
-    const parameterId = data[0].id;
+    const parameterId = data[0].para_id;
     const dataCollectionPoints = newParameterData.dataCollectionPoints.map(point => ({ ...point, parameter_id: parameterId }));
-
+    
+    if (newParameterData.dataCollectionPoints.length > 0){
     const { error: pointsError } = await supabase
       .from('data_collection_points')
       .insert(dataCollectionPoints);
 
+
     if (pointsError) {
       console.error(pointsError);
+      setButtonColor('bg-red-500');
+      setLoading(false);
+      setTimeout(() => {
+        setButtonColor('bg-blue-500');
+        handleCloseParameterPopup();
+      }, 2000);
+      return;
     }
-  }
+    }
 
-  //Function to dynamically render the table based on the data
+    const parameterProcessMappings = newParameterData.processFacilityMappings.map(mapping => ({ parameter_id: parameterId, process_id: mapping.process_id, active: true}));
+    if (parameterProcessMappings.length > 0){
+    const { error: mappingError } = await supabase
+      .from('parameter_process_mapping')
+      .insert(parameterProcessMappings);
+
+    if (mappingError) {
+      console.error(mappingError);
+      setButtonColor('bg-red-500');
+      setLoading(false);
+      setTimeout(() => {
+        setButtonColor('bg-blue-500');
+        //handleCloseParameterPopup();
+      }, 2000);
+      return;
+    }
+
+
+    setButtonColor('bg-green-500');
+    setLoading(false);
+    setTimeout(() => {
+      setButtonColor('bg-blue-500');
+      handleCloseParameterPopup();
+    }, 2000);
+  }}
+
   const renderTable = () => {
     const facilities = Object.keys(tableData);
     if (facilities.length === 0) return <p>No data available</p>;
-
+  
     const parameters = new Set();
     facilities.forEach(facility => {
       Object.values(tableData[facility]).forEach(processData => {
         Object.keys(processData).forEach(parameter => parameters.add(parameter));
       });
     });
-
-    const processes = facilities.reduce((acc, facility) => {
-      const processNames = Object.keys(tableData[facility]);
-      processNames.forEach(process => {
-        if (!acc.includes(process)) acc.push(process);
-      });
-      return acc;
-    }, []);
-
+  
     return (
       <table className="metrics-table">
         <thead>
           <tr>
             <th>Parameter</th>
             {facilities.map(facility => (
-              <th key={facility} colSpan={processes.length} className="text-center">
+              <th key={facility} colSpan={Object.keys(tableData[facility]).length} className="text-center">
                 {facility}
               </th>
             ))}
@@ -181,7 +246,7 @@ export default function Parameteroverview() {
           <tr>
             <th></th>
             {facilities.map(facility =>
-              processes.map(process => (
+              Object.keys(tableData[facility]).map(process => (
                 <th key={`${facility}-${process}`} className="text-center">
                   {process}
                 </th>
@@ -194,7 +259,7 @@ export default function Parameteroverview() {
             <tr key={parameter}>
               <td>{parameter}</td>
               {facilities.map(facility =>
-                processes.map(process => (
+                Object.keys(tableData[facility]).map(process => (
                   <td key={`${facility}-${process}-${parameter}`} className="text-center">
                     {tableData[facility][process]?.[parameter] || '-'}
                   </td>
@@ -209,18 +274,18 @@ export default function Parameteroverview() {
 
   return (
     <div className="relative flex flex-col justify-center overflow-hidden mt-20">
-      <div className="w-full p-6 m-auto bg-white rounded-md shadow-xl shadow-black-600/40 lg:max-w-4xl">
+      <div className="w-full m-auto bg-white rounded-md shadow-xl shadow-black-600/40 lg:max-w-5.5xl">
         <h1 className="text-2xl text-center mb-4">Sustainability Metrics</h1>
         <div className="container mx-auto">
-          <button onClick={handleOpenPopup} className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
+          {/*<button onClick={handleOpenPopup} className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
             Add Row
-          </button>
+          </button>*/}
           {renderTable()}
           <button onClick={handleOpenParameterPopup} className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
             Add Parameter
           </button>
 
-          {isPopupOpen && (
+          {/*{isPopupOpen && (
             <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center">
               <div className="bg-white p-6 rounded-lg">
                 <h2 className="text-lg font-bold mb-4">Add New Row</h2>
@@ -276,6 +341,7 @@ export default function Parameteroverview() {
               </div>
             </div>
           )}
+*/}
 
           {isParameterPopupOpen && (
             <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center">
@@ -309,7 +375,7 @@ export default function Parameteroverview() {
                     <select
                       id="facility"
                       name="facility"
-                      value={newParameterData.facility}
+                      value={selectedFacility}
                       onChange={handleFacilityChange}
                       className="border border-gray-300 rounded-md shadow-sm mt-1 block w-full"
                     >
@@ -321,25 +387,47 @@ export default function Parameteroverview() {
                       ))}
                     </select>
                   </div>
-                  {processes.length > 0 && (
+                  {(
                     <div className="mb-4">
                       <label htmlFor="process" className="block text-sm font-medium text-gray-700">Select Process</label>
                       <select
                         id="process"
                         name="process"
-                        value={newParameterData.process}
-                        onChange={(e) => handleInputChange(e, setNewParameterData, newParameterData)}
+                        value={selectedProcess}
+                        onChange={handleProcessChange}
                         className="border border-gray-300 rounded-md shadow-sm mt-1 block w-full"
                       >
                         <option value="">Select a process</option>
                         {processes.map(process => (
-                          <option key={process.process_id} value={process.process_name}>
+                          <option key={process.process_id} value={process.process_id}>
                             {process.process_name}
                           </option>
                         ))}
                       </select>
                     </div>
                   )}
+                  <button
+                    type="button"
+                    onClick={addProcessFacilityMapping}
+                    className="mt-2 bg-blue-500 text-white px-1 py-0.5 rounded-md"
+                  >
+                    + Add Process-Facility Combination
+                  </button>
+                  <div className="mb-4">
+                    {newParameterData.processFacilityMappings.map((mapping, index) => (
+                      <div key={index} className="mb-2">
+                        <span>{mapping.facility_name} - {mapping.process_name}</span>
+                        <button
+                          type="button"
+                          onClick={() => removeProcessFacilityMapping(index)}
+                          className="ml-2 text-red-500 hover:text-red-700"
+                        >
+                          X
+                        </button>
+                      </div>
+                      
+                    ))}
+                  </div>
                   <div className="mb-4">
                     <h3 className="text-md font-bold mb-2">Add Data Collection Points</h3>
                     {newParameterData.dataCollectionPoints.map((point, index) => (
@@ -352,14 +440,19 @@ export default function Parameteroverview() {
                           onChange={(e) => handleDataCollectionPointChange(index, e)}
                           className="border border-gray-300 rounded-md shadow-sm mt-1 block w-full mr-2"
                         />
-                        <input
-                          type="text"
+                        <select
                           name="assigned"
-                          placeholder="Assigned"
                           value={point.assigned}
                           onChange={(e) => handleDataCollectionPointChange(index, e)}
                           className="border border-gray-300 rounded-md shadow-sm mt-1 block w-full mr-2"
-                        />
+                        >
+                          <option value="">Assigned to</option>
+                          {users.map(user => (
+                            <option key={user.id} value={user.id}>
+                              {user.name} ({user.email})
+                            </option>
+                          ))}
+                        </select>
                         <input
                           type="text"
                           name="method"
@@ -393,10 +486,11 @@ export default function Parameteroverview() {
                       Cancel
                     </button>
                     <button
-                      onClick={handleCloseParameterPopup}
-                      className="px-4 py-2 text-sm font-medium text-white bg-blue-500 rounded-md hover:bg-blue-600"
+                      onClick={createParameter}
+                      disabled={loading}
+                      className={`${buttonColor} px-4 py-2 text-sm font-medium text-white rounded-md hover:bg-blue-600`}
                     >
-                      Add
+                      {loading ? 'Loading...' : 'Add'}
                     </button>
                   </div>
                 </form>
