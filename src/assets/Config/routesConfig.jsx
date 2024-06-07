@@ -158,7 +158,7 @@ export const routesConfig = [
         logo: InsightsSvg(),
         component: (
             <ProviderConfig showTag={false}>
-                <DashboardWrapper selectdRoute={"suppliermanagement"}>
+                <DashboardWrapper selectedRoute={"suppliermanagement"}>
                     <SupplierAnalytics></SupplierAnalytics>
                 </DashboardWrapper>
             </ProviderConfig>
