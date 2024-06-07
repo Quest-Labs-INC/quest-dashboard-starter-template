@@ -441,8 +441,8 @@ export default function Parameteroverview() {
                           className="border border-gray-300 rounded-md shadow-sm mt-1 block w-full mr-2"
                         />
                         <select
-                          name="assigned"
-                          value={point.assigned}
+                          name="assigned_to"
+                          value={point.assigned_to}
                           onChange={(e) => handleDataCollectionPointChange(index, e)}
                           className="border border-gray-300 rounded-md shadow-sm mt-1 block w-full mr-2"
                         >
