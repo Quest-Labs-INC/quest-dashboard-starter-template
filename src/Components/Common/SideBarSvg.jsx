@@ -23,6 +23,63 @@ export const AdminSvg = () => (
   </svg>
 );
 
+
+export const IconDatabase = () => (
+    <svg
+      fill="none"
+      stroke="currentColor"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={2}
+      viewBox="0 0 24 24"
+      height="1em"
+      width="1em"
+    >
+      <path d="M21 5 A9 3 0 0 1 12 8 A9 3 0 0 1 3 5 A9 3 0 0 1 21 5 z" />
+      <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3" />
+      <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5" />
+    </svg>
+);
+
+
+export const IconTruck = () => (
+    <svg
+      fill="currentColor"
+      viewBox="0 0 16 16"
+      height="1em"
+      width="1em"
+    >
+      <path d="M0 3.5A1.5 1.5 0 011.5 2h9A1.5 1.5 0 0112 3.5V5h1.02a1.5 1.5 0 011.17.563l1.481 1.85a1.5 1.5 0 01.329.938V10.5a1.5 1.5 0 01-1.5 1.5H14a2 2 0 11-4 0H5a2 2 0 11-3.998-.085A1.5 1.5 0 010 10.5v-7zm1.294 7.456A1.999 1.999 0 014.732 11h5.536a2.01 2.01 0 01.732-.732V3.5a.5.5 0 00-.5-.5h-9a.5.5 0 00-.5.5v7a.5.5 0 00.294.456zM12 10a2 2 0 011.732 1h.768a.5.5 0 00.5-.5V8.35a.5.5 0 00-.11-.312l-1.48-1.85A.5.5 0 0013.02 6H12v4zm-9 1a1 1 0 100 2 1 1 0 000-2zm9 0a1 1 0 100 2 1 1 0 000-2z" />
+    </svg>
+);
+
+
+
+export const IconPaper_folded = () => (
+    <svg
+      viewBox="0 0 21 21"
+      fill="currentColor"
+      height="1em"
+      width="1em"
+    >
+      <g
+        fill="none"
+        fillRule="evenodd"
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        <path d="M16.5 15.5v-7l-5-5h-5a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2z" />
+        <path d="M11.5 3.5v3a2 2 0 002 2h3" />
+      </g>
+    </svg>
+);
+
+
+export default IconPaper_folded;
+
+
+
 export const GetStartedSvg = () => (
   <svg
     width="16"
