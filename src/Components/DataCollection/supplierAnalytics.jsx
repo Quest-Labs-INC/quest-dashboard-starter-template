@@ -6,23 +6,31 @@ import { supabase } from '../../supabaseClient';
 
 // declare + export SupplierAnalytics component
 export default function SupplierAnalytics() {
-    // setup
+    // SETUP
+
+    // supplier
     const [supplierData, setSupplierData] = useState({});
+
+    // product
     const [productData, setProductData] = useState([]);
+    const [isProdBtnOpen, setProdBtnOpen] = useState(false);
+    const [newProd, setNewProd] = useState({ id: '', product_name: '', serial_number: '', last_exported: '', volume: '' });
+
+    // cerificate
     const [certificateData, setCertificateData] = useState([]);
+    const [isCertBtnOpen, setCertBtnOpen] = useState(false);
+    const [newCert, setNewCert] = useState({ id: '', certificate_name: '', status: '', expiration: '',  last_audited: '', link: '', notes: '' });
+    // edit certificate
+    const [isEditCertOpen, setEditCertOpen] = useState(false);
+    const [certRowData, setCertRowData] = useState({ certificate_name: '', status: '', expiration: '',  last_audited: '', link: '', notes: '' });
+    const [certRowIndex, setCertRowIndex] = useState(-1);
+
     // get supplier name from url
     const url = window.location.href;
     const parts = url.split('/');
     let supplier = parts[parts.length - 1];
     // replace any %20 with spaces
     supplier = supplier.replace(/%20/g, ' ');
-
-    // fetch all needed information once when the page loads
-    useEffect(() => {
-        fetchSupplierData()
-        fetchProductData()
-        fetchCertificateData()
-    }, [])
     
     async function fetchSupplierData() {
         // retrieve supplier data from database
@@ -40,7 +48,7 @@ export default function SupplierAnalytics() {
         const { data } = await supabase
           .from(`supplier_products`)
           .select('*')
-          .eq('supplier_name', supplier)
+          .eq('id', supplierData.id)
         if (data && data.length > 0) {
             setProductData(data);
         }
@@ -51,18 +59,180 @@ export default function SupplierAnalytics() {
         const { data } = await supabase
           .from(`certificates`)
           .select('*')
-          .eq('supplier_name', supplier)
+          .eq('id', supplierData.id)
         if (data && data.length > 0) {
             setCertificateData(data);
         }
     }
 
-    /* want to return:
-    - exporter name
-    - sustainability score
-    - basic info
-    - ceritification
-    */
+    // fetch all needed information once when the page loads
+    useEffect(() => {
+        fetchSupplierData()
+    }, [])
+
+    useEffect(() => {
+        if (supplierData.id != null) {
+            fetchProductData()
+            fetchCertificateData()
+            console.log('inside');
+        }
+        console.log('outside');
+    }, [supplierData.id])
+
+    // ADD CERTIFICATE BUTTON FUNCTIONS
+
+    // opens add certificate popup
+    const openAddCert = () => {
+        setCertBtnOpen(true);
+    };
+
+    // updates newCertData var when input changes
+    const handleInputCert = (e) => {
+        // gets name + value from event target
+        const { name, value } = e.target;
+        // add new name + value pair to obj along w/ prev data
+        setNewCert((prevData) => ({
+        ...prevData,
+        [name]: value,
+        }));
+    };
+
+    // creates new certificate in the database
+    async function createCert() {
+        await supabase
+        .from(`certificates`)
+        .insert({ id: supplierData.id, certificate_name: newCert.certificate_name, status: newCert.status , expiration: newCert.expiration , last_audited: newCert.last_audited , link: newCert.link , notes: newCert.notes })
+    }
+
+    // closes add certificate popup
+    const handleCloseCertBtn = () => {
+        setCertBtnOpen(false);
+        // resets newCert props to empty strings
+        setNewCert({ id: '', certificate_name: '', status: '', expiration: '',  last_audited: '', link: '', notes: '' });
+    };
+
+    // adds new certificate to table, creates new row in database, and closes popup
+    const handleAddCert = () => {
+        setCertificateData((prevData) => [...prevData, newCert]);
+        createCert();
+        handleCloseCertBtn();
+    };
+
+    //  EDIT CERTIFICATE BUTTON FUNCTIONS 
+
+    // opens edit certificate popup
+    const openEditCert = (row, index) => {
+        // set row data
+        setCertRowData(row);
+        // set index
+        setCertRowIndex(index);
+        // open edit popup
+        setEditCertOpen(true);
+    }
+
+    // handle input changes in the edit certificate form
+    const handleEditCertInput = (e) => {
+        const { name, value } = e.target;
+        setCertRowData((prevData) => ({
+            ...prevData,
+            [name]: value,
+        }));
+    };
+
+    // submit edited certificate data
+    async function handleEditCertSubmit() {
+        // update certificate data in database
+        await supabase
+            .from('certificates')
+            .update({
+                certificate_name: certRowData.certificate_name,
+                status: certRowData.status,
+                expiration: certRowData.expiration,
+                last_audited: certRowData.last_audited,
+                link: certRowData.link,
+                notes: certRowData.notes,
+            })
+            .eq('certificate_name', certRowData.certificate_name); // adjust the conditions based on your data model
+
+        // update the table with the edited certificate data
+        setCertificateData((prevData) => {
+            const newData = [...prevData];
+            newData[certRowIndex] = { ...certRowData };
+            return newData;
+        });
+
+        // close the edit form
+        setEditCertOpen(false);
+    }
+
+    // close the edit certificate popup
+    const handleCloseEditCert = () => {
+        setEditCertOpen(false);
+        // resets newCert props to empty strings
+        setCertRowData({ certificate_name: '', status: '', expiration: '',  last_audited: '', link: '', notes: '' });
+        setCertRowIndex(-1);
+    };
+
+    // ADD PRODUCT BUTTON FUNCTIONS
+
+    // opens add product popup
+    const openAddProd = () => {
+        setProdBtnOpen(true);
+    };
+
+    // updates newProdData var when input changes
+    const handleInputProd = (e) => {
+        // gets name + value from event target
+        const { name, value } = e.target;
+        // add new name + value pair to obj along w/ prev data
+        setNewProd((prevData) => ({
+        ...prevData,
+        [name]: value,
+        }));
+    };
+
+    // creates new product in the database
+    async function createProd() {
+        console.log("Creating product with data:", {
+            id: supplierData.id, 
+            product_name: newProd.product_name, 
+            serial_number: newProd.serial_number, 
+            last_exported: newProd.last_exported, 
+            volume: newProd.volume
+        });
+
+        const { data, error } = await supabase
+          .from('supplier_products')
+          .insert({
+              id: supplierData.id, 
+              product_name: newProd.product_name, 
+              serial_number: newProd.serial_number, 
+              last_exported: newProd.last_exported, 
+              volume: newProd.volume
+          });
+
+        if (error) {
+            console.error("Error inserting product:", error);
+        } else {
+            console.log("Product inserted:", data);
+        }
+    }
+
+
+    // closes add product popup
+    const handleCloseProdBtn = () => {
+        setProdBtnOpen(false);
+        // resets newProd props to empty strings
+        setNewProd({ id: '', product_name: '', serial_number: '', last_exported: '', volume: '' });
+    };
+
+    // adds new certificate to table, creates new row in database, and closes popup
+    const handleAddProd = () => {
+        setProductData((prevData) => [...prevData, newProd]);
+        createProd();
+        handleCloseProdBtn();
+    };
+
     return (
     <div className="relative flex flex-col justify-center overflow-hidden mt-20">
         <div className="w-full p-6 m-auto bg-white rounded-md shadow-xl shadow-black-600/40 lg:max-w-4xl">
@@ -92,6 +262,7 @@ export default function SupplierAnalytics() {
                         <th className="border border-gray-300 px-4 py-2">Serial Number</th>
                         <th className="border border-gray-300 px-4 py-2">Last Exported</th>
                         <th className="border border-gray-300 px-4 py-2">Volume</th>
+                        <th className="border border-gray-300 px-4 py-2">Actions</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -109,11 +280,89 @@ export default function SupplierAnalytics() {
                             <td className="border border-gray-300 px-4 py-2">
                                 {row.volume}
                             </td>
-                            <button className="m-2 px-4 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 ">Edit</button>
+                            <td className="border border-gray-300 px-4 py-2">
+                                <button className="m-2 px-4 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 ">Edit</button>
+                            </td>
                         </tr>
                     ))}
                     </tbody>
                 </table>
+                <button onClick={openAddProd} className="px-4 py-2 mt-4 mb-4 bg-blue-500 text-white rounded hover:bg-blue-600">Add Product</button>
+                {isProdBtnOpen && (
+                    <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center">
+                    <div className="bg-white p-6 rounded-lg">
+                        <h2 className="text-lg font-bold mb-4">Add Product</h2>
+                        <form onSubmit={(e) => e.preventDefault()}>
+                        <div className="mb-4">
+                            <label htmlFor="name" className="block text-sm font-medium text-gray-700">
+                                Name
+                            </label>
+                            <input
+                            type="text"
+                            id="product_name"
+                            name="product_name"
+                            value={newProd.product_name}
+                            onChange={handleInputProd}
+                            className="border border-gray-300 rounded-md shadow-sm mt-1 block w-full"
+                            />
+                        </div>
+                        <div className="mb-4">
+                            <label htmlFor="age" className="block text-sm font-medium text-gray-700">
+                                Serial Number
+                            </label>
+                            <input
+                            type="text"
+                            id="serial_number"
+                            name="serial_number"
+                            value={newProd.serial_number}
+                            onChange={handleInputProd}
+                            className="border border-gray-300 rounded-md shadow-sm mt-1 block w-full"
+                            />
+                        </div>
+                        <div className="mb-4">
+                            <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+                                Last Exported
+                            </label>
+                            <input
+                            type="date"
+                            id="last_exported"
+                            name="last_exported"
+                            value={newProd.last_exported}
+                            onChange={handleInputProd}
+                            className="border border-gray-300 rounded-md shadow-sm mt-1 block w-full"
+                            />
+                        </div>
+                        <div className="mb-4">
+                            <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+                                Volume
+                            </label>
+                            <input
+                            type="text"
+                            id="volume"
+                            name="volume"
+                            value={newProd.volume}
+                            onChange={handleInputProd}
+                            className="border border-gray-300 rounded-md shadow-sm mt-1 block w-full"
+                            />
+                        </div>
+                        <div className="flex justify-end">
+                            <button
+                            onClick={handleCloseProdBtn}
+                            className="mr-2 px-4 py-2 text-sm font-medium text-gray-700 border border-gray-300 rounded-md hover:bg-gray-50"
+                            >
+                            Cancel
+                            </button>
+                            <button
+                            onClick={handleAddProd}
+                            className="px-4 py-2 text-sm font-medium text-white bg-blue-500 rounded-md hover:bg-blue-600"
+                            >
+                            Add
+                            </button>
+                        </div>
+                        </form>
+                    </div>
+                    </div>
+                )}
                 <h2 className="text-1xl text-left mb-4 font-thin">Certification</h2>
                 <table className="mt-4 mb-4 w-full border-collapse border border-gray-300">
                     <thead>
@@ -124,6 +373,7 @@ export default function SupplierAnalytics() {
                         <th className="border border-gray-300 px-4 py-2">Last Audited</th>
                         <th className="border border-gray-300 px-4 py-2">Link</th>
                         <th className="border border-gray-300 px-4 py-2">Notes</th>
+                        <th className="border border-gray-300 px-4 py-2">Actions</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -147,11 +397,216 @@ export default function SupplierAnalytics() {
                             <td className="border border-gray-300 px-4 py-2">
                                 {row.notes}
                             </td>
-                            <button className="m-2 px-4 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 ">Edit</button>
+                            <td className="border border-gray-300 px-4 py-2">
+                                <button onClick={() => openEditCert(row, index)} className="m-2 px-4 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 ">Edit</button>
+                            </td>
                         </tr>
                     ))}
                     </tbody>
                 </table>
+                {isEditCertOpen && (
+                    <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center">
+                    <div className="bg-white p-6 rounded-lg">
+                        <h2 className="text-lg font-bold mb-4">Edit Certificate</h2>
+                        <form onSubmit={(e) => e.preventDefault()}>
+                        <div className="mb-4">
+                            <label htmlFor="name" className="block text-sm font-medium text-gray-700">
+                                Name
+                            </label>
+                            <input
+                            type="text"
+                            id="certificate_name"
+                            name="certificate_name"
+                            value={certRowData.certificate_name}
+                            onChange={handleEditCertInput}
+                            className="border border-gray-300 rounded-md shadow-sm mt-1 block w-full"
+                            />
+                        </div>
+                        <div className="mb-4">
+                            <label htmlFor="age" className="block text-sm font-medium text-gray-700">
+                                Status
+                            </label>
+                            <input
+                            type="text"
+                            id="status"
+                            name="status"
+                            value={certRowData.status}
+                            onChange={handleEditCertInput}
+                            className="border border-gray-300 rounded-md shadow-sm mt-1 block w-full"
+                            />
+                        </div>
+                        <div className="mb-4">
+                            <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+                                Expiration Date
+                            </label>
+                            <input
+                            type="date"
+                            id="expiration"
+                            name="expiration"
+                            value={certRowData.expiration}
+                            onChange={handleEditCertInput}
+                            className="border border-gray-300 rounded-md shadow-sm mt-1 block w-full"
+                            />
+                        </div>
+                        <div className="mb-4">
+                            <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+                                Last Audited
+                            </label>
+                            <input
+                            type="date"
+                            id="last_audited"
+                            name="last_audited"
+                            value={certRowData.last_audited}
+                            onChange={handleEditCertInput}
+                            className="border border-gray-300 rounded-md shadow-sm mt-1 block w-full"
+                            />
+                        </div>
+                        <div className="mb-4">
+                            <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+                                Link
+                            </label>
+                            <input
+                            type="text"
+                            id="link"
+                            name="link"
+                            value={certRowData.link}
+                            onChange={handleEditCertInput}
+                            className="border border-gray-300 rounded-md shadow-sm mt-1 block w-full"
+                            />
+                        </div>
+                        <div className="mb-4">
+                            <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+                                Notes
+                            </label>
+                            <input
+                            type="text"
+                            id="notes"
+                            name="notes"
+                            value={certRowData.notes}
+                            onChange={handleEditCertInput}
+                            className="border border-gray-300 rounded-md shadow-sm mt-1 block w-full"
+                            />
+                        </div>
+                        <div className="flex justify-end">
+                            <button
+                            onClick={handleCloseEditCert}
+                            className="mr-2 px-4 py-2 text-sm font-medium text-gray-700 border border-gray-300 rounded-md hover:bg-gray-50"
+                            >
+                            Cancel
+                            </button>
+                            <button
+                            onClick={handleEditCertSubmit}
+                            className="px-4 py-2 text-sm font-medium text-white bg-blue-500 rounded-md hover:bg-blue-600"
+                            >
+                            Submit Edit
+                            </button>
+                        </div>
+                        </form>
+                    </div>
+                    </div>
+                )}
+                <button onClick={openAddCert} className="px-4 py-2 mt-4 mb-4 bg-blue-500 text-white rounded hover:bg-blue-600">Add Certificate</button>
+                {isCertBtnOpen && (
+                    <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center">
+                    <div className="bg-white p-6 rounded-lg">
+                        <h2 className="text-lg font-bold mb-4">Add Certificate</h2>
+                        <form onSubmit={(e) => e.preventDefault()}>
+                        <div className="mb-4">
+                            <label htmlFor="name" className="block text-sm font-medium text-gray-700">
+                                Name
+                            </label>
+                            <input
+                            type="text"
+                            id="certificate_name"
+                            name="certificate_name"
+                            value={newCert.certificate_name}
+                            onChange={handleInputCert}
+                            className="border border-gray-300 rounded-md shadow-sm mt-1 block w-full"
+                            />
+                        </div>
+                        <div className="mb-4">
+                            <label htmlFor="age" className="block text-sm font-medium text-gray-700">
+                                Status
+                            </label>
+                            <input
+                            type="text"
+                            id="status"
+                            name="status"
+                            value={newCert.status}
+                            onChange={handleInputCert}
+                            className="border border-gray-300 rounded-md shadow-sm mt-1 block w-full"
+                            />
+                        </div>
+                        <div className="mb-4">
+                            <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+                                Expiration Date
+                            </label>
+                            <input
+                            type="date"
+                            id="expiration"
+                            name="expiration"
+                            value={newCert.expiration}
+                            onChange={handleInputCert}
+                            className="border border-gray-300 rounded-md shadow-sm mt-1 block w-full"
+                            />
+                        </div>
+                        <div className="mb-4">
+                            <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+                                Last Audited
+                            </label>
+                            <input
+                            type="date"
+                            id="last_audited"
+                            name="last_audited"
+                            value={newCert.last_audited}
+                            onChange={handleInputCert}
+                            className="border border-gray-300 rounded-md shadow-sm mt-1 block w-full"
+                            />
+                        </div>
+                        <div className="mb-4">
+                            <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+                                Link
+                            </label>
+                            <input
+                            type="text"
+                            id="link"
+                            name="link"
+                            value={newCert.link}
+                            onChange={handleInputCert}
+                            className="border border-gray-300 rounded-md shadow-sm mt-1 block w-full"
+                            />
+                        </div>
+                        <div className="mb-4">
+                            <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+                                Notes
+                            </label>
+                            <input
+                            type="text"
+                            id="notes"
+                            name="notes"
+                            value={newCert.notes}
+                            onChange={handleInputCert}
+                            className="border border-gray-300 rounded-md shadow-sm mt-1 block w-full"
+                            />
+                        </div>
+                        <div className="flex justify-end">
+                            <button
+                            onClick={handleCloseCertBtn}
+                            className="mr-2 px-4 py-2 text-sm font-medium text-gray-700 border border-gray-300 rounded-md hover:bg-gray-50"
+                            >
+                            Cancel
+                            </button>
+                            <button
+                            onClick={handleAddCert}
+                            className="px-4 py-2 text-sm font-medium text-white bg-blue-500 rounded-md hover:bg-blue-600"
+                            >
+                            Add
+                            </button>
+                        </div>
+                        </form>
+                    </div>
+                    </div>
+                )}
             </div>
         </div>
     </div>
