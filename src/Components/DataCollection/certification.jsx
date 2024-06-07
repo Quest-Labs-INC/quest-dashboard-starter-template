@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import { generalFunction } from '../../assets/Config/generalFunction'
+import  Button from '../Common/CommonComponents/Button'
+import  Table from '../Common/CommonComponents/Table'
 
 export default function Compliance() {
   const [tableData, setTableData] = useState([]);
@@ -51,52 +52,16 @@ export default function Compliance() {
   return (
     <div className="flex flex-col justify-center overflow-hidden mt-20 p-6">
       <h1 className="text-xl text-center mb-10">Certifications</h1>
-      <table className="border-separate border-spacing-0 border rounded-md shadow">
-        <thead>
-          <tr>
-            {fields.map((field) => (
-              <th key={field.id} className="font-medium px-4 py-2">
-                {field.label}
-              </th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-        {tableData.map((row, index) => (
-          <tr key={index}>
-            {fields.map((field) => (
-              <td key={field.id} className="border px-4 py-2">
-                <Link to={`/certification/${row[field.id]}`}>
-                  {row[field.id]}
-                </Link>
-              </td>
-            ))}
-          </tr>
-        ))}
-        </tbody>
-      </table>
-
+      <Table
+        fields={fields}
+        tableData={tableData}
+      />
       <div className="mb-6 mt-10 flex items-center justify-center">
-          <button
-            onClick={handleOpenPopup}
-            type="submit"
-            className="
-                h-10
-                px-5
-                text-lg
-                text-black-100
-                rounded-lg
-                shadow
-                transition-colors
-                duration-150
-                focus:shadow-outline
-                hover:bg-green-500
-                "
-          >
-            Add Compliance
-          </button>
-        </div>
-
+        <Button
+          label="Add compliance"
+          handleFunction = {handleOpenPopup}
+        />
+      </div>
       {isPopupOpen && (
         <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center">
           <div className="bg-white p-6 rounded-lg">
