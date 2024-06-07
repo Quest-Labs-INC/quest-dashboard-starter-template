@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { generalFunction } from '../../assets/Config/generalFunction'
 import  Button from '../Common/CommonComponents/Button'
 import  Table from '../Common/CommonComponents/Table'
+import PopUp from '../Common/CommonComponents/PopUp'
 
 export default function Compliance() {
   const [tableData, setTableData] = useState([]);
@@ -63,42 +64,13 @@ export default function Compliance() {
         />
       </div>
       {isPopupOpen && (
-        <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center">
-          <div className="bg-white p-6 rounded-lg">
-            <h2 className="text-lg font-bold mb-4">Add New Row</h2>
-            <form onSubmit={(e) => e.preventDefault()}>
-              {fields.map((field) => (
-              <div className="mb-4" key={field.id}>
-                <label htmlFor={field.id} className="block text-sm font-medium text-gray-700">
-                  {field.label}
-                </label>
-                <input
-                  type={field.type}
-                  id={field.id}
-                  name={field.id}
-                  value={newRowData[field.id]}
-                  onChange={handleInputChange}
-                  className="border border-gray-300 rounded-md shadow-sm mt-1 block w-full"
-                />
-              </div>
-            ))}
-              <div className="flex justify-end">
-                <button
-                  onClick={handleClosePopup}
-                  className="mr-2 px-4 py-2 text-sm font-medium text-gray-700 border border-gray-300 rounded-md hover:bg-gray-50"
-                >
-                  Cancel
-                </button>
-                <button
-                  onClick={handleAddRow}
-                  className="px-4 py-2 text-sm font-medium text-white bg-blue-500 rounded-md hover:bg-blue-600"
-                >
-                  Add
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
+        <PopUp
+          fields={fields}
+          newRowData={newRowData}
+          handleInputChange={handleInputChange}
+          handleClosePopup={handleClosePopup}
+          handleAddRow={handleAddRow}
+        />
       )}
     </div>
 
