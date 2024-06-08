@@ -16,6 +16,7 @@ import Login from "../../Components/Login/Login";
 import Onboarding from "../../Components/Onboarding/Onboarding";
 import ReferralPage from "../../Components/Referral/ReferralPage";
 import Settings from "../../Components/Settings/Settings";
+import Parameteroverview from "../../Components/DataCollection/parameteroverview";
 import DataCollection from "../../Components/DataCollection/datacollection";
 import Certification from "../../Components/DataCollection/certification";
 // add SupplierManagement Component
@@ -82,26 +83,12 @@ export const routesConfig = [
         isUpper: true,
     },
     {
-        path: "/insights",
-        name: "Insights",
-        logo: InsightsSvg(),
-        component: (
-            <ProviderConfig showTag={false}>
-                <DashboardWrapper selectdRoute={"insights"}>
-                    <ComingSoon></ComingSoon>
-                </DashboardWrapper>
-            </ProviderConfig>
-        ),
-        hidden: false,
-        isUpper: true,
-    },
-    {
         path: "/data_collection",
         name: "Data Collection",
         logo: IconDatabase(),
         component: (
             <ProviderConfig showTag={false}>
-                <DashboardWrapper selectdRoute={"parameteroverview"}>
+                <DashboardWrapper selectdRoute={"metrics"}>
                     <Parameteroverview></Parameteroverview>
                 </DashboardWrapper>
             </ProviderConfig>
@@ -152,7 +139,6 @@ export const routesConfig = [
         isUpper: true,
     },
     {
-
         path: "/datacollection/:admin/:admin/:admin",
         name: "DataPoint",
         logo: InsightsSvg(),
@@ -167,7 +153,6 @@ export const routesConfig = [
         isUpper: true,
     },
     {
-
         path: "/compliance",
         name: "Compliance",
         logo: IconPaper_folded(),
