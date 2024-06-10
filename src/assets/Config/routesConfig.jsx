@@ -16,7 +16,7 @@ import Login from "../../Components/Login/Login";
 import Onboarding from "../../Components/Onboarding/Onboarding";
 import ReferralPage from "../../Components/Referral/ReferralPage";
 import Settings from "../../Components/Settings/Settings";
-import Metrics from "../../Components/DataCollection/metrics";
+import Parameteroverview from "../../Components/DataCollection/parameteroverview";
 import DataCollection from "../../Components/DataCollection/datacollection";
 import Certification from "../../Components/DataCollection/certification";
 // add SupplierManagement Component
@@ -89,7 +89,7 @@ export const routesConfig = [
         component: (
             <ProviderConfig showTag={false}>
                 <DashboardWrapper selectdRoute={"metrics"}>
-                    <Metrics></Metrics>
+                    <Parameteroverview></Parameteroverview>
                 </DashboardWrapper>
             </ProviderConfig>
         ),
