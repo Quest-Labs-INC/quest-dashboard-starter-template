@@ -4,9 +4,9 @@ import  Button from '../Common/CommonComponents/Button'
 import  Table from '../Common/CommonComponents/Table'
 import PopUp from '../Common/CommonComponents/PopUp'
 
-export default function ProjectManagement() {
+export default function ProjectPage() {
   const fields = [
-    { id: 'project_id', label: 'Project ID', type: 'number', link: true},
+    { id: 'task_id', label: 'Project ID', type: 'number' },
     { id: 'project', label: 'Project', type: 'text' },
     { id: 'status', label: 'Status', type: 'text' },
     { id: 'due_date', label: 'Due Date', type: 'text' },
@@ -16,9 +16,9 @@ export default function ProjectManagement() {
   const initial_fields = { task_id: '', project: '', status: '', due_date: '', lead: '' }
 
   const [AllProjects, setAllProjects] = useState([]);
-  const [newProject, setProject] = useState({
-    project_id: '',
-    project: '',
+  const [newProject, setProject] = useState({ 
+    task_id: '',
+    project: '', 
     status: '',
     due_date: '',
     lead: '',
@@ -34,7 +34,7 @@ export default function ProjectManagement() {
         console.error('Error fetching data:', error);
       }
     };
-    getData();
+    getData(); 
   }, [])
 
   const handleOpenPopup = () => {
@@ -43,16 +43,16 @@ export default function ProjectManagement() {
 
   const handleClosePopup = () => {
     setIsPopupOpen(false);
-    const newProject_ = {
-        project_id: newProject.project_id,
-        project: newProject.project,
+    const newProject_ = { 
+        task_id: newProject.task_id,
+        project: newProject.project, 
         status: newProject.status,
         lead: newProject.lead,
     }
     generalFunction.createTableRow(`project_management`, newProject_);
-    setProject({
-        project_id: '',
-        project: '',
+    setProject({ 
+        task_id: '',
+        project: '', 
         status: '',
         due_date: '',
         lead: '',
@@ -66,7 +66,7 @@ export default function ProjectManagement() {
       [name]: value,
     }));
   };
-
+  
   const handleAddRow = () => {
     setAllProjects((prevData) => [...prevData, newProject]);
     handleClosePopup();
@@ -74,11 +74,10 @@ export default function ProjectManagement() {
 
   return (
     <div className="flex flex-col justify-center overflow-hidden mt-20 p-6">
-      <h1 className="text-xl text-center mb-10">Compliance Management</h1>
+      <h1 className="text-xl text-center mb-10">Project Page Test</h1>
       <Table
         fields={fields}
         tableData={AllProjects}
-        pageLink="/project_management/project_page/"
       />
       <div className="mb-6 mt-10 flex items-center justify-center">
         <Button

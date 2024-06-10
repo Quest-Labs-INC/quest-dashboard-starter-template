@@ -21,6 +21,7 @@ import Metrics from "../../Components/DataCollection/metrics";
 import DataCollection from "../../Components/DataCollection/datacollection";
 import Certification from "../../Components/DataCollection/certification";
 import ProjectManagement from "../../Components/Compliance/projectManagement";
+import ProjectPage from "../../Components/Compliance/projectPage";
 // add SupplierManagement Component
 import SupplierManagement from "../../Components/DataCollection/supplierManagement";
 // add SupplierAnalytics Component
@@ -199,7 +200,7 @@ export const routesConfig = [
     },
     {
         path: "/project_management",
-        name: "Project Management",
+        name: "Compliance Management",
         logo: IconListTask(),
         component: (
             <ProviderConfig showTag={false}>
@@ -209,6 +210,20 @@ export const routesConfig = [
             </ProviderConfig>
         ),
         hidden: false,
+        isUpper: true,
+    },
+    {
+        path: "/project_management/project_page/:id",
+        name: "Project Page",
+        logo: IconListTask(),
+        component: (
+            <ProviderConfig showTag={false}>
+                <DashboardWrapper selectdRoute={"suppliermanagement"}>
+                    <ProjectPage></ProjectPage>
+                </DashboardWrapper>
+            </ProviderConfig>
+        ),
+        hidden: true,
         isUpper: true,
     },
     {
