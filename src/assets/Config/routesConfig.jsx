@@ -10,6 +10,7 @@ import {
     IconDatabase,
     IconPaper_folded,
     IconTruck,
+    IconListTask,
 } from "../../Components/Common/SideBarSvg";
 import Dashboard from "../../Components/Dashboard/Dashboard";
 import Login from "../../Components/Login/Login";
@@ -19,6 +20,8 @@ import Settings from "../../Components/Settings/Settings";
 import Parameteroverview from "../../Components/DataCollection/parameteroverview";
 import DataCollection from "../../Components/DataCollection/datacollection";
 import Certification from "../../Components/DataCollection/certification";
+import ProjectManagement from "../../Components/Compliance/projectManagement";
+import ProjectPage from "../../Components/Compliance/projectPage";
 // add SupplierManagement Component
 import SupplierManagement from "../../Components/DataCollection/supplierManagement";
 // add SupplierAnalytics Component
@@ -189,6 +192,34 @@ export const routesConfig = [
             <ProviderConfig showTag={false}>
                 <DashboardWrapper selectdRoute={"suppliermanagement"}>
                     <SupplierAnalytics></SupplierAnalytics>
+                </DashboardWrapper>
+            </ProviderConfig>
+        ),
+        hidden: true,
+        isUpper: true,
+    },
+    {
+        path: "/project_management",
+        name: "Compliance Management",
+        logo: IconListTask(),
+        component: (
+            <ProviderConfig showTag={false}>
+                <DashboardWrapper selectdRoute={"suppliermanagement"}>
+                    <ProjectManagement></ProjectManagement>
+                </DashboardWrapper>
+            </ProviderConfig>
+        ),
+        hidden: false,
+        isUpper: true,
+    },
+    {
+        path: "/project_management/project_page/:id",
+        name: "Project Page",
+        logo: IconListTask(),
+        component: (
+            <ProviderConfig showTag={false}>
+                <DashboardWrapper selectdRoute={"suppliermanagement"}>
+                    <ProjectPage></ProjectPage>
                 </DashboardWrapper>
             </ProviderConfig>
         ),

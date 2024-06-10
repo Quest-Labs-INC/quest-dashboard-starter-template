@@ -145,6 +145,23 @@ export const generalFunction = {
         }
     },
 
+    getTableData: async (table) => {
+        const { data } = await supabase
+          .from(table)
+          .select('*')
+        return data;
+    },
+
+    createTableRow: async (table, newRowData) => {
+        print(newRowData)
+        const { data, error } = await supabase
+              .from(table)
+              .insert(newRowData)
+        if (error) {
+            throw error;
+        }
+    },
+
     fetchCompliances: async () => {
         const { data } = await supabase
           .from(`certification`)
@@ -153,7 +170,7 @@ export const generalFunction = {
     },
     
     createCompliance: async (newRowData) => {
-        const { data, error } =    await supabase
+        const { data, error } = await supabase
               .from(`certification`)
               .insert({ certification: newRowData.certification, status: newRowData.status , due_date: newRowData.due_date , task_assigned: newRowData.task_assigned , checklist: newRowData.checklist })
         
