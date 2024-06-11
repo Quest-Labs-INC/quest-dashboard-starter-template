@@ -188,7 +188,7 @@ export default function DashboardWrapper({ children, selectdRoute }) {
                                 </Link>
                             </li>
 
-                            <li className={"profileContSecondary toggle-btn"}>
+                            {/* <li className={"profileContSecondary toggle-btn"}>
                                 <div
                                     className={"profileContThird"}
                                     onClick={handleToggle}
@@ -206,7 +206,7 @@ export default function DashboardWrapper({ children, selectdRoute }) {
                                         {checked ? "Light Mode" : "Dark Mode"}
                                     </div>
                                 </div>
-                            </li>
+                            </li> */}
 
                             <li>
                                 <div
