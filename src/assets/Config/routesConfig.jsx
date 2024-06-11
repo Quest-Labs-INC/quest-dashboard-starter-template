@@ -21,6 +21,7 @@ import Parameteroverview from "../../Components/DataCollection/parameteroverview
 import DataCollection from "../../Components/DataCollection/datacollection";
 import Certification from "../../Components/DataCollection/certification";
 import ProjectManagement from "../../Components/Compliance/projectManagement";
+import Lca from "../../Components/ProductFootprint/lca";
 import ProjectPage from "../../Components/Compliance/projectPage";
 // add SupplierManagement Component
 import SupplierManagement from "../../Components/DataCollection/supplierManagement";
@@ -206,6 +207,20 @@ export const routesConfig = [
             <ProviderConfig showTag={false}>
                 <DashboardWrapper selectdRoute={"suppliermanagement"}>
                     <ProjectManagement></ProjectManagement>
+                </DashboardWrapper>
+            </ProviderConfig>
+        ),
+        hidden: false,
+        isUpper: true,
+    },
+    {
+        path: "/product_footprint",
+        name: "Product Footprint",
+        logo: IconListTask(),
+        component: (
+            <ProviderConfig showTag={false}>
+                <DashboardWrapper selectdRoute={"suppliermanagement"}>
+                    <Lca></Lca>
                 </DashboardWrapper>
             </ProviderConfig>
         ),
