@@ -6,6 +6,12 @@ import PopUp from '../Common/CommonComponents/PopUp'
 import DescriptionArea from '../Common/CommonComponents/DescriptionArea'
 import { useParams } from 'react-router-dom';
 
+// {
+//   Todo -
+//   1. Change the DB to get companu specific data
+//   2. Add Edit Button to the Table
+// }
+
 export default function ProjectPage() {
   const project_fields = [
     { id: 'project_id', label: 'Project ID', type: 'number' },
@@ -48,7 +54,7 @@ export default function ProjectPage() {
     const getData = async () => {
       try {
         // Get project data
-        const project_info = await generalFunction.getTableRow(`project_management`, id);
+        const project_info = await generalFunction.getTableRow(`project_management`, "project_id", id);
         setProjectInfo(project_info);
         setDescription(project_info[0].description);
         // Get task data
@@ -72,8 +78,10 @@ export default function ProjectPage() {
       e.preventDefault();
       generalFunction.updateRow(
         `project_management`,
+        "description",
         description,
-        project_id
+        "project_id",
+        id
       );
     };
 

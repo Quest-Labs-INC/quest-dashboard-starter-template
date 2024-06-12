@@ -3,7 +3,6 @@ import Button from './Button'
 
 const DescriptionArea = ({description, handleSubmit, handleChange}) => {
   return (
-
     <div className="description-form mt-5">
     <form onSubmit={handleSubmit}>
       <textarea

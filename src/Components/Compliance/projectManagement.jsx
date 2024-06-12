@@ -43,8 +43,14 @@ export default function ProjectManagement() {
     setIsPopupOpen(true);
   };
 
+  const getProjectNumber = async () => {
+    const data = await generalFunction.getTableData(`project_management`);
+    setProjectTracker(data.length + 1)
+  }
+
   const handleClosePopup = () => {
     setIsPopupOpen(false);
+    getProjectNumber();
     const newProject_ = {
         project_id: projectTracker,
         project: newProject.project,
