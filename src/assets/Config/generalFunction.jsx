@@ -152,6 +152,24 @@ export const generalFunction = {
         return data;
     },
 
+    getTableRow: async (table, row_name, row_id) => {
+        const { data } = await supabase
+          .from(table)
+          .select('*').eq([row_name], row_id)
+        return data;
+    },
+
+    updateRow: async(table, update_column, update_data, key_column, key_data) => {
+        const { error } = await supabase
+        .from(table)
+        .update({[update_column]: update_data})
+        .eq(key_column, key_data)
+
+        if (error) {
+            throw error;
+        }
+    },
+
     createTableRow: async (table, newRowData) => {
         print(newRowData)
         const { data, error } = await supabase

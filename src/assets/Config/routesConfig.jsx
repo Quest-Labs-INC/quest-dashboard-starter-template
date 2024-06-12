@@ -19,7 +19,7 @@ import ReferralPage from "../../Components/Referral/ReferralPage";
 import Settings from "../../Components/Settings/Settings";
 import Parameteroverview from "../../Components/DataCollection/parameteroverview";
 import DataCollection from "../../Components/DataCollection/datacollection";
-import Certification from "../../Components/DataCollection/certification";
+import Certification from "../../Components/Compliance/complianceFramework";
 import ProjectManagement from "../../Components/Compliance/projectManagement";
 import ProjectPage from "../../Components/Compliance/projectPage";
 // add SupplierManagement Component
@@ -156,20 +156,6 @@ export const routesConfig = [
         isUpper: true,
     },
     {
-        path: "/compliance",
-        name: "Compliance",
-        logo: IconPaper_folded(),
-        component: (
-            <ProviderConfig showTag={false}>
-                <DashboardWrapper selectdRoute={"certification"}>
-                    <Certification></Certification>
-                </DashboardWrapper>
-            </ProviderConfig>
-        ),
-        hidden: false,
-        isUpper: true,
-    },
-    {
         path: "/suppliermanagement",
         name: "Supplier Management",
         logo: IconTruck(),
@@ -224,6 +210,20 @@ export const routesConfig = [
             </ProviderConfig>
         ),
         hidden: true,
+        isUpper: true,
+    },
+    {
+        path: "/compliance",
+        name: "Compliance Frameworks",
+        logo: IconPaper_folded(),
+        component: (
+            <ProviderConfig showTag={false}>
+                <DashboardWrapper selectdRoute={"certification"}>
+                    <Certification></Certification>
+                </DashboardWrapper>
+            </ProviderConfig>
+        ),
+        hidden: false,
         isUpper: true,
     },
     {
