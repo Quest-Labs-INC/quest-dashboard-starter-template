@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { supabase } from '../../supabaseClient';
 import { Link, useParams } from 'react-router-dom';
 import Table from '../Common/CommonComponents/Table';
+import PopUp from '../Common/CommonComponents/PopUp';
 
 export default function Parameter() {
     const [tableData, setTableData] = useState([]);
@@ -14,11 +15,14 @@ export default function Parameter() {
     const [loadingFacilities, setLoadingFacilities] = useState(true);
     const [loadingProcesses, setLoadingProcesses] = useState(false);
     const [collectionData, setCollectionData] = useState([]);
+    const [parameterData, setParameterData] = useState([]);
+    const [popupFields, setPopupFields] = useState([]);
 
     const tableFields = [
         { id: 'point_name', label: 'Point Name' },
         { id: 'point_method', label: 'Method' },
-        { id: 'user_name', label: 'User Name' }
+        { id: 'user_name', label: 'User Name' },
+        
     ];
 
     async function fetchFacilities() {
@@ -50,6 +54,37 @@ export default function Parameter() {
             setCollectionData(data);
         }
     }
+
+    async function handleCellClick(row) {
+        setIsPopupOpen(true);
+        
+        const { data, error } = await supabase
+            .from('data_collection_points')
+            .select(`
+                *,
+                parameter_log(
+                     value, log_date 
+                )
+            `)
+            .eq('name', row.point_name);
+
+        if (error) {
+            console.error(error);
+        } else {
+            setParameterData(data[0]);
+            setPopupFields([
+                { id: 'name', label: 'Name' },
+                { id: 'method', label: 'Method' },
+                { id: 'parameter_log', label: 'Parameter Log', type: 'table', tableFields: [{id: 'Value', label : 'Value'}, {id:'log_date', label: 'Log Date'}]}
+            ]);
+        }
+    }
+
+
+    const handleClosePopup = () => {
+        setIsPopupOpen(false);
+        setParameterData([]);
+    };
 
     useEffect(() => {
         fetchFacilities();
@@ -123,8 +158,12 @@ export default function Parameter() {
                             {collectionData.map((row, index) => (
                                 <tr key={index}>
                                     {tableFields.map((field) => (
-                                    <td key={field.id} className="border px-4 py-2">
-                                        <Link to={`/data_collection/${parameter}/${row.point_id}`}>{row[field.id]}</Link>
+                                    <td
+                                    key={field.id}
+                                    className="border px-4 py-2 cursor-pointer"
+                                    onClick={() => handleCellClick(row)}
+                                    >
+                                        {row[field.id]}
                                     </td>
                                     ))}
                                 </tr>
@@ -132,6 +171,15 @@ export default function Parameter() {
                             </tbody>   
                         </table>
                     </div>
+                    {isPopupOpen && (
+                        <PopUp
+                        title="Parameter Data"
+                        fields={popupFields}
+                        newRowData={parameterData}
+                        handleClosePopup={handleClosePopup}
+                        readOnly={true}
+                      />
+                    )}
                 </div>
             </div>
         </div>
