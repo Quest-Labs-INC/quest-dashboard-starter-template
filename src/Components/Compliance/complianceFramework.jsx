@@ -10,7 +10,7 @@ export default function Compliance() {
   const [newRowData, setNewRowData] = useState({ certification: '', status: '', due_date: '', task_assigned: '',  checklist: '' });
 
   const fields = [
-    { id: 'certification', label: 'Certification', type: 'text' },
+    { id: 'certification', label: 'Compliance', type: 'text' },
     { id: 'status', label: 'Status', type: 'text' },
     { id: 'due_date', label: 'Due Date', type: 'date' },
     { id: 'task_assigned', label: 'Task Assigned', type: 'text' },
@@ -52,7 +52,7 @@ export default function Compliance() {
 
   return (
     <div className="flex flex-col justify-center overflow-hidden mt-20 p-6">
-      <h1 className="text-xl text-center mb-10">Certifications</h1>
+      <h1 className="text-xl text-center mb-10">Compliance Framework</h1>
       <Table
         fields={fields}
         tableData={tableData}
