@@ -1,11 +1,11 @@
 import React from "react";
-import Button from './Button'
+import Button from './Button';
 
-const PopUp = ({fields, newRowData, handleInputChange, handleClosePopup, handleAddRow}) => {
+const PopUp = ({popupTitle = 'New Task', fields, newRowData, handleInputChange, handleClosePopup, handleAddRow}) => {
   return (
     <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center">
-    <div className="bg-white p-6 w-1/2 h-1/2 max-w-4xl max-h-screen rounded-lg">
-      <h2 className="text-lg font-mdm mb-4 flex justify-center items-center">New Task</h2>
+    <div className="bg-white p-6 w-1/2 max-w-4xl max-h-screen rounded-lg overflow-y-auto">
+      <h2 className="text-lg font-mdm mb-4 flex justify-center items-center">{popupTitle}</h2>
       <form onSubmit={(e) => e.preventDefault()}>
         {fields.map((field) => (
         <div className="mb-4" key={field.id}>
