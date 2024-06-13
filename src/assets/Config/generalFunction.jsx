@@ -145,6 +145,41 @@ export const generalFunction = {
         }
     },
 
+    getTableData: async (table) => {
+        const { data } = await supabase
+          .from(table)
+          .select('*')
+        return data;
+    },
+
+    getTableRow: async (table, row_name, row_id) => {
+        const { data } = await supabase
+          .from(table)
+          .select('*').eq([row_name], row_id)
+        return data;
+    },
+
+    updateRow: async(table, update_column, update_data, key_column, key_data) => {
+        const { error } = await supabase
+        .from(table)
+        .update({[update_column]: update_data})
+        .eq(key_column, key_data)
+
+        if (error) {
+            throw error;
+        }
+    },
+
+    createTableRow: async (table, newRowData) => {
+        print(newRowData)
+        const { data, error } = await supabase
+              .from(table)
+              .insert(newRowData)
+        if (error) {
+            throw error;
+        }
+    },
+
     fetchCompliances: async () => {
         const { data } = await supabase
           .from(`certification`)
@@ -153,7 +188,7 @@ export const generalFunction = {
     },
     
     createCompliance: async (newRowData) => {
-        const { data, error } =    await supabase
+        const { data, error } = await supabase
               .from(`certification`)
               .insert({ certification: newRowData.certification, status: newRowData.status , due_date: newRowData.due_date , task_assigned: newRowData.task_assigned , checklist: newRowData.checklist })
         

@@ -10,6 +10,7 @@ import {
     IconDatabase,
     IconPaper_folded,
     IconTruck,
+    IconListTask,
 } from "../../Components/Common/SideBarSvg";
 import Dashboard from "../../Components/Dashboard/Dashboard";
 import Login from "../../Components/Login/Login";
@@ -18,7 +19,9 @@ import ReferralPage from "../../Components/Referral/ReferralPage";
 import Settings from "../../Components/Settings/Settings";
 import Parameteroverview from "../../Components/DataCollection/parameteroverview";
 import DataCollection from "../../Components/DataCollection/datacollection";
-import Certification from "../../Components/DataCollection/certification";
+import Certification from "../../Components/Compliance/complianceFramework";
+import ProjectManagement from "../../Components/Compliance/projectManagement";
+import ProjectPage from "../../Components/Compliance/projectPage";
 // add SupplierManagement Component
 import SupplierManagement from "../../Components/DataCollection/supplierManagement";
 // add SupplierAnalytics Component
@@ -153,20 +156,6 @@ export const routesConfig = [
         isUpper: true,
     },
     {
-        path: "/compliance",
-        name: "Compliance",
-        logo: IconPaper_folded(),
-        component: (
-            <ProviderConfig showTag={false}>
-                <DashboardWrapper selectdRoute={"certification"}>
-                    <Certification></Certification>
-                </DashboardWrapper>
-            </ProviderConfig>
-        ),
-        hidden: false,
-        isUpper: true,
-    },
-    {
         path: "/suppliermanagement",
         name: "Supplier Management",
         logo: IconTruck(),
@@ -193,6 +182,48 @@ export const routesConfig = [
             </ProviderConfig>
         ),
         hidden: true,
+        isUpper: true,
+    },
+    {
+        path: "/project_management",
+        name: "Compliance Management",
+        logo: IconListTask(),
+        component: (
+            <ProviderConfig showTag={false}>
+                <DashboardWrapper selectdRoute={"suppliermanagement"}>
+                    <ProjectManagement></ProjectManagement>
+                </DashboardWrapper>
+            </ProviderConfig>
+        ),
+        hidden: false,
+        isUpper: true,
+    },
+    {
+        path: "/project_management/project_page/:id",
+        name: "Project Page",
+        logo: IconListTask(),
+        component: (
+            <ProviderConfig showTag={false}>
+                <DashboardWrapper selectdRoute={"suppliermanagement"}>
+                    <ProjectPage></ProjectPage>
+                </DashboardWrapper>
+            </ProviderConfig>
+        ),
+        hidden: true,
+        isUpper: true,
+    },
+    {
+        path: "/compliance",
+        name: "Compliance Frameworks",
+        logo: IconPaper_folded(),
+        component: (
+            <ProviderConfig showTag={false}>
+                <DashboardWrapper selectdRoute={"certification"}>
+                    <Certification></Certification>
+                </DashboardWrapper>
+            </ProviderConfig>
+        ),
+        hidden: false,
         isUpper: true,
     },
     {
