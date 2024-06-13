@@ -3,6 +3,7 @@ import { supabase } from '../../supabaseClient';
 import { Link, useParams } from 'react-router-dom';
 import Table from '../Common/CommonComponents/Table';
 import PopUp from '../Common/CommonComponents/PopUp';
+import Button from '../Common/CommonComponents/Button';
 
 export default function Parameter() {
     const [tableData, setTableData] = useState([]);
@@ -21,80 +22,89 @@ export default function Parameter() {
     const tableFields = [
         { id: 'point_name', label: 'Point Name' },
         { id: 'point_method', label: 'Method' },
-        { id: 'user_name', label: 'User Name' },
-        
+        { id: 'user_name', label: 'User Name' }
     ];
 
-    async function fetchFacilities() {
-        const { data, error } = await supabase.from('facility').select('*');
-        if (error) {
-            console.error(error);
-        } else {
-            setFacilities(data);
-        }
-        setLoadingFacilities(false);
-    }
+    useEffect(() => {
+        const fetchFacilities = async () => {
+            setLoadingFacilities(true);
+            const { data, error } = await supabase.from('facility').select('*');
+            if (error) {
+                console.error(error);
+            } else {
+                setFacilities(data);
+            }
+            setLoadingFacilities(false);
+        };
 
-    async function fetchProcesses(facilityId) {
-        setLoadingProcesses(true);
-        const { data, error } = await supabase.from('process').select('*').eq('facility_id', facilityId);
-        if (error) {
-            console.error(error);
-        } else {
-            setProcesses(data);
-        }
-        setLoadingProcesses(false);
-    }
+        fetchFacilities();
+    }, []);
 
-    async function fetchParameterData(processId) {
-        const { data, error } = await supabase.rpc('dc_points', { process: processId , param : parameter});
-        if (error) {
-            console.error(error);
-        } else {
-            setCollectionData(data);
-        }
-    }
+    useEffect(() => {
+        if (!selectedFacility) return;
 
-    async function handleCellClick(row) {
+        const fetchProcesses = async (facilityId) => {
+            setLoadingProcesses(true);
+            const { data, error } = await supabase.from('process').select('*').eq('facility_id', facilityId);
+            if (error) {
+                console.error(error);
+            } else {
+                setProcesses(data);
+            }
+            setLoadingProcesses(false);
+        };
+
+        fetchProcesses(selectedFacility);
+    }, [selectedFacility]);
+
+    useEffect(() => {
+        if (!selectedProcess) return;
+
+        const fetchParameterData = async (processId) => {
+            const { data, error } = await supabase.rpc('dc_points', { process: processId, param: parameter });
+            if (error) {
+                console.error(error);
+            } else {
+                setCollectionData(data);
+            }
+        };
+
+        fetchParameterData(selectedProcess);
+    }, [selectedProcess]);
+
+    const handleCellClick = async (row) => {
         setIsPopupOpen(true);
         
         const { data, error } = await supabase
             .from('data_collection_points')
             .select(`
                 *,
-                parameter_log(
-                     value, log_date 
-                )
+                parameter_log(value, log_date),
+                users(name)
             `)
             .eq('name', row.point_name);
 
         if (error) {
             console.error(error);
         } else {
-            setParameterData(data[0]);
+            const processedData = {
+                ...data[0],
+                user_name: data[0].users.name
+            };
+            setParameterData(processedData);
             setPopupFields([
                 { id: 'name', label: 'Name' },
                 { id: 'method', label: 'Method' },
-                { id: 'parameter_log', label: 'Parameter Log', type: 'table', tableFields: [{id: 'Value', label : 'Value'}, {id:'log_date', label: 'Log Date'}]}
+                { id: 'user_name', label: 'User Name' },
+                { id: 'parameter_log', label: 'Parameter Log', type: 'table', tableFields: [{ id: 'value', label: 'Value' }, { id: 'log_date', label: 'Log Date' }] }
             ]);
         }
     }
-
 
     const handleClosePopup = () => {
         setIsPopupOpen(false);
         setParameterData([]);
     };
-
-    useEffect(() => {
-        fetchFacilities();
-    }, []);
-
-    useEffect(() => {
-        if (selectedProcess) {
-            fetchParameterData(selectedProcess);
-        }
-    }, [selectedProcess]);
 
     return (
         <div className="relative flex flex-col justify-center overflow-hidden mt-20">
@@ -103,82 +113,73 @@ export default function Parameter() {
                 <div className="container mx-auto">
                     <div className="flex flex-row justify-between">
                         <div>
-                            <label htmlFor="facility" className="block text-sm font-medium text-gray-700">Facility</label>
-                            <select
-                                id="facility"
-                                name="facility"
-                                className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
-                                onChange={(e) => {
-                                    const facilityId = e.target.value;
-                                    setSelectedFacility(facilityId);
-                                    fetchProcesses(facilityId);
-                                }}
-                            >
-                                <option value="">Select a facility</option>
+                            <h2 className="text-xl">Facilities</h2>
+                            <div className="flex space-x-4">
                                 {!loadingFacilities && facilities.map((facility) => (
-                                    <option key={facility.facility_id} value={facility.facility_id}>
-                                        {facility.facility_name}
-                                    </option>
+                                    <Button
+                                        key={facility.facility_id}
+                                        label={facility.facility_name}
+                                        handleFunction={() => {
+                                            setSelectedFacility(facility.facility_id);
+                                            fetchProcesses(facility.facility_id);
+                                        }}
+                                        isSelected={selectedFacility === facility.facility_id}
+                                    />
                                 ))}
-                            </select>
+                            </div>
                         </div>
-                        <div>
-                            <label htmlFor="process" className="block text-sm font-medium text-gray-700">Process</label>
-                            <select
-                                id="process"
-                                name="process"
-                                className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
-                                onChange={(e) => {
-                                    setSelectedProcess(e.target.value);
-                                }}
-                                disabled={!selectedFacility || loadingProcesses}
-                            >
-                                <option value="">Select a process</option>
-                                {!loadingProcesses && processes.map((process) => (
-                                    <option key={process.process_id} value={process.process_id}>
-                                        {process.process_name}
-                                    </option>
-                                ))}
-                            </select>
+                    </div>
+                    <div>
+                        <h2 className="text-xl">Processes</h2>
+                        <div className="flex space-x-4">
+                            {!loadingProcesses && processes.map((process) => (
+                                <Button
+                                    key={process.process_id}
+                                    label={process.process_name}
+                                    handleFunction={() => setSelectedProcess(process.process_id)}
+                                    isSelected={selectedProcess === process.process_id}
+                                    disabled={!selectedFacility}
+                                />
+                            ))}
                         </div>
                     </div>
                     <div className="mt-4">
                         <h2 className="text-xl">Data Collection Points</h2>
-                        <table className = "border-separate border-spacing-0 border rounded-md shadow">
+                        <table className="border-separate border-spacing-0 border rounded-md shadow">
                             <thead>
                                 <tr>
                                     {tableFields.map((field) => (
-                                    <th key={field.id} className="font-medium px-4 py-2">
-                                        {field.label}
-                                    </th>
+                                        <th key={field.id} className="font-medium px-4 py-2">
+                                            {field.label}
+                                        </th>
                                     ))}
                                 </tr>
                             </thead>
                             <tbody>
-                            {collectionData.map((row, index) => (
-                                <tr key={index}>
-                                    {tableFields.map((field) => (
-                                    <td
-                                    key={field.id}
-                                    className="border px-4 py-2 cursor-pointer"
-                                    onClick={() => handleCellClick(row)}
-                                    >
-                                        {row[field.id]}
-                                    </td>
-                                    ))}
-                                </tr>
-                            ))}
-                            </tbody>   
+                                {collectionData.map((row, index) => (
+                                    <tr key={index}>
+                                        {tableFields.map((field) => (
+                                            <td
+                                                key={field.id}
+                                                className="border px-4 py-2 cursor-pointer"
+                                                onClick={() => handleCellClick(row)}
+                                            >
+                                                {row[field.id]}
+                                            </td>
+                                        ))}
+                                    </tr>
+                                ))}
+                            </tbody>
                         </table>
                     </div>
                     {isPopupOpen && (
                         <PopUp
-                        title="Parameter Data"
-                        fields={popupFields}
-                        newRowData={parameterData}
-                        handleClosePopup={handleClosePopup}
-                        readOnly={true}
-                      />
+                            title="Parameter Data"
+                            fields={popupFields}
+                            newRowData={parameterData}
+                            handleClosePopup={handleClosePopup}
+                            readOnly={true}
+                        />
                     )}
                 </div>
             </div>
