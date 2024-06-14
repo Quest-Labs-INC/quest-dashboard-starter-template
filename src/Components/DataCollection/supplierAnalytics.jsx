@@ -1,71 +1,89 @@
 // importing react features to use states, effects, and links
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-// import database
-import { supabase } from '../../supabaseClient';
+import { generalFunction } from '../../assets/Config/generalFunction';
+import  Button from '../Common/CommonComponents/Button'
+import  Table from '../Common/CommonComponents/Table'
+import PopUp from '../Common/CommonComponents/PopUp'
 
-// declare + export SupplierAnalytics component
 export default function SupplierAnalytics() {
-    // SETUP
-
-    // supplier
     const [supplierData, setSupplierData] = useState({});
-
-    // product
     const [productData, setProductData] = useState([]);
     const [isProdBtnOpen, setProdBtnOpen] = useState(false);
-    const [newProd, setNewProd] = useState({ id: '', product_name: '', serial_number: '', last_exported: '', volume: '' });
-
-    // cerificate
+    const [newProd, setNewProd] = useState({ product_name: '', serial_number: '', last_exported: '', volume: '', supplier_id: '' });
+    const [isEditProdOpen, setEditProdOpen] = useState(false);
+    const [prodRowData, setProdRowData] = useState({ id: '', product_name: '', serial_number: '', last_exported: '', volume: '' });
+    const [prodRowIndex, setProdRowIndex] = useState(-1);
     const [certificateData, setCertificateData] = useState([]);
     const [isCertBtnOpen, setCertBtnOpen] = useState(false);
-    const [newCert, setNewCert] = useState({ id: '', certificate_name: '', status: '', expiration: '',  last_audited: '', link: '', notes: '' });
-    // edit certificate
+    const [newCert, setNewCert] = useState({ certificate_name: '', status: '', expiration: '',  last_audited: '', link: '', notes: '', supplier_id: '' });
     const [isEditCertOpen, setEditCertOpen] = useState(false);
-    const [certRowData, setCertRowData] = useState({ certificate_name: '', status: '', expiration: '',  last_audited: '', link: '', notes: '' });
+    const [certRowData, setCertRowData] = useState({ id: '', certificate_name: '', status: '', expiration: '', last_audited: '', link: '', notes: '' });
     const [certRowIndex, setCertRowIndex] = useState(-1);
+    const [validationErrors, setValidationErrors] = useState({});
 
-    // get supplier name from url
     const url = window.location.href;
     const parts = url.split('/');
     let supplier = parts[parts.length - 1];
-    // replace any %20 with spaces
     supplier = supplier.replace(/%20/g, ' ');
-    
+
+    const supFields = [
+        { id: 'supplier_name', label: 'Supplier Name', type: 'text' },
+        { id: 'location', label: 'Location', type: 'text' },
+        { id: 'key_product', label: 'Key Product', type: 'text' },
+        { id: 'sustainability_score', label: 'Sustainability Score', type: 'text' },
+        { id: 'key_contact', label: 'Key Contact', type: 'text' },
+        { id: 'key_email', label: 'Key Email', type: 'text' }
+    ];
+
+    const certFields = [
+        { id: 'certificate_name', label: 'Certificate Name', type: 'text' },
+        { id: 'status', label: 'Status', type: 'text' },
+        { id: 'expiration', label: 'Expiration', type: 'date' },
+        { id: 'last_audited', label: 'Last Audited', type: 'date' },
+        { id: 'link', label: 'Link', type: 'text' },
+        { id: 'notes', label: 'Notes', type: 'text' }
+    ];
+
+    const prodFields = [
+        { id: 'product_name', label: 'Product Name', type: 'text' },
+        { id: 'serial_number', label: 'Serial Number', type: 'number' },
+        { id: 'last_exported', label: 'Last Exported', type: 'date' },
+        { id: 'volume', label: 'Volume', type: 'number' }
+    ];
+
     async function fetchSupplierData() {
-        // retrieve supplier data from database
-        const { data } = await supabase
-          .from(`supplier_management`)
-          .select('*')
-          .eq('supplier_name', supplier)
-        if (data && data.length > 0) {
-            setSupplierData(data[0]);
+        try {
+            const data = await generalFunction.fetchSupplierAnalytics(supplier);
+            if (data && data.length > 0) {
+                setSupplierData(data[0]);
+            }
+        } catch (error) {
+            console.log('Error fetching supplier analytics:', error);
         }
     }
 
     async function fetchProductData() {
-        // retrieve product data from database
-        const { data } = await supabase
-          .from(`supplier_products`)
-          .select('*')
-          .eq('id', supplierData.id)
-        if (data && data.length > 0) {
-            setProductData(data);
+        try {
+            const data = await generalFunction.fetchSupplierProducts(supplierData);
+            if (data && data.length > 0) {
+                setProductData(data);
+            }
+        } catch (error) {
+            console.log('Error fetching supplier products:', error);
         }
     }
 
     async function fetchCertificateData() {
-        // retrieve certificate data from database
-        const { data } = await supabase
-          .from(`certificates`)
-          .select('*')
-          .eq('id', supplierData.id)
-        if (data && data.length > 0) {
-            setCertificateData(data);
+        try {
+            const data = await generalFunction.fetchSupplierCertificates(supplierData);
+            if (data && data.length > 0) {
+                setCertificateData(data);
+            }
+        } catch (error) {
+            console.log('Error fetching supplier certificates:', error);
         }
     }
 
-    // fetch all needed information once when the page loads
     useEffect(() => {
         fetchSupplierData()
     }, [])
@@ -74,63 +92,45 @@ export default function SupplierAnalytics() {
         if (supplierData.id != null) {
             fetchProductData()
             fetchCertificateData()
-            console.log('inside');
         }
-        console.log('outside');
     }, [supplierData.id])
 
-    // ADD CERTIFICATE BUTTON FUNCTIONS
-
-    // opens add certificate popup
     const openAddCert = () => {
+        setValidationErrors({});
         setCertBtnOpen(true);
     };
 
-    // updates newCertData var when input changes
     const handleInputCert = (e) => {
-        // gets name + value from event target
         const { name, value } = e.target;
-        // add new name + value pair to obj along w/ prev data
         setNewCert((prevData) => ({
         ...prevData,
         [name]: value,
         }));
     };
 
-    // creates new certificate in the database
-    async function createCert() {
-        await supabase
-        .from(`certificates`)
-        .insert({ id: supplierData.id, certificate_name: newCert.certificate_name, status: newCert.status , expiration: newCert.expiration , last_audited: newCert.last_audited , link: newCert.link , notes: newCert.notes })
-    }
-
-    // closes add certificate popup
     const handleCloseCertBtn = () => {
         setCertBtnOpen(false);
-        // resets newCert props to empty strings
-        setNewCert({ id: '', certificate_name: '', status: '', expiration: '',  last_audited: '', link: '', notes: '' });
+        setNewCert({ certificate_name: '', status: '', expiration: '',  last_audited: '', link: '', notes: '', supplier_id: '' });
     };
 
-    // adds new certificate to table, creates new row in database, and closes popup
     const handleAddCert = () => {
+        const errors = generalFunction.validateData(newCert, certFields);
+        if (Object.keys(errors).length > 0) {
+          setValidationErrors(errors);
+          return;
+        }
         setCertificateData((prevData) => [...prevData, newCert]);
-        createCert();
+        generalFunction.createSupplierCertificate(newCert, supplierData);
         handleCloseCertBtn();
     };
 
-    //  EDIT CERTIFICATE BUTTON FUNCTIONS 
-
-    // opens edit certificate popup
     const openEditCert = (row, index) => {
-        // set row data
+        setValidationErrors({});
         setCertRowData(row);
-        // set index
         setCertRowIndex(index);
-        // open edit popup
         setEditCertOpen(true);
     }
 
-    // handle input changes in the edit certificate form
     const handleEditCertInput = (e) => {
         const { name, value } = e.target;
         setCertRowData((prevData) => ({
@@ -139,476 +139,185 @@ export default function SupplierAnalytics() {
         }));
     };
 
-    // submit edited certificate data
     async function handleEditCertSubmit() {
-        // update certificate data in database
-        await supabase
-            .from('certificates')
-            .update({
-                certificate_name: certRowData.certificate_name,
-                status: certRowData.status,
-                expiration: certRowData.expiration,
-                last_audited: certRowData.last_audited,
-                link: certRowData.link,
-                notes: certRowData.notes,
-            })
-            .eq('certificate_name', certRowData.certificate_name); // adjust the conditions based on your data model
-
-        // update the table with the edited certificate data
+        const errors = generalFunction.validateData(certRowData, certFields);
+        if (Object.keys(errors).length > 0) {
+          setValidationErrors(errors);
+          return;
+        }
+        generalFunction.editSupplierCertificate(certRowData);
         setCertificateData((prevData) => {
             const newData = [...prevData];
             newData[certRowIndex] = { ...certRowData };
             return newData;
         });
-
-        // close the edit form
         setEditCertOpen(false);
     }
 
-    // close the edit certificate popup
     const handleCloseEditCert = () => {
         setEditCertOpen(false);
-        // resets newCert props to empty strings
         setCertRowData({ certificate_name: '', status: '', expiration: '',  last_audited: '', link: '', notes: '' });
         setCertRowIndex(-1);
     };
 
-    // ADD PRODUCT BUTTON FUNCTIONS
-
-    // opens add product popup
     const openAddProd = () => {
+        setValidationErrors({});
         setProdBtnOpen(true);
     };
 
-    // updates newProdData var when input changes
     const handleInputProd = (e) => {
-        // gets name + value from event target
         const { name, value } = e.target;
-        // add new name + value pair to obj along w/ prev data
         setNewProd((prevData) => ({
         ...prevData,
         [name]: value,
         }));
     };
 
-    // creates new product in the database
-    async function createProd() {
-        console.log("Creating product with data:", {
-            id: supplierData.id, 
-            product_name: newProd.product_name, 
-            serial_number: newProd.serial_number, 
-            last_exported: newProd.last_exported, 
-            volume: newProd.volume
-        });
-
-        const { data, error } = await supabase
-          .from('supplier_products')
-          .insert({
-              id: supplierData.id, 
-              product_name: newProd.product_name, 
-              serial_number: newProd.serial_number, 
-              last_exported: newProd.last_exported, 
-              volume: newProd.volume
-          });
-
-        if (error) {
-            console.error("Error inserting product:", error);
-        } else {
-            console.log("Product inserted:", data);
-        }
-    }
-
-
-    // closes add product popup
     const handleCloseProdBtn = () => {
         setProdBtnOpen(false);
-        // resets newProd props to empty strings
-        setNewProd({ id: '', product_name: '', serial_number: '', last_exported: '', volume: '' });
+        setNewProd({ product_name: '', serial_number: '', last_exported: '', volume: '', supplier_id: '' });
     };
 
-    // adds new certificate to table, creates new row in database, and closes popup
     const handleAddProd = () => {
+        const errors = generalFunction.validateData(newProd, prodFields);
+        if (Object.keys(errors).length > 0) {
+          setValidationErrors(errors);
+          return;
+        }
         setProductData((prevData) => [...prevData, newProd]);
-        createProd();
+        generalFunction.createSupplierProduct(newProd, supplierData);
         handleCloseProdBtn();
     };
 
+    const openEditProd = (row, index) => {
+        setValidationErrors({});
+        setProdRowData(row);
+        setProdRowIndex(index);
+        setEditProdOpen(true);
+    }
+
+    const handleEditProdInput = (e) => {
+        const { name, value } = e.target;
+        setProdRowData((prevData) => ({
+            ...prevData,
+            [name]: value,
+        }));
+    };
+
+    async function handleEditProdSubmit() {
+        const errors = generalFunction.validateData(prodRowData, prodFields);
+        if (Object.keys(errors).length > 0) {
+          setValidationErrors(errors);
+          return;
+        }
+        generalFunction.editSupplierProduct(prodRowData);
+        setProductData((prevData) => {
+            const newData = [...prevData];
+            newData[prodRowIndex] = { ...prodRowData };
+            return newData;
+        });
+        setEditProdOpen(false);
+    }
+
+    const handleCloseEditProd = () => {
+        setEditProdOpen(false);
+        setProdRowData({ product_name: '', serial_number: '', last_exported: '', volume: '' });
+        setProdRowIndex(-1);
+    };
+
+    const certActions = [
+        <Button
+        label="Edit"
+        handleFunction = {openEditCert}
+        />,
+    ];
+
+    const prodActions = [
+        <Button
+        label="Edit"
+        handleFunction = {openEditProd}
+        />,
+    ];
+
     return (
-    <div className="relative flex flex-col justify-center overflow-hidden mt-20">
-        <div className="w-full p-6 m-auto bg-white rounded-md shadow-xl shadow-black-600/40 lg:max-w-4xl">
-        <div className="flex flex-row justify-between">
-            <h1 className="text-2xl text-left mb-4">{`${supplierData.supplier_name}`}</h1>
-            <button className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">Request Information</button>
+        <div className="flex flex-col justify-center overflow-hidden mt-20 p-6">
+        <h1 className="text-xl text-center mb-10">{supplierData.supplier_name}</h1>
+        <Table
+          fields={supFields}
+          tableData={[supplierData]}
+        />
+        <h1 className="text-xl text-center m-10">Products</h1>
+        <Table
+        fields={prodFields}
+        tableData={productData}
+        hasActions={true}
+        actions={prodActions}
+        />
+        <div className="mb-6 mt-10 flex items-center justify-center">
+          <Button
+            label="Add Product"
+            handleFunction={openAddProd}
+          />
         </div>
-            <div className="container mx-auto">
-                <h2 className="text-1xl text-left mb-4 font-thin">Supplier Information</h2>
-                {Object.keys(supplierData).length > 0 ? (
-                    <div className="flex flex-row flex-wrap justify-center text-center m-4 ml-0 rounded-lg border-black border-[1px] border-solid">
-                        {Object.entries(supplierData).map((element, index) => (
-                            index !== 0 && (
-                                <div key={element[0]} className="m-2">
-                                    <strong className="capitalize">{element[0].replace('_', ' ')}:</strong> {element[1] || 'MISSING'}
-                                </div>
-                        )))}
-                    </div>                        
-                    ) : (
-                        <p>No supplier data available.</p>
-                )}
-                <h2 className="text-1xl text-left mb-4 font-thin">Products</h2>
-                <table className="mt-4 mb-4 w-full border-collapse border border-gray-300">
-                    <thead>
-                    <tr>
-                        <th className="border border-gray-300 px-4 py-2">Product Name</th>
-                        <th className="border border-gray-300 px-4 py-2">Serial Number</th>
-                        <th className="border border-gray-300 px-4 py-2">Last Exported</th>
-                        <th className="border border-gray-300 px-4 py-2">Volume</th>
-                        <th className="border border-gray-300 px-4 py-2">Actions</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {productData.map((row, index) => (
-                        <tr key={index}>
-                            <td className="border border-gray-300 px-4 py-2">
-                                {row.product_name}
-                            </td>
-                            <td className="border border-gray-300 px-4 py-2">
-                                {row.serial_number}
-                            </td>
-                            <td className="border border-gray-300 px-4 py-2">
-                                {row.last_exported}
-                            </td>
-                            <td className="border border-gray-300 px-4 py-2">
-                                {row.volume}
-                            </td>
-                            <td className="border border-gray-300 px-4 py-2">
-                                <button className="m-2 px-4 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 ">Edit</button>
-                            </td>
-                        </tr>
-                    ))}
-                    </tbody>
-                </table>
-                <button onClick={openAddProd} className="px-4 py-2 mt-4 mb-4 bg-blue-500 text-white rounded hover:bg-blue-600">Add Product</button>
-                {isProdBtnOpen && (
-                    <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center">
-                    <div className="bg-white p-6 rounded-lg">
-                        <h2 className="text-lg font-bold mb-4">Add Product</h2>
-                        <form onSubmit={(e) => e.preventDefault()}>
-                        <div className="mb-4">
-                            <label htmlFor="name" className="block text-sm font-medium text-gray-700">
-                                Name
-                            </label>
-                            <input
-                            type="text"
-                            id="product_name"
-                            name="product_name"
-                            value={newProd.product_name}
-                            onChange={handleInputProd}
-                            className="border border-gray-300 rounded-md shadow-sm mt-1 block w-full"
-                            />
-                        </div>
-                        <div className="mb-4">
-                            <label htmlFor="age" className="block text-sm font-medium text-gray-700">
-                                Serial Number
-                            </label>
-                            <input
-                            type="text"
-                            id="serial_number"
-                            name="serial_number"
-                            value={newProd.serial_number}
-                            onChange={handleInputProd}
-                            className="border border-gray-300 rounded-md shadow-sm mt-1 block w-full"
-                            />
-                        </div>
-                        <div className="mb-4">
-                            <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-                                Last Exported
-                            </label>
-                            <input
-                            type="date"
-                            id="last_exported"
-                            name="last_exported"
-                            value={newProd.last_exported}
-                            onChange={handleInputProd}
-                            className="border border-gray-300 rounded-md shadow-sm mt-1 block w-full"
-                            />
-                        </div>
-                        <div className="mb-4">
-                            <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-                                Volume
-                            </label>
-                            <input
-                            type="text"
-                            id="volume"
-                            name="volume"
-                            value={newProd.volume}
-                            onChange={handleInputProd}
-                            className="border border-gray-300 rounded-md shadow-sm mt-1 block w-full"
-                            />
-                        </div>
-                        <div className="flex justify-end">
-                            <button
-                            onClick={handleCloseProdBtn}
-                            className="mr-2 px-4 py-2 text-sm font-medium text-gray-700 border border-gray-300 rounded-md hover:bg-gray-50"
-                            >
-                            Cancel
-                            </button>
-                            <button
-                            onClick={handleAddProd}
-                            className="px-4 py-2 text-sm font-medium text-white bg-blue-500 rounded-md hover:bg-blue-600"
-                            >
-                            Add
-                            </button>
-                        </div>
-                        </form>
-                    </div>
-                    </div>
-                )}
-                <h2 className="text-1xl text-left mb-4 font-thin">Certification</h2>
-                <table className="mt-4 mb-4 w-full border-collapse border border-gray-300">
-                    <thead>
-                    <tr>
-                        <th className="border border-gray-300 px-4 py-2">Certificate Name</th>
-                        <th className="border border-gray-300 px-4 py-2">Status</th>
-                        <th className="border border-gray-300 px-4 py-2">Expiration Date</th>
-                        <th className="border border-gray-300 px-4 py-2">Last Audited</th>
-                        <th className="border border-gray-300 px-4 py-2">Link</th>
-                        <th className="border border-gray-300 px-4 py-2">Notes</th>
-                        <th className="border border-gray-300 px-4 py-2">Actions</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {certificateData.map((row, index) => (
-                        <tr key={index}>
-                            <td className="border border-gray-300 px-4 py-2">
-                                {row.certificate_name}
-                            </td>
-                            <td className="border border-gray-300 px-4 py-2">
-                                {row.status}
-                            </td>
-                            <td className="border border-gray-300 px-4 py-2">
-                                {row.expiration}
-                            </td>
-                            <td className="border border-gray-300 px-4 py-2">
-                                {row.last_audited}
-                            </td>
-                            <td className="border border-gray-300 px-4 py-2">
-                                {row.link}
-                            </td>
-                            <td className="border border-gray-300 px-4 py-2">
-                                {row.notes}
-                            </td>
-                            <td className="border border-gray-300 px-4 py-2">
-                                <button onClick={() => openEditCert(row, index)} className="m-2 px-4 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 ">Edit</button>
-                            </td>
-                        </tr>
-                    ))}
-                    </tbody>
-                </table>
-                {isEditCertOpen && (
-                    <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center">
-                    <div className="bg-white p-6 rounded-lg">
-                        <h2 className="text-lg font-bold mb-4">Edit Certificate</h2>
-                        <form onSubmit={(e) => e.preventDefault()}>
-                        <div className="mb-4">
-                            <label htmlFor="name" className="block text-sm font-medium text-gray-700">
-                                Name
-                            </label>
-                            <input
-                            type="text"
-                            id="certificate_name"
-                            name="certificate_name"
-                            value={certRowData.certificate_name}
-                            onChange={handleEditCertInput}
-                            className="border border-gray-300 rounded-md shadow-sm mt-1 block w-full"
-                            />
-                        </div>
-                        <div className="mb-4">
-                            <label htmlFor="age" className="block text-sm font-medium text-gray-700">
-                                Status
-                            </label>
-                            <input
-                            type="text"
-                            id="status"
-                            name="status"
-                            value={certRowData.status}
-                            onChange={handleEditCertInput}
-                            className="border border-gray-300 rounded-md shadow-sm mt-1 block w-full"
-                            />
-                        </div>
-                        <div className="mb-4">
-                            <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-                                Expiration Date
-                            </label>
-                            <input
-                            type="date"
-                            id="expiration"
-                            name="expiration"
-                            value={certRowData.expiration}
-                            onChange={handleEditCertInput}
-                            className="border border-gray-300 rounded-md shadow-sm mt-1 block w-full"
-                            />
-                        </div>
-                        <div className="mb-4">
-                            <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-                                Last Audited
-                            </label>
-                            <input
-                            type="date"
-                            id="last_audited"
-                            name="last_audited"
-                            value={certRowData.last_audited}
-                            onChange={handleEditCertInput}
-                            className="border border-gray-300 rounded-md shadow-sm mt-1 block w-full"
-                            />
-                        </div>
-                        <div className="mb-4">
-                            <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-                                Link
-                            </label>
-                            <input
-                            type="text"
-                            id="link"
-                            name="link"
-                            value={certRowData.link}
-                            onChange={handleEditCertInput}
-                            className="border border-gray-300 rounded-md shadow-sm mt-1 block w-full"
-                            />
-                        </div>
-                        <div className="mb-4">
-                            <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-                                Notes
-                            </label>
-                            <input
-                            type="text"
-                            id="notes"
-                            name="notes"
-                            value={certRowData.notes}
-                            onChange={handleEditCertInput}
-                            className="border border-gray-300 rounded-md shadow-sm mt-1 block w-full"
-                            />
-                        </div>
-                        <div className="flex justify-end">
-                            <button
-                            onClick={handleCloseEditCert}
-                            className="mr-2 px-4 py-2 text-sm font-medium text-gray-700 border border-gray-300 rounded-md hover:bg-gray-50"
-                            >
-                            Cancel
-                            </button>
-                            <button
-                            onClick={handleEditCertSubmit}
-                            className="px-4 py-2 text-sm font-medium text-white bg-blue-500 rounded-md hover:bg-blue-600"
-                            >
-                            Submit Edit
-                            </button>
-                        </div>
-                        </form>
-                    </div>
-                    </div>
-                )}
-                <button onClick={openAddCert} className="px-4 py-2 mt-4 mb-4 bg-blue-500 text-white rounded hover:bg-blue-600">Add Certificate</button>
-                {isCertBtnOpen && (
-                    <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center">
-                    <div className="bg-white p-6 rounded-lg">
-                        <h2 className="text-lg font-bold mb-4">Add Certificate</h2>
-                        <form onSubmit={(e) => e.preventDefault()}>
-                        <div className="mb-4">
-                            <label htmlFor="name" className="block text-sm font-medium text-gray-700">
-                                Name
-                            </label>
-                            <input
-                            type="text"
-                            id="certificate_name"
-                            name="certificate_name"
-                            value={newCert.certificate_name}
-                            onChange={handleInputCert}
-                            className="border border-gray-300 rounded-md shadow-sm mt-1 block w-full"
-                            />
-                        </div>
-                        <div className="mb-4">
-                            <label htmlFor="age" className="block text-sm font-medium text-gray-700">
-                                Status
-                            </label>
-                            <input
-                            type="text"
-                            id="status"
-                            name="status"
-                            value={newCert.status}
-                            onChange={handleInputCert}
-                            className="border border-gray-300 rounded-md shadow-sm mt-1 block w-full"
-                            />
-                        </div>
-                        <div className="mb-4">
-                            <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-                                Expiration Date
-                            </label>
-                            <input
-                            type="date"
-                            id="expiration"
-                            name="expiration"
-                            value={newCert.expiration}
-                            onChange={handleInputCert}
-                            className="border border-gray-300 rounded-md shadow-sm mt-1 block w-full"
-                            />
-                        </div>
-                        <div className="mb-4">
-                            <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-                                Last Audited
-                            </label>
-                            <input
-                            type="date"
-                            id="last_audited"
-                            name="last_audited"
-                            value={newCert.last_audited}
-                            onChange={handleInputCert}
-                            className="border border-gray-300 rounded-md shadow-sm mt-1 block w-full"
-                            />
-                        </div>
-                        <div className="mb-4">
-                            <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-                                Link
-                            </label>
-                            <input
-                            type="text"
-                            id="link"
-                            name="link"
-                            value={newCert.link}
-                            onChange={handleInputCert}
-                            className="border border-gray-300 rounded-md shadow-sm mt-1 block w-full"
-                            />
-                        </div>
-                        <div className="mb-4">
-                            <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-                                Notes
-                            </label>
-                            <input
-                            type="text"
-                            id="notes"
-                            name="notes"
-                            value={newCert.notes}
-                            onChange={handleInputCert}
-                            className="border border-gray-300 rounded-md shadow-sm mt-1 block w-full"
-                            />
-                        </div>
-                        <div className="flex justify-end">
-                            <button
-                            onClick={handleCloseCertBtn}
-                            className="mr-2 px-4 py-2 text-sm font-medium text-gray-700 border border-gray-300 rounded-md hover:bg-gray-50"
-                            >
-                            Cancel
-                            </button>
-                            <button
-                            onClick={handleAddCert}
-                            className="px-4 py-2 text-sm font-medium text-white bg-blue-500 rounded-md hover:bg-blue-600"
-                            >
-                            Add
-                            </button>
-                        </div>
-                        </form>
-                    </div>
-                    </div>
-                )}
-            </div>
+        {isProdBtnOpen && (
+          <PopUp
+            title='Add Product'
+            fields={prodFields}
+            newRowData={newProd}
+            handleInputChange={handleInputProd}
+            handleClosePopup={handleCloseProdBtn}
+            handleSave={handleAddProd}
+            validationErrors={validationErrors}
+          />
+        )}
+        {isEditProdOpen && (
+          <PopUp
+            title='Edit Product'
+            fields={prodFields}
+            newRowData={prodRowData}
+            handleInputChange={handleEditProdInput}
+            handleClosePopup={handleCloseEditProd}
+            handleSave={handleEditProdSubmit}
+            button2Label='Edit'
+            validationErrors={validationErrors}
+          />
+        )}
+        <h1 className="text-xl text-center m-10">Certificates</h1>
+        <Table
+        fields={certFields}
+        tableData={certificateData}
+        hasActions={true}
+        actions={certActions}
+        />
+        <div className="mb-6 mt-10 flex items-center justify-center">
+          <Button
+            label="Add Certificate"
+            handleFunction={openAddCert}
+          />
         </div>
-    </div>
+        {isCertBtnOpen && (
+          <PopUp
+            title='Add Certificate'
+            fields={certFields}
+            newRowData={newCert}
+            handleInputChange={handleInputCert}
+            handleClosePopup={handleCloseCertBtn}
+            handleSave={handleAddCert}
+            validationErrors={validationErrors}
+          />
+        )}
+        {isEditCertOpen && (
+          <PopUp
+            title='Edit Certificate'
+            fields={certFields}
+            newRowData={certRowData}
+            handleInputChange={handleEditCertInput}
+            handleClosePopup={handleCloseEditCert}
+            handleSave={handleEditCertSubmit}
+            button2Label='Edit'
+            validationErrors={validationErrors}
+          />
+        )}
+      </div>
     );
 }
