@@ -1,40 +1,29 @@
 // importing react features to use states, effects, and links
 import React, { useState, useEffect } from 'react';
-import { supabase } from '../../supabaseClient';
+import { generalFunction } from '../../assets/Config/generalFunction';
 import  Button from '../Common/CommonComponents/Button'
 import  Table from '../Common/CommonComponents/Table'
 import PopUp from '../Common/CommonComponents/PopUp'
 
-// declare + export SupplierAnalytics component
 export default function SupplierAnalytics() {
-    // SETUP
-
-    // supplier
     const [supplierData, setSupplierData] = useState({});
-
-    // product
     const [productData, setProductData] = useState([]);
     const [isProdBtnOpen, setProdBtnOpen] = useState(false);
-    const [newProd, setNewProd] = useState({ supplier_id: '', product_name: '', serial_number: '', last_exported: '', volume: '' });
-    // edit product
+    const [newProd, setNewProd] = useState({ product_name: '', serial_number: '', last_exported: '', volume: '', supplier_id: '' });
     const [isEditProdOpen, setEditProdOpen] = useState(false);
     const [prodRowData, setProdRowData] = useState({ id: '', product_name: '', serial_number: '', last_exported: '', volume: '' });
     const [prodRowIndex, setProdRowIndex] = useState(-1);
-
-    // cerificate
     const [certificateData, setCertificateData] = useState([]);
     const [isCertBtnOpen, setCertBtnOpen] = useState(false);
     const [newCert, setNewCert] = useState({ certificate_name: '', status: '', expiration: '',  last_audited: '', link: '', notes: '', supplier_id: '' });
-    // edit certificate
     const [isEditCertOpen, setEditCertOpen] = useState(false);
     const [certRowData, setCertRowData] = useState({ id: '', certificate_name: '', status: '', expiration: '', last_audited: '', link: '', notes: '' });
     const [certRowIndex, setCertRowIndex] = useState(-1);
+    const [validationErrors, setValidationErrors] = useState({});
 
-    // get supplier name from url
     const url = window.location.href;
     const parts = url.split('/');
     let supplier = parts[parts.length - 1];
-    // replace any %20 with spaces
     supplier = supplier.replace(/%20/g, ' ');
 
     const supFields = [
@@ -57,45 +46,44 @@ export default function SupplierAnalytics() {
 
     const prodFields = [
         { id: 'product_name', label: 'Product Name', type: 'text' },
-        { id: 'serial_number', label: 'Serial Number', type: 'text' },
+        { id: 'serial_number', label: 'Serial Number', type: 'number' },
         { id: 'last_exported', label: 'Last Exported', type: 'date' },
-        { id: 'volume', label: 'Volume', type: 'text' }
+        { id: 'volume', label: 'Volume', type: 'number' }
     ];
 
     async function fetchSupplierData() {
-        // retrieve supplier data from database
-        const { data } = await supabase
-          .from(`supplier_management`)
-          .select('*')
-          .eq('supplier_name', supplier)
-        if (data && data.length > 0) {
-            setSupplierData(data[0]);
+        try {
+            const data = await generalFunction.fetchSupplierAnalytics(supplier);
+            if (data && data.length > 0) {
+                setSupplierData(data[0]);
+            }
+        } catch (error) {
+            console.log('Error fetching supplier analytics:', error);
         }
     }
 
     async function fetchProductData() {
-        // retrieve product data from database
-        const { data } = await supabase
-          .from(`supplier_products`)
-          .select('*')
-          .eq('supplier_id', supplierData.id)
-        if (data && data.length > 0) {
-            setProductData(data);
+        try {
+            const data = await generalFunction.fetchSupplierProducts(supplierData);
+            if (data && data.length > 0) {
+                setProductData(data);
+            }
+        } catch (error) {
+            console.log('Error fetching supplier products:', error);
         }
     }
 
     async function fetchCertificateData() {
-        // retrieve certificate data from database
-        const { data } = await supabase
-          .from(`supplier_certificates`)
-          .select('*')
-          .eq('supplier_id', supplierData.id)
-        if (data && data.length > 0) {
-            setCertificateData(data);
+        try {
+            const data = await generalFunction.fetchSupplierCertificates(supplierData);
+            if (data && data.length > 0) {
+                setCertificateData(data);
+            }
+        } catch (error) {
+            console.log('Error fetching supplier certificates:', error);
         }
     }
 
-    // fetch all needed information once when the page loads
     useEffect(() => {
         fetchSupplierData()
     }, [])
@@ -107,58 +95,42 @@ export default function SupplierAnalytics() {
         }
     }, [supplierData.id])
 
-    // ADD CERTIFICATE BUTTON FUNCTIONS
-
-    // opens add certificate popup
     const openAddCert = () => {
+        setValidationErrors({});
         setCertBtnOpen(true);
     };
 
-    // updates newCertData var when input changes
     const handleInputCert = (e) => {
-        // gets name + value from event target
         const { name, value } = e.target;
-        // add new name + value pair to obj along w/ prev data
         setNewCert((prevData) => ({
         ...prevData,
         [name]: value,
         }));
     };
 
-    // creates new certificate in the database
-    async function createCert() {
-        await supabase
-        .from(`supplier_certificates`)
-        .insert({ certificate_name: newCert.certificate_name, status: newCert.status , expiration: newCert.expiration , last_audited: newCert.last_audited , link: newCert.link , notes: newCert.notes, supplier_id: supplierData.id })
-    }
-
-    // closes add certificate popup
     const handleCloseCertBtn = () => {
         setCertBtnOpen(false);
-        // resets newCert props to empty strings
         setNewCert({ certificate_name: '', status: '', expiration: '',  last_audited: '', link: '', notes: '', supplier_id: '' });
     };
 
-    // adds new certificate to table, creates new row in database, and closes popup
     const handleAddCert = () => {
+        const errors = generalFunction.validateData(newCert, certFields);
+        if (Object.keys(errors).length > 0) {
+          setValidationErrors(errors);
+          return;
+        }
         setCertificateData((prevData) => [...prevData, newCert]);
-        createCert();
+        generalFunction.createSupplierCertificate(newCert, supplierData);
         handleCloseCertBtn();
     };
 
-    //  EDIT CERTIFICATE BUTTON FUNCTIONS 
-
-    // opens edit certificate popup
     const openEditCert = (row, index) => {
-        // set row data
+        setValidationErrors({});
         setCertRowData(row);
-        // set index
         setCertRowIndex(index);
-        // open edit popup
         setEditCertOpen(true);
     }
 
-    // handle input changes in the edit certificate form
     const handleEditCertInput = (e) => {
         const { name, value } = e.target;
         setCertRowData((prevData) => ({
@@ -167,112 +139,63 @@ export default function SupplierAnalytics() {
         }));
     };
 
-    // submit edited certificate data
     async function handleEditCertSubmit() {
-        // update certificate data in database
-        await supabase
-            .from('supplier_certificates')
-            .update({
-                certificate_name: certRowData.certificate_name,
-                status: certRowData.status,
-                expiration: certRowData.expiration,
-                last_audited: certRowData.last_audited,
-                link: certRowData.link,
-                notes: certRowData.notes,
-            })
-            .eq('id', certRowData.id);
-
-        // update the table with the edited certificate data
+        const errors = generalFunction.validateData(certRowData, certFields);
+        if (Object.keys(errors).length > 0) {
+          setValidationErrors(errors);
+          return;
+        }
+        generalFunction.editSupplierCertificate(certRowData);
         setCertificateData((prevData) => {
             const newData = [...prevData];
             newData[certRowIndex] = { ...certRowData };
             return newData;
         });
-
-        // close the edit form
         setEditCertOpen(false);
     }
 
-    // close the edit certificate popup
     const handleCloseEditCert = () => {
         setEditCertOpen(false);
-        // resets newCert props to empty strings
         setCertRowData({ certificate_name: '', status: '', expiration: '',  last_audited: '', link: '', notes: '' });
         setCertRowIndex(-1);
     };
 
-    // ADD PRODUCT BUTTON FUNCTIONS
-
-    // opens add product popup
     const openAddProd = () => {
+        setValidationErrors({});
         setProdBtnOpen(true);
     };
 
-    // updates newProdData var when input changes
     const handleInputProd = (e) => {
-        // gets name + value from event target
         const { name, value } = e.target;
-        // add new name + value pair to obj along w/ prev data
         setNewProd((prevData) => ({
         ...prevData,
         [name]: value,
         }));
     };
 
-    // creates new product in the database
-    async function createProd() {
-        console.log("Creating product with data:", {
-            supplier_id: supplierData.id, 
-            product_name: newProd.product_name, 
-            serial_number: newProd.serial_number, 
-            last_exported: newProd.last_exported, 
-            volume: newProd.volume
-        });
-
-        const { data, error } = await supabase
-          .from('supplier_products')
-          .insert({ 
-              product_name: newProd.product_name, 
-              serial_number: newProd.serial_number, 
-              last_exported: newProd.last_exported, 
-              volume: newProd.volume,
-              supplier_id: supplierData.id,
-          });
-
-        if (error) {
-            console.error("Error inserting product:", error);
-        } else {
-            console.log("Product inserted:", data);
-        }
-    }
-
-    // closes add product popup
     const handleCloseProdBtn = () => {
         setProdBtnOpen(false);
-        // resets newProd props to empty strings
-        setNewProd({ supplier_id: '', product_name: '', serial_number: '', last_exported: '', volume: '' });
+        setNewProd({ product_name: '', serial_number: '', last_exported: '', volume: '', supplier_id: '' });
     };
 
-    // adds new certificate to table, creates new row in database, and closes popup
     const handleAddProd = () => {
+        const errors = generalFunction.validateData(newProd, prodFields);
+        if (Object.keys(errors).length > 0) {
+          setValidationErrors(errors);
+          return;
+        }
         setProductData((prevData) => [...prevData, newProd]);
-        createProd();
+        generalFunction.createSupplierProduct(newProd, supplierData);
         handleCloseProdBtn();
     };
 
-    //  EDIT PRODUCT BUTTON FUNCTIONS 
-
-    // opens edit certificate popup
     const openEditProd = (row, index) => {
-        // set row data
+        setValidationErrors({});
         setProdRowData(row);
-        // set index
         setProdRowIndex(index);
-        // open edit popup
         setEditProdOpen(true);
     }
 
-    // handle input changes in the edit certificate form
     const handleEditProdInput = (e) => {
         const { name, value } = e.target;
         setProdRowData((prevData) => ({
@@ -281,34 +204,23 @@ export default function SupplierAnalytics() {
         }));
     };
 
-    // submit edited certificate data
     async function handleEditProdSubmit() {
-        // update certificate data in database
-        await supabase
-            .from('supplier_products')
-            .update({
-                product_name: prodRowData.product_name,
-                serial_number: prodRowData.serial_number,
-                last_exported: prodRowData.last_exported,
-                volume: prodRowData.volume
-            })
-            .eq('id', prodRowData.id);
-
-        // update the table with the edited certificate data
+        const errors = generalFunction.validateData(prodRowData, prodFields);
+        if (Object.keys(errors).length > 0) {
+          setValidationErrors(errors);
+          return;
+        }
+        generalFunction.editSupplierProduct(prodRowData);
         setProductData((prevData) => {
             const newData = [...prevData];
             newData[prodRowIndex] = { ...prodRowData };
             return newData;
         });
-
-        // close the edit form
         setEditProdOpen(false);
     }
 
-    // close the edit product popup
     const handleCloseEditProd = () => {
         setEditProdOpen(false);
-        // resets newCert props to empty strings
         setProdRowData({ product_name: '', serial_number: '', last_exported: '', volume: '' });
         setProdRowIndex(-1);
     };
@@ -344,7 +256,7 @@ export default function SupplierAnalytics() {
         <div className="mb-6 mt-10 flex items-center justify-center">
           <Button
             label="Add Product"
-            handleFunction = {openAddProd}
+            handleFunction={openAddProd}
           />
         </div>
         {isProdBtnOpen && (
@@ -355,6 +267,7 @@ export default function SupplierAnalytics() {
             handleInputChange={handleInputProd}
             handleClosePopup={handleCloseProdBtn}
             handleAddRow={handleAddProd}
+            validationErrors={validationErrors}
           />
         )}
         {isEditProdOpen && (
@@ -365,6 +278,8 @@ export default function SupplierAnalytics() {
             handleInputChange={handleEditProdInput}
             handleClosePopup={handleCloseEditProd}
             handleAddRow={handleEditProdSubmit}
+            button2Label='Edit'
+            validationErrors={validationErrors}
           />
         )}
         <h1 className="text-xl text-center m-10">Certificates</h1>
@@ -377,7 +292,7 @@ export default function SupplierAnalytics() {
         <div className="mb-6 mt-10 flex items-center justify-center">
           <Button
             label="Add Certificate"
-            handleFunction = {openAddCert}
+            handleFunction={openAddCert}
           />
         </div>
         {isCertBtnOpen && (
@@ -388,6 +303,7 @@ export default function SupplierAnalytics() {
             handleInputChange={handleInputCert}
             handleClosePopup={handleCloseCertBtn}
             handleAddRow={handleAddCert}
+            validationErrors={validationErrors}
           />
         )}
         {isEditCertOpen && (
@@ -398,6 +314,8 @@ export default function SupplierAnalytics() {
             handleInputChange={handleEditCertInput}
             handleClosePopup={handleCloseEditCert}
             handleAddRow={handleEditCertSubmit}
+            button2Label='Edit'
+            validationErrors={validationErrors}
           />
         )}
       </div>

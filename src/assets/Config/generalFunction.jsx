@@ -153,13 +153,150 @@ export const generalFunction = {
     },
     
     createCompliance: async (newRowData) => {
-        const { data, error } =    await supabase
+        const { data, error } = await supabase
               .from(`certification`)
               .insert({ certification: newRowData.certification, status: newRowData.status , due_date: newRowData.due_date , task_assigned: newRowData.task_assigned , checklist: newRowData.checklist })
         
         if (error) {
             throw error;
         }
-    }
+    },
     
+    fetchSuppliers: async () => {
+        const { data } = await supabase
+          .from(`supplier_management`)
+          .select('*')
+        return data; 
+    },
+
+    createSupplier: async (newRowData) => {
+        const {data, error} = await supabase
+          .from(`supplier_management`)
+          .insert({ supplier_name: newRowData.supplier_name, location: newRowData.location , key_product: newRowData.key_product , sustainability_score: newRowData.sustainability_score , key_contact: newRowData.key_contact , key_email: newRowData.key_email })
+        
+        if (error) {
+            throw error;
+        }
+    },
+
+    fetchSupplierAnalytics: async (supplier) => {
+        const { data } = await supabase
+            .from(`supplier_management`)
+            .select('*')
+            .eq('supplier_name', supplier)
+        return data;
+    },
+
+    fetchSupplierProducts: async (supplierData) => {
+        const { data } = await supabase
+            .from(`supplier_products`)
+            .select('*')
+            .eq('supplier_id', supplierData.id)
+        return data;
+    },
+
+    fetchSupplierCertificates: async (supplierData) => {
+        const { data } = await supabase
+            .from(`supplier_certificates`)
+            .select('*')
+            .eq('supplier_id', supplierData.id)
+        return data;
+    },
+
+    createSupplierCertificate: async (newCert, supplierData) => {
+        const {data, error} = await supabase
+            .from(`supplier_certificates`)
+            .insert({ 
+                certificate_name: newCert.certificate_name,
+                status: newCert.status , expiration: newCert.expiration,
+                last_audited: newCert.last_audited,
+                link: newCert.link , notes: newCert.notes,
+                supplier_id: supplierData.id
+            });
+
+        if (error) {
+            throw error;
+        }
+    },
+
+    editSupplierCertificate: async (certRowData) => {
+        const {data, error} = await supabase
+            .from('supplier_certificates')
+            .update({
+                certificate_name: certRowData.certificate_name,
+                status: certRowData.status,
+                expiration: certRowData.expiration,
+                last_audited: certRowData.last_audited,
+                link: certRowData.link,
+                notes: certRowData.notes,
+            })
+            .eq('id', certRowData.id);
+        
+        if (error) {
+            throw error;
+        }
+    },
+
+    createSupplierProduct: async (newProd, supplierData) => {
+        const { data, error } = await supabase
+            .from('supplier_products')
+            .insert({ 
+                product_name: newProd.product_name, 
+                serial_number: newProd.serial_number, 
+                last_exported: newProd.last_exported, 
+                volume: newProd.volume,
+                supplier_id: supplierData.id,
+            });
+
+        if (error) {
+            throw error;
+        }
+    },
+
+    editSupplierProduct: async (prodRowData) => {
+        const {data, error} = await supabase
+            .from('supplier_products')
+            .update({
+                product_name: prodRowData.product_name,
+                serial_number: prodRowData.serial_number,
+                last_exported: prodRowData.last_exported,
+                volume: prodRowData.volume
+            })
+            .eq('id', prodRowData.id);
+        
+        if (error) {
+            throw error;
+        }
+    },
+
+    validateData: (data, fields) => {
+        const errors = {};
+        fields.forEach(field => {
+            const value = data[field.id];
+            if (!value) {
+                errors[field.id] = `${field.label} is required`;
+            } else {
+                switch (field.type) {
+                    case 'email':
+                        if (!/\S+@\S+\.\S+/.test(value)) {
+                            errors[field.id] = `${field.label} is invalid`;
+                        }
+                        break;
+                    case 'date':
+                        if (isNaN(Date.parse(value))) {
+                            errors[field.id] = `${field.label} is not a valid date`;
+                        }
+                        break;
+                    case 'number':
+                        if (isNaN(value)) {
+                            errors[field.id] = `${field.label} must be a number`;
+                        }
+                        break;
+                    default:
+                        break;
+                }
+            }
+        });
+        return errors;
+    }
 }

@@ -5,7 +5,6 @@ const Table = ({ fields, tableData, hasLink = false, pageLink, hasActions = fals
   const navigate = useNavigate();
 
   const handleRowClick = (id) => {
-    console.log(id);
     navigate(`${pageLink}${id}`);
   };
 
@@ -42,11 +41,7 @@ const Table = ({ fields, tableData, hasLink = false, pageLink, hasActions = fals
               ))}
               {hasActions && (
                 <td className="border px-4 py-2">
-                  {actions.map((ActionButton, actionIndex) => (
-                    <span key={actionIndex} onClick={(e) => e.stopPropagation()}>
-                      {React.cloneElement(ActionButton, { handleFunction: () => ActionButton.props.handleFunction(row, index) })}
-                    </span>
-                  ))}
+                  {actions.map((ActionButton, actionIndex) => <span key={actionIndex} onClick={(e) => e.stopPropagation()}>{React.cloneElement(ActionButton, { handleFunction: () => ActionButton.props.handleFunction(row, index) })}</span>)}
                 </td>
               )}
             </tr>

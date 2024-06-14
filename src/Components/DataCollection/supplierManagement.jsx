@@ -1,16 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import { supabase } from '../../supabaseClient';
-import  Button from '../Common/CommonComponents/Button'
-import  Table from '../Common/CommonComponents/Table'
-import PopUp from '../Common/CommonComponents/PopUp'
+import { generalFunction } from '../../assets/Config/generalFunction';
+import  Button from '../Common/CommonComponents/Button';
+import  Table from '../Common/CommonComponents/Table';
+import PopUp from '../Common/CommonComponents/PopUp';
 
 export default function SupplierManagement() {
   const [tableData, setTableData] = useState([]);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [newRowData, setNewRowData] = useState({ supplier_name: '', location: '', key_product: '',  sustainability_score: '', key_contact: '', key_email: '' });
+  const [validationErrors, setValidationErrors] = useState({});
 
   const fields = [
-    { link: true, id: 'supplier_name', label: 'Supplier Name', type: 'text' },
+    { id: 'supplier_name', label: 'Supplier Name', type: 'text', link: true },
     { id: 'location', label: 'Location', type: 'text' },
     { id: 'key_product', label: 'Key Product', type: 'text' },
     { id: 'sustainability_score', label: 'Sustainability Score', type: 'text' },
@@ -19,17 +20,19 @@ export default function SupplierManagement() {
   ];
 
   useEffect(() => {
-    fetchMeasurement()
+    const getData = async () => {
+      try {
+        const data = await generalFunction.fetchSuppliers();
+        setTableData(data);
+      } catch(error) {
+        console.log('Error fetching supplier data:', error);
+      }
+    };
+    getData();
   }, [])
 
-  async function fetchMeasurement() {
-    const { data } = await supabase
-      .from(`supplier_management`)
-      .select('*')
-    setTableData(data); 
-  }
-
   const handleOpenPopup = () => {
+    setValidationErrors({});
     setIsPopupOpen(true);
   };
 
@@ -47,16 +50,15 @@ export default function SupplierManagement() {
   };
 
   const handleAddRow = () => {
+    const errors = generalFunction.validateData(newRowData, fields);
+    if (Object.keys(errors).length > 0) {
+      setValidationErrors(errors);
+      return;
+    }
     setTableData((prevData) => [...prevData, newRowData]);
-    createMeasurement();
+    generalFunction.createSupplier(newRowData);
     handleClosePopup();
   };
-
-  async function createMeasurement() {
-    await supabase
-      .from(`supplier_management`)
-      .insert({ supplier_name: newRowData.supplier_name, location: newRowData.location , key_product: newRowData.key_product , sustainability_score: newRowData.sustainability_score , key_contact: newRowData.key_contact , key_email: newRowData.key_email })
-  }
 
   return (
     <div className="flex flex-col justify-center overflow-hidden mt-20 p-6">
@@ -70,7 +72,7 @@ export default function SupplierManagement() {
       <div className="mb-6 mt-10 flex items-center justify-center">
         <Button
           label="Add Supplier"
-          handleFunction = {handleOpenPopup}
+          handleFunction={handleOpenPopup}
         />
       </div>
       {isPopupOpen && (
@@ -81,6 +83,7 @@ export default function SupplierManagement() {
           handleInputChange={handleInputChange}
           handleClosePopup={handleClosePopup}
           handleAddRow={handleAddRow}
+          validationErrors={validationErrors}
         />
       )}
     </div>

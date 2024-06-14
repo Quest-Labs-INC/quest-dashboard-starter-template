@@ -1,7 +1,7 @@
 import React from "react";
 import Button from './Button';
 
-const PopUp = ({popupTitle = 'New Task', fields, newRowData, handleInputChange, handleClosePopup, handleAddRow}) => {
+const PopUp = ({ popupTitle = 'New Task', fields, newRowData, handleInputChange, handleClosePopup, handleAddRow, button1Label = 'Cancel', button2Label = 'Add', validationErrors }) => {
   return (
     <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center">
     <div className="bg-white p-6 w-1/2 max-w-4xl max-h-screen rounded-lg overflow-y-auto">
@@ -20,15 +20,16 @@ const PopUp = ({popupTitle = 'New Task', fields, newRowData, handleInputChange, 
             onChange={handleInputChange}
             className="border border-gray-300 rounded-md shadow-sm mt-1 block w-full"
           />
+          {validationErrors && <span className="error">{validationErrors[field.id]}</span>}
         </div>
       ))}
         <div className="flex justify-center items-center">
           <Button
-            label="Cancel"
+            label={button1Label}
             handleFunction = {handleClosePopup}
           />
           <Button
-            label="Add"
+            label={button2Label}
             handleFunction = {handleAddRow}
           />
         </div>
