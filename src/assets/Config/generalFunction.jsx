@@ -114,6 +114,12 @@ export const generalFunction = {
     },
 
     supabase_addData: async (table, rowData) => {
+
+        if (!supabase) {
+            console.warn("Supabase client is not initialized. Skipping addData operation.");
+            return null;
+        }
+
         const { data, error } = await supabase.from(table).select('*').eq("email", rowData.email).maybeSingle();
         if (error) {
             throw error;
@@ -134,6 +140,11 @@ export const generalFunction = {
     },
 
     supabase_updateData: async (table, email, rowData) => {
+        if (!supabase) {
+            console.warn("Supabase client is not initialized. Skipping updateData operation.");
+            return null;
+        }
+
         const { data, error } = await supabase
         .from(table)
         .update(rowData)
