@@ -14,8 +14,8 @@ import Onboarding from "../../Components/Onboarding/Onboarding";
 import ReferralPage from "../../Components/Referral/ReferralPage";
 import Settings from "../../Components/Settings/Settings";
 import ComingSoon from "../../Components/ComingSoon/ComingSoon";
-import Measurement from "../../Components/Measurement/measurement";
-import Parameter from "../../Components/Measurement/parameter";
+// import Measurement from "../../Components/Measurement/measurement";
+// import Parameter from "../../Components/Measurement/parameter";
 
 export const routesConfig = [
     {
@@ -89,48 +89,48 @@ export const routesConfig = [
         hidden: false,
         isUpper: true,
     },
-    {
-        path: "/measurement",
-        name: "Measurement",
-        logo: InsightsSvg(),
-        component: (
-            <ProviderConfig showTag={false}>
-                <DashboardWrapper selectdRoute={"measurement"}>
-                    <Measurement></Measurement>
-                </DashboardWrapper>
-            </ProviderConfig>
-        ),
-        hidden: false,
-        isUpper: true,
-    },
-    {
-        path: "/measurement/:parameter_id",
-        name: "Parameter",
-        logo: InsightsSvg(),
-        component: (
-            <ProviderConfig showTag={false}>
-                <DashboardWrapper selectdRoute={"measurement"}>
-                    <Parameter></Parameter>
-                </DashboardWrapper>
-            </ProviderConfig>
-        ),
-        hidden: true,
-        isUpper: true,
-    },
-    {
-        path: "/measurement/admin",
-        name: "Parameter",
-        logo: InsightsSvg(),
-        component: (
-            <ProviderConfig showTag={false}>
-                <DashboardWrapper selectdRoute={"measurement"}>
-                    <Admin></Admin>
-                </DashboardWrapper>
-            </ProviderConfig>
-        ),
-        hidden: true,
-        isUpper: true,
-    },
+    // {
+    //     path: "/measurement",
+    //     name: "Measurement",
+    //     logo: InsightsSvg(),
+    //     component: (
+    //         <ProviderConfig showTag={false}>
+    //             <DashboardWrapper selectdRoute={"measurement"}>
+    //                 <Measurement></Measurement>
+    //             </DashboardWrapper>
+    //         </ProviderConfig>
+    //     ),
+    //     hidden: false,
+    //     isUpper: true,
+    // },
+    // {
+    //     path: "/measurement/:parameter_id",
+    //     name: "Parameter",
+    //     logo: InsightsSvg(),
+    //     component: (
+    //         <ProviderConfig showTag={false}>
+    //             <DashboardWrapper selectdRoute={"measurement"}>
+    //                 <Parameter></Parameter>
+    //             </DashboardWrapper>
+    //         </ProviderConfig>
+    //     ),
+    //     hidden: true,
+    //     isUpper: true,
+    // },
+    // {
+    //     path: "/measurement/admin",
+    //     name: "Parameter",
+    //     logo: InsightsSvg(),
+    //     component: (
+    //         <ProviderConfig showTag={false}>
+    //             <DashboardWrapper selectdRoute={"measurement"}>
+    //                 <Admin></Admin>
+    //             </DashboardWrapper>
+    //         </ProviderConfig>
+    //     ),
+    //     hidden: true,
+    //     isUpper: true,
+    // },
     {
         path: "/settings",
         name: "Settings",
