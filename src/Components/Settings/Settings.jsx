@@ -4,6 +4,7 @@ import AdminComponent from "./AdminComponent";
 import { ThemeContext } from "../Common/AppContext";
 import ReferralPage from "../Referral/ReferralPage";
 import ManageFacilities from "./ManageFacilities";
+import ManageUsers from "./manage-users";
 
 export default function Settings() {
     const { theme, bgColors, appConfig } = useContext(ThemeContext);
@@ -31,7 +32,7 @@ export default function Settings() {
                 </p>
             </div>
 
-            <div className="px-8 pt-[30px]  w-full pr-[96px]">
+            <div className="px-8 pt-[30px] w-full pr-[96px]">
                 <div 
                     className="flex w-full items-start h-[52px]"
                     style={{
@@ -39,53 +40,53 @@ export default function Settings() {
                     }}
                 >
                     <p
-                        className={`text-sm font-semibold font-['Figtree'] h-[52px] p-4 cursor-pointer ${section == "edit" &&
+                        className={`text-sm font-semibold font-['Figtree'] h-[52px] p-4 cursor-pointer ${section === "edit" &&
                             "rounded-t-xl border-b border-[#939393]"
                             }`}
                         onClick={() => handleSectionChange("edit")}
                         style={{
                             color: bgColors[`${theme}-color-premitive-grey-5`],
-                            background: section == "edit" ? bgColors[`${theme}-primary-bg-color-9`] : ""
+                            background: section === "edit" ? bgColors[`${theme}-primary-bg-color-9`] : ""
                         }}
                     >
                         Edit Profile
                     </p>
                     <p
-                        className={` text-sm font-semibold font-['Figtree'] h-[52px] p-4 cursor-pointer ${section == "manage" &&
+                        className={` text-sm font-semibold font-['Figtree'] h-[52px] p-4 cursor-pointer ${section === "manage" &&
                             "rounded-t-xl border-b border-[#939393]"
                             }`}
                         onClick={() => handleSectionChange("manage")}
                         style={{
                             color: bgColors[`${theme}-color-premitive-grey-5`],
-                            background: section == "manage" ? bgColors[`${theme}-primary-bg-color-9`] : ""
+                            background: section === "manage" ? bgColors[`${theme}-primary-bg-color-9`] : ""
                         }}
                     >
                         Manage Admins
                     </p>
                     <p
-                        className={` text-sm font-semibold font-['Figtree'] h-[52px] p-4 cursor-pointer ${section == "managefacilities" &&
+                        className={` text-sm font-semibold font-['Figtree'] h-[52px] p-4 cursor-pointer ${section === "managefacilities" &&
                             "rounded-t-xl border-b border-[#939393]"
                             }`}
                         onClick={() => handleSectionChange("managefacilities")}
                         style={{
                             color: bgColors[`${theme}-color-premitive-grey-5`],
-                            background: section == "managefacilities" ? bgColors[`${theme}-primary-bg-color-9`] : ""
+                            background: section === "managefacilities" ? bgColors[`${theme}-primary-bg-color-9`] : ""
                         }}
                     >
                         Manage Facilities
                     </p>
-                    {/* <p
-                        className={` text-sm font-semibold font-['Figtree'] h-[52px] p-4 cursor-pointer ${section == "refer" &&
+                    <p
+                        className={` text-sm font-semibold font-['Figtree'] h-[52px] p-4 cursor-pointer ${section === "manageusers" &&
                             "rounded-t-xl border-b border-[#939393]"
                             }`}
-                        onClick={() => handleSectionChange("refer")}
+                        onClick={() => handleSectionChange("manageusers")}
                         style={{
                             color: bgColors[`${theme}-color-premitive-grey-5`],
-                            background: section == "refer" ? bgColors[`${theme}-primary-bg-color-9`] : ""
+                            background: section === "manageusers" ? bgColors[`${theme}-primary-bg-color-9`] : ""
                         }}
                     >
-                        Refer Friends
-                    </p> */}
+                        Manage Users
+                    </p>
                 </div>
 
                 <div className="edit-admin">
@@ -94,7 +95,9 @@ export default function Settings() {
                     ) : section === "manage" ? (
                         <AdminComponent />
                     ) : section === "managefacilities" ? (
-                        <ManageFacilities /> // Render the Facilities component
+                        <ManageFacilities />
+                    ) : section === "manageusers" ? (
+                        <ManageUsers />
                     ) : (
                         <ReferralPage />
                     )}
