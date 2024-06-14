@@ -35,6 +35,20 @@ const PopUp = ({ title, fields, newRowData, handleInputChange, handleClosePopup,
                     ))}
                   </tbody>
                 </table>
+              ) : field.type === 'select' ? (
+                <select
+                  id={field.id}
+                  name={field.id}
+                  value={newRowData[field.id] || ''}
+                  onChange={handleInputChange}
+                  className="border border-gray-300 rounded-md shadow-sm mt-1 block w-full"
+                  readOnly={readOnly}
+                >
+                  <option value="">Select {field.label.toLowerCase()}</option>
+                  {field.options.map(option => (
+                    <option key={option.value} value={option.value}>{option.label}</option>
+                  ))}
+                </select>
               ) : (
                 <input
                   type={field.type || 'text'}

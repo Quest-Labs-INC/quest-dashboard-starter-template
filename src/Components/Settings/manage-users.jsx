@@ -1,8 +1,9 @@
 import React, { useContext, useEffect, useState } from "react";
 import { ThemeContext } from "../Common/AppContext";
-import { supabase } from '../../supabaseClient';
 import Button from '../Common/CommonComponents/Button';
 import './manage-users.css';
+import { generalFunction } from "../../assets/Config/generalFunction";
+import Popup from "../Common/CommonComponents/PopUp";
 
 export default function ManageUsers() {
     const { theme, bgColors, appConfig } = useContext(ThemeContext);
@@ -25,25 +26,13 @@ export default function ManageUsers() {
     useEffect(() => {
         fetchUsers();
         fetchAllUsers();
-        fetchParameters();  // Fetch all parameters once
+        fetchParameters();
     }, []);
 
     async function fetchUsers() {
         try {
             setLoading(true);
-            const { data, error } = await supabase
-                .from('user_permissions')
-                .select(`
-                    id,
-                    role,
-                    status,
-                    access_till,
-                    user_id,
-                    assigned_by,
-                    user:user_id(id, email, name),
-                    assigned_user:assigned_by(id, name)
-                `);
-            if (error) throw error;
+            const data = await generalFunction.fetchUserPermissions();
             setUsers(data);
         } catch (error) {
             setError(error.message);
@@ -55,10 +44,7 @@ export default function ManageUsers() {
     async function fetchAllUsers() {
         try {
             setLoading(true);
-            const { data, error } = await supabase
-                .from('users')
-                .select('id, name, email');
-            if (error) throw error;
+            const data = await generalFunction.fetchAllUsers();
             setAllUsers(data);
         } catch (error) {
             setError(error.message);
@@ -69,10 +55,7 @@ export default function ManageUsers() {
 
     async function fetchFacilities() {
         try {
-            const { data, error } = await supabase
-                .from('facility')
-                .select('facility_id, facility_name');
-            if (error) throw error;
+            const data = await generalFunction.fetchFacilities();
             setFacilities(data);
         } catch (error) {
             setError(error.message);
@@ -81,11 +64,7 @@ export default function ManageUsers() {
 
     async function fetchProcesses(facilityId) {
         try {
-            const { data, error } = await supabase
-                .from('process')
-                .select('process_id, process_name')
-                .eq('facility_id', facilityId);
-            if (error) throw error;
+            const data = await generalFunction.fetchProcesses(facilityId);
             setProcesses(data);
         } catch (error) {
             setError(error.message);
@@ -94,10 +73,7 @@ export default function ManageUsers() {
 
     async function fetchParameters() {
         try {
-            const { data, error } = await supabase
-                .from('parameter')
-                .select('para_id, para_name');
-            if (error) throw error;
+            const data = await generalFunction.fetchParameters();
             setParameters(data);
         } catch (error) {
             setError(error.message);
@@ -114,11 +90,7 @@ export default function ManageUsers() {
 
     const handleAddUser = async () => {
         try {
-            const { error } = await supabase
-                .from('user_permissions')
-                .insert([newUser])
-                .select('*');
-            if (error) throw error;
+            await generalFunction.addUserPermission(newUser);
             await fetchUsers();
             resetNewUser();
             setIsPopupOpen(false);
@@ -129,14 +101,11 @@ export default function ManageUsers() {
 
     const handleAddUserAccess = async () => {
         try {
-            const { error } = await supabase
-                .from('user_data_access')
-                .insert({
-                    user_id: selectedUser.user_id,
-                    parameter_id: selectedParameter,
-                    process_id: selectedProcess,
-                });
-            if (error) throw error;
+            await generalFunction.createTableRow('user_data_access', {
+                user_id: selectedUser.user_id,
+                parameter_id: selectedParameter,
+                process_id: selectedProcess,
+            });
             fetchUserAccessData(selectedUser);
             setUserAccessPopup(false);
         } catch (error) {
@@ -146,22 +115,7 @@ export default function ManageUsers() {
 
     const fetchUserAccessData = async (user) => {
         try {
-            const { data, error } = await supabase
-                .from('user_data_access')
-                .select(`
-                    *,
-                    process:process_id (
-                        process_name,
-                        facility:facility_id (
-                            facility_name
-                        )
-                    ),
-                    parameter:parameter_id (
-                        para_name
-                    )
-                `)
-                .eq('user_id', user.user_id);
-            if (error) throw error;
+            const data = await generalFunction.fetchUserAccessData(user.user_id);
             setUserAccessData(data);
         } catch (error) {
             setError(error.message);
@@ -222,85 +176,20 @@ export default function ManageUsers() {
             </div>
 
             {isPopupOpen && (
-                <div className="popup">
-                    <div className="popup-content">
-                        <h2 className="popup-title">Add New User</h2>
-                        <form onSubmit={(e) => e.preventDefault()}>
-                            <div className="form-group">
-                                <label htmlFor="role">Role</label>
-                                <input
-                                    type="text"
-                                    id="role"
-                                    name="role"
-                                    value={newUser.role}
-                                    onChange={(e) => handleInputChange(e, setNewUser)}
-                                />
-                            </div>
-                            <div className="form-group">
-                                <label htmlFor="user_id">User</label>
-                                <select
-                                    id="user_id"
-                                    name="user_id"
-                                    value={newUser.user_id}
-                                    onChange={(e) => handleInputChange(e, setNewUser)}
-                                >
-                                    <option value="">Select a user</option>
-                                    {AllUsers.map(user => (
-                                        <option key={user.id} value={user.id}>
-                                            {user.name} ({user.email})
-                                        </option>
-                                    ))}
-                                </select>
-                            </div>
-                            <div className="form-group">
-                                <label htmlFor="status">Status</label>
-                                <select
-                                    id="status"
-                                    name="status"
-                                    value={newUser.status}
-                                    onChange={(e) => handleInputChange(e, setNewUser)}
-                                >
-                                    <option value={false}>Inactive</option>
-                                    <option value={true}>Active</option>
-                                </select>
-                            </div>
-                            <div className="form-group">
-                                <label htmlFor="access_till">Access Till</label>
-                                <input
-                                    type="datetime-local"
-                                    id="access_till"
-                                    name="access_till"
-                                    value={newUser.access_till}
-                                    onChange={(e) => handleInputChange(e, setNewUser)}
-                                />
-                            </div>
-                            <div className="form-group">
-                                <label htmlFor="assigned_by">Assigned_by</label>
-                                <select
-                                    id="assigned_by"
-                                    name="assigned_by"
-                                    value={newUser.assigned_by}
-                                    onChange={(e) => handleInputChange(e, setNewUser)}
-                                >
-                                    <option value="">Select a user</option>
-                                    {AllUsers.map(user => (
-                                        <option key={user.id} value={user.id}>
-                                            {user.name} ({user.email})
-                                        </option>
-                                    ))}
-                                </select>
-                            </div>
-                            <div className="button-group">
-                                <button onClick={() => setIsPopupOpen(false)} className="button-secondary">
-                                    Cancel
-                                </button>
-                                <button onClick={handleAddUser} className="button-primary">
-                                    Add
-                                </button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
+                <Popup
+                    title="Add New User"
+                    fields={[
+                        { id: 'role', label: 'Role', type: 'text' },
+                        { id: 'user_id', label: 'User', type: 'select', options: AllUsers.filter(user => user.name).map(user => ({ value: user.id, label: `${user.name}` })) },
+                        { id: 'status', label: 'Status', type: 'select', options: [{ value: false, label: 'Inactive' }, { value: true, label: 'Active' }] },
+                        { id: 'access_till', label: 'Access Till', type: 'date' },
+                        { id: 'assigned_by', label: 'Assigned by', type: 'select', options: AllUsers.filter(user => user.name).map(user => ({ value: user.id, label: `${user.name}` })) },
+                    ]}
+                    newRowData={newUser}
+                    handleInputChange={(e) => handleInputChange(e, setNewUser)}
+                    handleClosePopup={() => setIsPopupOpen(false)}
+                    handleSave={handleAddUser}
+                />
             )}
 
             {userAccessPopup && (
@@ -323,7 +212,7 @@ export default function ManageUsers() {
                                         <td className="border border-gray-300 px-4 py-2">{access.process.process_name}</td>
                                         <td className="border border-gray-300 px-4 py-2">{access.parameter.para_name}</td>
                                     </tr>
-                                ))}  
+                                ))}
                             </tbody>
                         </table>
                         
@@ -396,5 +285,3 @@ export default function ManageUsers() {
         </div>
     );
 }
-
-
