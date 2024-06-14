@@ -2,6 +2,7 @@ import React from "react";
 import Button from './Button';
 
 const PopUp = ({ title, fields, newRowData, handleInputChange, handleClosePopup, handleSave, readOnly = false, button1Label = 'Cancel', button2Label = 'Save', validationErrors }) => {
+const PopUp = ({ title, fields, newRowData, handleInputChange, handleClosePopup, handleSave, readOnly = false }) => {
   return (
     <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center">
       <div className="bg-white p-6 w-1/2 h-1/2 max-w-4xl max-h-screen rounded-lg overflow-y-auto">
@@ -57,9 +58,16 @@ const PopUp = ({ title, fields, newRowData, handleInputChange, handleClosePopup,
           {!readOnly && <Button label={button2Label} handleFunction={handleSave} />}
         </div>
       </form>
+              )}
+            </div>
+          ))}
+          <div className="flex justify-center items-center">
+            <Button label="Cancel" handleFunction={handleClosePopup} />
+            {!readOnly && <Button label="Save" handleFunction={handleSave} />}
+          </div>
+        </form>
+      </div>
     </div>
-  </div>
-    
   );
 }
 

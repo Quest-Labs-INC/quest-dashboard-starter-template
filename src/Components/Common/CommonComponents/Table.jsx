@@ -2,6 +2,7 @@ import React from "react";
 import { useNavigate } from 'react-router-dom';
 
 const Table = ({ fields, tableData, hasLink = false, pageLink, hasActions = false, actions = [] }) => {
+const Table = ({fields, tableData, pageLink}) => {
   const navigate = useNavigate();
 
   const handleRowClick = (id) => {
@@ -50,6 +51,32 @@ const Table = ({ fields, tableData, hasLink = false, pageLink, hasActions = fals
       </tbody>
     </table>
     </div>
+    <table className="border-separate border-spacing-0 border rounded-md shadow">
+    <thead>
+      <tr>
+        {fields.map((field) => (
+          <th key={field.id} className="font-medium px-4 py-2">
+            {field.label}
+          </th>
+        ))}
+      </tr>
+    </thead>
+    <tbody>
+    {tableData.map((row, index) => (
+      <tr
+          key={index}
+          onClick={() => handleRowClick(row[fields.find(f => f.link).id])}
+          className="cursor-pointer"
+      >
+        {fields.map((field) => (
+          <td key={field.id} className="border px-4 py-2">
+              {row[field.id]}
+          </td>
+        ))}
+      </tr>
+    ))}
+    </tbody>
+  </table>
   );
 };
 
