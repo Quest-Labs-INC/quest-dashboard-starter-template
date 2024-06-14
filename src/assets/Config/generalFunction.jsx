@@ -171,7 +171,7 @@ export const generalFunction = {
     },
 
     createTableRow: async (table, newRowData) => {
-        print(newRowData)
+        console.log(newRowData)
         const { data, error } = await supabase
               .from(table)
               .insert(newRowData)
@@ -195,6 +195,99 @@ export const generalFunction = {
         if (error) {
             throw error;
         }
+    },
+
+    fetchUserPermissions: async () => {
+        const { data, error } = await supabase
+            .from('user_permissions')
+            .select(`
+                id,
+                role,
+                status,
+                access_till,
+                user_id,
+                assigned_by,
+                user:user_id(id, email, name),
+                assigned_user:assigned_by(id, name)
+            `);
+        if (error) {
+            throw error;
+        }
+        return data;
+    },
+
+    fetchAllUsers: async () => {
+        const { data, error } = await supabase
+            .from('users')
+            .select('id, name, email');
+        if (error) {
+            throw error;
+        }
+        return data;
+    },
+
+    fetchFacilities: async () => {
+        const { data, error } = await supabase
+            .from('facility')
+            .select('facility_id, facility_name');
+        if (error) {
+            throw error;
+        }
+        return data;
+    },
+
+    fetchProcesses: async (facilityId) => {
+        const { data, error } = await supabase
+            .from('process')
+            .select('process_id, process_name')
+            .eq('facility_id', facilityId);
+        if (error) {
+            throw error;
+        }
+        return data;
+    },
+
+    fetchParameters: async () => {
+        const { data, error } = await supabase
+            .from('parameter')
+            .select('para_id, para_name');
+        if (error) {
+            throw error;
+        }
+        return data;
+    },
+
+    fetchUserAccessData: async (userId) => {
+        const { data, error } = await supabase
+            .from('user_data_access')
+            .select(`
+                *,
+                process:process_id (
+                    process_name,
+                    facility:facility_id (
+                        facility_name
+                    )
+                ),
+                parameter:parameter_id (
+                    para_name
+                )
+            `)
+            .eq('user_id', userId);
+        if (error) {
+            throw error;
+        }
+        return data;
+    },
+
+    addUserPermission: async (newUser) => {
+        const { data, error } = await supabase
+            .from('user_permissions')
+            .insert([newUser])
+            .select('*');
+        if (error) {
+            throw error;
+        }
+        return data;
     },
     
     fetchSuppliers: async () => {
