@@ -14,12 +14,12 @@ export default function Login() {
         useContext(ThemeContext);
     const refQuery = new URLSearchParams(window.location.search)?.get("ref");
 
-    const completeLogin = async(e) => {
+    const completeLogin = async (e) => {
         const { userId, token, userCredentials } = e;
 
         // store email in supabase
         // await generalFunction.supabase_addData("users", userCredentials);
-        
+
         if (userId && token) {
             localStorage.setItem("questUserId", userId);
             localStorage.setItem("questUserToken", token);
@@ -27,36 +27,42 @@ export default function Login() {
                 "questUserCredentials",
                 JSON.stringify(userCredentials)
             );
-            
+
             if (refQuery) {
-                let request = generalFunction.createUrl(`api/entities/${mainConfig.QUEST_ENTITY_ID}/quests/${appConfig.QUEST_REFERRAL_CAMPAIGN_ID}/claim`);
+                // let request = generalFunction.createUrl(`api/entities/${mainConfig.QUEST_ENTITY_ID}/quests/${appConfig.QUEST_REFERRAL_CAMPAIGN_ID}/claim`);
+                let request = generalFunction.createUrl(`api/v2/entities/${mainConfig.QUEST_ENTITY_ID}/campaigns/${appConfig.QUEST_REFERRAL_CAMPAIGN_ID}/claim`);
                 await fetch(request.url, {
                     method: "POST",
                     headers: {
-                      "content-type": "application/json",
-                      apikey: mainConfig.QUEST_API_KEY,
-                      userId: userId,
-                      token: token,
+                        "content-type": "application/json",
+                        apikey: mainConfig.QUEST_API_KEY,
+                        userId: userId,
+                        token: token,
                     },
                     body: JSON.stringify({
-                      userId: userId,
-                      referralCode: refQuery,
+                        userId: userId,
+                        referralCode: refQuery,
+                        // campaignVariationId: "cv-8d3c0e83-4bec-4354-bd9b-8faf11fbf238"
                     })
                 });
             }
 
             let claimedStatus = false;
-            let request = generalFunction.createUrl(`api/entities/${mainConfig.QUEST_ENTITY_ID}/quests/${appConfig.QUEST_ONBOARDING_QUIZ_CAMPAIGN_ID}?userId=${userId}`);
+            // let request = generalFunction.createUrl(`api/entities/${mainConfig.QUEST_ENTITY_ID}/quests/${appConfig.QUEST_ONBOARDING_QUIZ_CAMPAIGN_ID}?userId=${userId}`);
+
+            let request = generalFunction.createUrl(`api/v2/entities/${mainConfig.QUEST_ENTITY_ID}/campaigns/${appConfig.QUEST_ONBOARDING_QUIZ_CAMPAIGN_ID}?userId=${userId}`);
+
             await fetch(request.url, {
                 method: "GET",
                 headers: {
-                  "content-type": "application/json",
-                  apikey: mainConfig.QUEST_API_KEY,
-                  userId: userId,
-                  token: token,
+                    "content-type": "application/json",
+                    apikey: mainConfig.QUEST_API_KEY,
+                    userId: userId,
+                    token: token,
                 },
             }).then((res) => res.json()).then((res) => {
-                claimedStatus = res.claimStatus;
+                // claimedStatus = res.claimStatus;
+                claimedStatus = res?.data?.isClaimed;
             });
 
 
@@ -79,6 +85,7 @@ export default function Login() {
                 redirectUri={mainConfig?.GOOGLE_REDIRECT_URI}
                 // redirectURL= "http://localhost:5173/login"
                 google={true}
+
                 email={true}
                 onSubmit={(e) => completeLogin(e)}
                 onError={(e) => Toast.error({ text: e.error })}
@@ -140,7 +147,7 @@ export default function Login() {
                         Background: bgColors[`${theme}-primary-bg-color-0`],
                         BorderColor: bgColors[`${theme}-primary-bg-color-0`],
                     },
-                    PrimaryButton:{
+                    PrimaryButton: {
                         border: "none"
                     },
                     SecondaryButton: {
