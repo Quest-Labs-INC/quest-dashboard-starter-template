@@ -261,23 +261,23 @@ export default function SupplierAnalytics() {
         </div>
         {isProdBtnOpen && (
           <PopUp
-            popupTitle='Add Product'
+            title='Add Product'
             fields={prodFields}
             newRowData={newProd}
             handleInputChange={handleInputProd}
             handleClosePopup={handleCloseProdBtn}
-            handleAddRow={handleAddProd}
+            handleSave={handleAddProd}
             validationErrors={validationErrors}
           />
         )}
         {isEditProdOpen && (
           <PopUp
-            popupTitle='Edit Product'
+            title='Edit Product'
             fields={prodFields}
             newRowData={prodRowData}
             handleInputChange={handleEditProdInput}
             handleClosePopup={handleCloseEditProd}
-            handleAddRow={handleEditProdSubmit}
+            handleSave={handleEditProdSubmit}
             button2Label='Edit'
             validationErrors={validationErrors}
           />
@@ -297,23 +297,23 @@ export default function SupplierAnalytics() {
         </div>
         {isCertBtnOpen && (
           <PopUp
-            popupTitle='Add Certificate'
+            title='Add Certificate'
             fields={certFields}
             newRowData={newCert}
             handleInputChange={handleInputCert}
             handleClosePopup={handleCloseCertBtn}
-            handleAddRow={handleAddCert}
+            handleSave={handleAddCert}
             validationErrors={validationErrors}
           />
         )}
         {isEditCertOpen && (
           <PopUp
-            popupTitle='Edit Certificate'
+            title='Edit Certificate'
             fields={certFields}
             newRowData={certRowData}
             handleInputChange={handleEditCertInput}
             handleClosePopup={handleCloseEditCert}
-            handleAddRow={handleEditCertSubmit}
+            handleSave={handleEditCertSubmit}
             button2Label='Edit'
             validationErrors={validationErrors}
           />

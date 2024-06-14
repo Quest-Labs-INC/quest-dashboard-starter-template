@@ -77,12 +77,12 @@ export default function SupplierManagement() {
       </div>
       {isPopupOpen && (
         <PopUp
-          popupTitle='Add Supplier'
+          title='Add Supplier'
           fields={fields}
           newRowData={newRowData}
           handleInputChange={handleInputChange}
           handleClosePopup={handleClosePopup}
-          handleAddRow={handleAddRow}
+          handleSave={handleAddRow}
           validationErrors={validationErrors}
         />
       )}
