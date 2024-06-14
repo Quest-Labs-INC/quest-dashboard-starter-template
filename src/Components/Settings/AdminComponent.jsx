@@ -6,6 +6,8 @@ import { ThemeContext } from "../Common/AppContext";
 import { mainConfig } from "../../assets/Config/appConfig";
 import AddAdminPopup from "./AddAdminPopup";
 import { Toast } from "@questlabs/react-sdk";
+import CreateRole from "./CreateRole";
+import { importConfig } from "../../assets/Config/importConfig";
 
 const AdminComponent = () => {
     const { theme, bgColors, appConfig } = useContext(ThemeContext);
@@ -15,6 +17,8 @@ const AdminComponent = () => {
     const [search, setSearch] = useState("");
     const [adminPopup, setAdminPopup] = useState(false);
     const [flag, setFlag] = useState(false);
+    const [openRolePopup, setOpenRolePopup] = useState(false);
+    const [roleData, setRoleData] = useState([]);
 
 
     useEffect(() => {
@@ -84,6 +88,67 @@ const AdminComponent = () => {
         }
     }
 
+    useEffect(() => {
+        let request = generalFunction.createUrl(`api/entities/${mainConfig.QUEST_ENTITY_ID}/roles?userId=${generalFunction.getUserId()}`);
+        axios
+        .get(request.url, { headers: request.headers })
+        .then((res) => {
+            const data = res.data;
+            if (data.success == false) {
+                generalFunction.hideLoader();
+            } else if (data.success == true) {
+                setRoleData(data.data);
+                setTimeout(function () {
+                    generalFunction.hideLoader();
+                }, 500);
+            }
+        })
+        .catch((err) => {
+            Toast.error({
+                text: "Error Occurred" + "\n" + "Unable to Invite Member",
+            });
+            generalFunction.hideLoader();
+        });
+    }, [flag]);
+
+    const checkIsOwner = () => {
+        let dt = adminData?.filter((user) => user.userId == generalFunction.getUserId());
+        return dt.length > 0 && dt[0].role == "OWNER";
+    }
+
+    const changeRole = async (userId, role) => {
+        try {
+            generalFunction.showLoader();
+            let request = generalFunction.createUrl(`api/entities/${mainConfig.QUEST_ENTITY_ID}/roles/${role}/users/${userId}/update?userId=${generalFunction.getUserId()}`);
+            await axios.post(
+                request.url,
+                {
+                    ownerUserId: generalFunction.getUserId(),
+                    userId,
+                    role,
+                },
+                {
+                    headers: request.headers,
+                }
+            ).then((res) => {
+                const data = res.data;
+                if (data.success == false) {
+                    generalFunction.hideLoader();
+                    Toast.error({ text: "Error Occurred" });
+                    return;
+                } else {
+                    Toast.success({
+                        text: "Role Changed Successfully",
+                    });
+                    setFlag((prev) => !prev);
+                    generalFunction.hideLoader();
+                }
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     return (
         <div className="w-full h-full">
             <div className="w-full flex items-center justify-between gap-4 mt-[24px]">
@@ -121,9 +186,26 @@ const AdminComponent = () => {
                     Invite Team Member
                     {inviteButton(bgColors[`${theme}-color-premitive-grey-9`])}
                 </button>
+                { checkIsOwner() &&
+                    <button
+                        className="flex items-center text-sm py-[10px] rounded-[10px] px-[32px] gap-1"
+                        style={{
+                            background: `linear-gradient(${theme == "dark" ? "black" : "white"},${theme == "dark" ? "black" : "white"}) padding-box,${bgColors[`${theme}-primary-bg-color-0`]}border-box`,
+                            color: bgColors[`${theme}-color-premitive-grey-9`],
+                            whiteSpace: "nowrap",
+                            border: "1.5px solid #0000"
+                        }}
+                        onClick={() => setOpenRolePopup(true)}
+                    >
+                        Create a Role
+                        {inviteButton(bgColors[`${theme}-color-premitive-grey-9`])}
+                    </button>
+                }
             </div>
 
             {adminPopup && <AddAdminPopup setAdminPopup={setAdminPopup} setFlag={setFlag} adminPopup={adminPopup} />}
+
+            {openRolePopup && <CreateRole setOpenRolePopup={setOpenRolePopup} setFlag={setFlag} openRolePopup={openRolePopup} />}
 
             {filterData?.length != 0 ? (
                 <div 
@@ -214,7 +296,18 @@ const AdminComponent = () => {
                                             ],
                                         }}
                                     >
-                                        {user.role}
+                                        {checkIsOwner() 
+                                            ?
+                                            <select value={user.role} onChange={(e) => changeRole(user.userId, e.target.value)} >
+                                                {
+                                                    roleData?.map((role, index) => (
+                                                        <option key={index}>{role.role}</option>
+                                                    ))
+                                                }
+                                            </select>
+                                            :
+                                            user.role
+                                        }
                                     </td>
                                     <td 
                                         className="w-[10%] px-6 py-4 text-center"

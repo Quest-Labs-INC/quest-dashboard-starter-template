@@ -7,16 +7,27 @@ import {
     InsightsSvg,
     SettingsSvg,
     referFriends,
+    IconDatabase,
+    IconPaper_folded,
+    IconTruck,
+    IconListTask,
 } from "../../Components/Common/SideBarSvg";
 import Dashboard from "../../Components/Dashboard/Dashboard";
 import Login from "../../Components/Login/Login";
 import Onboarding from "../../Components/Onboarding/Onboarding";
 import ReferralPage from "../../Components/Referral/ReferralPage";
 import Settings from "../../Components/Settings/Settings";
-import ComingSoon from "../../Components/ComingSoon/ComingSoon";
-import Measurement from "../../Components/Measurement/measurement";
-import Parameter from "../../Components/Measurement/parameter";
-
+import Parameteroverview from "../../Components/DataCollection/parameteroverview";
+import DataCollection from "../../Components/DataCollection/datacollection";
+import Certification from "../../Components/DataCollection/certification";
+import ProjectManagement from "../../Components/Compliance/projectManagement";
+import Lca from "../../Components/ProductFootprint/lca";
+import ProjectPage from "../../Components/Compliance/projectPage";
+// add SupplierManagement Component
+import SupplierManagement from "../../Components/DataCollection/supplierManagement";
+// add SupplierAnalytics Component
+import SupplierAnalytics from "../../Components/DataCollection/supplierAnalytics";
+import DataSource from "../../Components/DataCollection/datasources";
 export const routesConfig = [
     {
         path: "/login",
@@ -72,17 +83,17 @@ export const routesConfig = [
                 </DashboardWrapper>
             </ProviderConfig>
         ),
-        hidden: false,
+        hidden: true,
         isUpper: true,
     },
     {
-        path: "/insights",
-        name: "Insights",
-        logo: InsightsSvg(),
+        path: "/data_collection",
+        name: "Data Collection",
+        logo: IconDatabase(),
         component: (
             <ProviderConfig showTag={false}>
-                <DashboardWrapper selectdRoute={"insights"}>
-                    <ComingSoon></ComingSoon>
+                <DashboardWrapper selectdRoute={"metrics"}>
+                    <Parameteroverview></Parameteroverview>
                 </DashboardWrapper>
             </ProviderConfig>
         ),
@@ -90,27 +101,13 @@ export const routesConfig = [
         isUpper: true,
     },
     {
-        path: "/measurement",
-        name: "Measurement",
+        path: "/data_collection/:data_sources",
+        name: "Datasource",
         logo: InsightsSvg(),
         component: (
             <ProviderConfig showTag={false}>
-                <DashboardWrapper selectdRoute={"measurement"}>
-                    <Measurement></Measurement>
-                </DashboardWrapper>
-            </ProviderConfig>
-        ),
-        hidden: false,
-        isUpper: true,
-    },
-    {
-        path: "/measurement/:parameter_id",
-        name: "Parameter",
-        logo: InsightsSvg(),
-        component: (
-            <ProviderConfig showTag={false}>
-                <DashboardWrapper selectdRoute={"measurement"}>
-                    <Parameter></Parameter>
+                <DashboardWrapper selectdRoute={"datasources"}>
+                    <DataSource></DataSource>
                 </DashboardWrapper>
             </ProviderConfig>
         ),
@@ -118,13 +115,126 @@ export const routesConfig = [
         isUpper: true,
     },
     {
-        path: "/measurement/admin",
-        name: "Parameter",
+        path: "/data_collection/admin",
+        name: "Datasource",
         logo: InsightsSvg(),
         component: (
             <ProviderConfig showTag={false}>
-                <DashboardWrapper selectdRoute={"measurement"}>
+                <DashboardWrapper selectdRoute={"datasources"}>
                     <Admin></Admin>
+                </DashboardWrapper>
+            </ProviderConfig>
+        ),
+        hidden: true,
+        isUpper: true,
+    },
+    {
+        path: "/datacollection/:metric/:name/:assigned_to",
+        name: "DataPoint",
+        logo: InsightsSvg(),
+        component: (
+            <ProviderConfig showTag={false}>
+                <DashboardWrapper selectdRoute={"datasources"}>
+                    <DataCollection></DataCollection>
+                </DashboardWrapper>
+            </ProviderConfig>
+        ),
+        hidden: true,
+        isUpper: true,
+    },
+    {
+        path: "/datacollection/:admin/:admin/:admin",
+        name: "DataPoint",
+        logo: InsightsSvg(),
+        component: (
+            <ProviderConfig showTag={false}>
+                <DashboardWrapper selectdRoute={"datasources"}>
+                    <Admin></Admin>
+                </DashboardWrapper>
+            </ProviderConfig>
+        ),
+        hidden: true,
+        isUpper: true,
+    },
+    {
+        path: "/compliance",
+        name: "Compliance",
+        logo: IconPaper_folded(),
+        component: (
+            <ProviderConfig showTag={false}>
+                <DashboardWrapper selectdRoute={"certification"}>
+                    <Certification></Certification>
+                </DashboardWrapper>
+            </ProviderConfig>
+        ),
+        hidden: false,
+        isUpper: true,
+    },
+    {
+        path: "/suppliermanagement",
+        name: "Supplier Management",
+        logo: IconTruck(),
+        component: (
+            <ProviderConfig showTag={false}>
+                <DashboardWrapper selectdRoute={"suppliermanagement"}>
+                    <SupplierManagement></SupplierManagement>
+                </DashboardWrapper>
+            </ProviderConfig>
+        ),
+        hidden: false,
+        isUpper: true,
+    },
+    /* have to make routes for each supplier */
+        {
+        path: "/suppliermanagement/:supplier_name",
+        name: "Supplier Analytics",
+        logo: InsightsSvg(),
+        component: (
+            <ProviderConfig showTag={false}>
+                <DashboardWrapper selectdRoute={"suppliermanagement"}>
+                    <SupplierAnalytics></SupplierAnalytics>
+                </DashboardWrapper>
+            </ProviderConfig>
+        ),
+        hidden: true,
+        isUpper: true,
+    },
+    {
+        path: "/project_management",
+        name: "Compliance Management",
+        logo: IconListTask(),
+        component: (
+            <ProviderConfig showTag={false}>
+                <DashboardWrapper selectdRoute={"suppliermanagement"}>
+                    <ProjectManagement></ProjectManagement>
+                </DashboardWrapper>
+            </ProviderConfig>
+        ),
+        hidden: false,
+        isUpper: true,
+    },
+    {
+        path: "/product_footprint",
+        name: "Product Footprint",
+        logo: IconListTask(),
+        component: (
+            <ProviderConfig showTag={false}>
+                <DashboardWrapper selectdRoute={"suppliermanagement"}>
+                    <Lca></Lca>
+                </DashboardWrapper>
+            </ProviderConfig>
+        ),
+        hidden: false,
+        isUpper: true,
+    },
+    {
+        path: "/project_management/project_page/:id",
+        name: "Project Page",
+        logo: IconListTask(),
+        component: (
+            <ProviderConfig showTag={false}>
+                <DashboardWrapper selectdRoute={"suppliermanagement"}>
+                    <ProjectPage></ProjectPage>
                 </DashboardWrapper>
             </ProviderConfig>
         ),
@@ -142,7 +252,7 @@ export const routesConfig = [
                 </DashboardWrapper>
             </ProviderConfig>
         ),
-        hidden: false,
+        hidden: true,
         isUpper: true,
     },
     {
@@ -156,7 +266,7 @@ export const routesConfig = [
                 </DashboardWrapper>
             </ProviderConfig>
         ),
-        hidden: false,
+        hidden: true,
         isUpper: true,
     },
 ];

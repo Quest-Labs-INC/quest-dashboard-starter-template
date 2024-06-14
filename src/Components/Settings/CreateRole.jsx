@@ -5,45 +5,34 @@ import { Toast } from "@questlabs/react-sdk";
 import axios from "axios";
 import { mainConfig } from "../../assets/Config/appConfig";
 
-const AddAdminPopup = ({ setAdminPopup, setFlag }) => {
+const CreateRole = ({ setOpenRolePopup, setFlag, openRolePopup }) => {
   const { theme, bgColors, appConfig } = useContext(ThemeContext);
-  const [email, setEmail] = useState("");
-  const [name, setName] = useState("");
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-  const [isValidEmail, setIsValidEmail] = useState(true);
-  const handleEmailChange = (e) => {
-    const newEmail = e.target.value;
-    setEmail(newEmail);
-    setIsValidEmail(emailRegex.test(newEmail));
-  };
+  const [description, setDescription] = useState("");
+  const [role, setRole] = useState("");
 
   const handleSave = () => {
-    setAdminPopup(false);
+    setOpenRolePopup(false);
     let entityId = mainConfig.QUEST_ENTITY_ID;
     generalFunction.showLoader();
     let json = {
-      ownerUserId: generalFunction.getUserId(),
-      email: email.toLowerCase(),
-      entityId,
-      name,
+      role,
+      description,
     };
 
-    let request = generalFunction.createUrl(`api/entities/${entityId}/invite`);
+    let request = generalFunction.createUrl(`api/entities/${entityId}/roles?userId=${generalFunction.getUserId()}`);
     axios
       .post(request.url, json, { headers: request.headers })
       .then((res) => {
         const data = res.data;
         if (data.success == false) {
-          let errMsg = data.error ? data.error : "Unable to Invite Member";
-          Toast.error({ text: "Error Occurred" + "\n" + errMsg });
+          Toast.error({ text: "Error Occurred" });
           generalFunction.hideLoader();
         } else if (data.success == true) {
           Toast.success({
             text:
               "Congratulations!!!" +
               "\n" +
-              "Member has been invited successfully.",
+              "Role has been created successfully.",
           });
           setFlag((prev) => !prev);
           setTimeout(function () {
@@ -60,10 +49,11 @@ const AddAdminPopup = ({ setAdminPopup, setFlag }) => {
       });
   };
 
+
   return (
     <div
       className="fixed w-[100%] h-[100vh] top-0 left-0 flex justify-center items-center bg-black bg-opacity-50 z-10"
-      onClick={() => setAdminPopup(false)}
+      onClick={() => setOpenRolePopup(false)}
     >
       <div
         className="w-[376px] bg-white flex flex-col rounded-xl p-5 gap-5  modal"
@@ -74,7 +64,7 @@ const AddAdminPopup = ({ setAdminPopup, setFlag }) => {
           className="text-[20px] font-semibold font-['Figtree']"
           style={{ color: bgColors[`${theme}-color-premitive-grey-5`] }}
         >
-          Invite Team Member
+          Create A Roll
         </div>
         <div className="flex flex-col gap-4">
           <div className="flex flex-col gap-1">
@@ -82,11 +72,11 @@ const AddAdminPopup = ({ setAdminPopup, setFlag }) => {
               className="text-[12px] font-normal text-[#939393]"
               htmlFor=""
             >
-              Enter Name*
+              Enter Role*
             </label>
             <input
-              onChange={(e) => setName(e.target.value)}
-              placeholder="Enter Name"
+              onChange={(e) => setRole(e.target.value)}
+              placeholder="eg. ADMIN"
               className="border bg-transparent border-[#ECECEC] h-10 rounded-[10px] px-4 outline-none"
               type="text"
               style={{
@@ -99,26 +89,18 @@ const AddAdminPopup = ({ setAdminPopup, setFlag }) => {
               className="text-[12px] font-normal text-[#939393]"
               htmlFor=""
             >
-              Enter Email*
+              Enter description
             </label>
             <input
               id="email"
-              placeholder="Enter Email"
-              className={`border ${
-                isValidEmail ? "border-[#ECECEC]" : "border-red-500"
-              } h-10 rounded-[10px] px-4 outline-none bg-transparent`}
+              placeholder="Enter description"
+              className={`border border-[#ECECEC] h-10 rounded-[10px] px-4 outline-none bg-transparent`}
               type="text"
-              value={email}
-              onChange={handleEmailChange}
+              onChange={(e) => setDescription(e.target.value)}
               style={{
                 color: bgColors[`${theme}-color-premitive-grey-5`],
               }}
             />
-            {!isValidEmail && (
-              <span className="text-[12px] text-red-500">
-                Invalid email format
-              </span>
-            )}
           </div>
           <button
             className="text-sm px-8 py-2.5 rounded-[10px] pl-[40px] pr-[40px]"
@@ -137,4 +119,4 @@ const AddAdminPopup = ({ setAdminPopup, setFlag }) => {
   );
 };
 
-export default AddAdminPopup;
+export default CreateRole;

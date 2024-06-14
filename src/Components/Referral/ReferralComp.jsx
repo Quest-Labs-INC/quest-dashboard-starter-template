@@ -9,7 +9,7 @@ const ReferralComp = ({colorPicker}) => {
         <Referral
             userId={generalFunction.getUserId()}
             token={generalFunction.getUserToken()}
-            questId={"q-saas-referral"}
+            questId={appConfig.QUEST_REFERRAL_CAMPAIGN_ID}
             bgColor="white"
             color=""
             heading={"Your referral link"}
