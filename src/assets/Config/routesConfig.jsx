@@ -26,7 +26,7 @@ import ProjectPage from "../../Components/Compliance/projectPage";
 import SupplierManagement from "../../Components/DataCollection/supplierManagement";
 // add SupplierAnalytics Component
 import SupplierAnalytics from "../../Components/DataCollection/supplierAnalytics";
-import DataSource from "../../Components/DataCollection/datasources";
+import Parameter from "../../Components/DataCollection/parameter";
 export const routesConfig = [
     {
         path: "/login",
@@ -100,13 +100,13 @@ export const routesConfig = [
         isUpper: true,
     },
     {
-        path: "/data_collection/:data_sources",
-        name: "Datasource",
+        path: "/data_collection/:parameter",
+        name: "parameter",
         logo: InsightsSvg(),
         component: (
             <ProviderConfig showTag={false}>
-                <DashboardWrapper selectdRoute={"datasources"}>
-                    <DataSource></DataSource>
+                <DashboardWrapper selectdRoute={"parameter"}>
+                    <Parameter></Parameter>
                 </DashboardWrapper>
             </ProviderConfig>
         ),

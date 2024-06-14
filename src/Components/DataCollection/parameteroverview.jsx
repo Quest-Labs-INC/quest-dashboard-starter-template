@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { supabase } from '../../supabaseClient';
 import './parameteroverview.css';
+import {Link} from 'react-router-dom';
 
 export default function Parameteroverview() {
   const [tableData, setTableData] = useState([]);
@@ -158,6 +159,7 @@ export default function Parameteroverview() {
     console.log(newParameterData.processFacilityMappings);
     setLoading(true);
     setButtonColor('bg-yellow-500');
+    
     const { data, error } = await supabase
     .from('parameter')
     .insert([{ created_by: 17, para_name: newParameterData.parameter, para_metric: newParameterData.unit, para_description: newParameterData.parameter }])
@@ -257,7 +259,10 @@ export default function Parameteroverview() {
         <tbody>
           {Array.from(parameters).map(parameter => (
             <tr key={parameter}>
-              <td>{parameter}</td>
+              <td> <Link to={`/data_collection/${parameter}`} className="text-blue-500 hover:underline">
+                    {parameter}
+                  </Link>
+                     </td>
               {facilities.map(facility =>
                 Object.keys(tableData[facility]).map(process => (
                   <td key={`${facility}-${process}-${parameter}`} className="text-center">
