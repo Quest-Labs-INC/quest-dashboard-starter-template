@@ -32,7 +32,7 @@ const ProviderConfig = ({ children, showTag }) => {
     return (
         <div>
             <QuestProvider
-                apiKey={appConfig?.QUEST_API_KEY }
+                apiKey={appConfig?.QUEST_API_KEY}
                 entityId={appConfig?.QUEST_ENTITY_ID}
                 apiType='PRODUCTION'
                 themeConfig={{
@@ -58,7 +58,7 @@ export const routesConfig = [
         path: "/create",
         name: "Create Template",
         logo: "",
-        component: <MainPage/>,
+        component: <MainPage />,
         hidden: true,
         isUpper: false,
     },
@@ -66,7 +66,7 @@ export const routesConfig = [
         path: "*",
         name: "Create Template",
         logo: "",
-        component: <MainPage/>,
+        component: <MainPage />,
         hidden: true,
         isUpper: false,
     },
@@ -74,7 +74,7 @@ export const routesConfig = [
         path: "/your-app-login",
         name: "Login",
         logo: "",
-        component: <ProviderConfig showTag={true}><LoginWrapper><Login/></LoginWrapper></ProviderConfig>,
+        component: <ProviderConfig showTag={true}><LoginWrapper><Login /></LoginWrapper></ProviderConfig>,
         hidden: true,
         isUpper: false,
     },
@@ -82,7 +82,7 @@ export const routesConfig = [
         path: "/your-app-onboarding",
         name: "Onboarding",
         logo: "",
-        component: <ProviderConfig showTag={false}><LoginWrapper><Onboarding/></LoginWrapper></ProviderConfig>,
+        component: <ProviderConfig showTag={false}><LoginWrapper><Onboarding /></LoginWrapper></ProviderConfig>,
         hidden: true,
         isUpper: false,
     },

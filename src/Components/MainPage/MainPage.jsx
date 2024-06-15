@@ -115,7 +115,7 @@ function MainPage() {
         }
 
         if (!name || !description || !imageUrl || !bg) {
-            Toast.error({text: "Please fill all the information including the logo"});
+            Toast.error({ text: "Please fill all the information including the logo" });
             return;
         }
 
@@ -152,9 +152,14 @@ function MainPage() {
 
 
         try {
-            let request = generalFunction.createUrl(`api/entities/${createdEntityId}/quests/generate-saas?userId=${generalFunction.getDataFromCookies("questUserId")}`);
+            // let request = generalFunction.createUrl(`api/entities/${createdEntityId}/quests/generate-saas?userId=${generalFunction.getDataFromCookies("questUserId")}`);
 
-            let response = await axios.post(request.url, {
+            console.log(generalFunction.getDataFromCookies("questUserId"))
+            let request = generalFunction.createUrl(`api/v2/entities/${createdEntityId}/campaigns/generate-saas?userId=${generalFunction.getDataFromCookies("questUserId")}`);
+            // console.log(request)
+            console.log(request.headers)
+            // /api/v2/entities/:entityId/campaigns/generate-saas
+            let response = await axios.get(request.url, {
                 entityName: name,
                 entityDetails: description,
                 imageUrl: customImage || uploadedImageUrl,
@@ -244,7 +249,8 @@ function MainPage() {
         <QuestProvider
             apiKey={mainConfig?.API_KEY}
             entityId={mainConfig?.ENTITY_ID}
-            apiType='PRODUCTION'
+            // apiType='PRODUCTION'
+            apiType='STAGING'
             themeConfig={{
                 // buttonColor: bgColors[`${theme}-primary-bg-color-0`],
                 // primaryColor: bgColors[`${theme}-color-premitive-grey-5`],
@@ -323,9 +329,9 @@ function MainPage() {
 
                         <div className='flex items-center justify-center gap-2' onClick={() => window.open("https://www.loom.com/share/c286b044781c4307a3c26f89bb999af0", "_blank")}>
                             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" fill="none">
-                                <path d="M9 1.5C4.875 1.5 1.5 4.875 1.5 9C1.5 13.125 4.875 16.5 9 16.5C13.125 16.5 16.5 13.125 16.5 9C16.5 4.875 13.125 1.5 9 1.5Z" stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                <path d="M9 12L9 8.25" stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                <path d="M9.00391 6L8.99717 6" stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M9 1.5C4.875 1.5 1.5 4.875 1.5 9C1.5 13.125 4.875 16.5 9 16.5C13.125 16.5 16.5 13.125 16.5 9C16.5 4.875 13.125 1.5 9 1.5Z" stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                <path d="M9 12L9 8.25" stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                <path d="M9.00391 6L8.99717 6" stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
                             </svg>
                             <p className='cursor-pointer font-semibold'>Learn How It Works</p>
                         </div>

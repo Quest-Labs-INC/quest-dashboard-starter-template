@@ -13,20 +13,24 @@ import axios from "axios";
 
 
 const ReferalPage2 = () => {
-  const { theme, bgColors, appConfig } = useContext(ThemeContext);
-  const [userData, setUserData] = useState([]);
-  
-  const colorRetriver = () => {
-    let mainColor = bgColors[`${theme}-primary-bg-color-0`];
-    let diffColor = mainColor.split(" ")?.filter((ele) => ele.charAt(0) == "#")
-    let pickColor = !!diffColor?.length ? [diffColor[0], diffColor.length > 1 ? diffColor[1] : "#D1ACFF"] : ["#9035FF", "#D1ACFF"];
-    return pickColor;
-  };
-  
+    const { theme, bgColors, appConfig } = useContext(ThemeContext);
+    const [userData, setUserData] = useState([]);
+
+    const colorRetriver = () => {
+        let mainColor = bgColors[`${theme}-primary-bg-color-0`];
+        let diffColor = mainColor.split(" ")?.filter((ele) => ele.charAt(0) == "#")
+        let pickColor = !!diffColor?.length ? [diffColor[0], diffColor.length > 1 ? diffColor[1] : "#D1ACFF"] : ["#9035FF", "#D1ACFF"];
+        return pickColor;
+    };
+
     useEffect(() => {
         const getSubmission = async () => {
+            // let request = generalFunction.createUrl(
+            //     `api/entities/${appConfig.QUEST_ENTITY_ID}/quests/${appConfig.QUEST_REFERRAL_CAMPAIGN_ID}/submissions?parentEntityId=${appConfig.QUEST_ENTITY_ID}`
+            // );
+
             let request = generalFunction.createUrl(
-                `api/entities/${appConfig.QUEST_ENTITY_ID}/quests/${appConfig.QUEST_REFERRAL_CAMPAIGN_ID}/submissions?parentEntityId=${appConfig.QUEST_ENTITY_ID}`
+                `api/v2/entities/${mainConfig.QUEST_ENTITY_ID}/campaigns/${appConfig.QUEST_REFERRAL_CAMPAIGN_ID}/referral-summary?duration=all`
             );
             await axios(request.url, {
                 headers: {
@@ -54,9 +58,8 @@ const ReferalPage2 = () => {
                 className="dashboard-page-header"
                 style={{
                     color: bgColors[`${theme}-color-premitive-grey-5`],
-                    borderBottom: `1.5px solid ${
-                        bgColors[`${theme}-primary-border-color`]
-                    }`,
+                    borderBottom: `1.5px solid ${bgColors[`${theme}-primary-border-color`]
+                        }`,
                 }}
             >
                 Refer Friends
@@ -67,9 +70,8 @@ const ReferalPage2 = () => {
                         <div
                             className="flex flex-col py-[28px] px-[20px] gap-[40px] w-[100%] rounded-[10px]"
                             style={{
-                                border: `1px solid ${
-                                    bgColors[`${theme}-primary-border-color`]
-                                }`,
+                                border: `1px solid ${bgColors[`${theme}-primary-border-color`]
+                                    }`,
                             }}
                         >
                             <div
@@ -94,15 +96,14 @@ const ReferalPage2 = () => {
                                         <div
                                             className="w-[56px] h-[56px] flex items-center justify-center rounded-full"
                                             style={{
-                                                border: `1px solid ${
-                                                    bgColors[
-                                                        `${theme}-primary-border-color`
-                                                    ]
-                                                }`,
+                                                border: `1px solid ${bgColors[
+                                                    `${theme}-primary-border-color`
+                                                ]
+                                                    }`,
                                             }}
                                         >
                                             {/* <img /> */}
-                                            {MessageSvg( colorRetriver()[0], colorRetriver()[1] )}
+                                            {MessageSvg(colorRetriver()[0], colorRetriver()[1])}
                                         </div>
                                     </div>
                                     <div className="flex flex-col gap-[4px] justify-center w-full">
@@ -127,15 +128,14 @@ const ReferalPage2 = () => {
                                         <div
                                             className="w-[56px] h-[56px] flex items-center justify-center rounded-full"
                                             style={{
-                                                border: `1px solid ${
-                                                    bgColors[
-                                                        `${theme}-primary-border-color`
-                                                    ]
-                                                }`,
+                                                border: `1px solid ${bgColors[
+                                                    `${theme}-primary-border-color`
+                                                ]
+                                                    }`,
                                             }}
                                         >
                                             {/* <img /> */}
-                                            {ProfileSvg( colorRetriver()[0], colorRetriver()[1] )}
+                                            {ProfileSvg(colorRetriver()[0], colorRetriver()[1])}
                                         </div>
                                     </div>
                                     <div className="flex flex-col gap-[4px] justify-center w-full">
@@ -160,11 +160,10 @@ const ReferalPage2 = () => {
                                         <div
                                             className="w-[56px] h-[56px] flex items-center justify-center rounded-full"
                                             style={{
-                                                border: `1px solid ${
-                                                    bgColors[
-                                                        `${theme}-primary-border-color`
-                                                    ]
-                                                }`,
+                                                border: `1px solid ${bgColors[
+                                                    `${theme}-primary-border-color`
+                                                ]
+                                                    }`,
                                             }}
                                         >
                                             {/* <img /> */}
@@ -199,9 +198,8 @@ const ReferalPage2 = () => {
                 <div
                     className="mt-[16px] rounded-xl overflow-y-auto "
                     style={{
-                        border: `1.5px solid ${
-                            bgColors[`${theme}-primary-border-color`]
-                        }`,
+                        border: `1.5px solid ${bgColors[`${theme}-primary-border-color`]
+                            }`,
                     }}
                 >
                     <table
@@ -219,11 +217,10 @@ const ReferalPage2 = () => {
                             <tr
                                 className="text-sm font-medium font-['Figtree']"
                                 style={{
-                                    borderBottom: `1px solid ${
-                                        bgColors[
-                                            `${theme}-primary-border-color`
-                                        ]
-                                    }`,
+                                    borderBottom: `1px solid ${bgColors[
+                                        `${theme}-primary-border-color`
+                                    ]
+                                        }`,
                                 }}
                             >
                                 <th
@@ -234,7 +231,7 @@ const ReferalPage2 = () => {
                                         ],
                                         background:
                                             bgColors[
-                                                `${theme}-primary-bg-color-9`
+                                            `${theme}-primary-bg-color-9`
                                             ],
                                     }}
                                 >
@@ -248,7 +245,7 @@ const ReferalPage2 = () => {
                                         ],
                                         background:
                                             bgColors[
-                                                `${theme}-primary-bg-color-9`
+                                            `${theme}-primary-bg-color-9`
                                             ],
                                     }}
                                 >
@@ -262,7 +259,7 @@ const ReferalPage2 = () => {
                                         ],
                                         background:
                                             bgColors[
-                                                `${theme}-primary-bg-color-9`
+                                            `${theme}-primary-bg-color-9`
                                             ],
                                     }}
                                 >
@@ -276,7 +273,7 @@ const ReferalPage2 = () => {
                                         ],
                                         background:
                                             bgColors[
-                                                `${theme}-primary-bg-color-9`
+                                            `${theme}-primary-bg-color-9`
                                             ],
                                     }}
                                 >
@@ -290,7 +287,7 @@ const ReferalPage2 = () => {
                                         ],
                                         background:
                                             bgColors[
-                                                `${theme}-primary-bg-color-9`
+                                            `${theme}-primary-bg-color-9`
                                             ],
                                     }}
                                 >
@@ -305,11 +302,10 @@ const ReferalPage2 = () => {
                                     <tr
                                         className="border-b border-[#F0F0F0] text-[#4C4C4C]"
                                         style={{
-                                            borderBottom: `1px solid ${
-                                                bgColors[
-                                                    `${theme}-primary-border-color`
-                                                ]
-                                            }`,
+                                            borderBottom: `1px solid ${bgColors[
+                                                `${theme}-primary-border-color`
+                                            ]
+                                                }`,
                                         }}
                                     >
                                         <td
@@ -333,7 +329,7 @@ const ReferalPage2 = () => {
                                             {user?.Name || `User ${index + 1}`}
                                         </td>
                                         <td
-                                            className="w-[30%] px-6 py-4 text-center" 
+                                            className="w-[30%] px-6 py-4 text-center"
                                             style={{
                                                 color: bgColors[
                                                     `${theme}-color-premitive-grey-9`
@@ -342,7 +338,7 @@ const ReferalPage2 = () => {
                                         >
                                             {user?.email}
                                         </td>
-                                        <td 
+                                        <td
                                             className="w-[20%] px-6 py-4  text-center"
                                             style={{
                                                 color: bgColors[

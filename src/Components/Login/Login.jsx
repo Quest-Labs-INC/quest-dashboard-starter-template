@@ -13,9 +13,9 @@ export default function Login() {
     const { appConfig, theme, bgColors, contentConfig } =
         useContext(ThemeContext);
     const refQuery = new URLSearchParams(window.location.search).get("ref");
-    
 
-    const completeLogin = async(e) => {
+
+    const completeLogin = async (e) => {
         const { userId, token, userCredentials } = e;
         if (userId && token) {
             localStorage.setItem("questUserId", userId);
@@ -24,21 +24,22 @@ export default function Login() {
                 "questUserCredentials",
                 JSON.stringify(userCredentials)
             );
-            
+
             if (refQuery) {
-                let request = generalFunction.createUrl(`api/entities/${appConfig.QUEST_ENTITY_ID}/quests/${appConfig.QUEST_REFERRAL_CAMPAIGN_ID}/claim`);
+                // let request = generalFunction.createUrl(`api/entities/${appConfig.QUEST_ENTITY_ID}/quests/${appConfig.QUEST_REFERRAL_CAMPAIGN_ID}/claim`);
+                let request = generalFunction.createUrl(`api/v2/entities/${mainConfig.QUEST_ENTITY_ID}/campaigns/${appConfig.QUEST_REFERRAL_CAMPAIGN_ID}/claim`);
                 await fetch(request.url, {
                     method: "POST",
                     // credentials: "include",
                     headers: {
-                      "content-type": "application/json",
-                      apikey: appConfig.QUEST_API_KEY,
-                      userId: userId,
-                      token: token,
+                        "content-type": "application/json",
+                        apikey: appConfig.QUEST_API_KEY,
+                        userId: userId,
+                        token: token,
                     },
                     body: JSON.stringify({
-                      userId: userId,
-                      referralCode: refQuery,
+                        userId: userId,
+                        referralCode: refQuery,
                     })
                 });
             }
@@ -120,7 +121,7 @@ export default function Login() {
                         Background: bgColors[`${theme}-primary-bg-color-0`],
                         BorderColor: bgColors[`${theme}-primary-bg-color-0`],
                     },
-                    PrimaryButton:{
+                    PrimaryButton: {
                         border: "none"
                     },
                     SecondaryButton: {
