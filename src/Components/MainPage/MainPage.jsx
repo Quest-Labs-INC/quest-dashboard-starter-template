@@ -159,7 +159,7 @@ function MainPage() {
             // console.log(request)
             console.log(request.headers)
             // /api/v2/entities/:entityId/campaigns/generate-saas
-            let response = await axios.get(request.url, {
+            let response = await axios.post(request.url, {
                 entityName: name,
                 entityDetails: description,
                 imageUrl: customImage || uploadedImageUrl,
