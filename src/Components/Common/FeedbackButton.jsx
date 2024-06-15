@@ -7,8 +7,9 @@ import { mainConfig } from "../../assets/Config/appConfig";
 
 function FeedbackButton() {
     const [openFeedback, setOpenFeedback] = useState(false);
-    const { theme, bgColors } = useContext(ThemeContext);
+    const { theme, bgColors, appConfig } = useContext(ThemeContext);
     const getLighterColor = (color1, color2) => {
+
         const calculateLuminance = (color) => {
             const r = parseInt(color.slice(1, 3), 16);
             const g = parseInt(color.slice(3, 5), 16);
@@ -26,10 +27,12 @@ function FeedbackButton() {
         let diffColor = mainColor
             .split(" ")
             ?.filter((ele) => ele.charAt(0) == "#");
+
         let pickColor = !!diffColor?.length
             ? [diffColor[0], diffColor.length > 1 ? diffColor[1] : "#D1ACFF"]
             : ["#9035FF", "#D1ACFF"];
-        const lighterColor = getLighterColor(diffColor[0], diffColor[1]);
+        // const lighterColor = getLighterColor(diffColor[0], diffColor[1]);
+        const lighterColor = getLighterColor(pickColor[0], pickColor[1]);
 
         return lighterColor;
     };
@@ -79,6 +82,7 @@ function FeedbackButton() {
                 topbarColor={"white"}
                 starColor="blue"
                 showFooter={true}
+                questId={appConfig?.QUEST_GET_STARTED_CAMPAIGN_ID}
                 ReportBug={{
                     description: "Help us squash those bugs!",
                 }}
@@ -93,9 +97,8 @@ function FeedbackButton() {
                 RequestFeature={{
                     description: "Suggest, we innovate together.",
                 }}
-                contactUrl={`mailto:${
-                    mainConfig.CONTACT_EMAIL
-                }`}
+                contactUrl={`mailto:${mainConfig.CONTACT_EMAIL
+                    }`}
                 styleConfig={{
                     listHeading: {},
                     listHover: {

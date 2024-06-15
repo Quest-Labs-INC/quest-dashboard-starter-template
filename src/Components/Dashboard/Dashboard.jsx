@@ -38,7 +38,8 @@ export default function Dashboard() {
         let pickColor = !!diffColor?.length
             ? [diffColor[0], diffColor.length > 1 ? diffColor[1] : "#D1ACFF"]
             : ["#9035FF", "#D1ACFF"];
-        const lighterColor = getLighterColor(diffColor[0], diffColor[1]);
+        // const lighterColor = getLighterColor(diffColor[0], diffColor[1]);
+        const lighterColor = getLighterColor(pickColor[0], pickColor[1]);
 
         return lighterColor;
     };

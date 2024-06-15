@@ -3,13 +3,14 @@ import { ThemeContext } from '../Common/AppContext';
 import { generalFunction } from '../../assets/Config/generalFunction';
 import { Referral } from '@questlabs/react-sdk';
 
-const ReferralComp = ({colorPicker}) => {
+const ReferralComp = ({ colorPicker }) => {
     const { theme, bgColors, appConfig } = useContext(ThemeContext);
     return (
         <Referral
             userId={generalFunction.getUserId()}
             token={generalFunction.getUserToken()}
-            questId={"q-saas-referral"}
+            // questId={"q-saas-referral"}
+            questId={appConfig.QUEST_REFERRAL_CAMPAIGN_ID}
             bgColor="white"
             color=""
             heading={"Your referral link"}

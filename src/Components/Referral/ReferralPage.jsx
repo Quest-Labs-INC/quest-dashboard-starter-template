@@ -29,9 +29,13 @@ const ReferralPage = () => {
 
     useEffect(() => {
         const getSubmission = async () => {
+            // let request = generalFunction.createUrl(
+            //     `api/entities/${mainConfig.QUEST_ENTITY_ID}/quests/${appConfig.QUEST_REFERRAL_CAMPAIGN_ID}/submissions?parentEntityId=${mainConfig.QUEST_ENTITY_ID}`
+            // );
             let request = generalFunction.createUrl(
-                `api/entities/${mainConfig.QUEST_ENTITY_ID}/quests/${appConfig.QUEST_REFERRAL_CAMPAIGN_ID}/submissions?parentEntityId=${mainConfig.QUEST_ENTITY_ID}`
+                `api/v2/entities/${mainConfig.QUEST_ENTITY_ID}/campaigns/${appConfig.QUEST_REFERRAL_CAMPAIGN_ID}/referral-summary?duration=all`
             );
+
             await axios(request.url, {
                 headers: {
                     ...request.headers,
@@ -59,9 +63,8 @@ const ReferralPage = () => {
                 className="dashboard-page-header"
                 style={{
                     color: bgColors[`${theme}-color-premitive-grey-5`],
-                    borderBottom: `1.5px solid ${
-                        bgColors[`${theme}-primary-border-color`]
-                    }`,
+                    borderBottom: `1.5px solid ${bgColors[`${theme}-primary-border-color`]
+                        }`,
                 }}
             >
                 Refer Friends
@@ -72,9 +75,8 @@ const ReferralPage = () => {
                         <div
                             className="flex flex-col py-[28px] px-[20px] gap-[40px] w-[100%] rounded-[10px]"
                             style={{
-                                border: `1px solid ${
-                                    bgColors[`${theme}-primary-border-color`]
-                                }`,
+                                border: `1px solid ${bgColors[`${theme}-primary-border-color`]
+                                    }`,
                             }}
                         >
                             <div
@@ -99,11 +101,10 @@ const ReferralPage = () => {
                                         <div
                                             className="w-[56px] h-[56px] flex items-center justify-center rounded-full"
                                             style={{
-                                                border: `1px solid ${
-                                                    bgColors[
-                                                        `${theme}-primary-border-color`
-                                                    ]
-                                                }`,
+                                                border: `1px solid ${bgColors[
+                                                    `${theme}-primary-border-color`
+                                                ]
+                                                    }`,
                                             }}
                                         >
                                             {/* <img /> */}
@@ -135,11 +136,10 @@ const ReferralPage = () => {
                                         <div
                                             className="w-[56px] h-[56px] flex items-center justify-center rounded-full"
                                             style={{
-                                                border: `1px solid ${
-                                                    bgColors[
-                                                        `${theme}-primary-border-color`
-                                                    ]
-                                                }`,
+                                                border: `1px solid ${bgColors[
+                                                    `${theme}-primary-border-color`
+                                                ]
+                                                    }`,
                                             }}
                                         >
                                             {ProfileSvg(
@@ -170,11 +170,10 @@ const ReferralPage = () => {
                                         <div
                                             className="w-[56px] h-[56px] flex items-center justify-center rounded-full"
                                             style={{
-                                                border: `1px solid ${
-                                                    bgColors[
-                                                        `${theme}-primary-border-color`
-                                                    ]
-                                                }`,
+                                                border: `1px solid ${bgColors[
+                                                    `${theme}-primary-border-color`
+                                                ]
+                                                    }`,
                                             }}
                                         >
                                             {StarSvg(
@@ -211,9 +210,8 @@ const ReferralPage = () => {
                 <div
                     className="mt-[16px] rounded-xl overflow-y-auto "
                     style={{
-                        border: `1.5px solid ${
-                            bgColors[`${theme}-primary-border-color`]
-                        }`,
+                        border: `1.5px solid ${bgColors[`${theme}-primary-border-color`]
+                            }`,
                     }}
                 >
                     <table
@@ -231,11 +229,10 @@ const ReferralPage = () => {
                             <tr
                                 className="text-sm font-medium font-['Figtree']"
                                 style={{
-                                    borderBottom: `1px solid ${
-                                        bgColors[
-                                            `${theme}-primary-border-color`
-                                        ]
-                                    }`,
+                                    borderBottom: `1px solid ${bgColors[
+                                        `${theme}-primary-border-color`
+                                    ]
+                                        }`,
                                 }}
                             >
                                 <th
@@ -246,7 +243,7 @@ const ReferralPage = () => {
                                         ],
                                         background:
                                             bgColors[
-                                                `${theme}-primary-bg-color-9`
+                                            `${theme}-primary-bg-color-9`
                                             ],
                                     }}
                                 >
@@ -260,7 +257,7 @@ const ReferralPage = () => {
                                         ],
                                         background:
                                             bgColors[
-                                                `${theme}-primary-bg-color-9`
+                                            `${theme}-primary-bg-color-9`
                                             ],
                                     }}
                                 >
@@ -274,7 +271,7 @@ const ReferralPage = () => {
                                         ],
                                         background:
                                             bgColors[
-                                                `${theme}-primary-bg-color-9`
+                                            `${theme}-primary-bg-color-9`
                                             ],
                                     }}
                                 >
@@ -288,7 +285,7 @@ const ReferralPage = () => {
                                         ],
                                         background:
                                             bgColors[
-                                                `${theme}-primary-bg-color-9`
+                                            `${theme}-primary-bg-color-9`
                                             ],
                                     }}
                                 >
@@ -302,7 +299,7 @@ const ReferralPage = () => {
                                         ],
                                         background:
                                             bgColors[
-                                                `${theme}-primary-bg-color-9`
+                                            `${theme}-primary-bg-color-9`
                                             ],
                                     }}
                                 >
@@ -311,17 +308,16 @@ const ReferralPage = () => {
                             </tr>
                         </thead>
 
-                        {!!userData.length && (
+                        {!!userData?.length && (
                             <tbody>
                                 {userData?.map((user, index) => (
                                     <tr
                                         className="border-b border-[#F0F0F0] text-[#4C4C4C]"
                                         style={{
-                                            borderBottom: `1px solid ${
-                                                bgColors[
-                                                    `${theme}-primary-border-color`
-                                                ]
-                                            }`,
+                                            borderBottom: `1px solid ${bgColors[
+                                                `${theme}-primary-border-color`
+                                            ]
+                                                }`,
                                         }}
                                     >
                                         <td
@@ -389,7 +385,7 @@ const ReferralPage = () => {
                             </tbody>
                         )}
                     </table>
-                    {!userData.length && (
+                    {!userData?.length && (
                         <div
                             className="w-full text-center py-[18px]"
                             style={{

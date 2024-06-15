@@ -49,7 +49,7 @@ export default function DashboardWrapper({ children, selectdRoute }) {
         const differenceInMilliseconds = Math.abs(inputDate - targetDate);
         const differenceInDays = Math.ceil(
             differenceInMilliseconds /
-                (type == "days" ? 1000 * 3600 * 24 : 1000 * 3600)
+            (type == "days" ? 1000 * 3600 * 24 : 1000 * 3600)
         );
         return differenceInDays;
     };
@@ -144,11 +144,10 @@ export default function DashboardWrapper({ children, selectdRoute }) {
                                     !routes.hidden &&
                                     routes.isUpper && (
                                         <li
-                                            className={`s_nav_menu_item ${
-                                                window.location.href.includes(
-                                                    routes.path
-                                                ) && "s_nav_active"
-                                            }`}
+                                            className={`s_nav_menu_item ${window.location.href.includes(
+                                                routes.path
+                                            ) && "s_nav_active"
+                                                }`}
                                             key={index}
                                         >
                                             <Link
@@ -236,7 +235,7 @@ export default function DashboardWrapper({ children, selectdRoute }) {
             </nav>
 
             <div
-                className="w-[calc(100vw-185px)]" 
+                className="w-[calc(100vw-185px)]"
                 style={{
                     backgroundColor: theme === "dark" ? "black" : "white",
                 }}

@@ -10,11 +10,21 @@ const AppContext = ({ children }) => {
     const [appConfig, setAppConfig] = useState({
         QUEST_ENTITY_NAME: localStorage.getItem("entityName") || "",
         BRAND_LOGO: localStorage.getItem("brandlogo") || "",
+
         QUEST_ONBOARDING_QUIZ_CAMPAIGN_ID: "q-saas-onboarding-quiz",
+        // QUEST_ONBOARDING_QUIZ_CAMPAIGN_ID: "c-dc547949-1005-4bcb-ad02-335c9b386936",
+
         QUEST_GET_STARTED_CAMPAIGN_ID: "q-saas-get-started",
+        // QUEST_GET_STARTED_CAMPAIGN_ID: "c-7210ca80-275d-4a30-a96e-7bfa2de12d32",
+
         QUEST_SEARCH_BAR_CAMPAIGN_ID: "q-saas-search-bar",
+        // QUEST_SEARCH_BAR_CAMPAIGN_ID: "c-0df31e1a-9579-4040-98fd-0141636f17c1",
+
         QUEST_REFERRAL_CAMPAIGN_ID: "q-saas-referral",
-        QUEST_SEARCH_BAR_CAMPAIGN_ID: "q-saas-search-bar",
+        // QUEST_REFERRAL_CAMPAIGN_ID: "c-b5d23598-2ae1-4b95-a7f7-699d329d49c1",
+
+        // QUEST_FEEDBACK_WORKFLOW_CAMPAIGN_ID: "c-19406c46-1b32-4711-9335-34cb626d18c2"
+        QUEST_FEEDBACK_WORKFLOW_CAMPAIGN_ID: "q-feedback-workflow"
     });
     const [contentConfig, setContentConfig] = useState({
         login: {
@@ -28,7 +38,7 @@ const AppContext = ({ children }) => {
         "dark-color-premitive-grey-0": "#afafaf",
         "dark-color-premitive-grey-5": "#ffffff",
         "dark-primary-bg-color-0":
-            localStorage.getItem("themeColor") || "#111018", // "#1c1a27"
+            localStorage.getItem("themeColor") === "undefined" ? "#111018" : localStorage.getItem("themeColor"), // "#1c1a27"
         "dark-primary-bg-color-1": "#1c1a27", // "#fbfafe"
         "dark-primary-bg-color-2": "#0D0D0D",
         "dark-primary-bg-color-3": "#121212", // "#1c1a27"
@@ -47,7 +57,7 @@ const AppContext = ({ children }) => {
 
         "light-color-premitive-grey-0": "#afafaf",
         "light-primary-bg-color-0":
-            localStorage.getItem("themeColor") || "#7B68EE", // login page left side
+            localStorage.getItem("themeColor") === "undefined" ? "#7B68EE" : localStorage.getItem("themeColor"), // login page left side
         "light-primary-bg-color-1": "#ffffff", // login page right side #edf3ff
         "light-primary-bg-color-2": "#e4e9f7", // navbar and components background color
         "light-primary-bg-color-3": "#ffffff", // dashboard background color
@@ -127,7 +137,7 @@ const AppContext = ({ children }) => {
                         localStorage.setItem(
                             "brandlogo",
                             apiData?.saasDashboard?.dashboardConfig?.imageUrl ||
-                                apiData?.imageUrl
+                            apiData?.imageUrl
                         );
                         localStorage.setItem(
                             "entityName",

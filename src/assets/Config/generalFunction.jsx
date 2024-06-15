@@ -1,6 +1,6 @@
 import Cookies from "universal-cookie";
 import { mainConfig } from "./appConfig";
-import { supabase } from "../../supabaseClient";
+// import { supabase } from "../../supabaseClient";
 
 export const generalFunction = {
     getUserId : () => {
@@ -113,35 +113,35 @@ export const generalFunction = {
         }
     },
 
-    supabase_addData: async (table, rowData) => {
-        const { data, error } = await supabase.from(table).select('*').eq("email", rowData.email).maybeSingle();
-        if (error) {
-            throw error;
-        }
+    // supabase_addData: async (table, rowData) => {
+    //     const { data, error } = await supabase.from(table).select('*').eq("email", rowData.email).maybeSingle();
+    //     if (error) {
+    //         throw error;
+    //     }
         
-        if (!data || !data?.email) {
-            const { data: newUserData, error: insertError } = await supabase
-              .from(table)
-              .insert([{
-                email: rowData.email,
-                ...(!!rowData?.name && { name: rowData?.name }),
-              }])
-              .select();
-            if (insertError) {
-              throw insertError;
-            }
-        }
-    },
+    //     if (!data || !data?.email) {
+    //         const { data: newUserData, error: insertError } = await supabase
+    //           .from(table)
+    //           .insert([{
+    //             email: rowData.email,
+    //             ...(!!rowData?.name && { name: rowData?.name }),
+    //           }])
+    //           .select();
+    //         if (insertError) {
+    //           throw insertError;
+    //         }
+    //     }
+    // },
 
-    supabase_updateData: async (table, email, rowData) => {
-        const { data, error } = await supabase
-        .from(table)
-        .update(rowData)
-        .eq("email", email)
-        .select()
+    // supabase_updateData: async (table, email, rowData) => {
+    //     const { data, error } = await supabase
+    //     .from(table)
+    //     .update(rowData)
+    //     .eq("email", email)
+    //     .select()
 
-        if (error) {
-            throw error;
-        }
-    }
+    //     if (error) {
+    //         throw error;
+    //     }
+    // }
 }

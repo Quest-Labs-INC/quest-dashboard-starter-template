@@ -4,7 +4,7 @@ import { generalFunction } from "../../assets/Config/generalFunction";
 import { ThemeContext } from "../Common/AppContext";
 
 const ReferralPopup = ({ setOpenPopup }) => {
-    const { theme, bgColors, contentConfig } = useContext(ThemeContext);
+    const { theme, bgColors, contentConfig, appConfig } = useContext(ThemeContext);
     const clickHandler = (e) => {
         if (document.getElementById("clickbox_sreferral").contains(e.target)) {
         } else {
@@ -21,7 +21,8 @@ const ReferralPopup = ({ setOpenPopup }) => {
                 <Referral
                     userId={generalFunction.getUserId()}
                     token={generalFunction.getUserToken()}
-                    questId={"q-saas-referral"}
+                    // questId={"q-saas-referral"}
+                    questId={appConfig.QUEST_REFERRAL_CAMPAIGN_ID}
                     bgColor="white"
                     color=""
                     heading={"Referral link and code"}
