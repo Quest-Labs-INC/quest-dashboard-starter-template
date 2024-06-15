@@ -199,6 +199,8 @@ function MainPage() {
             Toast.success({ text: "Template successfully created" })
         } catch (error) {
             console.log(error);
+        } finally {
+            generalFunction.hideLoader();
         }
     }
 
