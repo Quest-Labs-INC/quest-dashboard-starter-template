@@ -89,6 +89,7 @@ export default function ProjectManagement() {
       <Table
         fields={fields}
         tableData={AllProjects}
+        hasLink={true}
         pageLink="/project_management/project_page/"
       />
       <div className="mb-6 mt-10 flex items-center justify-center">
