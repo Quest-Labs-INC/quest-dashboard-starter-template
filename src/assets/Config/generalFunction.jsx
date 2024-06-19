@@ -280,17 +280,43 @@ export const generalFunction = {
         return data;
     },
 
-    addUserPermission: async (newUser) => {
+    // Add user permission
+    createUserPermission: async (UserPermission) => {
         const { data, error } = await supabase
             .from('user_permissions')
-            .insert([newUser])
+            .insert([UserPermission])
             .select('*');
         if (error) {
             throw error;
         }
         return data;
     },
-    
+
+    // Update User permission
+    updateUserPermission: async (UserId, UserRole) => {
+        const { data, error } = await supabase
+        .from('user_permissions')
+        .update({role: UserRole})
+        .eq('user_id', UserId);
+
+        if (error) {
+            throw error;
+        }
+        return data;
+    },
+
+    // Function to deactivate user
+    deactivateUser: async (UserID) => {
+        const { data, error } = await supabase
+            .from('users')
+            .update({is_active: false})
+            .eq('id', UserID);
+        if (error) {
+            throw error;
+        }
+        return data;
+    },
+
     fetchSuppliers: async () => {
         const { data } = await supabase
           .from(`supplier_management`)

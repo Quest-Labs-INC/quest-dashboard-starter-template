@@ -52,6 +52,14 @@ const AddAdminPopup = ({ setAdminPopup, setFlag }) => {
           //   email: email.toLowerCase(),
           // }
           ////////////////////////
+
+        const userPermission_ = {
+          role: "Admin",
+          user_id: "",
+          assigned_by: ""
+        }
+        generalFunction.createUserPermission(userPermission_);
+
           setFlag((prev) => !prev);
           setTimeout(function () {
             generalFunction.hideLoader();
