@@ -60,11 +60,60 @@ export default function Login() {
                 claimedStatus = res?.data?.isClaimed;
             });
 
+            let ownerDetails = JSON.parse(localStorage.getItem("adminDetails"));
+
+            if (!ownerDetails?.ownerEntityId || ownerDetails?.userId != userId) {
+                let ownerDetails = {
+                    userId: userId,
+                }
+
+                let adminEntitiesRequest = generalFunction.createUrl(`api/users/${userId}/admin-entities`);
+                await fetch(adminEntitiesRequest.url, {
+                    method: "GET",
+                    headers: {
+                        "content-type": "application/json",
+                        apikey: mainConfig.QUEST_API_KEY,
+                        userId: userId,
+                        token: token,
+                    },
+                }).then((res) => res.json()).then((res) => {
+                    let entities = res.data;
+                    if (entities.length > 0) {
+                        let mainOwner = entities.filter(ele => ele.id == mainConfig.QUEST_ENTITY_ID)
+                        if (mainOwner.length > 0) {
+                            ownerDetails.ownerEntityId = mainOwner[0].id;
+                            ownerDetails.apiKey = mainConfig.QUEST_API_KEY
+                        }
+
+                        let otherOwner = entities.filter(ele => ele.parentEntityId == mainConfig.QUEST_ENTITY_ID)
+                        if (otherOwner.length > 0) {
+                            ownerDetails.ownerEntityId = otherOwner[0].id;
+                        }
+                    }
+                });
+
+                if (!!ownerDetails?.ownerEntityId && ownerDetails?.ownerEntityId != mainConfig.QUEST_ENTITY_ID) {
+                    let generateApiKeyRequest = generalFunction.createUrl(`api/entities/${ownerDetails?.ownerEntityId}/keys?userId=${userId}`);
+                    await fetch(generateApiKeyRequest.url, {
+                        method: "GET",
+                        headers: {
+                            "content-type": "application/json",
+                            apikey: mainConfig.QUEST_API_KEY,
+                            userId: userId,
+                            token: token,
+                        },
+                    }).then((res) => res.json()).then((res) => {
+                        ownerDetails.apiKey = res?.data?.key;
+                    });
+                }
+                localStorage.setItem("adminDetails", JSON.stringify(ownerDetails));
+            }
+
 
             if (!claimedStatus) {
                 navigate("/onboarding");
             } else {
-                navigate("/insights");
+                navigate("/data_collection");
             }
         }
     };

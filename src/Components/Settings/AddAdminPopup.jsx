@@ -10,7 +10,7 @@ const AddAdminPopup = ({ setAdminPopup, setFlag }) => {
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
+  const ownerDetails = JSON.parse(localStorage.getItem("adminDetails"));
   const [isValidEmail, setIsValidEmail] = useState(true);
   const handleEmailChange = (e) => {
     const newEmail = e.target.value;
@@ -29,9 +29,9 @@ const AddAdminPopup = ({ setAdminPopup, setFlag }) => {
       name,
     };
 
-    let request = generalFunction.createUrl(`api/entities/${entityId}/invite`);
+    let request = generalFunction.createUrl(`api/entities/${ownerDetails?.ownerEntityId}/invite`);
     axios
-      .post(request.url, json, { headers: request.headers })
+      .post(request.url, json, { headers: {...request.headers, apiKey: ownerDetails?.apiKey} })
       .then((res) => {
         const data = res.data;
         if (data.success == false) {
@@ -45,6 +45,13 @@ const AddAdminPopup = ({ setAdminPopup, setFlag }) => {
               "\n" +
               "Member has been invited successfully.",
           });
+          //////////////////////////
+          // Role created successfully, update roles in supabase
+          // let data = {
+          //   role: "ADMIN",
+          //   email: email.toLowerCase(),
+          // }
+          ////////////////////////
           setFlag((prev) => !prev);
           setTimeout(function () {
             generalFunction.hideLoader();

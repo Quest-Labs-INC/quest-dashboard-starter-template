@@ -18,7 +18,8 @@ const AdminComponent = () => {
     const [adminPopup, setAdminPopup] = useState(false);
     const [flag, setFlag] = useState(false);
     const [openRolePopup, setOpenRolePopup] = useState(false);
-    const [roleData, setRoleData] = useState([]);
+    const [roleData, setRoleData] = useState();
+    const ownerDetails = JSON.parse(localStorage.getItem("adminDetails"));
 
 
     useEffect(() => {
@@ -29,15 +30,16 @@ const AdminComponent = () => {
                 generalFunction.hideLoader();
                 setLoading(false);
             }, 5000);
-            let request = generalFunction.createUrl(`api/entities/${mainConfig.QUEST_ENTITY_ID}/admins?userId=${generalFunction.getUserId()}`);
+            let request = generalFunction.createUrl(`api/entities/${ownerDetails?.ownerEntityId}/admins?userId=${generalFunction.getUserId()}`);
             const { data } = await axios.get(
                 request.url,
                 {
-                    headers: request.headers,
+                    headers: {...request.headers, apiKey: ownerDetails?.apiKey},
                 }
             );
-            setAdminData(data.data);
-            setFilterData(data.data);
+            let filteredData = data.data.filter((user) => !mainConfig.ALLOWED_ADMIN.includes(user.emails[0]));
+            setAdminData(filteredData);
+            setFilterData(filteredData);
             generalFunction.hideLoader();
             setLoading(false);
         };
@@ -54,7 +56,7 @@ const AdminComponent = () => {
     const deleteAdmin = async (userId) => {
         try {
             generalFunction.showLoader();
-            let request = generalFunction.createUrl(`api/entities/${mainConfig.QUEST_ENTITY_ID}/remove-admin?userId=${generalFunction.getUserId()}`);
+            let request = generalFunction.createUrl(`api/entities/${ownerDetails?.ownerEntityId}/remove-admin?userId=${generalFunction.getUserId()}`);
             await axios.post(
                 request.url,
                 {
@@ -62,7 +64,7 @@ const AdminComponent = () => {
                     userId,
                 },
                 {
-                    headers: request.headers,
+                    headers: {...request.headers, apiKey: ownerDetails?.apiKey},
                 }
             ).then((res) => {
                 const data = res.data;
@@ -77,8 +79,20 @@ const AdminComponent = () => {
                     Toast.success({
                         text: "Admin Removed Successfully",
                     });
+
+                    let removedUser = adminData?.filter((user) => user.userId == userId);
+                    console.log(removedUser)
                     const data = adminData?.filter((user) => user.userId != userId);
                     setAdminData(data);
+
+                    //////////////////////////
+                    // Role deleted successfully, update roles in supabase
+                    // let data = {
+                    //   role: "ADMIN",
+                    //   email: removedUser[0].email.toLowerCase(),
+                    // }
+                    ////////////////////////
+
                     setFlag((prev) => !prev);
                     generalFunction.hideLoader();
                 }
@@ -89,15 +103,15 @@ const AdminComponent = () => {
     }
 
     useEffect(() => {
-        let request = generalFunction.createUrl(`api/entities/${mainConfig.QUEST_ENTITY_ID}/roles?userId=${generalFunction.getUserId()}`);
+        let request = generalFunction.createUrl(`api/entities/${ownerDetails?.ownerEntityId}/roles?userId=${generalFunction.getUserId()}`);
         axios
-        .get(request.url, { headers: request.headers })
+        .get(request.url, { headers: {...request.headers, apiKey: ownerDetails?.apiKey} })
         .then((res) => {
             const data = res.data;
             if (data.success == false) {
                 generalFunction.hideLoader();
             } else if (data.success == true) {
-                setRoleData(data.data);
+                setRoleData([...data.data, ...[{role: "OWNER"}, {role: "ADMIN"}]]);
                 setTimeout(function () {
                     generalFunction.hideLoader();
                 }, 500);
@@ -119,16 +133,17 @@ const AdminComponent = () => {
     const changeRole = async (userId, role) => {
         try {
             generalFunction.showLoader();
-            let request = generalFunction.createUrl(`api/entities/${mainConfig.QUEST_ENTITY_ID}/roles/${role}/users/${userId}/update?userId=${generalFunction.getUserId()}`);
+            let request = generalFunction.createUrl(`api/entities/${ownerDetails?.ownerEntityId}/roles/${role}/users/${userId}/update?userId=${generalFunction.getUserId()}`);
             await axios.post(
                 request.url,
                 {
                     ownerUserId: generalFunction.getUserId(),
                     userId,
                     role,
+                    isActive: true,
                 },
                 {
-                    headers: request.headers,
+                    headers: {...request.headers, apiKey: ownerDetails?.apiKey},
                 }
             ).then((res) => {
                 const data = res.data;
@@ -140,6 +155,16 @@ const AdminComponent = () => {
                     Toast.success({
                         text: "Role Changed Successfully",
                     });
+
+                    let changedUser = adminData?.filter((user) => user.userId == userId);
+                    console.log(changedUser)
+                    //////////////////////////
+                    // Role changed successfully, update roles in supabase
+                    // let data = {
+                    //   role: "ADMIN",
+                    //   email: changedUser[0].email.toLowerCase(),
+                    // }
+                    ////////////////////////
                     setFlag((prev) => !prev);
                     generalFunction.hideLoader();
                 }

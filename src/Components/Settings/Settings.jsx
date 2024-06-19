@@ -14,6 +14,8 @@ export default function Settings() {
         setSection(sectionName);
     };
 
+    const ownerDetails = JSON.parse(localStorage.getItem("adminDetails"));
+
     return (
         <div className="flex flex-col justify-between items-center">
             <div
@@ -51,18 +53,20 @@ export default function Settings() {
                     >
                         Edit Profile
                     </p>
-                    <p
-                        className={` text-sm font-semibold font-['Figtree'] h-[52px] p-4 cursor-pointer ${section === "manage" &&
-                            "rounded-t-xl border-b border-[#939393]"
-                            }`}
-                        onClick={() => handleSectionChange("manage")}
-                        style={{
-                            color: bgColors[`${theme}-color-premitive-grey-5`],
-                            background: section === "manage" ? bgColors[`${theme}-primary-bg-color-9`] : ""
-                        }}
-                    >
-                        Manage Admins
-                    </p>
+                    {!!ownerDetails?.ownerEntityId &&
+                        <p
+                            className={` text-sm font-semibold font-['Figtree'] h-[52px] p-4 cursor-pointer ${section === "manage" &&
+                                "rounded-t-xl border-b border-[#939393]"
+                                }`}
+                            onClick={() => handleSectionChange("manage")}
+                            style={{
+                                color: bgColors[`${theme}-color-premitive-grey-5`],
+                                background: section === "manage" ? bgColors[`${theme}-primary-bg-color-9`] : ""
+                            }}
+                        >
+                            Manage Admins
+                        </p>
+                    }
                     <p
                         className={` text-sm font-semibold font-['Figtree'] h-[52px] p-4 cursor-pointer ${section === "managefacilities" &&
                             "rounded-t-xl border-b border-[#939393]"

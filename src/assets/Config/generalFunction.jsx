@@ -36,6 +36,7 @@ export const generalFunction = {
         localStorage.removeItem("questUserId");
         localStorage.removeItem("questUserToken");
         localStorage.removeItem("questUserCredentials");
+        localStorage.removeItem("adminDetails");
     },
 
     createUrl: (apiString) => {
@@ -426,5 +427,19 @@ export const generalFunction = {
             }
         });
         return errors;
-    }
+    },
+
+    createCompany: async (comapnyData) => {
+        const { data, error } = await supabase
+            .from('company')
+            .insert({ 
+                company_id: comapnyData.company_id, 
+                name: comapnyData.name, 
+            });
+
+        if (error) {
+            throw error;
+        }
+    },
+    
 }
