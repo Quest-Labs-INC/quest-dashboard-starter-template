@@ -20,6 +20,7 @@ import {
 } from "./SideBarSvg";
 import ReferralPopup from "../Referral/ReferralPopup";
 import { ThemeContext } from "./AppContext";
+import HelphubComponent from "./HelphubComponent";
 
 export default function DashboardWrapper({ children, selectdRoute }) {
     const [hover, sethover] = useState("close");
@@ -96,6 +97,8 @@ export default function DashboardWrapper({ children, selectdRoute }) {
         >
             {/* feedback sidebar buton */}
             <FeedbackButton />
+            
+            <HelphubComponent/>
 
             {/* for referral pop up  */}
             {openPopup && (

@@ -7,7 +7,7 @@ import { color } from "framer-motion";
 function FeedbackButton() {
   const [openFeedback, setOpenFeedback] = useState(false);
 
-  const { theme, bgColors, contentConfig } = useContext(ThemeContext);
+  const { theme, bgColors, contentConfig, appConfig } = useContext(ThemeContext);
 
   const getLighterColor = (color1, color2) => {
     const calculateLuminance = (color) => {
@@ -67,12 +67,7 @@ const colorRetriver = () => {
       </div>
 
       <FeedbackWorkflow
-        questIds={[
-          "q-general-feedback",
-          "q-report-a-bug",
-          "q-request-a-feature",
-          "q-contact-us",
-        ]}
+        questId={appConfig.QUEST_FEEDBACK_WORKFLOW_CAMPAIGN_ID}
         userId={generalFunction.getDataFromCookies("questUserId")}
         token={generalFunction.getDataFromCookies("questUserToken")}
         isOpen={openFeedback}
@@ -131,7 +126,7 @@ const colorRetriver = () => {
           PrimaryButton: {
             border: "none",
           },
-          
+
           Input:{
             borderColor:theme == "dark" ? 'rgba(255, 255, 255, 0.2)' : ''
           },
