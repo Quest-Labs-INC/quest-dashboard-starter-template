@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { generalFunction } from '../../assets/Config/generalFunction'
 import  Button from '../Common/CommonComponents/Button'
 import  Table from '../Common/CommonComponents/Table'
+import BasicTable from '../Common/CommonComponents/TanStackTable'
 import PopUp from '../Common/CommonComponents/PopUp'
 
 export default function ProjectManagement() {
@@ -98,6 +99,10 @@ export default function ProjectManagement() {
           handleFunction = {handleOpenPopup}
         />
       </div>
+      <BasicTable
+        fields={fields}
+        tableData={AllProjects}
+      />
       {isPopupOpen && (
         <PopUp
           fields={popupFields}
