@@ -1,0 +1,26 @@
+.login-wrapper>div>.heading-para {
+    color: var(--Neutral-White-100, #FFF);
+
+    /* Display sm/600 */
+    font-family: Figtree;
+    font-size: 30px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 40px;
+    /* 133.333% */
+    letter-spacing: -0.6px;
+}
+
+.login-wrapper>div>.desc-para {
+    color: var(--Neutral-White-400, #E0E0E0);
+    text-align: center;
+
+    /* Title md/400 */
+    font-family: Figtree;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 30px;
+    /* 150% */
+    letter-spacing: -0.4px;
+}
