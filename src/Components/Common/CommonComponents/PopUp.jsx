@@ -49,6 +49,14 @@ const PopUp = ({ title, fields, newRowData, handleInputChange, handleClosePopup,
                     <option key={option.value} value={option.value}>{option.label}</option>
                   ))}
                 </select>
+              ) : field.type === 'file' ? (
+                <input
+                  type="file"
+                  id={field.id}
+                  name={field.id}
+                  onChange={handleInputChange}
+                  className="border border-gray-300 rounded-md shadow-sm mt-1 block w-full"
+                />
               ) : (
                 <input
                   type={field.type || 'text'}
@@ -59,21 +67,20 @@ const PopUp = ({ title, fields, newRowData, handleInputChange, handleClosePopup,
                   className="border border-gray-300 rounded-md shadow-sm mt-1 block w-full"
                   readOnly={readOnly}
                 />
-          )}
-            {validationErrors && <span className="error">{validationErrors[field.id]}</span>}
+              )}
+              {validationErrors && <span className="error">{validationErrors[field.id]}</span>}
             </div>
-        ))}
-        <div className="flex justify-center items-center">
-          <Button
-            label={button1Label}
-            handleFunction = {handleClosePopup}
-          />
-          {!readOnly && <Button label={button2Label} handleFunction={handleSave} />}
-        </div>
-      </form>
+          ))}
+          <div className="flex justify-center items-center">
+            <Button
+              label={button1Label}
+              handleFunction={handleClosePopup}
+            />
+            {!readOnly && <Button label={button2Label} handleFunction={handleSave} />}
+          </div>
+        </form>
+      </div>
     </div>
-  </div>
-    
   );
 }
 

@@ -27,6 +27,8 @@ import SupplierManagement from "../../Components/DataCollection/supplierManageme
 // add SupplierAnalytics Component
 import SupplierAnalytics from "../../Components/DataCollection/supplierAnalytics";
 import Parameter from "../../Components/DataCollection/parameter";
+import DataEntry from "../../Components/DataCollection/dataentry";
+import DataEntryDetails from '../../Components/DataCollection/dataentrydetails';
 export const routesConfig = [
     {
         path: "/login",
@@ -77,8 +79,35 @@ export const routesConfig = [
         //  importConfig.routesIcons.dashboardIcon,
         component: (
             <ProviderConfig showTag={false}>
-                <DashboardWrapper selectdRoute={"Dashboard"}>
                     <Dashboard></Dashboard>
+            </ProviderConfig>
+        ),
+        hidden: true,
+        isUpper: true,
+    },
+    {
+        path: "/data_entry",
+        name: "Data Entry",
+        logo: IconDatabase(),
+        component: (
+            <ProviderConfig showTag={false}>
+                <DashboardWrapper selectdRoute={"Data Entry"}>
+                    <DataEntry></DataEntry>
+                </DashboardWrapper>
+            </ProviderConfig>
+        ),
+        hidden: false,
+        isUpper: true,
+    },
+
+    {
+        path: "/data_entry_details",
+        name: "Data Entry Details",
+        logo: IconDatabase(),
+        component: (
+            <ProviderConfig showTag={false}>
+                <DashboardWrapper selectdRoute={"Data Entry Details"}>
+                    <DataEntryDetails></DataEntryDetails>
                 </DashboardWrapper>
             </ProviderConfig>
         ),

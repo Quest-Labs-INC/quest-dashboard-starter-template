@@ -263,13 +263,13 @@ export const generalFunction = {
             .select(`
                 *,
                 process:process_id (
-                    process_name,
+                    process_id, process_name,
                     facility:facility_id (
-                        facility_name
+                        facility_id, facility_name
                     )
                 ),
                 parameter:parameter_id (
-                    para_name
+                    para_id, para_name
                 )
             `)
             .eq('user_id', userId);
@@ -426,5 +426,33 @@ export const generalFunction = {
             }
         });
         return errors;
+    },
+    addUserPermission: async (newUser) => {
+        const { data, error } = await supabase
+            .from('user_permissions')
+            .insert([newUser])
+            .select('*');
+        if (error) {
+            throw error;
+        }
+        return data;
+    },
+
+    fetchUserDataEntry: async (userId, processId, parameterId) => {
+        const { data, error } = await supabase
+            .from('parameter_log')
+            .select(`
+                *,
+                process(process_id, process_name),
+                data_collection_points(id, assigned_to)
+            `)
+            .eq('data_collection_points.assigned_to', userId)
+            .eq('process.process_id', processId)
+            .eq('para_id', parameterId);
+            
+        if (error) {
+            throw error;
+        }
+        return data;
     }
 }
