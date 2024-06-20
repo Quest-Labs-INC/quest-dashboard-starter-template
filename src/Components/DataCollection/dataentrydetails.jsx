@@ -10,7 +10,7 @@ export default function DataEntryDetails() {
     const { access } = location.state;
     const [userDataEntry, setUserDataEntry] = useState([]);
     const [isPopupOpen, setIsPopupOpen] = useState(false);
-    const [newEntry, setNewEntry] = useState({ date: '', value: '', evidence: '' });
+    const [newEntry, setNewEntry] = useState({ date: '', value: '', evidenceFile: null, evidence_url: ''});
 
     useEffect(() => {
         fetchDataEntry();
@@ -18,7 +18,7 @@ export default function DataEntryDetails() {
 
     async function fetchDataEntry() {
         try {
-            const userId = 35;  // Assuming userId is always an integer and defined
+            const userId = 35;  
             const processId = parseInt(access.process.process_id, 10);
             const parameterId = parseInt(access.parameter.para_id, 10);
 
@@ -37,11 +37,27 @@ export default function DataEntryDetails() {
         }));
     };
 
+    const handleFileChange = (e) => {
+        const file = e.target.files[0];
+        setNewEntry(prevData => ({
+            ...prevData,
+            evidenceFile: file,
+        }));
+    };
+
     const handleSaveNewEntry = async () => {
-        // Implement the save logic here
-        // You might want to call a function to save the new entry to the database
-        console.log('Saving new entry:', newEntry);
-        setIsPopupOpen(false);
+        try {
+            const userId = 35;  
+            const processId = parseInt(access.process.process_id, 10);
+            const parameterId = parseInt(access.parameter.para_id, 10);
+
+            const data = await generalFunction.createUserDataEntry(userId, processId, parameterId, newEntry);
+            setIsPopupOpen(false);
+
+            fetchDataEntry();
+        } catch (error) {
+            console.log("Error saving new entry: ", error);
+        }
     };
 
     const tableFields = [
@@ -69,8 +85,8 @@ export default function DataEntryDetails() {
                     tableData={userDataEntry.map(entry => ({
                         value: entry.value,
                         log_date: new Date(entry.log_date).toLocaleString(),
-                        evidence: '', // Leave blank for now
-                        status: 'Approved' // Fixed value
+                        evidence: entry.evidence_url ? <a href={entry.evidence_url} target="_blank" rel="noopener noreferrer">View</a> : '',
+                        status: 'Approved' 
                     }))}
                 />
                 <Button
@@ -91,7 +107,7 @@ export default function DataEntryDetails() {
                     fields={[
                         { id: 'date', label: 'Date', type: 'date' },
                         { id: 'value', label: 'Value', type: 'text' },
-                        { id: 'evidence', label: 'Evidence', type: 'file' },
+                        { id: 'evidenceFile', label: 'Evidence', type: 'file', handleFileChange: handleFileChange },
                     ]}
                     newRowData={newEntry}
                     handleInputChange={handleInputChange}

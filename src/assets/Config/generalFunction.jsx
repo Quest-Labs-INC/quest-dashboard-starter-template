@@ -278,17 +278,6 @@ export const generalFunction = {
         }
         return data;
     },
-
-    addUserPermission: async (newUser) => {
-        const { data, error } = await supabase
-            .from('user_permissions')
-            .insert([newUser])
-            .select('*');
-        if (error) {
-            throw error;
-        }
-        return data;
-    },
     
     fetchSuppliers: async () => {
         const { data } = await supabase
@@ -453,6 +442,66 @@ export const generalFunction = {
         if (error) {
             throw error;
         }
+        
         return data;
+    },
+    
+    createUserDataEntry: async (userId, processId, parameterId, newEntry) => {
+        // Step 1: Retrieve data_collection_id based on assigned_to (userId)
+        const { data: collectionData, error: collectionError } = await supabase
+            .from('data_collection_points')
+            .select('id')
+            .eq('assigned_to', userId)
+            .eq('parameter_id', parameterId)
+            .single(); // Assuming each user is assigned to only one data collection point
+    
+        if (collectionError) {
+            throw collectionError;
+        }
+    
+        const dataCollectionId = collectionData.id;
+    
+        // Step 2: Upload evidence file if it exists
+        let evidenceUrl = '';
+        if (newEntry.evidenceFile) {
+            evidenceUrl = await generalFunction.uploadFile(newEntry.evidenceFile);
+        }
+    
+        // Step 3: Insert into parameter_log with retrieved data_collection_id and evidence URL
+        const { data, error } = await supabase
+            .from('parameter_log')
+            .insert([
+                {
+                    process_id: processId,
+                    para_id: parameterId,
+                    value: newEntry.value,
+                    log_date: newEntry.date,
+                    data_collection_id: dataCollectionId,
+                    evidence_url: evidenceUrl // Save the public URL returned from the uploadFile function
+                }
+            ]);
+    
+        if (error) {
+            throw error;
+        }
+        return data;
+    },
+
+    uploadFile: async (file) =>{
+        const fileName = `${Date.now()}_${file.name}`;
+
+        const { data, error } = await supabase
+        .storage
+        .from('Evidence')  
+        .upload(`test/${fileName}`, file);
+
+        const { data1 } = supabase
+        .storage
+        .from('Evidence')
+        .getPublicUrl(`test/${fileName}`);
+
+
+        return data1.publicUrl;
+
     }
 }

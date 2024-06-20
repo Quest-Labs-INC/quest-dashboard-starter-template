@@ -1,4 +1,3 @@
-import React from "react";
 import Button from './Button';
 
 const PopUp = ({ title, fields, newRowData, handleInputChange, handleClosePopup, handleSave, readOnly = false, button1Label = 'Cancel', button2Label = 'Save', validationErrors }) => {
@@ -54,7 +53,7 @@ const PopUp = ({ title, fields, newRowData, handleInputChange, handleClosePopup,
                   type="file"
                   id={field.id}
                   name={field.id}
-                  onChange={handleInputChange}
+                  onChange={field.handleFileChange}
                   className="border border-gray-300 rounded-md shadow-sm mt-1 block w-full"
                 />
               ) : (
