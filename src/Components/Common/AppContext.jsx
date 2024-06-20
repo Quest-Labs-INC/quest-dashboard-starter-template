@@ -22,6 +22,8 @@ const AppContext = ({ children }) => {
     QUEST_GET_STARTED_CAMPAIGN_ID: "q-saas-get-started",
     QUEST_REFERRAL_CAMPAIGN_ID: "q-saas-referral",
     QUEST_SEARCH_BAR_CAMPAIGN_ID: "q-saas-search-bar",
+    QUEST_FEEDBACK_WORKFLOW_CAMPAIGN_ID: "q-saas-feedback-workflow",
+    QUEST_HELPHUB_CAMPAIGN_ID: "q-saas-helphub",
     CALENDLY_LINK: "",
   });
   const [contentConfig, setContentConfig] = useState({
@@ -140,7 +142,7 @@ const AppContext = ({ children }) => {
                   apiData?.saasDashboard?.dashboardConfig?.description,
               },
             });
-            
+
             setBgColors({
               ...bgColors,
               "light-primary-bg-color-0":

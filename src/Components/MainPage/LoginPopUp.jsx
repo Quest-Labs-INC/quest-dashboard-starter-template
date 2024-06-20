@@ -101,7 +101,7 @@ const LoginPopUp = ({ loginComplete, setLoginPopup }) => {
                             lineHeight: "16px", /* 133.333% */
                         },
                         Input: {
-                            color: "var(--Neutral-White-500, #B9B9B9)",
+                            color: "var(--Neutral-White-500, #2C2C2C)",
                             fontFamily: "Figtree",
                             fontSize: "14px",
                             fontStyle: "normal",

@@ -12,11 +12,11 @@ const OnboardingPopUp = ({ isAdmin, setOnboardingPopup, setAdminEntity }) => {
     const navigate = useNavigate()
     const { theme, bgColors, appConfig } = useContext(ThemeContext)
     let criteriaIds = {
-        name: "ec-3c5757c0-1e17-443c-913c-52744ed40b0a", // "ec-3c5757c0-1e17-443c-913c-52744ed40b0a",
-        role: "ec-4dcce20a-4923-4c73-bb93-9cc8455c1251", // "ec-4dcce20a-4923-4c73-bb93-9cc8455c1251",
-        company: "ec-210217e4-541c-4ab2-813c-3ebce6c49538", // "ec-210217e4-541c-4ab2-813c-3ebce6c49538",
-        teamSize: "ec-a5d7c934-9ffa-494e-b40a-cf58f2b3aac0", // "ec-a5d7c934-9ffa-494e-b40a-cf58f2b3aac0",
-        reference: "ec-7d0a4723-183a-412e-9e3b-04a0bcb21819", // "ec-7d0a4723-183a-412e-9e3b-04a0bcb21819",
+        name: "ca-78572922-a1a8-47d5-b59c-eed2d1f3cf8e", // "ec-3c5757c0-1e17-443c-913c-52744ed40b0a",
+        role: "ca-02a4afee-8bbf-4b01-a73e-8fb9c41f537c", // "ec-4dcce20a-4923-4c73-bb93-9cc8455c1251",
+        company: "ca-758d3dfc-9cc0-45b0-a9d3-f18f712aa3c3", // "ec-210217e4-541c-4ab2-813c-3ebce6c49538",
+        teamSize: "ca-a2e4295f-cb0e-4146-aaf1-062e3510f866", // "ec-a5d7c934-9ffa-494e-b40a-cf58f2b3aac0",
+        reference: "ca-9624de45-97b3-4df8-b534-bbf645bdc746", // "ec-7d0a4723-183a-412e-9e3b-04a0bcb21819",
         // web3CommunityOwner : "ec-2989d07d-8c8a-460c-83cd-d6aef281d65a" : "ec-5f68c70d-dc1f-4c0b-9ee1-c4ca91cc087d", //need to change production criteria id
     }
 

@@ -133,7 +133,7 @@ export default function ComingSoon() {
                             </div>
                         </div>
                     </div>
-                    <div className="grow shrink basis-0 h-11 px-4 py-2.5 rounded-[10px] justify-center items-center gap-1 flex cursor-pointer" style={{background: bgColors[`${theme}-primary-bg-color-0`]}} onClick={() => window.open("https://github.com/Quest-Labs-INC/quest-dashboard-starter-template", "_blank")}>
+                    <div className="grow shrink basis-0 h-11 px-4 py-2.5 rounded-[10px] justify-center items-center gap-1 flex cursor-pointer" style={{background: bgColors[`${theme}-primary-bg-color-0`]}} onClick={() => window.open("https://github.com/Quest-Labs-INC/quest-dashboard-starter-template/tree/saas-gpt", "_blank")}>
                         <div className="text-white text-sm font-semibold font-['Figtree'] leading-tight">
                             Fork Repo
                         </div>
