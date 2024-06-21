@@ -317,7 +317,7 @@ export const generalFunction = {
     updateUserPermission: async (UserId, UserRole) => {
         const { data, error } = await supabase
         .from('user_permissions')
-        .update({role: UserRole})
+        .update({'role': UserRole})
         .eq('user_id', UserId);
 
         if (error) {

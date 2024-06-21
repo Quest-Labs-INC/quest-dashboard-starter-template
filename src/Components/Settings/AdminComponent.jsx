@@ -138,7 +138,7 @@ const AdminComponent = () => {
         try {
             generalFunction.showLoader();
             let request = generalFunction.createUrl(`api/entities/${ownerDetails?.ownerEntityId}/roles/${role}/users/${userId}/update?userId=${generalFunction.getUserId()}`);
-            await axios.post(
+            const res = await axios.post(
                 request.url,
                 {
                     ownerUserId: generalFunction.getUserId(),
@@ -149,7 +149,7 @@ const AdminComponent = () => {
                 {
                     headers: {...request.headers, apiKey: ownerDetails?.apiKey},
                 }
-            ).then((res) => {
+            );
                 const data = res.data;
                 if (data.success == false) {
                     generalFunction.hideLoader();
@@ -169,10 +169,14 @@ const AdminComponent = () => {
                     //   email: changedUser[0].email.toLowerCase(),
                     // }
                     ////////////////////////
+
+                    // get user id from email
+                    const user_id = await generalFunction.getUserIdFromEmail(changedUser[0].emails[0])
+                    generalFunction.updateUserPermission(user_id[0].id, role)
+
                     setFlag((prev) => !prev);
                     generalFunction.hideLoader();
                 }
-            });
         } catch (error) {
             console.log(error);
         }
