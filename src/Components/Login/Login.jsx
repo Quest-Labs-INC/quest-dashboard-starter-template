@@ -18,7 +18,11 @@ export default function Login() {
         const { userId, token, userCredentials } = e;
 
         // store email in supabase
-        await generalFunction.supabase_addData("users", userCredentials);
+        let data = await generalFunction.supabase_getUser(userCredentials.email);
+        if (!data.length) {
+            data = await generalFunction.supabase_addData("users", userCredentials);
+        }
+        localStorage.setItem("varaUserId", data[0]?.id)
         
         if (userId && token) {
             localStorage.setItem("questUserId", userId);

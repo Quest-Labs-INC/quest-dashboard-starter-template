@@ -33,7 +33,7 @@ const AddAdminPopup = ({ setAdminPopup, setFlag }) => {
     let request = generalFunction.createUrl(`api/entities/${ownerDetails?.ownerEntityId}/invite`);
     axios
       .post(request.url, json, { headers: {...request.headers, apiKey: ownerDetails?.apiKey} })
-      .then((res) => {
+      .then(async (res) => {
         const data = res.data;
         if (data.success == false) {
           let errMsg = data.error ? data.error : "Unable to Invite Member";
@@ -53,6 +53,10 @@ const AddAdminPopup = ({ setAdminPopup, setFlag }) => {
           //   email: email.toLowerCase(),
           // }
           ////////////////////////
+          let data = await generalFunction.supabase_addData("users", json);
+          if (!!data.length) {
+            await generalFunction.createUserPermission({user_id: `${data[0].id}`, role: "ADMIN", assigned_by: `${localStorage.getItem("varaUserId")}`, status: true})
+          }
 
         const userPermission_ = {
           role: "Admin",

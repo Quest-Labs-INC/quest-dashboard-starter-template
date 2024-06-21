@@ -123,6 +123,17 @@ export const generalFunction = {
         }
     },
 
+    supabase_getUser: async (email) => {
+        const { data, error } = await supabase
+            .from('users')
+            .select()
+            .eq('email', email);
+        if (error) {
+            throw error;
+        }
+        return data;
+    },
+
     supabase_addData: async (table, rowData) => {
         const { data, error } = await supabase.from(table).select('*').eq("email", rowData.email).maybeSingle();
         if (error) {
@@ -140,6 +151,7 @@ export const generalFunction = {
             if (insertError) {
               throw insertError;
             }
+            return newUserData;
         }
     },
 
