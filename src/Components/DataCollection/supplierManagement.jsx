@@ -8,6 +8,9 @@ export default function SupplierManagement() {
   const [tableData, setTableData] = useState([]);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [newRowData, setNewRowData] = useState({ supplier_name: '', location: '', key_product: '',  sustainability_score: '', key_contact: '', key_email: '' });
+  const [isEditOpen, setEditOpen] = useState(false);
+  const [rowData, setRowData] = useState({ id: '', supplier_name: '', location: '', key_product: '',  sustainability_score: '', key_contact: '', key_email: '' });
+  const [rowIndex, setRowIndex] = useState(-1);
   const [validationErrors, setValidationErrors] = useState({});
 
   const fields = [
@@ -60,6 +63,49 @@ export default function SupplierManagement() {
     handleClosePopup();
   };
 
+  const openEdit = (row, index) => {
+      setValidationErrors({});
+      setRowData(row);
+      setRowIndex(index);
+      setEditOpen(true);
+  }
+
+  const handleEditInput = (e) => {
+      const { name, value } = e.target;
+      setRowData((prevData) => ({
+          ...prevData,
+          [name]: value,
+      }));
+  };
+
+  async function handleEditSubmit() {
+      const errors = generalFunction.validateData(rowData, fields);
+      if (Object.keys(errors).length > 0) {
+        setValidationErrors(errors);
+        return;
+      }
+      generalFunction.editSupplier(rowData);
+      setTableData((prevData) => {
+          const newData = [...prevData];
+          newData[rowIndex] = { ...rowData };
+          return newData;
+      });
+      setEditOpen(false);
+  }
+
+  const handleCloseEdit = () => {
+      setEditOpen(false);
+      setRowData({ supplier_name: '', location: '', key_product: '',  sustainability_score: '', key_contact: '', key_email: '' });
+      setRowIndex(-1);
+  };
+
+  const actions = [
+    <Button
+    label="Edit"
+    handleFunction = {openEdit}
+    />,
+  ];
+
   return (
     <div className="flex flex-col justify-center overflow-hidden mt-20 p-6">
       <h1 className="text-xl text-center mb-10">Supplier Management</h1>
@@ -68,6 +114,8 @@ export default function SupplierManagement() {
         tableData={tableData}
         hasLink={true}
         pageLink={``}
+        hasActions={true}
+        actions={actions}
       />
       <div className="mb-6 mt-10 flex items-center justify-center">
         <Button
@@ -86,6 +134,18 @@ export default function SupplierManagement() {
           validationErrors={validationErrors}
         />
       )}
+      {isEditOpen && (
+        <PopUp
+          title='Edit Supplier'
+          fields={fields}
+          newRowData={rowData}
+          handleInputChange={handleEditInput}
+          handleClosePopup={handleCloseEdit}
+          handleSave={handleEditSubmit}
+          button2Label='Edit'
+          validationErrors={validationErrors}
+        />
+        )}
     </div>
   );
 }
