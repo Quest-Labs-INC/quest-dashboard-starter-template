@@ -128,7 +128,7 @@ export default function Login() {
                 btnColor=""
                 redirectUri={mainConfig?.GOOGLE_REDIRECT_URI}
                 // redirectURL= "http://localhost:5173/login"
-                google={true}
+                // google={true}
                 email={true}
                 onSubmit={(e) => completeLogin(e)}
                 onError={(e) => Toast.error({ text: e.error })}
