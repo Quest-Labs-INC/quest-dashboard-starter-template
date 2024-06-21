@@ -93,6 +93,8 @@ export default function Onboarding() {
             }
         );
 
+        await generalFunction.createDefaultRoles(ownerDetails?.ownerEntityId, ownerDetails?.apiKey);
+
         navigate("/data_collection");
     }
 

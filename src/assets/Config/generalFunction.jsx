@@ -1,6 +1,7 @@
 import Cookies from "universal-cookie";
 import { mainConfig } from "./appConfig";
 import { supabase } from "../../supabaseClient";
+import axios from "axios";
 
 export const generalFunction = {
     getUserId : () => {
@@ -51,6 +52,14 @@ export const generalFunction = {
             url,
             headers,
         };
+    },
+
+    createDefaultRoles: async (entityId, apiKey) => {
+        let request = generalFunction.createUrl(`api/entities/${entityId}/roles?userId=${generalFunction.getUserId()}`);
+        let responses = await Promise.all(["OWNER", "ADMIN", "TEAM MANAGER", "FIELD MANAGER"].map((role) => {
+            axios.post(request.url, {role}, { headers: {...request.headers, apiKey: apiKey} })
+        }));
+        console.log(responses);
     },
 
     count: 0,

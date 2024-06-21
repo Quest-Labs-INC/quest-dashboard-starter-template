@@ -64,7 +64,7 @@ const CreateRole = ({ setOpenRolePopup, setFlag, openRolePopup }) => {
           className="text-[20px] font-semibold font-['Figtree']"
           style={{ color: bgColors[`${theme}-color-premitive-grey-5`] }}
         >
-          Create A Roll
+          Create A Role
         </div>
         <div className="flex flex-col gap-4">
           <div className="flex flex-col gap-1">

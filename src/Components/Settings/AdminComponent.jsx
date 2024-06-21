@@ -111,7 +111,7 @@ const AdminComponent = () => {
             if (data.success == false) {
                 generalFunction.hideLoader();
             } else if (data.success == true) {
-                setRoleData([...data.data, ...[{role: "OWNER"}, {role: "ADMIN"}]]);
+                setRoleData(data.data);
                 setTimeout(function () {
                     generalFunction.hideLoader();
                 }, 500);
@@ -321,7 +321,7 @@ const AdminComponent = () => {
                                             ],
                                         }}
                                     >
-                                        {checkIsOwner() 
+                                        {(checkIsOwner() && user.userId != generalFunction.getUserId())
                                             ?
                                             <select value={user.role} onChange={(e) => changeRole(user.userId, e.target.value)} >
                                                 {
