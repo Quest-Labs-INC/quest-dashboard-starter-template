@@ -27,6 +27,7 @@ const AddAdminPopup = ({ setAdminPopup, setFlag }) => {
       email: email.toLowerCase(),
       entityId,
       name,
+      inviteLink: window.location.origin,
     };
 
     let request = generalFunction.createUrl(`api/entities/${ownerDetails?.ownerEntityId}/invite`);
