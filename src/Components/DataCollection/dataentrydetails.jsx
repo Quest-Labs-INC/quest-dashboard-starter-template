@@ -23,7 +23,17 @@ export default function DataEntryDetails() {
             const parameterId = parseInt(access.parameter.para_id, 10);
 
             const data = await generalFunction.fetchUserDataEntry(userId, processId, parameterId);
-            setUserDataEntry(data);
+
+            // Fetch signed URLs for evidence files if they exist
+            const entriesWithSignedUrls = await Promise.all(data.map(async entry => {
+                if (entry.evidence_url) {
+                    const signedUrl = await generalFunction.getSignedUrl(entry.evidence_url);
+                    return { ...entry, signedUrl };
+                }
+                return entry;
+            }));
+
+            setUserDataEntry(entriesWithSignedUrls);
         } catch (error) {
             console.log("Error fetching data: ", error);
         }
@@ -43,15 +53,18 @@ export default function DataEntryDetails() {
             ...prevData,
             evidenceFile: file,
         }));
+
+        console.log('File: ', file.name);
     };
 
+    // Need to replace hard coded userId with actual userId from Local Storage
     const handleSaveNewEntry = async () => {
         try {
             const userId = 35;  
             const processId = parseInt(access.process.process_id, 10);
             const parameterId = parseInt(access.parameter.para_id, 10);
 
-            const data = await generalFunction.createUserDataEntry(userId, processId, parameterId, newEntry);
+            await generalFunction.createUserDataEntry(userId, processId, parameterId, newEntry);
             setIsPopupOpen(false);
 
             fetchDataEntry();
@@ -70,35 +83,47 @@ export default function DataEntryDetails() {
     return (
         <div className="relative flex flex-col justify-center overflow-hidden mt-20">
             <div className="w-full p-6 m-auto bg-white rounded-md shadow-xl shadow-black-600/40 lg:max-w-4xl">
-                <h1 className="text-2xl text-center mb-4">Data Entry Details</h1>
-                <div className="flex justify-between items-center">
-                    <label className="text-md font-mdm">Facility: {access.process.facility.facility_name}</label>
+                <h1 className="text-2xl text-center mb-6">Data Entry Details</h1>
+                
+                <div className="flex flex-col space-y-1 mb-8">
+                    <div className="flex justify-between items-center">
+                        <label className="p-1 text-md font-mdm">Facility: {access.process.facility.facility_name}</label>
+                    </div>
+                    
+                    <div className="flex justify-between items-center">
+                        <label className="p-1 text-md font-mdm">Process: {access.process.process_name}</label>
+                    </div>
+                    
+                    <div className="flex justify-between items-center">
+                        <label className="p-1 text-md font-mdm">Parameter: {access.parameter.para_name}</label>
+                    </div>
                 </div>
-                <div className="flex justify-between items-center">
-                    <label className="text-md font-mdm">Process: {access.process.process_name}</label>
+
+                <div className="mb-8">
+                    <Table
+                        fields={tableFields}
+                        tableData={userDataEntry.map(entry => ({
+                            value: entry.value,
+                            log_date: new Date(entry.log_date).toLocaleDateString(),
+                            evidence: entry.signedUrl ? <a href={entry.signedUrl.signedUrl} target="_blank" rel="noopener noreferrer">View</a> : '',
+                            status: 'Approved' 
+                        }))}
+                    />
                 </div>
-                <div className="flex justify-between items-center">
-                    <label className="text-md font-mdm">Parameter: {access.parameter.para_name}</label>
+
+                <div className="flex justify-between space-x-1">
+                    <Button
+                        label="New Entry Form"
+                        handleFunction={() => setIsPopupOpen(true)}
+                        className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600"
+                    />
+                    
+                    <Button
+                        label="Back"
+                        handleFunction={() => window.history.back()}
+                        className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+                    />
                 </div>
-                <Table
-                    fields={tableFields}
-                    tableData={userDataEntry.map(entry => ({
-                        value: entry.value,
-                        log_date: new Date(entry.log_date).toLocaleString(),
-                        evidence: entry.evidence_url ? <a href={entry.evidence_url} target="_blank" rel="noopener noreferrer">View</a> : '',
-                        status: 'Approved' 
-                    }))}
-                />
-                <Button
-                    label="New Entry Form"
-                    handleFunction={() => setIsPopupOpen(true)}
-                    className="mt-4 px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600"
-                />
-                <Button
-                    label="Back"
-                    handleFunction={() => window.history.back()}
-                    className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-                />
             </div>
 
             {isPopupOpen && (
@@ -107,10 +132,11 @@ export default function DataEntryDetails() {
                     fields={[
                         { id: 'date', label: 'Date', type: 'date' },
                         { id: 'value', label: 'Value', type: 'text' },
-                        { id: 'evidenceFile', label: 'Evidence', type: 'file', handleFileChange: handleFileChange },
+                        { id: 'evidenceFile', label: 'Evidence', type: 'file' },
                     ]}
                     newRowData={newEntry}
                     handleInputChange={handleInputChange}
+                    handleFileChange={handleFileChange} 
                     handleClosePopup={() => setIsPopupOpen(false)}
                     handleSave={handleSaveNewEntry}
                     button1Label="Close"

@@ -1,6 +1,19 @@
+import React from 'react';
 import Button from './Button';
 
-const PopUp = ({ title, fields, newRowData, handleInputChange, handleClosePopup, handleSave, readOnly = false, button1Label = 'Cancel', button2Label = 'Save', validationErrors }) => {
+const PopUp = ({
+  title,
+  fields,
+  newRowData,
+  handleInputChange,
+  handleFileChange,
+  handleClosePopup,
+  handleSave,
+  readOnly = false,
+  button1Label = 'Cancel',
+  button2Label = 'Save',
+  validationErrors,
+}) => {
   return (
     <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center">
       <div className="bg-white p-6 w-1/2 h-1/2 max-w-4xl max-h-screen rounded-lg overflow-y-auto">
@@ -53,8 +66,8 @@ const PopUp = ({ title, fields, newRowData, handleInputChange, handleClosePopup,
                   type="file"
                   id={field.id}
                   name={field.id}
-                  onChange={field.handleFileChange}
-                  className="border border-gray-300 rounded-md shadow-sm mt-1 block w-full"
+                  onChange={handleFileChange}
+                  className="border border-gray-300 rounded-md shadow-sm mt-1 block w-full cursor-pointer bg-blue-500 text-white px-4 py-2 hover:bg-blue-600"
                 />
               ) : (
                 <input
@@ -67,10 +80,10 @@ const PopUp = ({ title, fields, newRowData, handleInputChange, handleClosePopup,
                   readOnly={readOnly}
                 />
               )}
-              {validationErrors && <span className="error">{validationErrors[field.id]}</span>}
+              {validationErrors && <span className="text-red-500 text-sm">{validationErrors[field.id]}</span>}
             </div>
           ))}
-          <div className="flex justify-center items-center">
+          <div className="flex justify-center items-center space-x-4">
             <Button
               label={button1Label}
               handleFunction={handleClosePopup}
@@ -81,6 +94,6 @@ const PopUp = ({ title, fields, newRowData, handleInputChange, handleClosePopup,
       </div>
     </div>
   );
-}
+};
 
 export default PopUp;

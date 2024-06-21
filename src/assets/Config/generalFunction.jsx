@@ -270,6 +270,9 @@ export const generalFunction = {
                 ),
                 parameter:parameter_id (
                     para_id, para_name
+                ),
+                user:user_id (
+                    id, name
                 )
             `)
             .eq('user_id', userId);
@@ -495,13 +498,20 @@ export const generalFunction = {
         .from('Evidence')  
         .upload(`test/${fileName}`, file);
 
-        const { data1 } = supabase
+        return data.path;
+
+    },
+
+    getSignedUrl: async (path) => {
+        const { data, error } = await supabase
         .storage
         .from('Evidence')
-        .getPublicUrl(`test/${fileName}`);
+        .createSignedUrl(path, 60);  // URL valid for 60 seconds
 
+        if (error) {
+            throw error;
+        }
 
-        return data1.publicUrl;
-
+        return data;
     }
 }
