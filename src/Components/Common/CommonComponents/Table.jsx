@@ -30,17 +30,17 @@ const Table = ({ fields, tableData, hasLink = false, pageLink, hasActions = fals
 
   return (
     <div className="flex flex-col items-center">
-      {searchableColumn && (
-        <div className="w-[90%] margin-[auto] mb-4">
+      <div className="w-[90%] margin-[auto] mb-4 flex justify-between items-center">
+        {searchableColumn && (
           <input
             type="text"
             value={searchQuery}
             onChange={handleSearchChange}
             placeholder={`Search by ${fields.find(field => field.id === searchableColumn)?.label}`}
-            className="w-full px-4 py-2 border rounded-md shadow"
+            className="px-2 py-1 border rounded-md shadow text-sm"
           />
-        </div>
-      )}
+        )}
+      </div>
       <table className="w-[90%] margin-[auto] border-separate border-spacing-0 border rounded-md shadow text-center">
         <thead>
           <tr>
