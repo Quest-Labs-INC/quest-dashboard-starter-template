@@ -338,6 +338,18 @@ export const generalFunction = {
         return data;
     },
 
+       // Function to get user ID from the email
+       getUserIdFromEmail: async (user_email) => {
+        const { data, error } = await supabase
+            .from('users')
+            .select('id')
+            .eq('email', user_email);
+        if (error) {
+            throw error;
+        }
+        return data;
+    },
+
     fetchSuppliers: async () => {
         const { data } = await supabase
           .from(`supplier_management`)

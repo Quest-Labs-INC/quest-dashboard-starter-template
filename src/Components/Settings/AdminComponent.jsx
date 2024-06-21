@@ -57,7 +57,7 @@ const AdminComponent = () => {
         try {
             generalFunction.showLoader();
             let request = generalFunction.createUrl(`api/entities/${ownerDetails?.ownerEntityId}/remove-admin?userId=${generalFunction.getUserId()}`);
-            await axios.post(
+            const res = await axios.post(
                 request.url,
                 {
                     ownerUserId: generalFunction.getUserId(),
@@ -66,7 +66,7 @@ const AdminComponent = () => {
                 {
                     headers: {...request.headers, apiKey: ownerDetails?.apiKey},
                 }
-            ).then((res) => {
+            );
                 const data = res.data;
                 if (data.success == false) {
                     let errMsg = data.message ? data.message : "Unable to Delete Member";
@@ -93,10 +93,14 @@ const AdminComponent = () => {
                     // }
                     ////////////////////////
 
+                    // get user id from email
+                    const user_id = await generalFunction.getUserIdFromEmail(removedUser[0].emails[0])
+                    // set the user to is_active is false
+                    generalFunction.deactivateUser(user_id[0].id)
+
                     setFlag((prev) => !prev);
                     generalFunction.hideLoader();
-                }
-            });
+            }
         } catch (error) {
             console.log(error);
         }

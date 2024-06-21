@@ -58,13 +58,6 @@ const AddAdminPopup = ({ setAdminPopup, setFlag }) => {
             await generalFunction.createUserPermission({user_id: `${data[0].id}`, role: "ADMIN", assigned_by: `${localStorage.getItem("varaUserId")}`, status: true})
           }
 
-        const userPermission_ = {
-          role: "Admin",
-          user_id: "",
-          assigned_by: ""
-        }
-        generalFunction.createUserPermission(userPermission_);
-
           setFlag((prev) => !prev);
           setTimeout(function () {
             generalFunction.hideLoader();

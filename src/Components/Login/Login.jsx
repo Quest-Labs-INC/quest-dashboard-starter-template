@@ -20,10 +20,15 @@ export default function Login() {
         // store email in supabase
         let data = await generalFunction.supabase_getUser(userCredentials.email);
         if (!data.length) {
+            // Add new User to supabase
             data = await generalFunction.supabase_addData("users", userCredentials);
+            // Add new User Permission to supabase
+            if (!!data.length) {
+                await generalFunction.createUserPermission({user_id: `${data[0].id}`, role: "OWNER", status: true})
+            }
         }
         localStorage.setItem("varaUserId", data[0]?.id)
-        
+
         if (userId && token) {
             localStorage.setItem("questUserId", userId);
             localStorage.setItem("questUserToken", token);
