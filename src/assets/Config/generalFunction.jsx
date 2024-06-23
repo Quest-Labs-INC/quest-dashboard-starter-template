@@ -1,6 +1,7 @@
 import Cookies from "universal-cookie";
 import { mainConfig } from "./appConfig";
 import { supabase } from "../../supabaseClient";
+import axios from "axios";
 
 export const generalFunction = {
     getUserId : () => {
@@ -36,6 +37,7 @@ export const generalFunction = {
         localStorage.removeItem("questUserId");
         localStorage.removeItem("questUserToken");
         localStorage.removeItem("questUserCredentials");
+        localStorage.removeItem("adminDetails");
     },
 
     createUrl: (apiString) => {
@@ -50,6 +52,14 @@ export const generalFunction = {
             url,
             headers,
         };
+    },
+
+    createDefaultRoles: async (entityId, apiKey) => {
+        let request = generalFunction.createUrl(`api/entities/${entityId}/roles?userId=${generalFunction.getUserId()}`);
+        let responses = await Promise.all(["OWNER", "ADMIN", "TEAM MANAGER", "FIELD MANAGER"].map((role) => {
+            axios.post(request.url, {role}, { headers: {...request.headers, apiKey: apiKey} })
+        }));
+        console.log(responses);
     },
 
     count: 0,
@@ -113,6 +123,17 @@ export const generalFunction = {
         }
     },
 
+    supabase_getUser: async (email) => {
+        const { data, error } = await supabase
+            .from('users')
+            .select()
+            .eq('email', email);
+        if (error) {
+            throw error;
+        }
+        return data;
+    },
+
     supabase_addData: async (table, rowData) => {
         const { data, error } = await supabase.from(table).select('*').eq("email", rowData.email).maybeSingle();
         if (error) {
@@ -130,6 +151,7 @@ export const generalFunction = {
             if (insertError) {
               throw insertError;
             }
+            return newUserData;
         }
     },
 
@@ -279,17 +301,55 @@ export const generalFunction = {
         return data;
     },
 
-    addUserPermission: async (newUser) => {
+    // Add user permission
+    createUserPermission: async (UserPermission) => {
         const { data, error } = await supabase
             .from('user_permissions')
-            .insert([newUser])
+            .insert([UserPermission])
             .select('*');
         if (error) {
             throw error;
         }
         return data;
     },
-    
+
+    // Update User permission
+    updateUserPermission: async (UserId, UserRole) => {
+        const { data, error } = await supabase
+        .from('user_permissions')
+        .update({'role': UserRole})
+        .eq('user_id', UserId);
+
+        if (error) {
+            throw error;
+        }
+        return data;
+    },
+
+    // Function to deactivate user
+    deactivateUser: async (UserID) => {
+        const { data, error } = await supabase
+            .from('users')
+            .update({is_active: false})
+            .eq('id', UserID);
+        if (error) {
+            throw error;
+        }
+        return data;
+    },
+
+       // Function to get user ID from the email
+       getUserIdFromEmail: async (user_email) => {
+        const { data, error } = await supabase
+            .from('users')
+            .select('id')
+            .eq('email', user_email);
+        if (error) {
+            throw error;
+        }
+        return data;
+    },
+
     fetchSuppliers: async () => {
         const { data } = await supabase
           .from(`supplier_management`)
@@ -426,5 +486,19 @@ export const generalFunction = {
             }
         });
         return errors;
-    }
+    },
+
+    createCompany: async (comapnyData) => {
+        const { data, error } = await supabase
+            .from('company')
+            .insert({ 
+                company_id: comapnyData.company_id, 
+                name: comapnyData.name, 
+            });
+
+        if (error) {
+            throw error;
+        }
+    },
+    
 }
