@@ -10,7 +10,7 @@ const AddAdminPopup = ({ setAdminPopup, setFlag }) => {
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
+  const ownerDetails = JSON.parse(localStorage.getItem("adminDetails"));
   const [isValidEmail, setIsValidEmail] = useState(true);
   const handleEmailChange = (e) => {
     const newEmail = e.target.value;
@@ -27,12 +27,13 @@ const AddAdminPopup = ({ setAdminPopup, setFlag }) => {
       email: email.toLowerCase(),
       entityId,
       name,
+      inviteUrl: window.location.origin,
     };
 
-    let request = generalFunction.createUrl(`api/entities/${entityId}/invite`);
+    let request = generalFunction.createUrl(`api/entities/${ownerDetails?.ownerEntityId}/invite`);
     axios
-      .post(request.url, json, { headers: request.headers })
-      .then((res) => {
+      .post(request.url, json, { headers: {...request.headers, apiKey: ownerDetails?.apiKey} })
+      .then(async (res) => {
         const data = res.data;
         if (data.success == false) {
           let errMsg = data.error ? data.error : "Unable to Invite Member";
@@ -45,6 +46,18 @@ const AddAdminPopup = ({ setAdminPopup, setFlag }) => {
               "\n" +
               "Member has been invited successfully.",
           });
+          //////////////////////////
+          // Role created successfully, update roles in supabase
+          // let data = {
+          //   role: "ADMIN",
+          //   email: email.toLowerCase(),
+          // }
+          ////////////////////////
+          let data = await generalFunction.supabase_addData("users", json);
+          if (!!data.length) {
+            await generalFunction.createUserPermission({user_id: `${data[0].id}`, role: "ADMIN", assigned_by: `${localStorage.getItem("varaUserId")}`, status: true})
+          }
+
           setFlag((prev) => !prev);
           setTimeout(function () {
             generalFunction.hideLoader();

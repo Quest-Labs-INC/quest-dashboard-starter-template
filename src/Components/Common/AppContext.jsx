@@ -11,6 +11,7 @@ const AppContext = ({ children }) => {
         QUEST_ENTITY_NAME: localStorage.getItem("entityName") || "",
         BRAND_LOGO: localStorage.getItem("brandlogo") || "",
         QUEST_ONBOARDING_QUIZ_CAMPAIGN_ID: "c-985380ca-9dcd-42ee-bc4e-225e9b5ebb69",
+        QUEST_COMPANY_ONBOARDING_QUIZ_CAMPAIGN_ID: "c-2dcfd9c0-2553-47fe-a7b6-3e189fb73e9a",
         QUEST_GET_STARTED_CAMPAIGN_ID: "q-saas-get-started",
         QUEST_SEARCH_BAR_CAMPAIGN_ID: "q-saas-search-bar",
         QUEST_REFERRAL_CAMPAIGN_ID: "c-6efa05f5-a517-4509-959f-0ac4d7ffb967",
@@ -100,7 +101,7 @@ const AppContext = ({ children }) => {
                     .then((res) => res.json())
                     .then((data) => {
                         let apiData = data.data;
-                        console.log("99 data", data);
+                        // console.log("99 data", data);
                         setContentConfig({
                             ...contentConfig,
                             login: {

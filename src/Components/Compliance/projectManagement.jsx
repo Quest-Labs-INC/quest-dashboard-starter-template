@@ -91,6 +91,7 @@ export default function ProjectManagement() {
         tableData={AllProjects}
         hasLink={true}
         pageLink="/project_management/project_page/"
+        searchableColumn="project"
       />
       <div className="mb-6 mt-10 flex items-center justify-center">
         <Button

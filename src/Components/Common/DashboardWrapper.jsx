@@ -99,7 +99,7 @@ export default function DashboardWrapper({ children, selectdRoute }) {
 
             {/* for selected hightlight */}
 
-            <SearchComponents />
+            {/* <SearchComponents /> */}
 
             {showFeedbackSection && (
                 <SurveyComponents closeSurveyPopup={closeSurveyPopup} />

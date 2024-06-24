@@ -18,8 +18,17 @@ export default function Login() {
         const { userId, token, userCredentials } = e;
 
         // store email in supabase
-        await generalFunction.supabase_addData("users", userCredentials);
-        
+        let data = await generalFunction.supabase_getUser(userCredentials.email);
+        if (!data.length) {
+            // Add new User to supabase
+            data = await generalFunction.supabase_addData("users", userCredentials);
+            // Add new User Permission to supabase
+            if (!!data.length) {
+                await generalFunction.createUserPermission({user_id: `${data[0].id}`, role: "OWNER", status: true})
+            }
+        }
+        localStorage.setItem("varaUserId", data[0]?.id)
+
         if (userId && token) {
             localStorage.setItem("questUserId", userId);
             localStorage.setItem("questUserToken", token);
@@ -60,11 +69,60 @@ export default function Login() {
                 claimedStatus = res?.data?.isClaimed;
             });
 
+            let ownerDetails = JSON.parse(localStorage.getItem("adminDetails"));
+
+            if (!ownerDetails?.ownerEntityId || ownerDetails?.userId != userId) {
+                let ownerDetails = {
+                    userId: userId,
+                }
+
+                let adminEntitiesRequest = generalFunction.createUrl(`api/users/${userId}/admin-entities`);
+                await fetch(adminEntitiesRequest.url, {
+                    method: "GET",
+                    headers: {
+                        "content-type": "application/json",
+                        apikey: mainConfig.QUEST_API_KEY,
+                        userId: userId,
+                        token: token,
+                    },
+                }).then((res) => res.json()).then((res) => {
+                    let entities = res.data;
+                    if (entities.length > 0) {
+                        let mainOwner = entities.filter(ele => ele.id == mainConfig.QUEST_ENTITY_ID)
+                        if (mainOwner.length > 0) {
+                            ownerDetails.ownerEntityId = mainOwner[0].id;
+                            ownerDetails.apiKey = mainConfig.QUEST_API_KEY
+                        }
+
+                        let otherOwner = entities.filter(ele => ele.parentEntityId == mainConfig.QUEST_ENTITY_ID)
+                        if (otherOwner.length > 0) {
+                            ownerDetails.ownerEntityId = otherOwner[0].id;
+                        }
+                    }
+                });
+
+                if (!!ownerDetails?.ownerEntityId && ownerDetails?.ownerEntityId != mainConfig.QUEST_ENTITY_ID) {
+                    let generateApiKeyRequest = generalFunction.createUrl(`api/entities/${ownerDetails?.ownerEntityId}/keys?userId=${userId}`);
+                    await fetch(generateApiKeyRequest.url, {
+                        method: "GET",
+                        headers: {
+                            "content-type": "application/json",
+                            apikey: mainConfig.QUEST_API_KEY,
+                            userId: userId,
+                            token: token,
+                        },
+                    }).then((res) => res.json()).then((res) => {
+                        ownerDetails.apiKey = res?.data?.key;
+                    });
+                }
+                localStorage.setItem("adminDetails", JSON.stringify(ownerDetails));
+            }
+
 
             if (!claimedStatus) {
                 navigate("/onboarding");
             } else {
-                navigate("/insights");
+                navigate("/data_collection");
             }
         }
     };
@@ -79,7 +137,7 @@ export default function Login() {
                 btnColor=""
                 redirectUri={mainConfig?.GOOGLE_REDIRECT_URI}
                 // redirectURL= "http://localhost:5173/login"
-                google={true}
+                // google={true}
                 email={true}
                 onSubmit={(e) => completeLogin(e)}
                 onError={(e) => Toast.error({ text: e.error })}

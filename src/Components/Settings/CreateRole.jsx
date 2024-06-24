@@ -9,7 +9,7 @@ const CreateRole = ({ setOpenRolePopup, setFlag, openRolePopup }) => {
   const { theme, bgColors, appConfig } = useContext(ThemeContext);
   const [description, setDescription] = useState("");
   const [role, setRole] = useState("");
-
+  const ownerDetails = JSON.parse(localStorage.getItem("adminDetails"));
   const handleSave = () => {
     setOpenRolePopup(false);
     let entityId = mainConfig.QUEST_ENTITY_ID;
@@ -19,9 +19,9 @@ const CreateRole = ({ setOpenRolePopup, setFlag, openRolePopup }) => {
       description,
     };
 
-    let request = generalFunction.createUrl(`api/entities/${entityId}/roles?userId=${generalFunction.getUserId()}`);
+    let request = generalFunction.createUrl(`api/entities/${ownerDetails?.ownerEntityId}/roles?userId=${generalFunction.getUserId()}`);
     axios
-      .post(request.url, json, { headers: request.headers })
+      .post(request.url, json, { headers: {...request.headers, apiKey: ownerDetails?.apiKey} })
       .then((res) => {
         const data = res.data;
         if (data.success == false) {
@@ -64,7 +64,7 @@ const CreateRole = ({ setOpenRolePopup, setFlag, openRolePopup }) => {
           className="text-[20px] font-semibold font-['Figtree']"
           style={{ color: bgColors[`${theme}-color-premitive-grey-5`] }}
         >
-          Create A Roll
+          Create A Role
         </div>
         <div className="flex flex-col gap-4">
           <div className="flex flex-col gap-1">
