@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import { useNavigate } from 'react-router-dom';
 
-const Table = ({ fields, tableData, hasLink = false, pageLink, hasActions = false, actions = [], rowsPerPage = 10, enablePagination = true, searchableColumn }) => {
+const Table = ({ fields, tableData = [], hasLink = false, pageLink, hasActions = false, actions = [], rowsPerPage = 10, enablePagination = true, searchableColumn }) => {
   const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState('');
 
-  const totalPages = Math.ceil(tableData.length / rowsPerPage);
+  const totalPages = tableData ? Math.ceil(tableData.length / rowsPerPage) : 0;
 
   const handleRowClick = (id) => {
     navigate(`${pageLink}${id}`);
@@ -21,10 +21,10 @@ const Table = ({ fields, tableData, hasLink = false, pageLink, hasActions = fals
     setCurrentPage(1); // Reset to first page on new search
   };
 
-  const filteredData = tableData.filter(row => {
+  const filteredData = tableData ? tableData.filter(row => {
     if (!searchableColumn) return true;
     return row[searchableColumn]?.toString().toLowerCase().includes(searchQuery.toLowerCase());
-  });
+  }) : [];
 
   const paginatedData = enablePagination ? filteredData.slice((currentPage - 1) * rowsPerPage, currentPage * rowsPerPage) : filteredData;
 

@@ -6,12 +6,6 @@ import PopUp from '../Common/CommonComponents/PopUp'
 import DescriptionArea from '../Common/CommonComponents/DescriptionArea'
 import { useParams } from 'react-router-dom';
 
-// {
-//   Todo -
-//   1. Change the DB to get companu specific data
-//   2. Add Edit Button to the Table
-// }
-
 export default function ProjectPage() {
   const project_fields = [
     { id: 'project_id', label: 'Project ID', type: 'number' },
@@ -55,13 +49,16 @@ export default function ProjectPage() {
       try {
         // Get project data
         const project_info = await generalFunction.getTableRow(`project_management`, "project_id", id);
-        setProjectInfo(project_info);
-        setDescription(project_info[0].description);
+        if (project_info) {
+          setProjectInfo(project_info);
+          setDescription(project_info[0].description);
+        }
         // Get task data
         const data = await generalFunction.getTableData(`task_management`);
-        setAllTasks(data);
-        setTaskTracker(data.length + 1)
-        
+        if (data) {
+          setAllTasks(data);
+          setTaskTracker(data.length + 1)
+        }
       } catch (error) {
         console.error('Error fetching data:', error);
       }
@@ -105,7 +102,8 @@ export default function ProjectPage() {
         status: newTask.status,
         due_date: newTask.due_date,
         lead: newTask.lead,
-        description: newTask.description
+        description: newTask.description,
+        company_id: generalFunction.getCompanyId()
     }
     generalFunction.createTableRow(`task_management`, newTask_);
     setTask({ 

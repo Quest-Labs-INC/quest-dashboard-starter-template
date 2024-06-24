@@ -30,8 +30,10 @@ export default function ProjectManagement() {
     const getData = async () => {
       try {
         const data = await generalFunction.getTableData(`project_management`);
-        setAllProjects(data);
-        setProjectTracker(data.length + 1)
+        if (data) {
+          setAllProjects(data);
+          setProjectTracker(data.length + 1)
+        }
       } catch (error) {
         console.error('Error fetching data:', error);
       }
@@ -56,6 +58,7 @@ export default function ProjectManagement() {
         project: newProject.project,
         status: newProject.status,
         lead: newProject.lead,
+        company_id: generalFunction.getCompanyId()
     }
     generalFunction.createTableRow(`project_management`, newProject_);
     setProject({
