@@ -54,6 +54,24 @@ export const generalFunction = {
         };
     },
 
+    getCompanyId: () => {
+        let company_id = localStorage.getItem("varaCompanyId");
+        return company_id;
+    },
+
+    setCompanyId: async () => {
+        let AdminDetails = await JSON.parse(localStorage.getItem("adminDetails"));
+        if (!AdminDetails) {
+            throw new Error("No admin details found in localStorage");
+        }
+        const companyInfo = await generalFunction.getCompanyVaraID(AdminDetails.ownerEntityId);
+        if (companyInfo && companyInfo.length > 0) {
+            localStorage.setItem('varaCompanyId', companyInfo[0]['id']);
+        } else {
+            throw new Error("No company information found");
+        }
+    },
+
     createDefaultRoles: async (entityId, apiKey) => {
         let request = generalFunction.createUrl(`api/entities/${entityId}/roles?userId=${generalFunction.getUserId()}`);
         let responses = await Promise.all(["OWNER", "ADMIN", "TEAM MANAGER", "FIELD MANAGER"].map((role) => {
@@ -168,17 +186,46 @@ export const generalFunction = {
     },
 
     getTableData: async (table) => {
-        const { data } = await supabase
-          .from(table)
-          .select('*')
-        return data;
+        try {
+            const companyId = generalFunction.getCompanyId();
+            const { data, error } = await supabase
+                .from(table)
+                .select('*')
+                .eq('company_id', companyId);
+
+            if (error) {
+                throw error;
+            }
+            return data;
+        } catch (error) {
+            console.error("Failed to get table data:", error);
+            throw error;
+        }
     },
 
     getTableRow: async (table, row_name, row_id) => {
         const { data } = await supabase
           .from(table)
-          .select('*').eq([row_name], row_id)
+          .select('*')
+          .eq([row_name], row_id)
         return data;
+    },
+
+    // Function to get Vara's company id from Quest_id
+    getCompanyVaraID: async (quest_company_id) => {
+        try {
+            const { data, error } = await supabase
+              .from('company')
+              .select('*')
+              .eq('company_id', quest_company_id);
+            if (error) {
+                throw error;
+            }
+            return data;
+        } catch (error) {
+            console.error("Error fetching table row:", error);
+            return null;
+        }
     },
 
     updateRow: async(table, update_column, update_data, key_column, key_data) => {
