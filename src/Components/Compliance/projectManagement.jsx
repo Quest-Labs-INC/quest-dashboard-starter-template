@@ -50,7 +50,7 @@ export default function ProjectManagement() {
     setProjectTracker(data.length + 1)
   }
 
-  const handleClosePopup = () => {
+  const handleClosePopup = async () => {
     setIsPopupOpen(false);
     getProjectNumber();
     const newProject_ = {
@@ -58,7 +58,7 @@ export default function ProjectManagement() {
         project: newProject.project,
         status: newProject.status,
         lead: newProject.lead,
-        company_id: generalFunction.getCompanyId()
+        company_id: await generalFunction.getCompanyId()
     }
     generalFunction.createTableRow(`project_management`, newProject_);
     setProject({
@@ -104,11 +104,12 @@ export default function ProjectManagement() {
       </div>
       {isPopupOpen && (
         <PopUp
+          title='New Project'
           fields={popupFields}
           newRowData={newProject}
           handleInputChange={handleInputChange}
           handleClosePopup={handleClosePopup}
-          handleAddRow={handleAddRow}
+          handleSave={handleAddRow}
         />
       )}
     </div>
