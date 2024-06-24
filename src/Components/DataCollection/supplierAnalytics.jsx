@@ -1,9 +1,10 @@
 // importing react features to use states, effects, and links
 import React, { useState, useEffect } from 'react';
 import { generalFunction } from '../../assets/Config/generalFunction';
-import  Button from '../Common/CommonComponents/Button'
-import  Table from '../Common/CommonComponents/Table'
-import PopUp from '../Common/CommonComponents/PopUp'
+import  Button from '../Common/CommonComponents/Button';
+import  Table from '../Common/CommonComponents/Table';
+import PopUp from '../Common/CommonComponents/PopUp';
+import EmailForm from '../Common/CommonComponents/EmailForm';
 
 export default function SupplierAnalytics() {
     const [supplierData, setSupplierData] = useState({});
@@ -20,6 +21,7 @@ export default function SupplierAnalytics() {
     const [certRowData, setCertRowData] = useState({ id: '', certificate_name: '', status: '', expiration: '', last_audited: '', link: '', notes: '' });
     const [certRowIndex, setCertRowIndex] = useState(-1);
     const [validationErrors, setValidationErrors] = useState({});
+    const [isEmailBtnOpen, setEmailBtnOpen] = useState(false);
 
     const url = window.location.href;
     const parts = url.split('/');
@@ -225,6 +227,14 @@ export default function SupplierAnalytics() {
         setProdRowIndex(-1);
     };
 
+    const openEmailBtn = () => {
+        setEmailBtnOpen(true);
+    };
+
+    const closeEmailBtn = () => {
+        setEmailBtnOpen(false);
+    };
+
     const certActions = [
         <Button
         label="Edit"
@@ -241,7 +251,20 @@ export default function SupplierAnalytics() {
 
     return (
         <div className="flex flex-col justify-center overflow-hidden mt-20 p-6">
-        <h1 className="text-xl text-center mb-10">{supplierData.supplier_name}</h1>
+        <div className="flex justify-center">
+            <div className="w-[90%] margin-[auto] flex flex-row justify-between mb-10">
+                <h1 className="text-3xl">{supplierData.supplier_name}</h1>
+                <Button
+                    label="Send Email"
+                    handleFunction={openEmailBtn}
+                />
+            </div>
+        </div>
+        {isEmailBtnOpen && (
+            <EmailForm
+                handleCancel={closeEmailBtn}
+            />
+        )}
         <Table
           fields={supFields}
           tableData={[supplierData]}

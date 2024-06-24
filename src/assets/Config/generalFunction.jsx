@@ -457,6 +457,24 @@ export const generalFunction = {
         }
     },
 
+    editSupplier: async (rowData) => {
+        const {data, error} = await supabase
+            .from('supplier_management')
+            .update({
+                supplier_name: rowData.supplier_name,
+                location: rowData.location,
+                key_product: rowData.key_product,
+                sustainability_score: rowData.sustainability_score,
+                key_contact: rowData.key_contact,
+                key_email: rowData.key_email
+            })
+            .eq('id', rowData.id);
+        
+        if (error) {
+            throw error;
+        }
+    },
+
     validateData: (data, fields) => {
         const errors = {};
         fields.forEach(field => {

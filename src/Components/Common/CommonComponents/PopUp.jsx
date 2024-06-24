@@ -60,7 +60,7 @@ const PopUp = ({ title, fields, newRowData, handleInputChange, handleClosePopup,
                   readOnly={readOnly}
                 />
           )}
-            {validationErrors && <span className="error">{validationErrors[field.id]}</span>}
+            {validationErrors && <span className="text-red-500 text-sm">{validationErrors[field.id]}</span>}
             </div>
         ))}
         <div className="flex justify-center items-center">
