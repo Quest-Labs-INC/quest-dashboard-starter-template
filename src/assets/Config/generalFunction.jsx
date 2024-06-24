@@ -54,8 +54,11 @@ export const generalFunction = {
         };
     },
 
-    getCompanyId: () => {
+    getCompanyId: async () => {
         let company_id = localStorage.getItem("varaCompanyId");
+        if (!company_id) {
+            await generalFunction.setCompanyId();
+        }
         return company_id;
     },
 
@@ -187,7 +190,7 @@ export const generalFunction = {
 
     getTableData: async (table) => {
         try {
-            const companyId = generalFunction.getCompanyId();
+            const companyId = await generalFunction.getCompanyId();
 
             if (!companyId) {
                 throw new Error("Failed to retrieve company ID");
@@ -249,6 +252,7 @@ export const generalFunction = {
     },
 
     createTableRow: async (table, newRowData) => {
+        console.log(newRowData)
         const { data, error } = await supabase
               .from(table)
               .insert(newRowData)
