@@ -249,7 +249,6 @@ export const generalFunction = {
     },
 
     createTableRow: async (table, newRowData) => {
-        console.log(newRowData)
         const { data, error } = await supabase
               .from(table)
               .insert(newRowData)
