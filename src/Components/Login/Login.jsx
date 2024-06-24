@@ -116,9 +116,7 @@ export default function Login() {
                     });
                 }
                 localStorage.setItem("adminDetails", JSON.stringify(ownerDetails));
-                await generalFunction.setCompanyId();
             }
-
 
             if (!claimedStatus) {
                 navigate("/onboarding");
