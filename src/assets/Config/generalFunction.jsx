@@ -4,7 +4,7 @@ import { supabase } from "../../supabaseClient";
 import axios from "axios";
 
 export const generalFunction = {
-    getUserId : () => {
+    getUserId: () => {
         let userId = localStorage.getItem("questUserId");
         return userId;
     },
@@ -409,16 +409,19 @@ export const generalFunction = {
     },
 
     fetchSuppliers: async () => {
+        const company_id = generalFunction.getCompanyId();
         const { data } = await supabase
           .from(`supplier_management`)
           .select('*')
+          .eq('company_id', company_id)
         return data; 
     },
 
     createSupplier: async (newRowData) => {
+        const company_id = generalFunction.getCompanyId();
         const {data, error} = await supabase
           .from(`supplier_management`)
-          .insert({ supplier_name: newRowData.supplier_name, location: newRowData.location , key_product: newRowData.key_product , sustainability_score: newRowData.sustainability_score , key_contact: newRowData.key_contact , key_email: newRowData.key_email })
+          .insert({ supplier_name: newRowData.supplier_name, location: newRowData.location , key_product: newRowData.key_product , sustainability_score: newRowData.sustainability_score , key_contact: newRowData.key_contact , key_email: newRowData.key_email, company_id: company_id })
         
         if (error) {
             throw error;
@@ -426,9 +429,11 @@ export const generalFunction = {
     },
 
     fetchSupplierAnalytics: async (supplier) => {
+        const company_id = generalFunction.getCompanyId();
         const { data } = await supabase
             .from(`supplier_management`)
             .select('*')
+            .eq('company_id', company_id)
             .eq('supplier_name', supplier)
         return data;
     },
@@ -457,7 +462,7 @@ export const generalFunction = {
                 status: newCert.status , expiration: newCert.expiration,
                 last_audited: newCert.last_audited,
                 link: newCert.link , notes: newCert.notes,
-                supplier_id: supplierData.id
+                supplier_id: supplierData.id,
             });
 
         if (error) {
@@ -660,12 +665,12 @@ export const generalFunction = {
         return data;
     },
 
-    createCompany: async (comapnyData) => {
+    createCompany: async (companyData) => {
         const { data, error } = await supabase
             .from('company')
             .insert({ 
-                company_id: comapnyData.company_id, 
-                name: comapnyData.name, 
+                company_id: companyData.company_id, 
+                name: companyData.name, 
             });
 
         if (error) {
