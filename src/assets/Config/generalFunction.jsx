@@ -285,13 +285,16 @@ export const generalFunction = {
             .select(`
                 *,
                 process:process_id (
-                    process_name,
+                    process_id, process_name,
                     facility:facility_id (
-                        facility_name
+                        facility_id, facility_name
                     )
                 ),
                 parameter:parameter_id (
-                    para_name
+                    para_id, para_name
+                ),
+                user:user_id (
+                    id, name
                 )
             `)
             .eq('user_id', userId);
@@ -506,6 +509,102 @@ export const generalFunction = {
         return errors;
     },
 
+    addUserPermission: async (newUser) => {
+        const { data, error } = await supabase
+            .from('user_permissions')
+            .insert([newUser])
+            .select('*');
+        if (error) {
+            throw error;
+        }
+        return data;
+    },
+
+    fetchUserDataEntry: async (userId, processId, parameterId) => {
+        const { data, error } = await supabase
+            .from('parameter_log')
+            .select(`
+                *,
+                process(process_id, process_name),
+                data_collection_points(id, assigned_to)
+            `)
+            .eq('data_collection_points.assigned_to', userId)
+            .eq('process.process_id', processId)
+            .eq('para_id', parameterId);
+            
+        if (error) {
+            throw error;
+        }
+        
+        return data;
+    },
+    
+    createUserDataEntry: async (userId, processId, parameterId, newEntry) => {
+        // Step 1: Retrieve data_collection_id based on assigned_to (userId)
+        const { data: collectionData, error: collectionError } = await supabase
+            .from('data_collection_points')
+            .select('id')
+            .eq('assigned_to', userId)
+            .eq('parameter_id', parameterId)
+            .single(); // Assuming each user is assigned to only one data collection point
+    
+        if (collectionError) {
+            throw collectionError;
+        }
+    
+        const dataCollectionId = collectionData.id;
+    
+        // Step 2: Upload evidence file if it exists
+        let evidenceUrl = '';
+        if (newEntry.evidenceFile) {
+            evidenceUrl = await generalFunction.uploadFile(newEntry.evidenceFile);
+        }
+    
+        // Step 3: Insert into parameter_log with retrieved data_collection_id and evidence URL
+        const { data, error } = await supabase
+            .from('parameter_log')
+            .insert([
+                {
+                    process_id: processId,
+                    para_id: parameterId,
+                    value: newEntry.value,
+                    log_date: newEntry.date,
+                    data_collection_id: dataCollectionId,
+                    evidence_url: evidenceUrl // Save the public URL returned from the uploadFile function
+                }
+            ]);
+    
+        if (error) {
+            throw error;
+        }
+        return data;
+    },
+
+    uploadFile: async (file) =>{
+        const fileName = `${Date.now()}_${file.name}`;
+
+        const { data, error } = await supabase
+        .storage
+        .from('Evidence')  
+        .upload(`test/${fileName}`, file);
+
+        return data.path;
+
+    },
+
+    getSignedUrl: async (path) => {
+        const { data, error } = await supabase
+        .storage
+        .from('Evidence')
+        .createSignedUrl(path, 60);  // URL valid for 60 seconds
+
+        if (error) {
+            throw error;
+        }
+
+        return data;
+    }
+
     createCompany: async (comapnyData) => {
         const { data, error } = await supabase
             .from('company')
@@ -518,5 +617,5 @@ export const generalFunction = {
             throw error;
         }
     },
-    
+
 }

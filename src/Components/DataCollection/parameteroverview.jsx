@@ -101,10 +101,7 @@ export default function Parameteroverview() {
   };
 
   const addProcessFacilityMapping = () => {
-    console.log(selectedFacility);
-    console.log(selectedProcess);
-    console.log(facilities);
-    console.log(processes);
+
     const temp_facilityName = facilities.find(facility => facility.facility_id === Number(selectedFacility))?.facility_name;
     const temp_processName = processes.find(process => process.process_id === Number(selectedProcess))?.process_name;
     setNewParameterData(prevData => ({
