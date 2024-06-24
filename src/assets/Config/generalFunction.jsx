@@ -603,7 +603,7 @@ export const generalFunction = {
         }
 
         return data;
-    }
+    },
 
     createCompany: async (comapnyData) => {
         const { data, error } = await supabase
