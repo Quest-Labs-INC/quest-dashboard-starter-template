@@ -20,7 +20,7 @@ export default function ProjectPage() {
     { id: 'task_id', label: 'Task ID', type: 'number', table: true, popup: false},
     { id: 'task', label: 'Task', type: 'text', table: true, popup: true},
     { id: 'status', label: 'Status', type: 'text', table: true, popup: true},
-    { id: 'due_date', label: 'Due Date', type: 'text', table: true, popup: true},
+    { id: 'due_date', label: 'Due Date', type: 'date', table: true, popup: true},
     { id: 'lead', label: 'Lead', type: 'text', table: true, popup: true},
     { id: 'description', label: 'Description', type: 'text', table: true, popup: true}
   ];
@@ -162,7 +162,7 @@ export default function ProjectPage() {
           newRowData={newTask}
           handleInputChange={handleInputChange}
           handleClosePopup={handleClosePopup}
-          handleAddRow={handleAddRow}
+          handleSave={handleAddRow}
         />
       )}
     </div>

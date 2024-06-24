@@ -263,7 +263,7 @@ export const generalFunction = {
 
     fetchCompliances: async () => {
         const { data } = await supabase
-          .from(`certification`)
+          .from(`compliance`)
           .select('*')
         return data;
     },

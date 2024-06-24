@@ -9,7 +9,7 @@ export default function ProjectManagement() {
     { id: 'project_id', label: 'Project ID', type: 'number', link: true, showInPopup: false},
     { id: 'project', label: 'Project', type: 'text', showInPopup: true},
     { id: 'status', label: 'Status', type: 'text', showInPopup: true},
-    { id: 'due_date', label: 'Due Date', type: 'text', showInPopup: true},
+    { id: 'due_date', label: 'Due Date', type: 'date', showInPopup: true},
     { id: 'lead', label: 'Lead', type: 'text', showInPopup: true},
   ];
 
