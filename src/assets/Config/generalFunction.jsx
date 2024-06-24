@@ -54,8 +54,11 @@ export const generalFunction = {
         };
     },
 
-    getCompanyId: () => {
+    getCompanyId: async () => {
         let company_id = localStorage.getItem("varaCompanyId");
+        if (!company_id) {
+            await generalFunction.setCompanyId();
+        }
         return company_id;
     },
 
