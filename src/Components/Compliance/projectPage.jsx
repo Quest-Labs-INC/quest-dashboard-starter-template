@@ -49,13 +49,16 @@ export default function ProjectPage() {
       try {
         // Get project data
         const project_info = await generalFunction.getTableRow(`project_management`, "project_id", id);
-        setProjectInfo(project_info);
-        setDescription(project_info[0].description);
+        if (project_info) {
+          setProjectInfo(project_info);
+          setDescription(project_info[0].description);
+        }
         // Get task data
         const data = await generalFunction.getTableData(`task_management`);
-        setAllTasks(data);
-        setTaskTracker(data.length + 1)
-        
+        if (data) {
+          setAllTasks(data);
+          setTaskTracker(data.length + 1)
+        }
       } catch (error) {
         console.error('Error fetching data:', error);
       }

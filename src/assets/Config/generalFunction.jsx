@@ -188,6 +188,11 @@ export const generalFunction = {
     getTableData: async (table) => {
         try {
             const companyId = generalFunction.getCompanyId();
+
+            if (!companyId) {
+                throw new Error("Failed to retrieve company ID");
+            }
+
             const { data, error } = await supabase
                 .from(table)
                 .select('*')
@@ -231,10 +236,12 @@ export const generalFunction = {
     },
 
     updateRow: async(table, update_column, update_data, key_column, key_data) => {
+        const company_id = generalFunction.getCompanyId()
         const { error } = await supabase
         .from(table)
         .update({[update_column]: update_data})
         .eq(key_column, key_data)
+        .eq('company_id', company_id)
 
         if (error) {
             throw error;

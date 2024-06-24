@@ -15,6 +15,7 @@ const DescriptionArea = ({description, handleSubmit, handleChange}) => {
        <div className="mb-6 mt-5 flex items-center justify-center">
        <Button
             label="Save"
+            handleFunction={handleSubmit}
         />
         </div>
     </form>
