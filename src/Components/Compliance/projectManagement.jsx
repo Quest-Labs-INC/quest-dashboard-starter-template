@@ -58,6 +58,7 @@ export default function ProjectManagement() {
         project: newProject.project,
         status: newProject.status,
         lead: newProject.lead,
+        company_id: generalFunction.getCompanyId()
     }
     generalFunction.createTableRow(`project_management`, newProject_);
     setProject({

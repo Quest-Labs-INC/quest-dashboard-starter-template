@@ -204,10 +204,12 @@ export const generalFunction = {
     },
 
     getTableRow: async (table, row_name, row_id) => {
+        const company_id = generalFunction.getCompanyId()
         const { data } = await supabase
           .from(table)
           .select('*')
           .eq([row_name], row_id)
+          .eq('company_id', company_id)
         return data;
     },
 
@@ -385,8 +387,8 @@ export const generalFunction = {
         return data;
     },
 
-       // Function to get user ID from the email
-       getUserIdFromEmail: async (user_email) => {
+    // Function to get user ID from the email
+    getUserIdFromEmail: async (user_email) => {
         const { data, error } = await supabase
             .from('users')
             .select('id')
