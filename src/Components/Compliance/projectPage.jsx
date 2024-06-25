@@ -11,7 +11,7 @@ export default function ProjectPage() {
     { id: 'project_id', label: 'Project ID', type: 'number' },
     { id: 'project', label: 'Project', type: 'text' },
     { id: 'status', label: 'Status', type: 'text' },
-    { id: 'due_date', label: 'Due Date', type: 'text' },
+    { id: 'due_date', label: 'Due Date', type: 'date' },
     { id: 'lead', label: 'Lead', type: 'text' },
   ];
 
@@ -43,6 +43,7 @@ export default function ProjectPage() {
   const [taskTracker, setTaskTracker] = useState(0);
   // PopUp for tasks
   const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [validationErrors, setValidationErrors] = useState({});
 
   useEffect(() => {
     const getData = async () => {
@@ -54,7 +55,7 @@ export default function ProjectPage() {
           setDescription(project_info[0].description);
         }
         // Get task data
-        const data = await generalFunction.getTableData(`task_management`);
+        const data = await generalFunction.getTaskData(`task_management`, id);
         if (data) {
           setAllTasks(data);
           setTaskTracker(data.length + 1)
@@ -84,6 +85,7 @@ export default function ProjectPage() {
 
   // Function to save tasks
   const handleOpenPopup = () => {
+    setValidationErrors({});
     setIsPopupOpen(true);
   };
 
@@ -92,7 +94,7 @@ export default function ProjectPage() {
     setTaskTracker(data.length + 1)
   }
 
-  const handleClosePopup = () => {
+  const handleClosePopup = async () => {
     setIsPopupOpen(false);
     getTaskNumber();    
     const newTask_ = { 
@@ -103,7 +105,7 @@ export default function ProjectPage() {
         due_date: newTask.due_date,
         lead: newTask.lead,
         description: newTask.description,
-        company_id: generalFunction.getCompanyId()
+        company_id: await generalFunction.getCompanyId()
     }
     generalFunction.createTableRow(`task_management`, newTask_);
     setTask({ 
@@ -114,6 +116,7 @@ export default function ProjectPage() {
       lead: '',
       description: ''
     });
+    setTaskTracker(taskTracker +1)
   };
 
   const handleInputChange = (e) => {
@@ -126,6 +129,11 @@ export default function ProjectPage() {
   };
   
   const handleAddRow = () => {
+    const errors = generalFunction.validateData(newTask, TaskTable);
+    if (Object.keys(errors).length > 0) {
+      setValidationErrors(errors);
+      return;
+    }
     setAllTasks((prevData) => [...prevData, newTask]);
     handleClosePopup();
   };
@@ -163,6 +171,7 @@ export default function ProjectPage() {
           handleInputChange={handleInputChange}
           handleClosePopup={handleClosePopup}
           handleSave={handleAddRow}
+          validationErrors={validationErrors}
         />
       )}
     </div>

@@ -25,6 +25,7 @@ export default function ProjectManagement() {
 });
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [projectTracker, setProjectTracker] = useState(0);
+  const [validationErrors, setValidationErrors] = useState({});
 
   useEffect(() => {
     const getData = async () => {
@@ -42,6 +43,7 @@ export default function ProjectManagement() {
   }, [])
 
   const handleOpenPopup = () => {
+    setValidationErrors({});
     setIsPopupOpen(true);
   };
 
@@ -58,6 +60,7 @@ export default function ProjectManagement() {
         project: newProject.project,
         status: newProject.status,
         lead: newProject.lead,
+        due_date: newProject.due_date,
         company_id: await generalFunction.getCompanyId()
     }
     generalFunction.createTableRow(`project_management`, newProject_);
@@ -80,6 +83,11 @@ export default function ProjectManagement() {
   };
 
   const handleAddRow = () => {
+    const errors = generalFunction.validateData(newProject, fields);
+    if (Object.keys(errors).length > 0) {
+      setValidationErrors(errors);
+      return;
+    }
     setAllProjects((prevData) => [...prevData, newProject]);
     handleClosePopup();
   };
@@ -110,6 +118,7 @@ export default function ProjectManagement() {
           handleInputChange={handleInputChange}
           handleClosePopup={handleClosePopup}
           handleSave={handleAddRow}
+          validationErrors={validationErrors}
         />
       )}
     </div>
