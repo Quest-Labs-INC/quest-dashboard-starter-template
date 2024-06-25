@@ -59,6 +59,7 @@ export const generalFunction = {
         if (!company_id) {
             await generalFunction.setCompanyId();
         }
+        console.log(company_id);
         return company_id;
     },
 
@@ -413,7 +414,7 @@ export const generalFunction = {
     },
 
     fetchSuppliers: async () => {
-        const company_id = generalFunction.getCompanyId();
+        const company_id = await generalFunction.getCompanyId();
         const { data } = await supabase
           .from(`supplier_management`)
           .select('*')
@@ -422,18 +423,27 @@ export const generalFunction = {
     },
 
     createSupplier: async (newRowData) => {
-        const company_id = generalFunction.getCompanyId();
-        const {data, error} = await supabase
-          .from(`supplier_management`)
-          .insert({ supplier_name: newRowData.supplier_name, location: newRowData.location , key_product: newRowData.key_product , sustainability_score: newRowData.sustainability_score , key_contact: newRowData.key_contact , key_email: newRowData.key_email, company_id: company_id })
-        
+        const company_id = await generalFunction.getCompanyId();
+        const { data, error } = await supabase
+            .from(`supplier_management`)
+            .insert({
+                supplier_name: newRowData.supplier_name,
+                location: newRowData.location,
+                key_product: newRowData.key_product,
+                sustainability_score: newRowData.sustainability_score,
+                key_contact: newRowData.key_contact,
+                key_email: newRowData.key_email,
+                company_id: company_id
+            });
+    
         if (error) {
-            throw error;
+            throw error; 
         }
     },
+    
 
     fetchSupplierAnalytics: async (supplier) => {
-        const company_id = generalFunction.getCompanyId();
+        const company_id = await generalFunction.getCompanyId();
         const { data } = await supabase
             .from(`supplier_management`)
             .select('*')
