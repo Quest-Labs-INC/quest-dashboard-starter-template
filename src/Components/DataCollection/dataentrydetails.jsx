@@ -18,7 +18,7 @@ export default function DataEntryDetails() {
 
     async function fetchDataEntry() {
         try {
-            const userId = 35;  
+            const userId = localStorage.getItem('varaUserId');
             const processId = parseInt(access.process.process_id, 10);
             const parameterId = parseInt(access.parameter.para_id, 10);
 

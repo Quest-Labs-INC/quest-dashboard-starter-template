@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { ThemeContext } from "../Common/AppContext";
 import { supabase } from '../../supabaseClient';
+import { generalFunction } from '../../assets/Config/generalFunction';
 
 const ManageFacilities = () => {
   const { theme, bgColors, appConfig } = useContext(ThemeContext);
@@ -11,6 +12,9 @@ const ManageFacilities = () => {
   const [editFacility, setEditFacility] = useState({ name: '', type: '', address: '', processes: [''] });
   const [isDeletePopupOpen, setIsDeletePopupOpen] = useState(false);
   const [facilityToDelete, setFacilityToDelete] = useState(null);
+
+
+
   
 
   useEffect(() => {
@@ -19,12 +23,15 @@ const ManageFacilities = () => {
 
   //Fetching facilities along with associated processes data from the database
   const fetchFacilities = async () => {
+    const company_id = await generalFunction.getCompanyId();
+    
     const { data, error } = await supabase
       .from('facility')
       .select(`
         *,
         processes:process(facility_id, process_name)
-      `);
+      `)
+      .eq('company_id', company_id);
 
     if (error) {
       console.error(error);
@@ -63,13 +70,16 @@ const ManageFacilities = () => {
 
   //Adding new facility to the database
   const handleAddFacility = async () => {
+    const company_id = await generalFunction.getCompanyId();
+
     const { data: facilityData, error: facilityError } = await supabase
       .from('facility')
       .insert([{
         facility_name: newFacility.name,
         type: newFacility.type,
         address: newFacility.address,
-        is_active: true
+        is_active: true,
+        company_id : company_id,
       }])
       .select('*');
 
