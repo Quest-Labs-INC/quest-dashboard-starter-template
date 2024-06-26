@@ -4,6 +4,7 @@ import { Link, useParams } from 'react-router-dom';
 import Table from '../Common/CommonComponents/Table';
 import PopUp from '../Common/CommonComponents/PopUp';
 import Button from '../Common/CommonComponents/Button';
+import { generalFunction } from '../../assets/Config/generalFunction';
 
 export default function Parameter() {
     const [tableData, setTableData] = useState([]);
@@ -28,7 +29,8 @@ export default function Parameter() {
     useEffect(() => {
         const fetchFacilities = async () => {
             setLoadingFacilities(true);
-            const { data, error } = await supabase.from('facility').select('*');
+            const company_id = await generalFunction.getCompanyId();
+            const { data, error } = await supabase.from('facility').select('*').eq('company_id', company_id);
             if (error) {
                 console.error(error);
             } else {

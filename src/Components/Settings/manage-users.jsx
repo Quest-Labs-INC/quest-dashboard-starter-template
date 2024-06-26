@@ -156,13 +156,13 @@ export default function ManageUsers() {
                                         className="border border-gray-300 px-4 py-2 cursor-pointer"
                                         onClick={() => handleCellClick(user)}
                                     >
-                                        {user.user.name}
+                                        {user.user_name}
                                     </td>
                                     <td className="border border-gray-300 px-4 py-2">{user.role}</td>
                                     <td className="border border-gray-300 px-4 py-2">
                                         <span className={`status-circle ${user.status ? 'status-active' : 'status-inactive'}`}></span>
                                     </td>
-                                    <td className="border border-gray-300 px-4 py-2">{new Date(user.access_till).toLocaleString()}</td>
+                                    <td className="border border-gray-300 px-4 py-2">{user.access_till ? new Date(user.access_till).toLocaleString() : 'N/A'}</td>
                                 </tr>
                             ))}
                         </tbody>
@@ -195,7 +195,7 @@ export default function ManageUsers() {
             {userAccessPopup && (
                 <div className="popup">
                     <div className="popup-content">
-                        <h2 className="popup-title">{selectedUser.user.name}</h2>
+                        <h2 className="popup-title">{selectedUser.user_name}</h2>
                         <p>Role - {selectedUser.role}</p>
                         <table className="mt-4 w-full border-collapse border border-gray-300">
                             <thead>
