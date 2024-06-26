@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { supabase } from '../../supabaseClient';
 import './parameteroverview.css';
 import {Link} from 'react-router-dom';
+import { generalFunction } from '../../assets/Config/generalFunction';
 
 export default function Parameteroverview() {
   const [tableData, setTableData] = useState([]);
@@ -20,12 +21,20 @@ export default function Parameteroverview() {
   useEffect(() => {
     fetchMeasurement();
     fetchFacilities();
+
   }, []);
 
   async function fetchFacilities() {
-    let { data, error } = await supabase.from('facility').select('*');
-    if (error) console.error(error);
-    else setFacilities(data);
+    const companyid = await generalFunction.getCompanyId();
+    const { data, error } = await supabase
+            .from('facility',)
+            .select('facility_id, facility_name, company_id')
+            .eq('company_id', companyid);
+        if (error) {
+            throw error;
+        }
+    console.log('facilities api call', data);
+    setFacilities(data);
   }
 
   async function fetchProcesses(facilityId) {
@@ -35,32 +44,45 @@ export default function Parameteroverview() {
   }
 
   async function fetchUsers() {
-    let {data, error} = await supabase.from('users').select('*');
-    if (error) console.error(error);
+    const companyid = await generalFunction.getCompanyId();
+    const { data, error } = await supabase
+            .from('users')
+            .select('id, name, email, company_id')
+            .eq('company_id', (companyid));
+            ;
+    if (error) {
+            throw error;
+        }
     else SetUsers(data);
   }
 
+  // change to General Function later, resolve bug
   async function fetchMeasurement() {
-    let { data, error } = await supabase.rpc('fetch_aggregated_metrics');
-    if (error) console.error(error);
-    else setTableData(formatData(data));
+    const companyid = await generalFunction.getCompanyId();
+    const { data, error } = await supabase.rpc('fetch_aggregated_metrics', { p_company_id: companyid });
+    setTableData(formatData(data));
   }
 
   const formatData = (data) => {
     const result = {};
-    data.forEach(item => {
-      const { facility_name, process_name, para_name, total_value } = item;
-      if (!result[facility_name]) {
-        result[facility_name] = {};
-      }
-      if (!result[facility_name][process_name]) {
-        result[facility_name][process_name] = {};
-      }
-      result[facility_name][process_name][para_name] = total_value;
-    });
-    return result;
-  };
+    if (!data || !Array.isArray(data)) {
+        console.error("Invalid data format in formatData:", data);
+        return result;
+    }
 
+    data.forEach(item => {
+        const { facility_name, process_name, para_name, total_value } = item;
+        if (!result[facility_name]) {
+            result[facility_name] = {};
+        }
+        if (!result[facility_name][process_name]) {
+            result[facility_name][process_name] = {};
+        }
+        result[facility_name][process_name][para_name] = total_value;
+    });
+    console.log("Formatted data:", result);
+    return result;
+};
 /*  const handleOpenPopup = () => {
     setIsPopupOpen(true);
   };
@@ -158,7 +180,7 @@ export default function Parameteroverview() {
     setButtonColor('bg-yellow-500');
     
     const { data, error } = await supabase
-    .from('parameter')
+    .from('parameter',)
     .insert([{ created_by: 17, para_name: newParameterData.parameter, para_metric: newParameterData.unit, para_description: newParameterData.parameter }])
     .select('para_id');
 

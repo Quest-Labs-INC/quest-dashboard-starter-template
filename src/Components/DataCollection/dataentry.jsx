@@ -6,6 +6,7 @@ import Button from '../Common/CommonComponents/Button';
 export default function DataEntry() {
     const [userAccessData, setUserAccessData] = useState([]);
     const navigate = useNavigate();
+    
 
     useEffect(() => {
         fetchUserAccessData();
@@ -13,7 +14,8 @@ export default function DataEntry() {
 
     async function fetchUserAccessData() {
         try {
-            const data = await generalFunction.fetchUserAccessData(35);
+            const userId = localStorage.getItem('varaUserId');
+            const data = await generalFunction.fetchUserAccessData(userId);
             setUserAccessData(data);
         } catch (error) {
             console.log("Error fetching data: ", error);

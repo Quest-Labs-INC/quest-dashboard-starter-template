@@ -3,6 +3,10 @@ import { mainConfig } from "./appConfig";
 import { supabase } from "../../supabaseClient";
 import axios from "axios";
 
+
+
+
+
 export const generalFunction = {
     getUserId: () => {
         let userId = localStorage.getItem("questUserId");
@@ -227,7 +231,7 @@ export const generalFunction = {
         try {
             const { data, error } = await supabase
               .from('company')
-              .select('*')
+              .select('id')
               .eq('company_id', quest_company_id);
             if (error) {
                 throw error;
@@ -279,29 +283,23 @@ export const generalFunction = {
         }
     },
 
-    fetchUserPermissions: async () => {
+    fetchUserPermissions: async() => {
+        const companyid = await generalFunction.getCompanyId();
         const { data, error } = await supabase
-            .from('user_permissions')
-            .select(`
-                id,
-                role,
-                status,
-                access_till,
-                user_id,
-                assigned_by,
-                user:user_id(id, email, name),
-                assigned_user:assigned_by(id, name)
-            `);
+            .rpc('fetch_user_permissions', { p_company_id: companyid });
         if (error) {
             throw error;
         }
         return data;
     },
-
+    
     fetchAllUsers: async () => {
+        const companyid = await generalFunction.getCompanyId();
         const { data, error } = await supabase
             .from('users')
-            .select('id, name, email');
+            .select('id, name, email, company_id')
+            .eq('company_id', parseInt(companyid,10));
+            ;
         if (error) {
             throw error;
         }
@@ -309,9 +307,11 @@ export const generalFunction = {
     },
 
     fetchFacilities: async () => {
+        const companyid = await generalFunction.getCompanyId();
         const { data, error } = await supabase
-            .from('facility')
-            .select('facility_id, facility_name');
+            .from('facility',)
+            .select('facility_id, facility_name, company_id')
+            .eq('company_id', companyid);
         if (error) {
             throw error;
         }
@@ -603,7 +603,7 @@ export const generalFunction = {
                 data_collection_points(id, assigned_to)
             `)
             .eq('data_collection_points.assigned_to', userId)
-            .eq('process.process_id', processId)
+            .eq('process_id', processId)
             .eq('para_id', parameterId);
             
         if (error) {
@@ -691,5 +691,27 @@ export const generalFunction = {
             throw error;
         }
     },
+
+    fetch_aggregated_metrics: async () => {
+        try {
+            const companyid = await generalFunction.getCompanyId();
+            console.log("Company ID:", companyid);
+    
+            const { data, error } = await supabase.rpc('fetch_aggregated_metrics', { p_company_id: companyid });
+    
+            if (error) {
+                console.error("Error in fetch_aggregated_metrics RPC:", error);
+                return null;
+            }
+    
+            console.log("Data received from fetch_aggregated_metrics RPC:", data);
+            return data;
+        } catch (err) {
+            console.error("Error in fetch_aggregated_metrics function:", err);
+            return null;
+        }
+    }
+    
+      
 
 }
