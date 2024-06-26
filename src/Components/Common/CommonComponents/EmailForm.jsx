@@ -3,7 +3,7 @@ import { generalFunction } from '../../../assets/Config/generalFunction';
 import emailjs from "@emailjs/browser";
 import Button from './Button';
 
-const EmailForm = ({handleCancel}) => {
+const EmailForm = ({handleCancel, supplierEmail = false, supplierData, onSent}) => {
     const [subject, setSubject] = useState('');
     const [name, setName] = useState('');
     const [toEmail, setToEmail] = useState('');
@@ -37,6 +37,12 @@ const EmailForm = ({handleCancel}) => {
             setErrors(validationErrors);
             return;
         }
+        
+        const date_sent = new Date().toISOString().split('T')[0];
+
+        if (supplierEmail) {
+            generalFunction.createSupplierEmail(toEmail, fromEmail, date_sent, supplierData);
+        }
 
         const serviceId = 'service_f1v49vl';
         const templateId = 'template_kbi801d';
@@ -59,6 +65,7 @@ const EmailForm = ({handleCancel}) => {
                 setToEmail('');
                 setFromEmail('');
                 setMessage('');
+                onSent();
             })
             .catch((error) => {
                 console.log('Error sending email:', error);
