@@ -216,8 +216,32 @@ export const generalFunction = {
         }
     },
 
+    getTaskData: async (table, project_id) => {
+        try {
+            const companyId = await generalFunction.getCompanyId();
+
+            if (!companyId) {
+                throw new Error("Failed to retrieve company ID");
+            }
+
+            const { data, error } = await supabase
+                .from(table)
+                .select('*')
+                .eq('company_id', companyId)
+                .eq('project_id', project_id)
+
+            if (error) {
+                throw error;
+            }
+            return data;
+        } catch (error) {
+            console.error("Failed to get table data:", error);
+            throw error;
+        }
+    },
+
     getTableRow: async (table, row_name, row_id) => {
-        const company_id = generalFunction.getCompanyId()
+        const company_id = await generalFunction.getCompanyId()
         const { data } = await supabase
           .from(table)
           .select('*')
@@ -244,7 +268,7 @@ export const generalFunction = {
     },
 
     updateRow: async(table, update_column, update_data, key_column, key_data) => {
-        const company_id = generalFunction.getCompanyId()
+        const company_id = await generalFunction.getCompanyId()
         const { error } = await supabase
         .from(table)
         .update({[update_column]: update_data})
@@ -266,9 +290,27 @@ export const generalFunction = {
         }
     },
 
+    editProject: async (rowData) => {
+        const company_id = await generalFunction.getCompanyId()
+        const {data, error} = await supabase
+            .from('project_management')
+            .update({
+                project: rowData.project,
+                status: rowData.status,
+                due_date: rowData.due_date,
+                lead: rowData.lead,
+            })
+            .eq('project_id', rowData.project_id)
+            .eq('company_id', company_id);
+
+        if (error) {
+            throw error;
+        }
+    },
+
     fetchCompliances: async () => {
         const { data } = await supabase
-          .from(`certification`)
+          .from(`compliance`)
           .select('*')
         return data;
     },

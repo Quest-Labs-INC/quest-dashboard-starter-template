@@ -28,6 +28,10 @@ const Table = ({ fields, tableData = [], hasLink = false, pageLink, hasActions =
 
   const paginatedData = enablePagination ? filteredData.slice((currentPage - 1) * rowsPerPage, currentPage * rowsPerPage) : filteredData;
 
+  const formatDate = (dateString) => {
+    return new Date(dateString).toLocaleDateString();
+  };
+
   return (
     <div className="flex flex-col items-center">
       <div className="w-[90%] margin-[auto] mb-4 flex justify-between items-center">
@@ -67,7 +71,7 @@ const Table = ({ fields, tableData = [], hasLink = false, pageLink, hasActions =
               >
                 {fields.map((field) => (
                   <td key={field.id} className="border px-4 py-2">
-                    {row[field.id]}
+                    {field.type === 'date' ? formatDate(row[field.id]) : row[field.id]}
                   </td>
                 ))}
                 {hasActions && (
