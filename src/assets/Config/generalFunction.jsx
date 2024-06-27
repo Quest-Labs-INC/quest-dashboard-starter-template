@@ -3,10 +3,6 @@ import { mainConfig } from "./appConfig";
 import { supabase } from "../../supabaseClient";
 import axios from "axios";
 
-
-
-
-
 export const generalFunction = {
     getUserId: () => {
         let userId = localStorage.getItem("questUserId");
@@ -42,6 +38,8 @@ export const generalFunction = {
         localStorage.removeItem("questUserToken");
         localStorage.removeItem("questUserCredentials");
         localStorage.removeItem("adminDetails");
+        localStorage.removeItem("varaCompanyId");
+        localStorage.removeItem("varaUserId");
     },
 
     createUrl: (apiString) => {
@@ -317,7 +315,7 @@ export const generalFunction = {
     
     createCompliance: async (newRowData) => {
         const { data, error } = await supabase
-              .from(`certification`)
+              .from(`compliance`)
               .insert({ certification: newRowData.certification, status: newRowData.status , due_date: newRowData.due_date , task_assigned: newRowData.task_assigned , checklist: newRowData.checklist })
         
         if (error) {
