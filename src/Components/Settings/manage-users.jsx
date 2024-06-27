@@ -22,6 +22,9 @@ export default function ManageUsers() {
     const [userAccessData, setUserAccessData] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
+    const [dataCollectionPoints, setDataCollectionPoints] = useState([]);
+    const [selectedDataCollectionPoint, setSelectedDataCollectionPoint] = useState('');
+    
 
     useEffect(() => {
         fetchUsers();
@@ -38,6 +41,15 @@ export default function ManageUsers() {
             setError(error.message);
         } finally {
             setLoading(false);
+        }
+    }
+
+    async function fetchDataCollectionPoints(parameterId) {
+        try {
+            const data = await generalFunction.fetchDataCollectionPoints(parameterId);
+            setDataCollectionPoints(data);
+        } catch (error) {
+            setError(error.message);
         }
     }
 
@@ -103,7 +115,7 @@ export default function ManageUsers() {
         try {
             await generalFunction.createTableRow('user_data_access', {
                 user_id: selectedUser.user_id,
-                parameter_id: selectedParameter,
+                data_collection_id: selectedDataCollectionPoint,
                 process_id: selectedProcess,
             });
             fetchUserAccessData(selectedUser);
@@ -192,95 +204,116 @@ export default function ManageUsers() {
                 />
             )}
 
-            {userAccessPopup && (
-                <div className="popup">
-                    <div className="popup-content">
-                        <h2 className="popup-title">{selectedUser.user_name}</h2>
-                        <p>Role - {selectedUser.role}</p>
-                        <table className="mt-4 w-full border-collapse border border-gray-300">
-                            <thead>
-                                <tr>
-                                    <th className="border border-gray-300 px-4 py-2">Facility</th>
-                                    <th className="border border-gray-300 px-4 py-2">Process</th>
-                                    <th className="border border-gray-300 px-4 py-2">Parameter</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {userAccessData.map((access, index) => (
-                                    <tr key={index}>
-                                        <td className="border border-gray-300 px-4 py-2">{access.process.facility.facility_name}</td>
-                                        <td className="border border-gray-300 px-4 py-2">{access.process.process_name}</td>
-                                        <td className="border border-gray-300 px-4 py-2">{access.parameter.para_name}</td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                        
-                        <div className="form-group">
-                            <label htmlFor="facility">Facility</label>
-                            <select
-                                id="facility"
-                                name="facility"
-                                value={selectedFacility}
-                                onChange={(e) => {
-                                    setSelectedFacility(e.target.value);
-                                    fetchProcesses(e.target.value);
-                                }}
-                            >
-                                <option value="">Select a facility</option>
-                                {facilities.map(facility => (
-                                    <option key={facility.facility_id} value={facility.facility_id}>
-                                        {facility.facility_name}
-                                    </option>
-                                ))}
-                            </select>
-                        </div>
-                        <div className="form-group">
-                            <label htmlFor="process">Process</label>
-                            <select
-                                id="process"
-                                name="process"
-                                value={selectedProcess}
-                                onChange={(e) => {
-                                    setSelectedProcess(e.target.value);
-                                }}
-                            >
-                                <option value="">Select a process</option>
-                                {processes.map(process => (
-                                    <option key={process.process_id} value={process.process_id}>
-                                        {process.process_name}
-                                    </option>
-                                ))}
-                            </select>
-                        </div>
-                        <div className="form-group">
-                            <label htmlFor="parameter">Parameter</label>
-                            <select
-                                id="parameter"
-                                name="parameter"
-                                value={selectedParameter}
-                                onChange={(e) => setSelectedParameter(e.target.value)}
-                            >
-                                <option value="">Select a parameter</option>
-                                {parameters.map(parameter => (
-                                    <option key={parameter.para_id} value={parameter.para_id}>
-                                        {parameter.para_name}
-                                    </option>
-                                ))}
-                            </select>
-                        </div>
-                        <Button
-                            label="Add Access"
-                            handleFunction={handleAddUserAccess}
-                            className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-                        />
-                        <Button
-                            label="Close"
-                            handleFunction={() => setUserAccessPopup(false)}
-                            className="mt-4 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
-                        />
-                    </div>
-                </div>
+{userAccessPopup && (
+    <div className="popup">
+        <div className="popup-content">
+            <h2 className="popup-title">{selectedUser.user_name}</h2>
+            <p>Role - {selectedUser.role}</p>
+            <table className="mt-4 w-full border-collapse border border-gray-300">
+                <thead>
+                    <tr>
+                        <th className="border border-gray-300 px-4 py-2">Facility</th>
+                        <th className="border border-gray-300 px-4 py-2">Process</th>
+                        <th className="border border-gray-300 px-4 py-2">Parameter</th>
+                        <th className="border border-gray-300 px-4 py-2">Data Collection Point</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {userAccessData.map((access, index) => (
+                        <tr key={index}>
+                            <td className="border border-gray-300 px-4 py-2">{access.facility_name}</td>
+                            <td className="border border-gray-300 px-4 py-2">{access.process_name}</td>
+                            <td className="border border-gray-300 px-4 py-2">{access.parameter_name}</td>
+                            <td className="border border-gray-300 px-4 py-2">{access.data_collection_point_name}</td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
+            
+            <div className="form-group">
+                <label htmlFor="facility">Facility</label>
+                <select
+                    id="facility"
+                    name="facility"
+                    value={selectedFacility}
+                    onChange={(e) => {
+                        setSelectedFacility(e.target.value);
+                        fetchProcesses(e.target.value);
+                    }}
+                >
+                    <option value="">Select a facility</option>
+                    {facilities.map(facility => (
+                        <option key={facility.facility_id} value={facility.facility_id}>
+                            {facility.facility_name}
+                        </option>
+                    ))}
+                </select>
+            </div>
+            <div className="form-group">
+                <label htmlFor="process">Process</label>
+                <select
+                    id="process"
+                    name="process"
+                    value={selectedProcess}
+                    onChange={(e) => {
+                        setSelectedProcess(e.target.value);
+                    }}
+                >
+                    <option value="">Select a process</option>
+                    {processes.map(process => (
+                        <option key={process.process_id} value={process.process_id}>
+                            {process.process_name}
+                        </option>
+                    ))}
+                </select>
+            </div>
+            <div className="form-group">
+                <label htmlFor="parameter">Parameter</label>
+                <select
+                    id="parameter"
+                    name="parameter"
+                    value={selectedParameter}
+                    onChange={(e) => {
+                        setSelectedParameter(e.target.value);
+                        fetchDataCollectionPoints(e.target.value);  // Fetch data collection points based on selected parameter
+                    }}
+                >
+                    <option value="">Select a parameter</option>
+                    {parameters.map(parameter => (
+                        <option key={parameter.para_id} value={parameter.para_id}>
+                            {parameter.para_name}
+                        </option>
+                    ))}
+                </select>
+            </div>
+            <div className="form-group">
+                <label htmlFor="dataCollectionPoint">Data Collection Point</label>
+                <select
+                    id="dataCollectionPoint"
+                    name="dataCollectionPoint"
+                    value={selectedDataCollectionPoint}
+                    onChange={(e) => setSelectedDataCollectionPoint(e.target.value)}
+                >
+                    <option value="">Select a data collection point</option>
+                    {dataCollectionPoints.map(point => (
+                        <option key={point.id} value={point.id}>
+                            {point.name}
+                        </option>
+                    ))}
+                </select>
+            </div>
+            <Button
+                label="Add Access"
+                handleFunction={handleAddUserAccess}
+                className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+            />
+            <Button
+                label="Close"
+                handleFunction={() => setUserAccessPopup(false)}
+                className="mt-4 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
+            />
+            </div>
+            </div>
             )}
         </div>
     );
