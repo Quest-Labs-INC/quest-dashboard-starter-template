@@ -19,10 +19,11 @@ export default function DataEntryDetails() {
     async function fetchDataEntry() {
         try {
             const userId = localStorage.getItem('varaUserId');
-            const processId = parseInt(access.process.process_id, 10);
-            const parameterId = parseInt(access.parameter.para_id, 10);
+            const processId = parseInt(access.process_id, 10);
+            const parameterId = parseInt(access.parameter_id, 10);
+            const data_collection_id = parseInt(access.data_collection_id, 10);
 
-            const data = await generalFunction.fetchUserDataEntry(userId, processId, parameterId);
+            const data = await generalFunction.fetchUserDataEntry(userId, processId, parameterId, data_collection_id);
 
             // Fetch signed URLs for evidence files if they exist
             const entriesWithSignedUrls = await Promise.all(data.map(async entry => {
@@ -54,17 +55,17 @@ export default function DataEntryDetails() {
             evidenceFile: file,
         }));
 
-        console.log('File: ', file.name);
     };
 
     // Need to replace hard coded userId with actual userId from Local Storage
     const handleSaveNewEntry = async () => {
         try {
-            const userId = 35;  
-            const processId = parseInt(access.process.process_id, 10);
-            const parameterId = parseInt(access.parameter.para_id, 10);
+            const userId = access.userId;  
+            const processId = parseInt(access.process_id, 10);
+            const parameterId = parseInt(access.parameter_id, 10);
+            const data_collection_id = parseInt(access.data_collection_id, 10);
 
-            await generalFunction.createUserDataEntry(userId, processId, parameterId, newEntry);
+            await generalFunction.createUserDataEntry(userId, processId, parameterId, data_collection_id, newEntry);
             setIsPopupOpen(false);
 
             fetchDataEntry();
@@ -87,15 +88,15 @@ export default function DataEntryDetails() {
                 
                 <div className="flex flex-col space-y-1 mb-8">
                     <div className="flex justify-between items-center">
-                        <label className="p-1 text-md font-mdm">Facility: {access.process.facility.facility_name}</label>
+                        <label className="p-1 text-md font-mdm">Facility: {access.facility_name}</label>
                     </div>
                     
                     <div className="flex justify-between items-center">
-                        <label className="p-1 text-md font-mdm">Process: {access.process.process_name}</label>
+                        <label className="p-1 text-md font-mdm">Process: {access.process_name}</label>
                     </div>
                     
                     <div className="flex justify-between items-center">
-                        <label className="p-1 text-md font-mdm">Parameter: {access.parameter.para_name}</label>
+                        <label className="p-1 text-md font-mdm">Parameter: {access.parameter_name}</label>
                     </div>
                 </div>
 

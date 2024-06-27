@@ -27,37 +27,40 @@ export default function Parameter() {
     ];
 
     useEffect(() => {
-        const fetchFacilities = async () => {
-            setLoadingFacilities(true);
-            const company_id = await generalFunction.getCompanyId();
-            const { data, error } = await supabase.from('facility').select('*').eq('company_id', company_id);
-            if (error) {
-                console.error(error);
-            } else {
-                setFacilities(data);
-            }
-            setLoadingFacilities(false);
-        };
-
+       
         fetchFacilities();
     }, []);
 
     useEffect(() => {
         if (!selectedFacility) return;
 
-        const fetchProcesses = async (facilityId) => {
-            setLoadingProcesses(true);
-            const { data, error } = await supabase.from('process').select('*').eq('facility_id', facilityId);
-            if (error) {
-                console.error(error);
-            } else {
-                setProcesses(data);
-            }
-            setLoadingProcesses(false);
-        };
-
         fetchProcesses(selectedFacility);
     }, [selectedFacility]);
+
+
+    const fetchFacilities = async () => {
+        setLoadingFacilities(true);
+        const company_id = await generalFunction.getCompanyId();
+        const { data, error } = await supabase.from('facility').select('*').eq('company_id', company_id);
+        if (error) {
+            console.error(error);
+        } else {
+            setFacilities(data);
+        }
+        setLoadingFacilities(false);
+    };
+
+    const fetchProcesses = async (facilityId) => {
+        setLoadingProcesses(true);
+        const { data, error } = await supabase.from('process').select('*').eq('facility_id', facilityId);
+        if (error) {
+            console.error(error);
+        } else {
+            setProcesses(data);
+        }
+        setLoadingProcesses(false);
+    };
+
 
     useEffect(() => {
         if (!selectedProcess) return;

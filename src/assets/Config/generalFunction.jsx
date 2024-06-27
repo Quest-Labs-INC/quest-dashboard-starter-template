@@ -63,7 +63,6 @@ export const generalFunction = {
         if (!company_id) {
             await generalFunction.setCompanyId();
         }
-        console.log(company_id);
         return company_id;
     },
 
@@ -85,7 +84,6 @@ export const generalFunction = {
         let responses = await Promise.all(["OWNER", "ADMIN", "TEAM MANAGER", "FIELD MANAGER"].map((role) => {
             axios.post(request.url, {role}, { headers: {...request.headers, apiKey: apiKey} })
         }));
-        console.log(responses);
     },
 
     count: 0,
@@ -281,7 +279,6 @@ export const generalFunction = {
     },
 
     createTableRow: async (table, newRowData) => {
-        console.log(newRowData)
         const { data, error } = await supabase
               .from(table)
               .insert(newRowData)
@@ -383,23 +380,7 @@ export const generalFunction = {
 
     fetchUserAccessData: async (userId) => {
         const { data, error } = await supabase
-            .from('user_data_access')
-            .select(`
-                *,
-                process:process_id (
-                    process_id, process_name,
-                    facility:facility_id (
-                        facility_id, facility_name
-                    )
-                ),
-                parameter:parameter_id (
-                    para_id, para_name
-                ),
-                user:user_id (
-                    id, name
-                )
-            `)
-            .eq('user_id', userId);
+            .rpc('fetch_user_access_data', { p_user_id: userId });
         if (error) {
             throw error;
         }
@@ -428,6 +409,18 @@ export const generalFunction = {
         if (error) {
             throw error;
         }
+        return data;
+    },
+
+    getUserRole: async (UserId) => {
+        const { data, error } = await supabase
+            .from('user_permissions')
+            .select('role')
+            .eq('user_id', UserId); 
+
+        if (error) {
+            throw error;
+        }   
         return data;
     },
 
@@ -636,7 +629,7 @@ export const generalFunction = {
         return data;
     },
 
-    fetchUserDataEntry: async (userId, processId, parameterId) => {
+    fetchUserDataEntry: async (userId, processId, parameterId, datacollectionid) => {
         const { data, error } = await supabase
             .from('parameter_log')
             .select(`
@@ -644,7 +637,7 @@ export const generalFunction = {
                 process(process_id, process_name),
                 data_collection_points(id, assigned_to)
             `)
-            .eq('data_collection_points.assigned_to', userId)
+            .eq('data_collection_points.id', datacollectionid)
             .eq('process_id', processId)
             .eq('para_id', parameterId);
             
@@ -655,20 +648,7 @@ export const generalFunction = {
         return data;
     },
     
-    createUserDataEntry: async (userId, processId, parameterId, newEntry) => {
-        // Step 1: Retrieve data_collection_id based on assigned_to (userId)
-        const { data: collectionData, error: collectionError } = await supabase
-            .from('data_collection_points')
-            .select('id')
-            .eq('assigned_to', userId)
-            .eq('parameter_id', parameterId)
-            .single(); // Assuming each user is assigned to only one data collection point
-    
-        if (collectionError) {
-            throw collectionError;
-        }
-    
-        const dataCollectionId = collectionData.id;
+    createUserDataEntry: async (userId, processId, parameterId, datacollectionid, newEntry) => {
     
         // Step 2: Upload evidence file if it exists
         let evidenceUrl = '';
@@ -685,7 +665,7 @@ export const generalFunction = {
                     para_id: parameterId,
                     value: newEntry.value,
                     log_date: newEntry.date,
-                    data_collection_id: dataCollectionId,
+                    data_collection_id: datacollectionid,
                     evidence_url: evidenceUrl // Save the public URL returned from the uploadFile function
                 }
             ]);
@@ -737,7 +717,6 @@ export const generalFunction = {
     fetch_aggregated_metrics: async () => {
         try {
             const companyid = await generalFunction.getCompanyId();
-            console.log("Company ID:", companyid);
     
             const { data, error } = await supabase.rpc('fetch_aggregated_metrics', { p_company_id: companyid });
     
@@ -746,13 +725,23 @@ export const generalFunction = {
                 return null;
             }
     
-            console.log("Data received from fetch_aggregated_metrics RPC:", data);
             return data;
         } catch (err) {
             console.error("Error in fetch_aggregated_metrics function:", err);
             return null;
         }
-    }
+    },
+
+    fetchDataCollectionPoints: async(parameter_id) =>{
+        const companyid = await generalFunction.getCompanyId();
+        const {data, error} = await supabase.from('data_collection_points').select('*').eq('parameter_id', parameter_id);
+        if (error){
+            throw error;
+        }
+        return data;
+
+    },
+
     
       
 
