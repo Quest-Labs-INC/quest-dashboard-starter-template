@@ -306,6 +306,26 @@ export const generalFunction = {
         }
     },
 
+    editTask: async (rowData) => {
+        const company_id = await generalFunction.getCompanyId()
+        const {data, error} = await supabase
+            .from('task_management')
+            .update({
+                task: rowData.task,
+                status: rowData.status,
+                due_date: rowData.due_date,
+                lead: rowData.lead,
+                description: rowData.description
+            })
+            .eq('project_id', rowData.project_id)
+            .eq('company_id', company_id)
+            .eq('task_id', rowData.task_id);
+
+        if (error) {
+            throw error;
+        }
+    },
+
     fetchCompliances: async () => {
         const { data } = await supabase
           .from(`compliance`)
