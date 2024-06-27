@@ -508,6 +508,14 @@ export const generalFunction = {
         return data;
     },
 
+    fetchSupplierEmails: async (supplierData) => {
+        const { data } = await supabase
+            .from(`supplier_emails`)
+            .select('*')
+            .eq('supplier_id', supplierData.id)
+        return data;
+    },
+
     createSupplierCertificate: async (newCert, supplierData) => {
         const {data, error} = await supabase
             .from(`supplier_certificates`)
@@ -587,6 +595,21 @@ export const generalFunction = {
             })
             .eq('id', rowData.id);
         
+        if (error) {
+            throw error;
+        }
+    },
+
+    createSupplierEmail: async (receiver, sender, date_sent, supplierData) => {
+        const { data, error } = await supabase
+            .from('supplier_emails')
+            .insert({ 
+                receiver: receiver, 
+                sender: sender, 
+                date_sent: date_sent, 
+                supplier_id: supplierData.id,
+            });
+
         if (error) {
             throw error;
         }

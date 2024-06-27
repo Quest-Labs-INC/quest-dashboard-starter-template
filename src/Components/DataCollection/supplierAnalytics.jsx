@@ -1,10 +1,11 @@
 // importing react features to use states, effects, and links
 import React, { useState, useEffect } from 'react';
 import { generalFunction } from '../../assets/Config/generalFunction';
-import  Button from '../Common/CommonComponents/Button';
-import  Table from '../Common/CommonComponents/Table';
+import Button from '../Common/CommonComponents/Button';
+import Table from '../Common/CommonComponents/Table';
 import PopUp from '../Common/CommonComponents/PopUp';
 import EmailForm from '../Common/CommonComponents/EmailForm';
+import Inbox from '../Common/CommonComponents/Inbox';
 
 export default function SupplierAnalytics() {
     const [supplierData, setSupplierData] = useState({});
@@ -21,7 +22,9 @@ export default function SupplierAnalytics() {
     const [certRowData, setCertRowData] = useState({ id: '', certificate_name: '', status: '', expiration: '', last_audited: '', link: '', notes: '' });
     const [certRowIndex, setCertRowIndex] = useState(-1);
     const [validationErrors, setValidationErrors] = useState({});
+    const [emailData, setEmailData] = useState([]);
     const [isEmailBtnOpen, setEmailBtnOpen] = useState(false);
+    const [isRequestBtnOpen, setRequestBtnOpen] = useState(false);
 
     const url = window.location.href;
     const parts = url.split('/');
@@ -52,6 +55,12 @@ export default function SupplierAnalytics() {
         { id: 'last_exported', label: 'Last Exported', type: 'date' },
         { id: 'volume', label: 'Volume', type: 'number' }
     ];
+
+    const emailFields = [
+        { id: 'receiver', label: 'Receiver', type: 'text' },
+        { id: 'sender', label: 'Sender', type: 'text' },
+        { id: 'date_sent', label: 'Date Sent', type: 'text' },
+    ]
 
     async function fetchSupplierData() {
         try {
@@ -86,6 +95,18 @@ export default function SupplierAnalytics() {
         }
     }
 
+    async function fetchEmailData() {
+        try {
+            const data = await generalFunction.fetchSupplierEmails(supplierData);
+            if (data && data.length > 0){
+                setEmailData(data);
+                return data;
+            }
+        } catch (error) {
+            console.log('Error fetching supplier emails:', error);
+        }
+    }
+
     useEffect(() => {
         fetchSupplierData()
     }, [])
@@ -94,6 +115,7 @@ export default function SupplierAnalytics() {
         if (supplierData.id != null) {
             fetchProductData()
             fetchCertificateData()
+            fetchEmailData()
         }
     }, [supplierData.id])
 
@@ -235,17 +257,29 @@ export default function SupplierAnalytics() {
         setEmailBtnOpen(false);
     };
 
+    const openRequestBtn = () => {
+        setRequestBtnOpen(true);
+    };
+
+    const closeRequestBtn = () => {
+        setRequestBtnOpen(false);
+    };
+
+    const emailSent = () => {
+        fetchEmailData();
+    }
+
     const certActions = [
         <Button
         label="Edit"
-        handleFunction = {openEditCert}
+        handleFunction={openEditCert}
         />,
     ];
 
     const prodActions = [
         <Button
         label="Edit"
-        handleFunction = {openEditProd}
+        handleFunction={openEditProd}
         />,
     ];
 
@@ -255,26 +289,40 @@ export default function SupplierAnalytics() {
             <div className="w-[90%] margin-[auto] flex flex-row justify-between mb-10">
                 <h1 className="text-3xl">{supplierData.supplier_name}</h1>
                 <Button
-                    label="Send Email"
-                    handleFunction={openEmailBtn}
+                    label="Request Info"
+                    handleFunction={openRequestBtn}
                 />
             </div>
         </div>
+        {isRequestBtnOpen && (
+            <Inbox
+                title="Inbox"
+                fields={emailFields}
+                tableData={emailData}
+                //actions={actions}
+                handleCancel={closeRequestBtn}
+                actionButtonLabel="Send Email"
+                actionButtonFunction={openEmailBtn}
+            />
+        )}
         {isEmailBtnOpen && (
             <EmailForm
                 handleCancel={closeEmailBtn}
+                supplierEmail={true}
+                supplierData={supplierData}
+                onSent={emailSent}
             />
         )}
         <Table
-          fields={supFields}
-          tableData={[supplierData]}
+            fields={supFields}
+            tableData={[supplierData]}
         />
         <h1 className="text-xl text-center m-10">Products</h1>
         <Table
-        fields={prodFields}
-        tableData={productData}
-        hasActions={true}
-        actions={prodActions}
+            fields={prodFields}
+            tableData={productData}
+            hasActions={true}
+            actions={prodActions}
         />
         <div className="mb-6 mt-10 flex items-center justify-center">
           <Button
@@ -307,10 +355,10 @@ export default function SupplierAnalytics() {
         )}
         <h1 className="text-xl text-center m-10">Certificates</h1>
         <Table
-        fields={certFields}
-        tableData={certificateData}
-        hasActions={true}
-        actions={certActions}
+            fields={certFields}
+            tableData={certificateData}
+            hasActions={true}
+            actions={certActions}
         />
         <div className="mb-6 mt-10 flex items-center justify-center">
           <Button
