@@ -25,7 +25,7 @@ export default function ProjectPage() {
     { id: 'description', label: 'Description', type: 'text', table: true, popup: true}
   ];
 
-  const empty_task_fields = { task: '', status: '', due_date: '', lead: '', description: ''}
+  const empty_task_fields = {task: '', status: '', due_date: '', lead: '', description: '', project_id: '', task_id: ''}
 
   const [editTask, setEditTask] = useState({
     task: '',
