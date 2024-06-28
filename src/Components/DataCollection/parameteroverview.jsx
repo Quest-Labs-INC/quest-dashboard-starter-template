@@ -47,8 +47,8 @@ export default function Parameteroverview() {
     const companyid = await generalFunction.getCompanyId();
     const { data, error } = await supabase
             .from('users')
-            .select('id, name, email, company_id')
-            .eq('company_id', (companyid));
+            .select('id, name, email, varaCompanyId')
+            .eq('varaCompanyId', (companyid));
             ;
     if (error) {
             throw error;
