@@ -86,7 +86,6 @@ export default function Parameteroverview() {
 */
   const handleOpenParameterPopup = () => {
     fetchUsers();
-    console.log(users);
     setIsParameterPopupOpen(true);
   };
 
