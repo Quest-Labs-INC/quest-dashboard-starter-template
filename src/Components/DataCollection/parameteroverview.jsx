@@ -33,7 +33,6 @@ export default function Parameteroverview() {
         if (error) {
             throw error;
         }
-    console.log('facilities api call', data);
     setFacilities(data);
   }
 
@@ -44,16 +43,9 @@ export default function Parameteroverview() {
   }
 
   async function fetchUsers() {
-    const companyid = await generalFunction.getCompanyId();
-    const { data, error } = await supabase
-            .from('users')
-            .select('id, name, email, company_id')
-            .eq('company_id', (companyid));
-            ;
-    if (error) {
-            throw error;
-        }
-    else SetUsers(data);
+    const data = await generalFunction.fetchAllUsers();
+
+    SetUsers(data);
   }
 
   // change to General Function later, resolve bug
@@ -80,7 +72,6 @@ export default function Parameteroverview() {
         }
         result[facility_name][process_name][para_name] = total_value;
     });
-    console.log("Formatted data:", result);
     return result;
 };
 /*  const handleOpenPopup = () => {
@@ -94,8 +85,8 @@ export default function Parameteroverview() {
   };
 */
   const handleOpenParameterPopup = () => {
-    setIsParameterPopupOpen(true);
     fetchUsers();
+    setIsParameterPopupOpen(true);
   };
 
   const handleCloseParameterPopup = () => {
@@ -175,13 +166,13 @@ export default function Parameteroverview() {
   }
 */
   async function createParameter() {
-    console.log(newParameterData.processFacilityMappings);
+    const userId = localStorage.getItem('varaUserId');
     setLoading(true);
     setButtonColor('bg-yellow-500');
     
     const { data, error } = await supabase
     .from('parameter',)
-    .insert([{ created_by: 17, para_name: newParameterData.parameter, para_metric: newParameterData.unit, para_description: newParameterData.parameter }])
+    .insert([{ created_by: userId, para_name: newParameterData.parameter, para_metric: newParameterData.unit, para_description: newParameterData.parameter }])
     .select('para_id');
 
     if (error) {

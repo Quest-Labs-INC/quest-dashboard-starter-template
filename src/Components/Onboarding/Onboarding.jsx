@@ -20,6 +20,7 @@ export default function Onboarding() {
     const completeAnswer = async(e) => {
         
         let ownerDetails = JSON.parse(localStorage.getItem("adminDetails"));
+        let companyId = await generalFunction.getCompanyId();
         if (!!ownerDetails?.ownerEntityId && ownerDetails?.userId == generalFunction.getUserId()) {
             await generalFunction.supabase_updateData(
                 "users",
@@ -27,7 +28,8 @@ export default function Onboarding() {
                 {
                     // for storing the data in supabase add the following key and value
                     name: answer["ca-0534124c-8f43-4729-8a0b-1239821af73b"],
-                    company_id: ownerDetails?.ownerEntityId
+                    company_id: ownerDetails?.ownerEntityId,
+                    varacompanyid: companyId
                 }
             );
             navigate("/data_collection");
@@ -63,10 +65,12 @@ export default function Onboarding() {
             }
         });
 
-        await generalFunction.createCompany({
+        const companydata = await generalFunction.createCompany({
             company_id: ownerDetails?.ownerEntityId,
             name: companyName,
         })
+
+        const companyId = companydata[0]?.id;
 
         let generateApiKeyRequest = generalFunction.createUrl(`api/entities/${ownerDetails?.ownerEntityId}/keys?userId=${generalFunction.getUserId()}`);
         await fetch(generateApiKeyRequest.url, {
@@ -89,7 +93,8 @@ export default function Onboarding() {
             {
                 // for storing the data in supabase add the following key and value
                 name: answer["ca-0534124c-8f43-4729-8a0b-1239821af73b"],
-                company_id: ownerDetails?.ownerEntityId
+                company_id: ownerDetails?.ownerEntityId,
+                varacompanyid: companyId
             }
         );
 

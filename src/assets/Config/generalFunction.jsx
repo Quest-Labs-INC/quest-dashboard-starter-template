@@ -354,9 +354,9 @@ export const generalFunction = {
         const companyid = await generalFunction.getCompanyId();
         const { data, error } = await supabase
             .from('users')
-            .select('id, name, email, company_id')
-            .eq('company_id', parseInt(companyid,10));
-            ;
+            .select('id, name, email')
+            .eq('varacompanyid', parseInt(companyid,10));
+            
         if (error) {
             throw error;
         }
@@ -387,9 +387,11 @@ export const generalFunction = {
     },
 
     fetchParameters: async () => {
+        const companyId = await generalFunction.getCompanyId();
         const { data, error } = await supabase
             .from('parameter')
-            .select('para_id, para_name');
+            .select(`para_id, para_name,users!inner(varacompanyid)`)
+            .eq('users.varacompanyid', companyId);;
         if (error) {
             throw error;
         }
@@ -430,17 +432,17 @@ export const generalFunction = {
         return data;
     },
 
-    getUserRole: async (UserId) => {
+    getUserRole: async(userId) => {
         const { data, error } = await supabase
             .from('user_permissions')
             .select('role')
-            .eq('user_id', UserId); 
-
+            .eq('user_id', userId);
         if (error) {
             throw error;
-        }   
+        }
         return data;
     },
+    
 
     // Function to deactivate user
     deactivateUser: async (UserID) => {
@@ -748,11 +750,14 @@ export const generalFunction = {
             .insert({ 
                 company_id: companyData.company_id, 
                 name: companyData.name, 
-            });
+            })
+            .select('id');
 
         if (error) {
             throw error;
         }
+
+        return data;
     },
 
     fetch_aggregated_metrics: async () => {
