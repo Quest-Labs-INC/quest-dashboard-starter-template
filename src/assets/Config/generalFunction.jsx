@@ -354,9 +354,9 @@ export const generalFunction = {
         const companyid = await generalFunction.getCompanyId();
         const { data, error } = await supabase
             .from('users')
-            .select('id, name, email, company_id')
+            .select('id, name, email')
             .eq('varacompanyid', parseInt(companyid,10));
-            ;
+            
         if (error) {
             throw error;
         }
@@ -387,9 +387,11 @@ export const generalFunction = {
     },
 
     fetchParameters: async () => {
+        const companyId = await generalFunction.getCompanyId();
         const { data, error } = await supabase
             .from('parameter')
-            .select('para_id, para_name');
+            .select(`para_id, para_name,users!inner(varacompanyid)`)
+            .eq('users.varacompanyid', companyId);;
         if (error) {
             throw error;
         }
