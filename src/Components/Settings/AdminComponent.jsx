@@ -129,58 +129,58 @@ const AdminComponent = () => {
         });
     }, [flag]);
 
-    const checkIsOwner = () => {
-        let dt = adminData?.filter((user) => user.userId == generalFunction.getUserId());
-        return dt.length > 0 && dt[0].role == "OWNER";
-    }
+    // const checkIsOwner = () => {
+    //     let dt = adminData?.filter((user) => user.userId == generalFunction.getUserId());
+    //     return dt.length > 0 && dt[0].role == "OWNER";
+    // }
 
-    const changeRole = async (userId, role) => {
-        try {
-            generalFunction.showLoader();
-            let request = generalFunction.createUrl(`api/entities/${ownerDetails?.ownerEntityId}/roles/${role}/users/${userId}/update?userId=${generalFunction.getUserId()}`);
-            const res = await axios.post(
-                request.url,
-                {
-                    ownerUserId: generalFunction.getUserId(),
-                    userId,
-                    role,
-                    isActive: true,
-                },
-                {
-                    headers: {...request.headers, apiKey: ownerDetails?.apiKey},
-                }
-            );
-                const data = res.data;
-                if (data.success == false) {
-                    generalFunction.hideLoader();
-                    Toast.error({ text: "Error Occurred" });
-                    return;
-                } else {
-                    Toast.success({
-                        text: "Role Changed Successfully",
-                    });
+    // const changeRole = async (userId, role) => {
+    //     try {
+    //         generalFunction.showLoader();
+    //         let request = generalFunction.createUrl(`api/entities/${ownerDetails?.ownerEntityId}/roles/${role}/users/${userId}/update?userId=${generalFunction.getUserId()}`);
+    //         const res = await axios.post(
+    //             request.url,
+    //             {
+    //                 ownerUserId: generalFunction.getUserId(),
+    //                 userId,
+    //                 role,
+    //                 isActive: true,
+    //             },
+    //             {
+    //                 headers: {...request.headers, apiKey: ownerDetails?.apiKey},
+    //             }
+    //         );
+    //             const data = res.data;
+    //             if (data.success == false) {
+    //                 generalFunction.hideLoader();
+    //                 Toast.error({ text: "Error Occurred" });
+    //                 return;
+    //             } else {
+    //                 Toast.success({
+    //                     text: "Role Changed Successfully",
+    //                 });
 
-                    let changedUser = adminData?.filter((user) => user.userId == userId);
-                    console.log(changedUser)
-                    //////////////////////////
-                    // Role changed successfully, update roles in supabase
-                    // let data = {
-                    //   role: "ADMIN",
-                    //   email: changedUser[0].email.toLowerCase(),
-                    // }
-                    ////////////////////////
+    //                 let changedUser = adminData?.filter((user) => user.userId == userId);
+    //                 console.log(changedUser)
+    //                 //////////////////////////
+    //                 // Role changed successfully, update roles in supabase
+    //                 // let data = {
+    //                 //   role: "ADMIN",
+    //                 //   email: changedUser[0].email.toLowerCase(),
+    //                 // }
+    //                 ////////////////////////
 
-                    // get user id from email
-                    const user_id = await generalFunction.getUserIdFromEmail(changedUser[0].emails[0])
-                    generalFunction.updateUserPermission(user_id[0].id, role)
+    //                 // get user id from email
+    //                 const user_id = await generalFunction.getUserIdFromEmail(changedUser[0].emails[0])
+    //                 generalFunction.updateUserPermission(user_id[0].id, role)
 
-                    setFlag((prev) => !prev);
-                    generalFunction.hideLoader();
-                }
-        } catch (error) {
-            console.log(error);
-        }
-    }
+    //                 setFlag((prev) => !prev);
+    //                 generalFunction.hideLoader();
+    //             }
+    //     } catch (error) {
+    //         console.log(error);
+    //     }
+    // }
 
     return (
         <div className="w-full h-full">
