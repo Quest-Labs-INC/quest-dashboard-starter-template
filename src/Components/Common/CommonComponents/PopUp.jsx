@@ -51,7 +51,7 @@ const PopUp = ({
                 <select
                   id={field.id}
                   name={field.id}
-                  value={newRowData[field.id] || ''}
+                  value={ newRowData[field.id] || field.default || ''}
                   onChange={handleInputChange}
                   className="border border-gray-300 rounded-md shadow-sm mt-1 block w-full"
                   readOnly={readOnly}
@@ -74,7 +74,7 @@ const PopUp = ({
                   type={field.type || 'text'}
                   id={field.id}
                   name={field.id}
-                  value={newRowData[field.id] || ''}
+                  value={newRowData[field.id] || field.default || ''}
                   onChange={handleInputChange}
                   className="border border-gray-300 rounded-md shadow-sm mt-1 block w-full"
                   readOnly={readOnly}

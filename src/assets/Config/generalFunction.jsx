@@ -63,7 +63,6 @@ export const generalFunction = {
         if (!company_id) {
             await generalFunction.setCompanyId();
         }
-        console.log(company_id);
         return company_id;
     },
 
@@ -434,11 +433,14 @@ export const generalFunction = {
                 key_contact: newRowData.key_contact,
                 key_email: newRowData.key_email,
                 company_id: company_id
-            });
+            })
+            .select();
     
         if (error) {
             throw error; 
         }
+
+        return data[0].id;
     },
     
 
@@ -485,11 +487,14 @@ export const generalFunction = {
                 last_audited: newCert.last_audited,
                 link: newCert.link , notes: newCert.notes,
                 supplier_id: supplierData.id,
-            });
+            })
+            .select();
 
         if (error) {
             throw error;
         }
+
+        return data[0].id;
     },
 
     editSupplierCertificate: async (certRowData) => {
@@ -519,11 +524,14 @@ export const generalFunction = {
                 last_exported: newProd.last_exported, 
                 volume: newProd.volume,
                 supplier_id: supplierData.id,
-            });
+            })
+            .select();
 
         if (error) {
             throw error;
         }
+
+        return data[0].id;
     },
 
     editSupplierProduct: async (prodRowData) => {
@@ -568,8 +576,26 @@ export const generalFunction = {
                 sender: sender, 
                 date_sent: date_sent, 
                 supplier_id: supplierData.id,
-            });
+            })
+            .select();
 
+        if (error) {
+            throw error;
+        }
+
+        return data[0].id;
+    },
+
+    editSupplierEmail: async (emailRowData) => {
+        const {data, error} = await supabase
+            .from('supplier_emails')
+            .update({
+                receiver: emailRowData.receiver,
+                sender: emailRowData.sender,
+                date_sent: emailRowData.date_sent
+            })
+            .eq('id', emailRowData.id);
+        
         if (error) {
             throw error;
         }
@@ -733,8 +759,23 @@ export const generalFunction = {
             console.error("Error in fetch_aggregated_metrics function:", err);
             return null;
         }
-    }
-    
-      
+    },
 
+    deleteRecord: async ({table, match}) => {
+        try {
+          const { data, error } = await supabase
+            .from(table)
+            .delete()
+            .match(match);
+      
+          if (error) {
+            throw error;
+          }
+      
+          return data;
+        } catch (error) {
+          console.error('Error performing delete operation:', error);
+          throw error;
+        }
+    }
 }
