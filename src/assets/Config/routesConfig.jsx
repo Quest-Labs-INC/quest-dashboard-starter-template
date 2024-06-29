@@ -129,7 +129,7 @@ export const routesConfig = [
         isUpper: true,
     },
     {
-        path: "/data_collection/:parameter",
+        path: "/data_collection/:parameter/:process",
         name: "parameter",
         logo: InsightsSvg(),
         component: (

@@ -20,8 +20,10 @@ export default function Onboarding() {
     const completeAnswer = async(e) => {
         
         let ownerDetails = JSON.parse(localStorage.getItem("adminDetails"));
-        //let companyId = await generalFunction.getCompanyId();
+        
         if (!!ownerDetails?.ownerEntityId && ownerDetails?.userId == generalFunction.getUserId()) {
+            
+            
             await generalFunction.supabase_updateData(
                 "users",
                 generalFunction.getUserCredentials()?.email,
@@ -29,11 +31,25 @@ export default function Onboarding() {
                     // for storing the data in supabase add the following key and value
                     name: answer["ca-0534124c-8f43-4729-8a0b-1239821af73b"],
                     company_id: ownerDetails?.ownerEntityId,
-                    //varacompanyid: companyId
+                    
                 }
             );
+            
+            if (ownerDetails?.ownerEntityId){
+                const companyid = await generalFunction.getCompanyId();
+                await generalFunction.supabase_updateData(
+                    "users",
+                    generalFunction.getUserCredentials()?.email,
+                    {
+                        // for storing the data in supabase add the following key and value
+                        varacompanyid: companyid,
+                        
+                    }
+                );
+            }
             navigate("/data_collection");
         } else {
+            
             setOpenSecondOnboard(true);
         }
     };

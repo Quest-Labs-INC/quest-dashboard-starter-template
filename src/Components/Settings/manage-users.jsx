@@ -45,9 +45,9 @@ export default function ManageUsers() {
         }
     }
 
-    async function fetchDataCollectionPoints(parameterId) {
+    async function fetchDataCollectionPoints(processId) {
         try {
-            const data = await generalFunction.fetchDataCollectionPoints(parameterId);
+            const data = await generalFunction.fetchDataCollectionPoints(selectedParameter, processId);
             setDataCollectionPoints(data);
         } catch (error) {
             setError(error.message);
@@ -113,6 +113,11 @@ export default function ManageUsers() {
     };
 
     const handleAddUserAccess = async () => {
+        if (!selectedDataCollectionPoint || !selectedProcess || !selectedUser.user_id) {
+            setError("Please select all required fields.");
+            return;
+        }
+        
         try {
             await generalFunction.createTableRow('user_data_access', {
                 user_id: selectedUser.user_id,
@@ -146,12 +151,29 @@ export default function ManageUsers() {
         setNewUser({ role: '', user_id: '', status: false, access_till: '', assigned_by: '' });
     };
 
+    const handleSaveUserDetails = async (user) => {
+        try {
+            const data = await generalFunction.updateUserPermission(user.id, user.role);
+            fetchUsers();
+        } catch (error) {
+            setError(error.message);
+        }
+    };
+
+    const handleEditUser = (index, field, value) => {
+        setUsers(prevUsers => {
+            const updatedUsers = [...prevUsers];
+            updatedUsers[index] = { ...updatedUsers[index], [field]: value };
+            return updatedUsers;
+        });
+    };
+
     return (
         <div className="relative flex flex-col justify-center overflow-hidden mt-20">
             <div className="w-full p-6 m-auto bg-white rounded-md shadow-xl shadow-black-600/40 lg:max-w-4xl">
                 <h1 className="text-2xl text-center mb-4">User Management</h1>
                 <div className="container mx-auto">
-                    {loading && <p>Loading...</p>}
+                    
                     {error && <p className="text-red-500">{error}</p>}
                     <table className="mt-4 w-full border-collapse border border-gray-300">
                         <thead>
@@ -160,6 +182,7 @@ export default function ManageUsers() {
                                 <th className="border border-gray-300 px-4 py-2">Role</th>
                                 <th className="border border-gray-300 px-4 py-2">Status</th>
                                 <th className="border border-gray-300 px-4 py-2">Access Till</th>
+                                <th className="border border-gray-300 px-4 py-2">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -171,11 +194,41 @@ export default function ManageUsers() {
                                     >
                                         {user.user_name}
                                     </td>
-                                    <td className="border border-gray-300 px-4 py-2">{user.role}</td>
                                     <td className="border border-gray-300 px-4 py-2">
-                                        <span className={`status-circle ${user.status ? 'status-active' : 'status-inactive'}`}></span>
+                                        <select
+                                            value={user.role}
+                                            onChange={(e) => handleEditUser(index, 'role', e.target.value)}
+                                        >
+                                            {roles.map(role => (
+                                                <option key={role} value={role}>
+                                                    {role}
+                                                </option>
+                                            ))}
+                                        </select>
                                     </td>
-                                    <td className="border border-gray-300 px-4 py-2">{user.access_till ? new Date(user.access_till).toLocaleString() : 'N/A'}</td>
+                                    <td className="border border-gray-300 px-4 py-2">
+                                        <select
+                                            value={user.status}
+                                            onChange={(e) => handleEditUser(index, 'status', e.target.value)}
+                                        >
+                                            <option value={true}>Active</option>
+                                            <option value={false}>Inactive</option>
+                                        </select>
+                                    </td>
+                                    <td className="border border-gray-300 px-4 py-2">
+                                        <input
+                                            type="date"
+                                            value={user.access_till ? new Date(user.access_till).toISOString().split('T')[0] : ''}
+                                            onChange={(e) => handleEditUser(index, 'access_till', e.target.value)}
+                                        />
+                                    </td>
+                                    <td className="border border-gray-300 px-4 py-2">
+                                        <Button
+                                            label="Save"
+                                            handleFunction={() => handleSaveUserDetails(user)}
+                                            className="bg-green-500 text-white rounded hover:bg-green-600"
+                                        />
+                                    </td>
                                 </tr>
                             ))}
                         </tbody>
@@ -192,8 +245,8 @@ export default function ManageUsers() {
                 <Popup
                     title="Add New User"
                     fields={[
-                        { id: 'role', label: 'Role', type: 'select', options: roles.map(role => ({ value: role, label: role })) },
                         { id: 'user_id', label: 'User', type: 'select', options: AllUsers.filter(user => user.name).map(user => ({ value: user.id, label: `${user.name}` })) },
+                        { id: 'role', label: 'Role', type: 'select', options: roles.map(role => ({ value: role, label: role })) },
                         { id: 'status', label: 'Status', type: 'select', options: [{ value: false, label: 'Inactive' }, { value: true, label: 'Active' }] },
                         { id: 'access_till', label: 'Access Till', type: 'date' },
                         { id: 'assigned_by', label: 'Assigned by', type: 'select', options: AllUsers.filter(user => user.name).map(user => ({ value: user.id, label: `${user.name}` })) },
@@ -230,7 +283,25 @@ export default function ManageUsers() {
                                 ))}
                             </tbody>
                         </table>
-                        
+                        <div className="form-group">
+                            <label htmlFor="parameter">Parameter</label>
+                            <select
+                                id="parameter"
+                                name="parameter"
+                                value={selectedParameter}
+                                onChange={(e) => {
+                                    setSelectedParameter(e.target.value);
+                                    
+                                }}
+                            >
+                                <option value="">Select a parameter</option>
+                                {parameters.map(parameter => (
+                                    <option key={parameter.para_id} value={parameter.para_id}>
+                                        {parameter.para_name}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
                         <div className="form-group">
                             <label htmlFor="facility">Facility</label>
                             <select
@@ -240,6 +311,7 @@ export default function ManageUsers() {
                                 onChange={(e) => {
                                     setSelectedFacility(e.target.value);
                                     fetchProcesses(e.target.value);
+                                    
                                 }}
                             >
                                 <option value="">Select a facility</option>
@@ -258,6 +330,7 @@ export default function ManageUsers() {
                                 value={selectedProcess}
                                 onChange={(e) => {
                                     setSelectedProcess(e.target.value);
+                                    fetchDataCollectionPoints( e.target.value);  // Fetch data collection points based on selected parameter
                                 }}
                             >
                                 <option value="">Select a process</option>
@@ -268,25 +341,7 @@ export default function ManageUsers() {
                                 ))}
                             </select>
                         </div>
-                        <div className="form-group">
-                            <label htmlFor="parameter">Parameter</label>
-                            <select
-                                id="parameter"
-                                name="parameter"
-                                value={selectedParameter}
-                                onChange={(e) => {
-                                    setSelectedParameter(e.target.value);
-                                    fetchDataCollectionPoints(e.target.value);  // Fetch data collection points based on selected parameter
-                                }}
-                            >
-                                <option value="">Select a parameter</option>
-                                {parameters.map(parameter => (
-                                    <option key={parameter.para_id} value={parameter.para_id}>
-                                        {parameter.para_name}
-                                    </option>
-                                ))}
-                            </select>
-                        </div>
+                        
                         <div className="form-group">
                             <label htmlFor="dataCollectionPoint">Data Collection Point</label>
                             <select
