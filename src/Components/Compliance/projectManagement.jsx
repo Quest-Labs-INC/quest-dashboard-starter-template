@@ -75,6 +75,7 @@ export default function ProjectManagement() {
   return (
     <div className="flex flex-col justify-center overflow-hidden mt-20 p-6">
       <h1 className="text-xl text-center mb-10">Compliance Management</h1>
+
       <Table
         fields={fields}
         tableData={AllProjects}

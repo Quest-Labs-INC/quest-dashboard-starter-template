@@ -21,7 +21,8 @@ import Parameteroverview from "../../Components/DataCollection/parameteroverview
 import DataCollection from "../../Components/DataCollection/datacollection";
 import Certification from "../../Components/DataCollection/certification";
 import ProjectManagement from "../../Components/Compliance/projectManagement";
-import Lca from "../../Components/ProductFootprint/lca";
+import LCA from "../../Components/ProductFootprint/lca";
+import Details from "../../Components/ProductFootprint/details";
 import ProjectPage from "../../Components/Compliance/projectPage";
 // add SupplierManagement Component
 import SupplierManagement from "../../Components/DataCollection/supplierManagement";
@@ -219,14 +220,48 @@ export const routesConfig = [
         logo: IconListTask(),
         component: (
             <ProviderConfig showTag={false}>
-                <DashboardWrapper selectdRoute={"suppliermanagement"}>
-                    <Lca></Lca>
+                <DashboardWrapper selectdRoute={"product_footprint"}>
+                    <LCA></LCA>
                 </DashboardWrapper>
             </ProviderConfig>
         ),
         hidden: false,
         isUpper: true,
     },
+
+//deets
+    {
+        path: "/product_footprint/details/:id",
+        name: "Details",
+        logo: IconListTask(),
+        component: (
+            <ProviderConfig showTag={false}>
+                <DashboardWrapper selectdRoute={"product_footprint"}>
+                    <Details></Details>
+                </DashboardWrapper>
+            </ProviderConfig>
+        ),
+        hidden: true,
+        isUpper: true,
+    },
+    
+    /* have to make routes for each product */
+    {
+        path: "/suppliermanagement/:product_id",
+        name: "Product Details",
+        logo: InsightsSvg(),
+        component: (
+            <ProviderConfig showTag={false}>
+                <DashboardWrapper selectdRoute={"suppliermanagement"}>
+                    <Details></Details>
+                </DashboardWrapper>
+            </ProviderConfig>
+        ),
+        hidden: true,
+        isUpper: true,
+    },
+
+    //refer this
     {
         path: "/project_management/project_page/:id",
         name: "Project Page",

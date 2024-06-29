@@ -177,6 +177,26 @@ export const generalFunction = {
         if (error) {
             throw error;
         }
-    }
+    },
+
+    fetchProductInformation: async () => {
+        const { data } = await supabase
+          .from(`product_information`)
+          .select('*')
+        return data;
+    },
+    
+    updateProductInformation: async (table, id, rowData) => {
+        const { data, error } = await supabase
+          .from(table)
+          .update(rowData)
+          .eq('id', id);
+    
+        if (error) {
+          throw error;
+        }
+    
+        return data;
+      },
     
 }
