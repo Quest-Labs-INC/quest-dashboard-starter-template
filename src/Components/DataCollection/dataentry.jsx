@@ -40,6 +40,7 @@ export default function DataEntry() {
                             <th className="border border-gray-300 px-4 py-2">Facility</th>
                             <th className="border border-gray-300 px-4 py-2">Process</th>
                             <th className="border border-gray-300 px-4 py-2">Parameter</th>
+                            <th className="border border-gray-300 px-4 py-2">Data Collection Point</th>
                             <th className="border border-gray-300 px-4 py-2"></th>
                         </tr>
                     </thead>
@@ -53,6 +54,7 @@ export default function DataEntry() {
                                 <td className="border border-gray-300 px-4 py-2">{access.facility_name}</td>
                                 <td className="border border-gray-300 px-4 py-2">{access.process_name}</td>
                                 <td className="border border-gray-300 px-4 py-2">{access.parameter_name}</td>
+                                <td className="border border-gray-300 px-4 py-2">{access.data_collection_point_name}</td>
                                 <td className="border border-gray-300 px-4 py-2 text-center text-blue-500">
                                     &gt;
                                 </td>

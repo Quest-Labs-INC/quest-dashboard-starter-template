@@ -678,7 +678,7 @@ export const generalFunction = {
             .select(`
                 *,
                 process(process_id, process_name),
-                data_collection_points(id, assigned_to)
+                data_collection_points(id)
             `)
             .eq('data_collection_points.id', datacollectionid)
             .eq('process_id', processId)
@@ -778,9 +778,9 @@ export const generalFunction = {
         }
     },
 
-    fetchDataCollectionPoints: async(parameter_id) =>{
+    fetchDataCollectionPoints: async(parameter_id, process_id) =>{
         const companyid = await generalFunction.getCompanyId();
-        const {data, error} = await supabase.from('data_collection_points').select('*').eq('parameter_id', parameter_id);
+        const {data, error} = await supabase.rpc('fetch_dpc_user_access', {p_parameter_id: parameter_id, p_process_id: process_id});
         if (error){
             throw error;
         }
