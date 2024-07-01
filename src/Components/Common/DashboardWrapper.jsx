@@ -16,6 +16,7 @@ import Cookies from "universal-cookie";
 import { SettingsSvg } from "./SideBarSvg";
 import { ProviderConfig } from "./ProviderConfig";
 import Settings from "../Settings/Settings";
+import { userPermissions  } from "../../assets/Config/accessControl";
 
 export default function DashboardWrapper({ children, selectdRoute }) {
     const [openPopup, setOpenPopup] = useState(false);
@@ -32,6 +33,24 @@ export default function DashboardWrapper({ children, selectdRoute }) {
             localStorage.setItem("theme", "dark");
         }
     };
+
+    const getPageVisibility = async (routes) => {
+        const PageVisbility = await userPermissions.hasUserPermissions(routes.name);
+        console.log(`Route: ${routes.name}, Hidden: ${routes.hidden}, Page Visibility: ${PageVisbility}, Is Upper: ${routes.isUpper}`);
+        return PageVisbility;
+    };
+
+    const filterRoutes = (routesConfig) => {
+        const filterRoutes = routesConfig.filter(routes => 
+            !routes.hidden &&
+            getPageVisibility(routes) &&
+            routes.isUpper
+        );
+        console.log(filterRoutes)
+        return filterRoutes
+    };
+
+    const filteredRoutes = filterRoutes(routesConfig);
 
     const handleToggle = () => {
         document.getElementsByTagName("BODY")[0].classList.toggle("dark");
@@ -144,21 +163,17 @@ export default function DashboardWrapper({ children, selectdRoute }) {
                     {/* upper  */}
                     <div className="s_nav_menu_cont-upper">
                         <ul className="s_nav_menu">
-                            {routesConfig.map(
-                                (routes, index) =>
-                                    !routes.hidden &&
-                                    routes.isUpper && (
+                            {filteredRoutes.map(
+                                (routes, index) => (
                                         <li
-                                            className={`s_nav_menu_item ${
-                                                window.location.href.includes(
-                                                    routes.path
-                                                ) && "s_nav_active"
-                                            }`}
+                                        className={`flex text-md justify-center items-center gap-4 ${
+                                            window.location.href.includes(routes.path) ? "bg-gray-300 rounded-sm" : ""
+                                        }`}
                                             key={index}
                                         >
                                             <Link
                                                 to={routes.path}
-                                                className="s_nav_menu_link"
+                                                className="flex items-center gap-2 flex-1 py-3 px-5"
                                             >
                                                 <div>{routes.logo}</div>
                                                 <p>{routes.name}</p>
