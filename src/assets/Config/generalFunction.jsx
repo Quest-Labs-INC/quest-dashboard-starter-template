@@ -760,7 +760,7 @@ export const generalFunction = {
             return null;
         }
     },
-    
+
     fetchDataCollectionPoints: async(parameter_id, process_id) =>{
         const companyid = await generalFunction.getCompanyId();
         const {data, error} = await supabase.rpc('fetch_dpc_user_access', {p_parameter_id: parameter_id, p_process_id: process_id});
@@ -768,7 +768,6 @@ export const generalFunction = {
             throw error;
         }
         return data;
-
     },
 
     deleteRecord: async ({table, match}) => {
