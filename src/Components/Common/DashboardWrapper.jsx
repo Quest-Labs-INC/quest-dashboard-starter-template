@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { routesConfig } from "../../assets/Config/routesConfig";
 import { importConfig } from "../../assets/Config/importConfig";
 import { FeedbackWorkflow, Search, Survey } from "@questlabs/react-sdk";
-import FeedbackButton from "./FeedbackButton";
+//import FeedbackButton from "./FeedbackButton";
 import { generalFunction } from "../../assets/Config/generalFunction";
 import { upgrade, bookACall, logOutBtn, referFriends } from "./SideBarSvg";
 import ReferralPopup from "../Referral/ReferralPopup";
@@ -16,7 +16,7 @@ import Cookies from "universal-cookie";
 import { SettingsSvg } from "./SideBarSvg";
 import { ProviderConfig } from "./ProviderConfig";
 import Settings from "../Settings/Settings";
-import { userPermissions  } from "../../assets/Config/accessControl";
+import { userPermissions } from "../../assets/Config/accessControl";
 
 export default function DashboardWrapper({ children, selectdRoute }) {
     const [openPopup, setOpenPopup] = useState(false);
@@ -34,23 +34,41 @@ export default function DashboardWrapper({ children, selectdRoute }) {
         }
     };
 
-    const getPageVisibility = async (routes) => {
-        const PageVisbility = await userPermissions.hasUserPermissions(routes.name);
-        console.log(`Route: ${routes.name}, Hidden: ${routes.hidden}, Page Visibility: ${PageVisbility}, Is Upper: ${routes.isUpper}`);
-        return PageVisbility;
+    const getPageVisibility = async (route) => {
+        const PageVisibility = await userPermissions.hasUserPermissions(route.name);
+        console.log(`Route: ${route.name}, Hidden: ${route.hidden}, Page Visibility: ${PageVisibility}, Is Upper: ${route.isUpper}`);
+        return PageVisibility;
     };
 
-    const filterRoutes = (routesConfig) => {
-        const filterRoutes = routesConfig.filter(routes => 
-            !routes.hidden &&
-            getPageVisibility(routes) &&
-            routes.isUpper
+    const filterRoutes = async (routesConfig) => {
+        const routePromises = routesConfig.map(async (route) => {
+            const isVisible = await getPageVisibility(route);
+            return {
+                ...route,
+                isVisible,
+            };
+        });
+
+        const routesWithVisibility = await Promise.all(routePromises);
+
+        const filteredRoutes = routesWithVisibility.filter(
+            (route) => !route.hidden && route.isVisible && route.isUpper
         );
-        console.log(filterRoutes)
-        return filterRoutes
+
+        console.log(filteredRoutes);
+        return filteredRoutes;
     };
 
-    const filteredRoutes = filterRoutes(routesConfig);
+    const [filteredRoutes, setFilteredRoutes] = useState([]);
+
+    useEffect(() => {
+        const fetchFilteredRoutes = async () => {
+            const routes = await filterRoutes(routesConfig);
+            setFilteredRoutes(routes);
+        };
+
+        fetchFilteredRoutes();
+    }, []);
 
     const handleToggle = () => {
         document.getElementsByTagName("BODY")[0].classList.toggle("dark");
@@ -62,6 +80,7 @@ export default function DashboardWrapper({ children, selectdRoute }) {
         e.stopPropagation();
         toggleTheme();
     };
+
     const [quesNoFeed, setQuesNoFeed] = useState(1);
     const [showFeedbackSection, setShowFeedbackSection] = useState(false);
 
@@ -71,7 +90,7 @@ export default function DashboardWrapper({ children, selectdRoute }) {
         const differenceInMilliseconds = Math.abs(inputDate - targetDate);
         const differenceInDays = Math.ceil(
             differenceInMilliseconds /
-                (type == "days" ? 1000 * 3600 * 24 : 1000 * 3600)
+                (type === "days" ? 1000 * 3600 * 24 : 1000 * 3600)
         );
         return differenceInDays;
     };
@@ -83,7 +102,7 @@ export default function DashboardWrapper({ children, selectdRoute }) {
         const websiteVisitDiffDate = diffWithDate(websiteVisit, "days");
         const feedbackOpenDiffDate = diffWithDate(feedbackOpen, "hours");
 
-        if (!!websiteVisit && !!feedbackOpen && websiteVisitDiffDate > 2) {
+        if (websiteVisit && feedbackOpen && websiteVisitDiffDate > 2) {
             if (feedbackOpenDiffDate > 2) {
                 localStorage.setItem("feedbackOpen", new Date());
                 setShowFeedbackSection(true);
@@ -93,36 +112,35 @@ export default function DashboardWrapper({ children, selectdRoute }) {
         }
     }, []);
 
-    const closeSurveyPopup = (e) => {
-        if (document.getElementById("clickbox_sreferral").contains(e.target)) {
-        } else {
-            setShowFeedbackSection(false);
-        }
-    };
+    // const closeSurveyPopup = (e) => {
+    //     if (!document.getElementById("clickbox_sreferral").contains(e.target)) {
+    //         setShowFeedbackSection(false);
+    //     }
+    // };
 
     return (
         <div
-            className="flex  relative w-screen h-screen bg-customShade-4 transition-all ease-in delay-[40]"
+            className="flex relative w-screen h-screen bg-customShade-4 transition-all ease-in delay-[40]"
             style={{
                 backgroundColor: bgColors[`${theme}-primary-bg-color-3`],
                 position: "relative",
             }}
         >
-            {/* feedback sidebar buton */}
-            <FeedbackButton />
+            {/* feedback sidebar button */}
+            {/* <FeedbackButton /> */}
 
-            {/* for referral pop up  */}
-            {openPopup && (
+            {/* for referral pop up */}
+            {/* {openPopup && (
                 <ReferralPopup setOpenPopup={() => setOpenPopup(false)} />
-            )}
+            )} */}
 
-            {/* for selected hightlight */}
+            {/* for selected highlight */}
 
             {/* <SearchComponents /> */}
 
-            {showFeedbackSection && (
+            {/* {showFeedbackSection && (
                 <SurveyComponents closeSurveyPopup={closeSurveyPopup} />
-            )}
+            )} */}
 
             <div></div>
 
@@ -160,31 +178,30 @@ export default function DashboardWrapper({ children, selectdRoute }) {
 
                 {/* for navigations */}
                 <div className="s_navigation_cont">
-                    {/* upper  */}
+                    {/* upper */}
                     <div className="s_nav_menu_cont-upper">
                         <ul className="s_nav_menu">
-                            {filteredRoutes.map(
-                                (routes, index) => (
-                                        <li
-                                        className={`flex text-md justify-center items-center gap-4 ${
-                                            window.location.href.includes(routes.path) ? "bg-gray-300 rounded-sm" : ""
-                                        }`}
-                                            key={index}
-                                        >
-                                            <Link
-                                                to={routes.path}
-                                                className="flex items-center gap-2 flex-1 py-3 px-5"
-                                            >
-                                                <div>{routes.logo}</div>
-                                                <p>{routes.name}</p>
-                                            </Link>
-                                        </li>
-                                    )
-                            )}
+                            {filteredRoutes.map((route, index) => (
+                                <li
+                                    className={`s_nav_menu_item ${
+                                        window.location.href.includes(route.path)
+                                        && "s_nav_active"
+                                    }`}
+                                    key={index}
+                                >
+                                    <Link
+                                        to={route.path}
+                                        className="s_nav_menu_link"
+                                    >
+                                        <div>{route.logo}</div>
+                                        <p>{route.name}</p>
+                                    </Link>
+                                </li>
+                            ))}
                         </ul>
                     </div>
 
-                    {/* lwer */}
+                    {/* lower */}
                     <div className="s_nav_menu_cont-lower">
                         <ul className="s_nav_menu">
                             {/* <li>
