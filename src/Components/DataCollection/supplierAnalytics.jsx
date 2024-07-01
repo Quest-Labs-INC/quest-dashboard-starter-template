@@ -6,6 +6,7 @@ import Table from '../Common/CommonComponents/Table';
 import PopUp from '../Common/CommonComponents/PopUp';
 import EmailForm from '../Common/CommonComponents/EmailForm';
 import Inbox from '../Common/CommonComponents/Inbox';
+import DeletePopUp from '../Common/CommonComponents/DeletePopUp';
 
 export default function SupplierAnalytics() {
     const [supplierData, setSupplierData] = useState({});
@@ -25,6 +26,12 @@ export default function SupplierAnalytics() {
     const [emailData, setEmailData] = useState([]);
     const [isEmailBtnOpen, setEmailBtnOpen] = useState(false);
     const [isRequestBtnOpen, setRequestBtnOpen] = useState(false);
+    const [isDeleteOpen, setIsDeleteOpen] = useState(false);
+    const [deleteRowData, setDeleteRowData] = useState({});
+    const [tableName, setTableName] = useState('');
+    const [isEditEmailOpen, setEditEmailOpen] = useState(false);
+    const [emailRowData, setEmailRowData] = useState({ id: '', receiver: '', sender: '', date_sent: ''});
+    const [emailRowIndex, setEmailRowIndex] = useState(-1);
 
     const url = window.location.href;
     const parts = url.split('/');
@@ -59,7 +66,7 @@ export default function SupplierAnalytics() {
     const emailFields = [
         { id: 'receiver', label: 'Receiver', type: 'text' },
         { id: 'sender', label: 'Sender', type: 'text' },
-        { id: 'date_sent', label: 'Date Sent', type: 'text' },
+        { id: 'date_sent', label: 'Date Sent', type: 'date' },
     ]
 
     async function fetchSupplierData() {
@@ -137,14 +144,15 @@ export default function SupplierAnalytics() {
         setNewCert({ certificate_name: '', status: '', expiration: '',  last_audited: '', link: '', notes: '', supplier_id: '' });
     };
 
-    const handleAddCert = () => {
+    const handleAddCert = async () => {
         const errors = generalFunction.validateData(newCert, certFields);
         if (Object.keys(errors).length > 0) {
           setValidationErrors(errors);
           return;
         }
-        setCertificateData((prevData) => [...prevData, newCert]);
-        generalFunction.createSupplierCertificate(newCert, supplierData);
+        const id = await generalFunction.createSupplierCertificate(newCert, supplierData);
+        const newRowWithId = { ...newCert, id };
+        setCertificateData((prevData) => [...prevData, newRowWithId]);
         handleCloseCertBtn();
     };
 
@@ -202,14 +210,15 @@ export default function SupplierAnalytics() {
         setNewProd({ product_name: '', serial_number: '', last_exported: '', volume: '', supplier_id: '' });
     };
 
-    const handleAddProd = () => {
+    const handleAddProd = async () => {
         const errors = generalFunction.validateData(newProd, prodFields);
         if (Object.keys(errors).length > 0) {
           setValidationErrors(errors);
           return;
         }
-        setProductData((prevData) => [...prevData, newProd]);
-        generalFunction.createSupplierProduct(newProd, supplierData);
+        const id = await generalFunction.createSupplierProduct(newProd, supplierData);
+        const newRowWithId = { ...newProd, id };
+        setProductData((prevData) => [...prevData, newRowWithId]);
         handleCloseProdBtn();
     };
 
@@ -267,13 +276,89 @@ export default function SupplierAnalytics() {
 
     const emailSent = () => {
         fetchEmailData();
+    };
+
+    const openDelete = (row) => {
+        if ('product_name' in row) {
+            setTableName('supplier_products');
+        } else if ('certificate_name' in row) {
+            setTableName('supplier_certificates');
+        } else {
+            setTableName('supplier_emails');
+        }
+        setDeleteRowData(row);
+        setIsDeleteOpen(true);
+    };
+    
+    const closeDelete = () => {
+        setTableName('');
+        setDeleteRowData({});
+        setIsDeleteOpen(false);
+    };
+    
+    const handleDelete = async () => {
+        const id = deleteRowData.id;
+        try {
+          await generalFunction.deleteRecord({ table: tableName, match: { id } });
+          if (tableName == 'supplier_products') {
+            setProductData((prevData) => prevData.filter(deleteRowData => deleteRowData.id !== id));
+          } else if (tableName == 'supplier_certificates') {
+            setCertificateData((prevData) => prevData.filter(deleteRowData => deleteRowData.id !== id));
+          } else {
+            setEmailData((prevData) => prevData.filter(deleteRowData => deleteRowData.id !== id));
+          }
+        } catch (error) {
+          console.error('Error deleting:', error);
+        }
+        closeDelete();
+    };
+
+    const openEditEmail = (row, index) => {
+        setValidationErrors({});
+        setEmailRowData(row);
+        setEmailRowIndex(index);
+        setEditEmailOpen(true);
     }
+
+    const handleEditEmail = (e) => {
+        const { name, value } = e.target;
+        setEmailRowData((prevData) => ({
+            ...prevData,
+            [name]: value,
+        }));
+    };
+
+    async function handleEditEmailSubmit() {
+        const errors = generalFunction.validateData(emailRowData, emailFields);
+        if (Object.keys(errors).length > 0) {
+          setValidationErrors(errors);
+          return;
+        }
+        generalFunction.editSupplierEmail(emailRowData);
+        setEmailData((prevData) => {
+            const newData = [...prevData];
+            newData[emailRowIndex] = { ...emailRowData };
+            return newData;
+        });
+        setEditEmailOpen(false);
+    }
+
+    const handleCloseEditEmail = () => {
+        setEditEmailOpen(false);
+        setEmailRowData({ receiver: '', sender: '', date_sent: '' });
+        setEmailRowIndex(-1);
+    };
 
     const certActions = [
         <Button
         label="Edit"
         handleFunction={openEditCert}
         />,
+
+        <Button
+        label="Delete"
+        handleFunction={openDelete}
+        />
     ];
 
     const prodActions = [
@@ -281,6 +366,23 @@ export default function SupplierAnalytics() {
         label="Edit"
         handleFunction={openEditProd}
         />,
+
+        <Button
+        label="Delete"
+        handleFunction={openDelete}
+        />
+    ];
+
+    const emailActions = [
+        <Button
+        label="Edit"
+        handleFunction={openEditEmail}
+        />,
+
+        <Button
+        label="Delete"
+        handleFunction={openDelete}
+        />
     ];
 
     return (
@@ -299,7 +401,8 @@ export default function SupplierAnalytics() {
                 title="Inbox"
                 fields={emailFields}
                 tableData={emailData}
-                //actions={actions}
+                hasActions={true}
+                actions={emailActions}
                 handleCancel={closeRequestBtn}
                 actionButtonLabel="Send Email"
                 actionButtonFunction={openEmailBtn}
@@ -313,6 +416,18 @@ export default function SupplierAnalytics() {
                 onSent={emailSent}
             />
         )}
+        {isEditEmailOpen && (
+          <PopUp
+            title='Edit Email'
+            fields={emailFields}
+            newRowData={emailRowData}
+            handleInputChange={handleEditEmail}
+            handleClosePopup={handleCloseEditEmail}
+            handleSave={handleEditEmailSubmit}
+            button2Label='Edit'
+            validationErrors={validationErrors}
+          />
+        )}
         <Table
             fields={supFields}
             tableData={[supplierData]}
@@ -323,12 +438,13 @@ export default function SupplierAnalytics() {
             tableData={productData}
             hasActions={true}
             actions={prodActions}
+            searchableColumn="product_name"
         />
         <div className="mb-6 mt-10 flex items-center justify-center">
-          <Button
-            label="Add Product"
-            handleFunction={openAddProd}
-          />
+            <Button
+                label="Add Product"
+                handleFunction={openAddProd}
+            />
         </div>
         {isProdBtnOpen && (
           <PopUp
@@ -359,6 +475,7 @@ export default function SupplierAnalytics() {
             tableData={certificateData}
             hasActions={true}
             actions={certActions}
+            searchableColumn="certificate_name"
         />
         <div className="mb-6 mt-10 flex items-center justify-center">
           <Button
@@ -387,6 +504,12 @@ export default function SupplierAnalytics() {
             handleSave={handleEditCertSubmit}
             button2Label='Edit'
             validationErrors={validationErrors}
+          />
+        )}
+        {isDeleteOpen && (
+          <DeletePopUp
+            closeDelete={closeDelete}
+            handleFunction={handleDelete}
           />
         )}
       </div>

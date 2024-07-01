@@ -67,7 +67,7 @@ const Table = ({ fields, tableData = [], hasLink = false, pageLink, hasActions =
               <tr
                 key={index}
                 onClick={clickable ? () => handleRowClick(row[fields.find(f => f.link).id]) : undefined}
-                className={clickable ? "cursor-pointer" : ""}
+                className={clickable ? "cursor-pointer hover:text-blue-500" : ""}
               >
                 {fields.map((field) => (
                   <td key={field.id} className="border px-4 py-2">
@@ -77,7 +77,7 @@ const Table = ({ fields, tableData = [], hasLink = false, pageLink, hasActions =
                 {hasActions && (
                   <td className="border px-4 py-2">
                     {actions.map((ActionButton, actionIndex) => (
-                      <span key={actionIndex} onClick={(e) => e.stopPropagation()}>
+                      <span className="m-2" key={actionIndex} onClick={(e) => e.stopPropagation()}>
                         {React.cloneElement(ActionButton, { handleFunction: () => ActionButton.props.handleFunction(row, index) })}
                       </span>
                     ))}
