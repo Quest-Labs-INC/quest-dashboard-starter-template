@@ -36,7 +36,7 @@ export default function Onboarding() {
             );
             
             if (ownerDetails?.ownerEntityId){
-                const companyid = await generalFunction.getCompanyId();
+                let companyid = await generalFunction.getCompanyId();
                 await generalFunction.supabase_updateData(
                     "users",
                     generalFunction.getUserCredentials()?.email,

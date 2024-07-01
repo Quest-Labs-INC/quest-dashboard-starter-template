@@ -24,6 +24,7 @@ export default function ManageUsers() {
     const [error, setError] = useState('');
     const [dataCollectionPoints, setDataCollectionPoints] = useState([]);
     const [selectedDataCollectionPoint, setSelectedDataCollectionPoint] = useState('');
+    const [buttonColor, setButtonColor] = useState({}); // State to control button color
 
     const roles = ["OWNER", "ADMIN", "TEAM MANAGER", "FIELD MANAGER"];
 
@@ -36,6 +37,7 @@ export default function ManageUsers() {
     async function fetchUsers() {
         try {
             setLoading(true);
+            setError('');
             const data = await generalFunction.fetchUserPermissions();
             setUsers(data);
         } catch (error) {
@@ -47,6 +49,7 @@ export default function ManageUsers() {
 
     async function fetchDataCollectionPoints(processId) {
         try {
+            setError('');
             const data = await generalFunction.fetchDataCollectionPoints(selectedParameter, processId);
             setDataCollectionPoints(data);
         } catch (error) {
@@ -57,6 +60,7 @@ export default function ManageUsers() {
     async function fetchAllUsers() {
         try {
             setLoading(true);
+            setError('');
             const data = await generalFunction.fetchAllUsers();
             setAllUsers(data);
         } catch (error) {
@@ -68,6 +72,7 @@ export default function ManageUsers() {
 
     async function fetchFacilities() {
         try {
+            setError('');
             const data = await generalFunction.fetchFacilities();
             setFacilities(data);
         } catch (error) {
@@ -77,6 +82,7 @@ export default function ManageUsers() {
 
     async function fetchProcesses(facilityId) {
         try {
+            setError('');
             const data = await generalFunction.fetchProcesses(facilityId);
             setProcesses(data);
         } catch (error) {
@@ -86,6 +92,7 @@ export default function ManageUsers() {
 
     async function fetchParameters() {
         try {
+            setError('');
             const data = await generalFunction.fetchParameters();
             setParameters(data);
         } catch (error) {
@@ -103,6 +110,7 @@ export default function ManageUsers() {
 
     const handleAddUser = async () => {
         try {
+            setError('');
             await generalFunction.addUserPermission(newUser);
             await fetchUsers();
             resetNewUser();
@@ -119,6 +127,7 @@ export default function ManageUsers() {
         }
         
         try {
+            setError('');
             await generalFunction.createTableRow('user_data_access', {
                 user_id: selectedUser.user_id,
                 data_collection_id: selectedDataCollectionPoint,
@@ -133,6 +142,7 @@ export default function ManageUsers() {
 
     const fetchUserAccessData = async (user) => {
         try {
+            setError('');
             const data = await generalFunction.fetchUserAccessData(user.user_id);
             setUserAccessData(data);
         } catch (error) {
@@ -153,10 +163,19 @@ export default function ManageUsers() {
 
     const handleSaveUserDetails = async (user) => {
         try {
-            const data = await generalFunction.updateUserPermission(user.id, user.role);
+            setError('');
+            await generalFunction.updateUserPermission(user.id, {
+                role: user.role,
+                status: user.status,
+                access_till: user.access_till
+            });
+            setButtonColor(prevState => ({ ...prevState, [user.id]: 'success' }));
+            setTimeout(() => setButtonColor(prevState => ({ ...prevState, [user.id]: '' })), 2000);
             fetchUsers();
         } catch (error) {
             setError(error.message);
+            setButtonColor(prevState => ({ ...prevState, [user.id]: 'error' }));
+            setTimeout(() => setButtonColor(prevState => ({ ...prevState, [user.id]: '' })), 2000);
         }
     };
 
@@ -226,7 +245,7 @@ export default function ManageUsers() {
                                         <Button
                                             label="Save"
                                             handleFunction={() => handleSaveUserDetails(user)}
-                                            className="bg-green-500 text-white rounded hover:bg-green-600"
+                                            className={`rounded ${buttonColor[user.id] === 'success' ? 'bg-green-500' : buttonColor[user.id] === 'error' ? 'bg-red-500' : 'bg-blue-500'} text-white hover:bg-green-600 transition duration-300`}
                                         />
                                     </td>
                                 </tr>
@@ -291,7 +310,6 @@ export default function ManageUsers() {
                                 value={selectedParameter}
                                 onChange={(e) => {
                                     setSelectedParameter(e.target.value);
-                                    
                                 }}
                             >
                                 <option value="">Select a parameter</option>
@@ -311,7 +329,6 @@ export default function ManageUsers() {
                                 onChange={(e) => {
                                     setSelectedFacility(e.target.value);
                                     fetchProcesses(e.target.value);
-                                    
                                 }}
                             >
                                 <option value="">Select a facility</option>
@@ -330,7 +347,7 @@ export default function ManageUsers() {
                                 value={selectedProcess}
                                 onChange={(e) => {
                                     setSelectedProcess(e.target.value);
-                                    fetchDataCollectionPoints( e.target.value);  // Fetch data collection points based on selected parameter
+                                    fetchDataCollectionPoints(e.target.value);  // Fetch data collection points based on selected parameter
                                 }}
                             >
                                 <option value="">Select a process</option>

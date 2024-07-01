@@ -242,7 +242,7 @@ export default function Parameteroverview() {
                 }, 2000);
                 return;
             }
-
+            fetchMeasurement();
             setButtonColor('bg-green-500');
             setLoading(false);
             setTimeout(() => {

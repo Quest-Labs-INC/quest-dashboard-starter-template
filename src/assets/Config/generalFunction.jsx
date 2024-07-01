@@ -60,6 +60,7 @@ export const generalFunction = {
         let company_id = localStorage.getItem("varaCompanyId");
         if (!company_id) {
             await generalFunction.setCompanyId();
+            company_id = localStorage.getItem("varaCompanyId");
         }
         return company_id;
     },
@@ -420,16 +421,26 @@ export const generalFunction = {
     },
 
     // Update User permission
-    updateUserPermission: async (UserId, UserRole) => {
-        const { data, error } = await supabase
-        .from('user_permissions')
-        .update({'role': UserRole})
-        .eq('user_id', UserId);
+    updateUserPermission: async (userId, userDetails) => {
+        try {
+            const { data, error } = await supabase
+                .from('user_permissions')
+                .update({
+                    role: userDetails.role,
+                    status: userDetails.status,
+                    access_till: userDetails.access_till
+                })
+                .eq('id', userId);
 
-        if (error) {
+            if (error) {
+                throw error;
+            }
+
+            return data;
+        } catch (error) {
+            console.error("Error updating user permissions:", error);
             throw error;
         }
-        return data;
     },
 
     getUserRole: async(userId) => {
