@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from 'react-router-dom';
 
-const Table = ({ fields, tableData = [], hasLink = false, pageLink, hasActions = false, actions = [], rowsPerPage = 10, enablePagination = true, searchableColumn }) => {
+const Table = ({ fields, tableData = [], hasLink = false, pageLink, hasActions = false, actions = [], rowsPerPage = 10, enablePagination = false, searchableColumn }) => {
   const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState('');
@@ -27,6 +27,10 @@ const Table = ({ fields, tableData = [], hasLink = false, pageLink, hasActions =
   }) : [];
 
   const paginatedData = enablePagination ? filteredData.slice((currentPage - 1) * rowsPerPage, currentPage * rowsPerPage) : filteredData;
+
+  const formatDate = (dateString) => {
+    return new Date(dateString).toLocaleDateString();
+  };
 
   return (
     <div className="flex flex-col items-center">
@@ -67,7 +71,7 @@ const Table = ({ fields, tableData = [], hasLink = false, pageLink, hasActions =
               >
                 {fields.map((field) => (
                   <td key={field.id} className="border px-4 py-2">
-                    {row[field.id]}
+                    {field.type === 'date' ? formatDate(row[field.id]) : row[field.id]}
                   </td>
                 ))}
                 {hasActions && (

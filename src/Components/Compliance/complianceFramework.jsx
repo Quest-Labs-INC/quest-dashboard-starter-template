@@ -9,12 +9,11 @@ export default function Compliance() {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [newRowData, setNewRowData] = useState({ certification: '', status: '', due_date: '', task_assigned: '',  checklist: '' });
 
-  const fields = [
-    { id: 'certification', label: 'Compliance', type: 'text' },
-    { id: 'status', label: 'Status', type: 'text' },
-    { id: 'due_date', label: 'Due Date', type: 'date' },
-    { id: 'task_assigned', label: 'Task Assigned', type: 'text' },
-    { id: 'checklist', label: 'Checklist', type: 'text' },
+  const compliance_fields = [
+    { id: 'name', label: 'Compliance Name', type: 'text' },
+    { id: 'date_published', label: 'Date published', type: 'date' },
+    { id: 'document', label: 'Document', type: 'text' },
+    { id: 'chatbot_link', label: 'Chatbot Link', type: 'text' },
   ];
 
   useEffect(() => {
@@ -54,7 +53,7 @@ export default function Compliance() {
     <div className="flex flex-col justify-center overflow-hidden mt-20 p-6">
       <h1 className="text-xl text-center mb-10">Compliance Framework</h1>
       <Table
-        fields={fields}
+        fields={compliance_fields}
         tableData={tableData}
       />
       <div className="mb-6 mt-10 flex items-center justify-center">
@@ -65,11 +64,11 @@ export default function Compliance() {
       </div>
       {isPopupOpen && (
         <PopUp
-          fields={fields}
+          fields={compliance_fields}
           newRowData={newRowData}
           handleInputChange={handleInputChange}
           handleClosePopup={handleClosePopup}
-          handleAddRow={handleAddRow}
+          handleSave={handleAddRow}
         />
       )}
     </div>

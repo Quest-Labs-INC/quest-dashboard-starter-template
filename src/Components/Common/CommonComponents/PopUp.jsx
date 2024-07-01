@@ -79,8 +79,8 @@ const PopUp = ({
                   className="border border-gray-300 rounded-md shadow-sm mt-1 block w-full"
                   readOnly={readOnly}
                 />
-          )}
-            {validationErrors && <span className="text-red-500 text-sm">{validationErrors[field.id]}</span>}
+              )}
+              {validationErrors && <span className="text-red-500 text-sm">{validationErrors[field.id]}</span>}
             </div>
           ))}
           <div className="flex justify-center items-center space-x-4">

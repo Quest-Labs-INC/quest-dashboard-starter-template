@@ -9,7 +9,7 @@ export default function ProjectManagement() {
     { id: 'project_id', label: 'Project ID', type: 'number', link: true, showInPopup: false},
     { id: 'project', label: 'Project', type: 'text', showInPopup: true},
     { id: 'status', label: 'Status', type: 'text', showInPopup: true},
-    { id: 'due_date', label: 'Due Date', type: 'text', showInPopup: true},
+    { id: 'due_date', label: 'Due Date', type: 'date', showInPopup: true},
     { id: 'lead', label: 'Lead', type: 'text', showInPopup: true},
   ];
 
@@ -23,8 +23,18 @@ export default function ProjectManagement() {
     due_date: '',
     lead: '',
 });
+  const [editProject, setEditProject] = useState({
+    project_id: '',
+    project: '',
+    status: '',
+    due_date: '',
+    lead: '',
+  });
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [projectTracker, setProjectTracker] = useState(0);
+  const [validationErrors, setValidationErrors] = useState({});
+  const [isEditOpen, setEditOpen] = useState(false);
+  const [rowIndex, setRowIndex] = useState(-1);
 
   useEffect(() => {
     const getData = async () => {
@@ -42,6 +52,7 @@ export default function ProjectManagement() {
   }, [])
 
   const handleOpenPopup = () => {
+    setValidationErrors({});
     setIsPopupOpen(true);
   };
 
@@ -58,6 +69,7 @@ export default function ProjectManagement() {
         project: newProject.project,
         status: newProject.status,
         lead: newProject.lead,
+        due_date: newProject.due_date,
         company_id: await generalFunction.getCompanyId()
     }
     generalFunction.createTableRow(`project_management`, newProject_);
@@ -80,11 +92,61 @@ export default function ProjectManagement() {
   };
 
   const handleAddRow = () => {
+    const errors = generalFunction.validateData(newProject, fields);
+    if (Object.keys(errors).length > 0) {
+      setValidationErrors(errors);
+      return;
+    }
     setAllProjects((prevData) => [...prevData, newProject]);
     handleClosePopup();
   };
 
   const popupFields = fields.filter(field => field.showInPopup);
+
+// functions for edit button
+
+const openEdit = (row, index) => {
+  setValidationErrors({});
+  setEditProject(row);
+  setRowIndex(index);
+  setEditOpen(true);
+}
+
+const handleEditInput = (e) => {
+  const { name, value } = e.target;
+  setEditProject((prevData) => ({
+      ...prevData,
+      [name]: value,
+  }));
+};
+
+async function handleEditSubmit() {
+  const errors = generalFunction.validateData(editProject, fields);
+  if (Object.keys(errors).length > 0) {
+    setValidationErrors(errors);
+    return;
+  }
+  generalFunction.editProject(editProject);
+  setAllProjects((prevData) => {
+      const newData = [...prevData];
+      newData[rowIndex] = { ...editProject };
+      return newData;
+  });
+  setEditOpen(false);
+}
+
+const handleCloseEdit = () => {
+  setEditOpen(false);
+  setEditProject(initial_fields);
+  setRowIndex(-1);
+};
+
+  const actions = [
+    <Button
+    label="Edit"
+    handleFunction = {openEdit}
+    />,
+  ];
 
   return (
     <div className="flex flex-col justify-center overflow-hidden mt-20 p-6">
@@ -95,6 +157,8 @@ export default function ProjectManagement() {
         hasLink={true}
         pageLink="/project_management/project_page/"
         searchableColumn="project"
+        hasActions={true}
+        actions={actions}
       />
       <div className="mb-6 mt-10 flex items-center justify-center">
         <Button
@@ -110,8 +174,21 @@ export default function ProjectManagement() {
           handleInputChange={handleInputChange}
           handleClosePopup={handleClosePopup}
           handleSave={handleAddRow}
+          validationErrors={validationErrors}
         />
       )}
+      {isEditOpen && (
+        <PopUp
+          title='Edit Project'
+          fields={popupFields}
+          newRowData={editProject}
+          handleInputChange={handleEditInput}
+          handleClosePopup={handleCloseEdit}
+          handleSave={handleEditSubmit}
+          button2Label='Edit'
+          validationErrors={validationErrors}
+        />
+        )}
     </div>
 
   );

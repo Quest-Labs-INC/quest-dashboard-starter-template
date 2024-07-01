@@ -129,58 +129,58 @@ const AdminComponent = () => {
         });
     }, [flag]);
 
-    const checkIsOwner = () => {
-        let dt = adminData?.filter((user) => user.userId == generalFunction.getUserId());
-        return dt.length > 0 && dt[0].role == "OWNER";
-    }
+    // const checkIsOwner = () => {
+    //     let dt = adminData?.filter((user) => user.userId == generalFunction.getUserId());
+    //     return dt.length > 0 && dt[0].role == "OWNER";
+    // }
 
-    const changeRole = async (userId, role) => {
-        try {
-            generalFunction.showLoader();
-            let request = generalFunction.createUrl(`api/entities/${ownerDetails?.ownerEntityId}/roles/${role}/users/${userId}/update?userId=${generalFunction.getUserId()}`);
-            const res = await axios.post(
-                request.url,
-                {
-                    ownerUserId: generalFunction.getUserId(),
-                    userId,
-                    role,
-                    isActive: true,
-                },
-                {
-                    headers: {...request.headers, apiKey: ownerDetails?.apiKey},
-                }
-            );
-                const data = res.data;
-                if (data.success == false) {
-                    generalFunction.hideLoader();
-                    Toast.error({ text: "Error Occurred" });
-                    return;
-                } else {
-                    Toast.success({
-                        text: "Role Changed Successfully",
-                    });
+    // const changeRole = async (userId, role) => {
+    //     try {
+    //         generalFunction.showLoader();
+    //         let request = generalFunction.createUrl(`api/entities/${ownerDetails?.ownerEntityId}/roles/${role}/users/${userId}/update?userId=${generalFunction.getUserId()}`);
+    //         const res = await axios.post(
+    //             request.url,
+    //             {
+    //                 ownerUserId: generalFunction.getUserId(),
+    //                 userId,
+    //                 role,
+    //                 isActive: true,
+    //             },
+    //             {
+    //                 headers: {...request.headers, apiKey: ownerDetails?.apiKey},
+    //             }
+    //         );
+    //             const data = res.data;
+    //             if (data.success == false) {
+    //                 generalFunction.hideLoader();
+    //                 Toast.error({ text: "Error Occurred" });
+    //                 return;
+    //             } else {
+    //                 Toast.success({
+    //                     text: "Role Changed Successfully",
+    //                 });
 
-                    let changedUser = adminData?.filter((user) => user.userId == userId);
-                    console.log(changedUser)
-                    //////////////////////////
-                    // Role changed successfully, update roles in supabase
-                    // let data = {
-                    //   role: "ADMIN",
-                    //   email: changedUser[0].email.toLowerCase(),
-                    // }
-                    ////////////////////////
+    //                 let changedUser = adminData?.filter((user) => user.userId == userId);
+    //                 console.log(changedUser)
+    //                 //////////////////////////
+    //                 // Role changed successfully, update roles in supabase
+    //                 // let data = {
+    //                 //   role: "ADMIN",
+    //                 //   email: changedUser[0].email.toLowerCase(),
+    //                 // }
+    //                 ////////////////////////
 
-                    // get user id from email
-                    const user_id = await generalFunction.getUserIdFromEmail(changedUser[0].emails[0])
-                    generalFunction.updateUserPermission(user_id[0].id, role)
+    //                 // get user id from email
+    //                 const user_id = await generalFunction.getUserIdFromEmail(changedUser[0].emails[0])
+    //                 generalFunction.updateUserPermission(user_id[0].id, role)
 
-                    setFlag((prev) => !prev);
-                    generalFunction.hideLoader();
-                }
-        } catch (error) {
-            console.log(error);
-        }
-    }
+    //                 setFlag((prev) => !prev);
+    //                 generalFunction.hideLoader();
+    //             }
+    //     } catch (error) {
+    //         console.log(error);
+    //     }
+    // }
 
     return (
         <div className="w-full h-full">
@@ -219,7 +219,7 @@ const AdminComponent = () => {
                     Invite Team Member
                     {inviteButton(bgColors[`${theme}-color-premitive-grey-9`])}
                 </button>
-                { checkIsOwner() &&
+                {/* { checkIsOwner() &&
                     <button
                         className="flex items-center text-sm py-[10px] rounded-[10px] px-[32px] gap-1"
                         style={{
@@ -232,13 +232,12 @@ const AdminComponent = () => {
                     >
                         Create a Role
                         {inviteButton(bgColors[`${theme}-color-premitive-grey-9`])}
-                    </button>
-                }
+                    </button>} */}
             </div>
 
             {adminPopup && <AddAdminPopup setAdminPopup={setAdminPopup} setFlag={setFlag} adminPopup={adminPopup} />}
 
-            {openRolePopup && <CreateRole setOpenRolePopup={setOpenRolePopup} setFlag={setFlag} openRolePopup={openRolePopup} />}
+            {/* {openRolePopup && <CreateRole setOpenRolePopup={setOpenRolePopup} setFlag={setFlag} openRolePopup={openRolePopup} />} */}
 
             {filterData?.length != 0 ? (
                 <div 
@@ -272,12 +271,12 @@ const AdminComponent = () => {
                                 }}>
                                     Email Address
                                 </th>
-                                <th className="w-[20%] text-center py-[18px] " style={{
+                                {/* <th className="w-[20%] text-center py-[18px] " style={{
                                     color: bgColors[`${theme}-color-premitive-grey-9`],
                                     background: bgColors[`${theme}-primary-bg-color-9`]
                                 }}>
-                                    Role
-                                </th>
+                                    Role 123
+                                </th> */}
                                 <th className="w-[10%] text-center py-[18px] " style={{
                                     color: bgColors[`${theme}-color-premitive-grey-9`],
                                     background: bgColors[`${theme}-primary-bg-color-9`]
@@ -321,7 +320,7 @@ const AdminComponent = () => {
                                     >
                                         {user.emails[0]}
                                     </td>
-                                    <td 
+                                    {/* <td 
                                         className="w-[20%] px-6 py-4 text-center"
                                         style={{
                                             color: bgColors[
@@ -341,7 +340,7 @@ const AdminComponent = () => {
                                             :
                                             user.role
                                         }
-                                    </td>
+                                    </td> */}
                                     <td 
                                         className="w-[10%] px-6 py-4 text-center"
                                         style={{

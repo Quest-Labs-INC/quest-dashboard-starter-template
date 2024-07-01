@@ -3,10 +3,6 @@ import { mainConfig } from "./appConfig";
 import { supabase } from "../../supabaseClient";
 import axios from "axios";
 
-
-
-
-
 export const generalFunction = {
     getUserId: () => {
         let userId = localStorage.getItem("questUserId");
@@ -42,6 +38,8 @@ export const generalFunction = {
         localStorage.removeItem("questUserToken");
         localStorage.removeItem("questUserCredentials");
         localStorage.removeItem("adminDetails");
+        localStorage.removeItem("varaCompanyId");
+        localStorage.removeItem("varaUserId");
     },
 
     createUrl: (apiString) => {
@@ -62,6 +60,7 @@ export const generalFunction = {
         let company_id = localStorage.getItem("varaCompanyId");
         if (!company_id) {
             await generalFunction.setCompanyId();
+            company_id = localStorage.getItem("varaCompanyId");
         }
         return company_id;
     },
@@ -84,7 +83,6 @@ export const generalFunction = {
         let responses = await Promise.all(["OWNER", "ADMIN", "TEAM MANAGER", "FIELD MANAGER"].map((role) => {
             axios.post(request.url, {role}, { headers: {...request.headers, apiKey: apiKey} })
         }));
-        console.log(responses);
     },
 
     count: 0,
@@ -215,8 +213,32 @@ export const generalFunction = {
         }
     },
 
+    getTaskData: async (table, project_id) => {
+        try {
+            const companyId = await generalFunction.getCompanyId();
+
+            if (!companyId) {
+                throw new Error("Failed to retrieve company ID");
+            }
+
+            const { data, error } = await supabase
+                .from(table)
+                .select('*')
+                .eq('company_id', companyId)
+                .eq('project_id', project_id)
+
+            if (error) {
+                throw error;
+            }
+            return data;
+        } catch (error) {
+            console.error("Failed to get table data:", error);
+            throw error;
+        }
+    },
+
     getTableRow: async (table, row_name, row_id) => {
-        const company_id = generalFunction.getCompanyId()
+        const company_id = await generalFunction.getCompanyId()
         const { data } = await supabase
           .from(table)
           .select('*')
@@ -243,7 +265,7 @@ export const generalFunction = {
     },
 
     updateRow: async(table, update_column, update_data, key_column, key_data) => {
-        const company_id = generalFunction.getCompanyId()
+        const company_id = await generalFunction.getCompanyId()
         const { error } = await supabase
         .from(table)
         .update({[update_column]: update_data})
@@ -256,7 +278,6 @@ export const generalFunction = {
     },
 
     createTableRow: async (table, newRowData) => {
-        console.log(newRowData)
         const { data, error } = await supabase
               .from(table)
               .insert(newRowData)
@@ -265,16 +286,54 @@ export const generalFunction = {
         }
     },
 
+    editProject: async (rowData) => {
+        const company_id = await generalFunction.getCompanyId()
+        const {data, error} = await supabase
+            .from('project_management')
+            .update({
+                project: rowData.project,
+                status: rowData.status,
+                due_date: rowData.due_date,
+                lead: rowData.lead,
+            })
+            .eq('project_id', rowData.project_id)
+            .eq('company_id', company_id);
+
+        if (error) {
+            throw error;
+        }
+    },
+
+    editTask: async (rowData) => {
+        const company_id = await generalFunction.getCompanyId()
+        const {data, error} = await supabase
+            .from('task_management')
+            .update({
+                task: rowData.task,
+                status: rowData.status,
+                due_date: rowData.due_date,
+                lead: rowData.lead,
+                description: rowData.description
+            })
+            .eq('project_id', rowData.project_id)
+            .eq('company_id', company_id)
+            .eq('task_id', rowData.task_id);
+
+        if (error) {
+            throw error;
+        }
+    },
+
     fetchCompliances: async () => {
         const { data } = await supabase
-          .from(`certification`)
+          .from(`compliance`)
           .select('*')
         return data;
     },
     
     createCompliance: async (newRowData) => {
         const { data, error } = await supabase
-              .from(`certification`)
+              .from(`compliance`)
               .insert({ certification: newRowData.certification, status: newRowData.status , due_date: newRowData.due_date , task_assigned: newRowData.task_assigned , checklist: newRowData.checklist })
         
         if (error) {
@@ -296,9 +355,9 @@ export const generalFunction = {
         const companyid = await generalFunction.getCompanyId();
         const { data, error } = await supabase
             .from('users')
-            .select('id, name, email, company_id')
-            .eq('company_id', parseInt(companyid,10));
-            ;
+            .select('id, name, email')
+            .eq('varacompanyid', parseInt(companyid,10));
+            
         if (error) {
             throw error;
         }
@@ -329,9 +388,11 @@ export const generalFunction = {
     },
 
     fetchParameters: async () => {
+        const companyId = await generalFunction.getCompanyId();
         const { data, error } = await supabase
             .from('parameter')
-            .select('para_id, para_name');
+            .select(`para_id, para_name,users!inner(varacompanyid)`)
+            .eq('users.varacompanyid', companyId);;
         if (error) {
             throw error;
         }
@@ -340,23 +401,7 @@ export const generalFunction = {
 
     fetchUserAccessData: async (userId) => {
         const { data, error } = await supabase
-            .from('user_data_access')
-            .select(`
-                *,
-                process:process_id (
-                    process_id, process_name,
-                    facility:facility_id (
-                        facility_id, facility_name
-                    )
-                ),
-                parameter:parameter_id (
-                    para_id, para_name
-                ),
-                user:user_id (
-                    id, name
-                )
-            `)
-            .eq('user_id', userId);
+            .rpc('fetch_user_access_data', { p_user_id: userId });
         if (error) {
             throw error;
         }
@@ -376,17 +421,39 @@ export const generalFunction = {
     },
 
     // Update User permission
-    updateUserPermission: async (UserId, UserRole) => {
-        const { data, error } = await supabase
-        .from('user_permissions')
-        .update({'role': UserRole})
-        .eq('user_id', UserId);
+    updateUserPermission: async (userId, userDetails) => {
+        try {
+            const { data, error } = await supabase
+                .from('user_permissions')
+                .update({
+                    role: userDetails.role,
+                    status: userDetails.status,
+                    access_till: userDetails.access_till
+                })
+                .eq('id', userId);
 
+            if (error) {
+                throw error;
+            }
+
+            return data;
+        } catch (error) {
+            console.error("Error updating user permissions:", error);
+            throw error;
+        }
+    },
+
+    getUserRole: async(userId) => {
+        const { data, error } = await supabase
+            .from('user_permissions')
+            .select('role')
+            .eq('user_id', userId);
         if (error) {
             throw error;
         }
         return data;
     },
+    
 
     // Function to deactivate user
     deactivateUser: async (UserID) => {
@@ -643,15 +710,15 @@ export const generalFunction = {
         return data;
     },
 
-    fetchUserDataEntry: async (userId, processId, parameterId) => {
+    fetchUserDataEntry: async (userId, processId, parameterId, datacollectionid) => {
         const { data, error } = await supabase
             .from('parameter_log')
             .select(`
                 *,
                 process(process_id, process_name),
-                data_collection_points(id, assigned_to)
+                data_collection_points(id)
             `)
-            .eq('data_collection_points.assigned_to', userId)
+            .eq('data_collection_points.id', datacollectionid)
             .eq('process_id', processId)
             .eq('para_id', parameterId);
             
@@ -662,20 +729,7 @@ export const generalFunction = {
         return data;
     },
     
-    createUserDataEntry: async (userId, processId, parameterId, newEntry) => {
-        // Step 1: Retrieve data_collection_id based on assigned_to (userId)
-        const { data: collectionData, error: collectionError } = await supabase
-            .from('data_collection_points')
-            .select('id')
-            .eq('assigned_to', userId)
-            .eq('parameter_id', parameterId)
-            .single(); // Assuming each user is assigned to only one data collection point
-    
-        if (collectionError) {
-            throw collectionError;
-        }
-    
-        const dataCollectionId = collectionData.id;
+    createUserDataEntry: async (userId, processId, parameterId, datacollectionid, newEntry) => {
     
         // Step 2: Upload evidence file if it exists
         let evidenceUrl = '';
@@ -692,7 +746,7 @@ export const generalFunction = {
                     para_id: parameterId,
                     value: newEntry.value,
                     log_date: newEntry.date,
-                    data_collection_id: dataCollectionId,
+                    data_collection_id: datacollectionid,
                     evidence_url: evidenceUrl // Save the public URL returned from the uploadFile function
                 }
             ]);
@@ -734,17 +788,19 @@ export const generalFunction = {
             .insert({ 
                 company_id: companyData.company_id, 
                 name: companyData.name, 
-            });
+            })
+            .select('id');
 
         if (error) {
             throw error;
         }
+
+        return data;
     },
 
     fetch_aggregated_metrics: async () => {
         try {
             const companyid = await generalFunction.getCompanyId();
-            console.log("Company ID:", companyid);
     
             const { data, error } = await supabase.rpc('fetch_aggregated_metrics', { p_company_id: companyid });
     
@@ -753,7 +809,6 @@ export const generalFunction = {
                 return null;
             }
     
-            console.log("Data received from fetch_aggregated_metrics RPC:", data);
             return data;
         } catch (err) {
             console.error("Error in fetch_aggregated_metrics function:", err);

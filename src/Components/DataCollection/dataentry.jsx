@@ -31,7 +31,7 @@ export default function DataEntry() {
             <div className="w-full p-6 m-auto bg-white rounded-md shadow-xl shadow-black-600/40 lg:max-w-4xl">
                 <h1 className="text-2xl text-center mb-4">Data Entry</h1>
                 {userAccessData.length > 0 && (
-                    <h1 className="text-2xl text-center mb-4">Welcome {userAccessData[0].user.name}</h1>
+                    <h1 className="text-2xl text-center mb-4">Welcome {userAccessData[0].user_name}</h1>
                 )}
 
                 <table className="mt-4 w-full border-collapse border border-gray-300">
@@ -40,6 +40,7 @@ export default function DataEntry() {
                             <th className="border border-gray-300 px-4 py-2">Facility</th>
                             <th className="border border-gray-300 px-4 py-2">Process</th>
                             <th className="border border-gray-300 px-4 py-2">Parameter</th>
+                            <th className="border border-gray-300 px-4 py-2">Data Collection Point</th>
                             <th className="border border-gray-300 px-4 py-2"></th>
                         </tr>
                     </thead>
@@ -50,9 +51,10 @@ export default function DataEntry() {
                                 onClick={() => handleRowClick(access)} 
                                 className="cursor-pointer hover:bg-gray-100 transition"
                             >
-                                <td className="border border-gray-300 px-4 py-2">{access.process.facility.facility_name}</td>
-                                <td className="border border-gray-300 px-4 py-2">{access.process.process_name}</td>
-                                <td className="border border-gray-300 px-4 py-2">{access.parameter.para_name}</td>
+                                <td className="border border-gray-300 px-4 py-2">{access.facility_name}</td>
+                                <td className="border border-gray-300 px-4 py-2">{access.process_name}</td>
+                                <td className="border border-gray-300 px-4 py-2">{access.parameter_name}</td>
+                                <td className="border border-gray-300 px-4 py-2">{access.data_collection_point_name}</td>
                                 <td className="border border-gray-300 px-4 py-2 text-center text-blue-500">
                                     &gt;
                                 </td>
