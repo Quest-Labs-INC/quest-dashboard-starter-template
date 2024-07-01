@@ -4,8 +4,10 @@ import Button from '../Common/CommonComponents/Button';
 import Table from '../Common/CommonComponents/Table';
 import PopUp from '../Common/CommonComponents/PopUp';
 import DeletePopUp from '../Common/CommonComponents/DeletePopUp';
+import ErrorPopUp from '../Common/CommonComponents/ErrorPopUp.jsx';
 
 export default function SupplierManagement() {
+  const errorMessage = "We apologize, but this supplier cannot be deleted at this time. There are associated products, certificates, and/or emails linked to this supplier that must be addressed first. Please remove or reassign these associated items before attempting to delete the supplier again.";
   const [tableData, setTableData] = useState([]);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [newRowData, setNewRowData] = useState({ supplier_name: '', location: '', key_product: '',  sustainability_score: '', key_contact: '', key_email: '' });
@@ -15,6 +17,7 @@ export default function SupplierManagement() {
   const [validationErrors, setValidationErrors] = useState({});
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
   const [deleteRowData, setDeleteRowData] = useState({});
+  const [isErrorOpen, setIsErrorOpen] = useState(false);
 
   const fields = [
     { id: 'supplier_name', label: 'Supplier Name', type: 'text', link: true },
@@ -127,9 +130,14 @@ export default function SupplierManagement() {
       setTableData((prevData) => prevData.filter(deleteRowData => deleteRowData.id !== id));
     } catch (error) {
       console.error('Error deleting supplier:', error);
+      setIsErrorOpen(true);
     }
     closeDelete();
   };
+
+  const closeError = () => {
+    setIsErrorOpen(false);
+  }
 
   const actions = [
     <Button
@@ -188,6 +196,12 @@ export default function SupplierManagement() {
           <DeletePopUp
             closeDelete={closeDelete}
             handleFunction={handleDelete}
+          />
+        )}
+        {isErrorOpen && (
+          <ErrorPopUp
+            closePopUp={closeError}
+            errorMessage={errorMessage}
           />
         )}
     </div>
