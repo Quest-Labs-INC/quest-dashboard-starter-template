@@ -59,5 +59,34 @@ export const userPermissions = {
             console.log('false');
             return false;
         }
+    },
+
+    hasUserSettingPermissions: async (page) => {
+        try {
+            const UserPermission = await fetchUserPermission();
+            console.log(page);
+            if (!UserPermission || !UserPermission[0] || !UserPermission[0].role) {
+                console.log('false');
+                return false;
+            }
+
+            const role = UserPermission[0].role;
+
+            if (role === 'FIELD MANAGER' && page === 'manage') {
+                console.log('false');
+                return false;
+            } else if (role === 'FIELD MANAGER' && page === 'managefacilities') {
+                console.log('false');
+                return false;
+            } else if (role === 'FIELD MANAGER' && page === 'manageusers') {
+                console.log('false');
+                return false;
+            }
+            return true;
+        } catch (error) {
+            console.error('Error fetching user permissions:', error);
+            console.log('false');
+            return false;
+        }
     }
 }

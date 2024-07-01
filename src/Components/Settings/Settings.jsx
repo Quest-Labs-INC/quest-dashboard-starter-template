@@ -5,16 +5,46 @@ import { ThemeContext } from "../Common/AppContext";
 import ReferralPage from "../Referral/ReferralPage";
 import ManageFacilities from "./ManageFacilities";
 import ManageUsers from "./manage-users";
+import { userPermissions }  from "../../assets/Config/accessControl";
 
 export default function Settings() {
     const { theme, bgColors, appConfig } = useContext(ThemeContext);
     const [section, setSection] = useState("edit");
+    const [visibleSections, setVisibleSections] = useState({
+        edit: true,
+        manage: true,
+        managefacilities: true,
+        manageusers: true,
+    });
 
     const handleSectionChange = (sectionName) => {
         setSection(sectionName);
     };
 
     const ownerDetails = JSON.parse(localStorage.getItem("adminDetails"));
+
+    const getPageVisibility = async (section) => {
+        const PageVisibility = await userPermissions.hasUserPermissions(section);
+        console.log(`Page Visibility: ${PageVisibility}`);
+        return PageVisibility;
+    };
+
+    useEffect(() => {
+        const checkPageVisibility = async () => {
+            const manage = await getPageVisibility("manage");
+            const managefacilities = await getPageVisibility("managefacilities");
+            const manageusers = await getPageVisibility("manageusers");
+
+            setVisibleSections({
+                edit: true, // Always visible
+                manage: manage,
+                managefacilities: managefacilities,
+                manageusers: manageusers,
+            });
+        };
+
+        checkPageVisibility();
+    }, []);
 
     return (
         <div className="flex flex-col justify-between items-center">
@@ -41,6 +71,7 @@ export default function Settings() {
                         borderBottom: `1px solid ${bgColors[`${theme}-primary-border-color`]}`
                     }}
                 >
+                    {visibleSections.edit && (
                     <p
                         className={`text-sm font-semibold font-['Figtree'] h-[52px] p-4 cursor-pointer ${section === "edit" &&
                             "rounded-t-xl border-b border-[#939393]"
@@ -53,7 +84,8 @@ export default function Settings() {
                     >
                         Edit Profile
                     </p>
-                    {!!ownerDetails?.ownerEntityId &&
+                    )}
+                    { visibleSections.manage &&!!ownerDetails?.ownerEntityId && (
                         <p
                             className={` text-sm font-semibold font-['Figtree'] h-[52px] p-4 cursor-pointer ${section === "manage" &&
                                 "rounded-t-xl border-b border-[#939393]"
@@ -66,7 +98,8 @@ export default function Settings() {
                         >
                             Manage Admins
                         </p>
-                    }
+                    )}
+                    { visibleSections.managefacilities && (
                     <p
                         className={` text-sm font-semibold font-['Figtree'] h-[52px] p-4 cursor-pointer ${section === "managefacilities" &&
                             "rounded-t-xl border-b border-[#939393]"
@@ -79,6 +112,8 @@ export default function Settings() {
                     >
                         Manage Facilities
                     </p>
+                    )}
+                    { visibleSections.manageusers && (
                     <p
                         className={` text-sm font-semibold font-['Figtree'] h-[52px] p-4 cursor-pointer ${section === "manageusers" &&
                             "rounded-t-xl border-b border-[#939393]"
@@ -90,7 +125,7 @@ export default function Settings() {
                         }}
                     >
                         Manage Users
-                    </p>
+                    </p> )}
                 </div>
 
                 <div className="edit-admin">
