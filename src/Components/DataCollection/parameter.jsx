@@ -12,6 +12,8 @@ export default function Parameter() {
     const [popupFields, setPopupFields] = useState([]);
     const [isAddPopupOpen, setIsAddPopupOpen] = useState(false);
     const [newDataCollectionPoint, setNewDataCollectionPoint] = useState({ name: '', method: '' });
+    const [facilityName, setFacilityName] = useState('');
+    const [processName, setProcessName] = useState('');
 
     const tableFields = [
         { id: 'name', label: 'Point Name' },
@@ -28,7 +30,7 @@ export default function Parameter() {
             // Get mapping ID
             const { data: mappingData, error: mappingError } = await supabase
                 .from('parameter_process_mapping')
-                .select('id')
+                .select(`id, process(process_name, facility(facility_name))`)
                 .eq('parameter_id', parameter)
                 .eq('process_id', process)
                 .single();
@@ -39,11 +41,13 @@ export default function Parameter() {
             }
 
             const mappingId = mappingData.id;
+            setFacilityName(mappingData.process.facility.facility_name);
+            setProcessName(mappingData.process.process_name);
 
             // Get data collection points
             const { data: collectionPoints, error: collectionError } = await supabase
                 .from('data_collection_points')
-                .select('*')
+                .select(`*`)
                 .eq('process_facility_mapping_id', mappingId);
 
             if (collectionError) {
@@ -126,18 +130,6 @@ export default function Parameter() {
         setNewDataCollectionPoint({ name: '', method: '' });
     };
 
-    const handleFacilityChange = async (e) => {
-        const { value } = e.target;
-        setSelectedFacility(value);
-        await fetchProcesses(value);
-      };
-
-    const handleProcessChange = (e) => {
-        const { value } = e.target;
-        setSelectedProcess(value);
-    };
-    
-
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setNewDataCollectionPoint(prevState => ({ ...prevState, [name]: value }));
@@ -146,9 +138,10 @@ export default function Parameter() {
     return (
         <div className="relative flex flex-col justify-center overflow-hidden mt-20">
             <div className="w-full p-6 m-auto bg-white rounded-md shadow-xl shadow-black-600/40 lg:max-w-4xl">
-                <h1 className="text-2xl text-center mb-4">Parameter</h1>
+                <h1 className="text-2xl text-center mb-4">Parameter Data</h1>
+                <h2 className="text-2xl text-left mb-4">Facility: {facilityName}</h2>
+                <h2 className="text-2xl text-left mb-4">Process: {processName}</h2>
                 <div className="container mx-auto">
-
                     <div className="mt-4">
                         <h2 className="text-xl">Data Collection Points</h2>
                         <table className="min-w-full bg-white">
@@ -194,14 +187,13 @@ export default function Parameter() {
                     )}
                 </div>
                 <div className="mt-4">
-                        <Button
-                            label="Add Data Collection Point"
-                            handleFunction={() => setIsAddPopupOpen(true)}
-                            className="bg-green-500 text-white rounded hover:bg-green-600"
-                        />
-                    </div>
+                    <Button
+                        label="Add Data Collection Point"
+                        handleFunction={() => setIsAddPopupOpen(true)}
+                        className="bg-green-500 text-white rounded hover:bg-green-600"
+                    />
+                </div>
             </div>
-            
         </div>
     );
 }
