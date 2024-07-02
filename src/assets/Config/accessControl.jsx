@@ -35,22 +35,17 @@ export const userPermissions = {
     hasUserPermissions: async (page) => {
         try {
             const UserPermission = await fetchUserPermission();
-            console.log(page);
             if (!UserPermission || !UserPermission[0] || !UserPermission[0].role) {
-                console.log('false');
                 return false;
             }
 
             const role = UserPermission[0].role;
 
             if (role === 'FIELD MANAGER' && page === 'Data Entry') {
-                console.log('true');
                 return true;
             } else if (role === 'FIELD MANAGER' && page !== 'Data Entry') {
-                console.log('false');
                 return false;
             } else if (role !== 'FIELD MANAGER' && page === 'Data Entry') {
-                console.log('false');
                 return false;
             }
             return true;
@@ -64,22 +59,17 @@ export const userPermissions = {
     hasUserSettingPermissions: async (page) => {
         try {
             const UserPermission = await fetchUserPermission();
-            console.log(page);
             if (!UserPermission || !UserPermission[0] || !UserPermission[0].role) {
-                console.log('false');
                 return false;
             }
 
             const role = UserPermission[0].role;
 
             if (role === 'FIELD MANAGER' && page === 'manage') {
-                console.log('false');
                 return false;
             } else if (role === 'FIELD MANAGER' && page === 'managefacilities') {
-                console.log('false');
                 return false;
             } else if (role === 'FIELD MANAGER' && page === 'manageusers') {
-                console.log('false');
                 return false;
             }
             return true;
@@ -88,5 +78,14 @@ export const userPermissions = {
             console.log('false');
             return false;
         }
+    },
+
+    userEntersDataEntry: async () => {
+        const UserPermission = await fetchUserPermission();
+        const role = UserPermission[0].role;
+        if(role === 'FIELD MANAGER') {
+            return true;
+        }
+        return false;
     }
 }

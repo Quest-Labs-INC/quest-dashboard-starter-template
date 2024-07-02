@@ -36,7 +36,6 @@ export default function DashboardWrapper({ children, selectdRoute }) {
 
     const getPageVisibility = async (route) => {
         const PageVisibility = await userPermissions.hasUserPermissions(route.name);
-        console.log(`Route: ${route.name}, Hidden: ${route.hidden}, Page Visibility: ${PageVisibility}, Is Upper: ${route.isUpper}`);
         return PageVisibility;
     };
 
@@ -55,7 +54,6 @@ export default function DashboardWrapper({ children, selectdRoute }) {
             (route) => !route.hidden && route.isVisible && route.isUpper
         );
 
-        console.log(filteredRoutes);
         return filteredRoutes;
     };
 
