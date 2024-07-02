@@ -23,6 +23,7 @@ import Certification from "../../Components/DataCollection/certification";
 import ProjectManagement from "../../Components/Compliance/projectManagement";
 import LCA from "../../Components/ProductFootprint/lca";
 import Details from "../../Components/ProductFootprint/details";
+import Manufacture from "../../Components/ProductFootprint/manufacture";
 import ProjectPage from "../../Components/Compliance/projectPage";
 // add SupplierManagement Component
 import SupplierManagement from "../../Components/DataCollection/supplierManagement";
@@ -229,6 +230,21 @@ export const routesConfig = [
         isUpper: true,
     },
 
+    {
+        path: "/product_footprint/details",
+        name: "Details",
+        logo: IconListTask(),
+        component: (
+            <ProviderConfig showTag={false}>
+                <DashboardWrapper selectdRoute={"product_footprint"}>
+                    <Details></Details>
+                </DashboardWrapper>
+            </ProviderConfig>
+        ),
+        hidden: true,
+        isUpper: true,
+    },
+
 //deets
     {
         path: "/product_footprint/details/:id",
@@ -238,6 +254,21 @@ export const routesConfig = [
             <ProviderConfig showTag={false}>
                 <DashboardWrapper selectdRoute={"product_footprint"}>
                     <Details></Details>
+                </DashboardWrapper>
+            </ProviderConfig>
+        ),
+        hidden: true,
+        isUpper: true,
+    },
+//manufacture
+    {
+        path: "/product_footprint/manufacture",
+        name: "Manufacture",
+        logo: IconListTask(),
+        component: (
+            <ProviderConfig showTag={false}>
+                <DashboardWrapper selectdRoute={"product_footprint"}>
+                    <Manufacture></Manufacture>
                 </DashboardWrapper>
             </ProviderConfig>
         ),

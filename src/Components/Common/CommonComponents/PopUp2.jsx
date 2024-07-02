@@ -1,6 +1,23 @@
 import React from 'react';
 
 const PopUp = ({ fields, newRowData, handleInputChange, handleClosePopup, handleAddRow, lcaNames }) => {
+  const massUnitsOptions = ['Kilograms', 'Grams', 'Ounces'];
+  const distUnitsOptions = ['Kilometers', 'Meters', 'Miles'];
+  const volUnitsOptions = ['Liters', 'Gallons'];
+
+  const getOptions = (fieldId) => {
+    switch (fieldId) {
+      case 'mass_units':
+        return massUnitsOptions;
+      case 'dist_units':
+        return distUnitsOptions;
+      case 'vol_units':
+        return volUnitsOptions;
+      default:
+        return [];
+    }
+  };
+
   return (
     <div className="popup">
       <div className="popup-inner">
@@ -19,6 +36,18 @@ const PopUp = ({ fields, newRowData, handleInputChange, handleClosePopup, handle
                   <option value="">Select LCA Name</option>
                   {lcaNames.map((name, index) => (
                     <option key={index} value={name}>{name}</option>
+                  ))}
+                </select>
+              ) : getOptions(field.id).length > 0 ? (
+                <select
+                  id={field.id}
+                  name={field.id}
+                  value={newRowData[field.id]}
+                  onChange={handleInputChange}
+                >
+                  <option value="">Select {field.label}</option>
+                  {getOptions(field.id).map((option, index) => (
+                    <option key={index} value={option}>{option}</option>
                   ))}
                 </select>
               ) : (

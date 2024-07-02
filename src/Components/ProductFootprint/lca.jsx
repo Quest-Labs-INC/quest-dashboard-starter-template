@@ -72,8 +72,18 @@ export default function LCA() {
     handleClosePopup();
   };
 
+  const navigateTo = (path) => {
+    window.location.href = path;
+  };
+
   return (
     <div className="flex flex-col justify-center overflow-hidden mt-20 p-6">
+       <div className="flex mb-10 justify-center space-x-4">
+        <Button label="My LCA" handleFunction={() => navigateTo('/product_footprint')} />
+        <Button label="Details" handleFunction={() => navigateTo('/product_footprint/details/')} />
+        <Button label="Manufacture" handleFunction={() => navigateTo('/product_footprint/manufacture')} />
+        <Button label="Transportation" handleFunction={() => navigateTo('/transportation')} />
+      </div>
       <h1 className="text-xl text-center mb-10">Product LCA</h1>
 
       <Table 
