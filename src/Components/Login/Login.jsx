@@ -7,6 +7,7 @@ import { useContext } from "react";
 import { ThemeContext } from "../Common/AppContext";
 import { mainConfig } from "../../assets/Config/appConfig";
 import { generalFunction } from "../../assets/Config/generalFunction";
+import { userPermissions } from "../../assets/Config/accessControl";
 
 export default function Login() {
     const navigate = useNavigate();
@@ -121,7 +122,11 @@ export default function Login() {
             if (!claimedStatus) {
                 navigate("/onboarding");
             } else {
-                navigate("/data_collection");
+                if(await userPermissions.userEntersDataEntry()){
+                    navigate("/data_entry");
+                } else {
+                    navigate("/data_collection");
+                }
             }
         }
     };

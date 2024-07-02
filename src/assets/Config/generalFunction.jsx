@@ -408,6 +408,18 @@ export const generalFunction = {
         return data;
     },
 
+    fetchUserPermissionRole: async (userID) => {
+        const { data, error } = await supabase
+            .from('user_permissions')
+            .select('*')
+            .eq('user_id', userID);;
+        if (error) {
+            throw error;
+        }
+        return data;
+
+    },
+
     // Add user permission
     createUserPermission: async (UserPermission) => {
         const { data, error } = await supabase
