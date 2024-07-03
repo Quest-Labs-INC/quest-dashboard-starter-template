@@ -7,7 +7,7 @@ import { mainConfig } from "../../assets/Config/appConfig";
 
 function FeedbackButton() {
     const [openFeedback, setOpenFeedback] = useState(false);
-    const { theme, bgColors } = useContext(ThemeContext);
+    const {appConfig, theme, bgColors } = useContext(ThemeContext);
     const getLighterColor = (color1, color2) => {
         const calculateLuminance = (color) => {
             const r = parseInt(color.slice(1, 3), 16);
@@ -50,7 +50,7 @@ function FeedbackButton() {
     const darkerColorString = clampedDarkerColor.join(", ");
 
     return (
-        <div className="z-50">
+        <div className="z-50 hidden">
             <div
                 className="fixed -right-11 top-[50vh] -rotate-90 cursor-pointer"
                 style={{
@@ -65,12 +65,7 @@ function FeedbackButton() {
             </div>
 
             <FeedbackWorkflow
-                questIds={[
-                    'q-saas-feedback-workflow-general-feedback',
-                    'q-saas-feedback-workflow-bug-report',
-                    'q-saas-feedback-workflow-feature-request',
-                    'q-saas-feedback-workflow-contact-us'
-                ]}
+                questId={appConfig.QUEST_FEEDBACK_WORKFLOW_CAMPAIGN_ID}
                 userId={generalFunction.getUserId()}
                 token={generalFunction.getUserToken()}
                 isOpen={openFeedback}

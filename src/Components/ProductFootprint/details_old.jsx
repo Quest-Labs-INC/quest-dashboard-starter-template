@@ -1,0 +1,122 @@
+
+
+// importing react features to use states, effects, and links
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+// import database
+import { supabase } from '../../supabaseClient';
+
+// declare + export supplierManagement component
+export default function Details() {
+  // tableData - state var that stores all table data, initially an empty array
+  // setTableData - function used to update value of tableData
+  const [tableData, setTableData] = useState([]);
+  // isPopupOpen - state var that changes depending on whether popup is open or not, initially set to false
+  // setIsPopupOpen - function used to update the value of isPopupOpen
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
+  // newRowData - state var that stores obj containing properties for new row of data, all props initially set to empty string
+  // setNewRowData - function to set new row data
+  const [newRowData, setNewRowData] = useState({ lca_name: '', mass_units: '', dist_units: '', vol_units: ''});
+
+  // useEffect - effect that runs once when component mounts
+  useEffect(() => {
+    // call fetchMeasurement function
+    fetchMeasurement()
+  }, []) // <-- '[]' as the dependency array means it runs once
+
+  // fetches data from db + updates tableData var w/ fetched data
+  async function fetchMeasurement() {
+    // await async data retrieval from db; selects all info from supplier_management table
+    const { data } = await supabase
+      .from(`product_information`)
+      .select('*')
+    // updates tableData var with data from db
+    setTableData(data); 
+  }
+
+  // sets isPopupOpen to true, opening popup
+  const handleOpenPopup = () => {
+    setIsPopupOpen(true);
+  };
+
+  // sets isPopupOpen to false, closing popup + adding new row of data
+  const handleClosePopup = () => {
+    setIsPopupOpen(false);
+    // resets newRowData props to empty strings
+    setNewRowData({ lca_name: '', mass_units: '', dist_units: '', vol_units: '' });
+  };
+
+  // updates newRowData var when input changes
+  const handleInputChange = (e) => {
+    // gets name + value from event target
+    const { name, value } = e.target;
+    // add new name + value pair to obj along w/ prev data
+    setNewRowData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
+  // adds new row of data to tableData var + closes popup
+  const handleAddRow = () => {
+    setTableData((prevData) => [...prevData, newRowData]);
+    createMeasurement();
+    handleClosePopup();
+  };
+
+  // inserts new row of data into db buyer_management table w/ values from newRowData
+  async function createMeasurement() {
+    await supabase
+      .from(`product_information`)
+      .insert({ lca_name: newRowData.lca_name, mass_units: newRowData.mass_units, dist_units: newRowData.dist_units, vol_units: newRowData.vol_units })
+  }
+
+  return (
+    <div className="relative flex flex-col justify-center overflow-hidden mt-20">
+    <div className="w-full p-6 m-auto bg-white rounded-md shadow-xl shadow-black-600/40 lg:max-w-4xl">
+      <h1 className="text-2xl text-center mb-4">Product Details</h1>
+    <div className="container mx-auto">
+      <table className="mt-4 w-full border-collapse border border-gray-300">
+        <thead>
+          <tr>
+            <th className="border border-gray-300 px-4 py-2">LCA Name</th>
+            <th className="border border-gray-300 px-4 py-2">Mass Units</th>
+            <th className="border border-gray-300 px-4 py-2">Distance Units</th>
+            <th className="border border-gray-300 px-4 py-2">Volume Units</th>
+          </tr>
+        </thead>
+        <tbody>
+          {tableData.map((row, index) => (
+            <tr key={index}>
+              <td className="border border-gray-300 px-4 py-2">
+              <Link to={`/product_footprint/${row.lca_name}`}>
+                {row.lca_name}
+              </Link>
+              </td>
+              <td className="border border-gray-300 px-4 py-2">
+              <Link to={`/product_footprint/${row.lca_name}`}>
+                {row.mass_units}
+              </Link>
+              </td>
+              <td className="border border-gray-300 px-4 py-2">
+              <Link to={`/product_footprint/${row.lca_name}`}>
+                {row.dist_units}
+              </Link>
+              </td>
+              <td className="border border-gray-300 px-4 py-2">
+              <Link to={`/product_footprint/${row.supplier_name}`}>
+                {row.vol_units}
+              </Link>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+
+
+    </div>
+    </div>
+    </div>
+  );
+}
+

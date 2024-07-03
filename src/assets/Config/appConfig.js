@@ -6,6 +6,6 @@ export const mainConfig = {
     GOOGLE_REDIRECT_URI: "https://quest-dashboard-starter-template-26sa.vercel.app/",
     GOOGLE_CLIENT_ID: "48459226857-eobo616j32erioo3dab9nid98fmvjom7.apps.googleusercontent.com",
     CONTACT_EMAIL: "",
-    REACT_APP_SUPABASE_URL: "",
-    REACT_APP_SUPABASE_ANON_KEY: "",
+    REACT_APP_SUPABASE_URL: "https://orcxrpcknmetkousgguq.supabase.co",
+    REACT_APP_SUPABASE_ANON_KEY: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9yY3hycGNrbm1ldGtvdXNnZ3VxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTI5NzA4MjUsImV4cCI6MjAyODU0NjgyNX0.Yf25ZiL5duZBkd1ASjZcNas3eiU4-bZcBK-9WxfPAlA"
 }
