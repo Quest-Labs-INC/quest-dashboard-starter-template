@@ -69,9 +69,14 @@ export default function Manfacture() {
       .insert({ name: newRowData.name, material: newRowData.material, process: newRowData.process,  mass: newRowData.mass, qty: newRowData.qty })
   }
 
+ 
+
   return (
     <div className="relative flex flex-col justify-center overflow-hidden mt-20">
     <div className="w-full p-6 m-auto bg-white rounded-md shadow-xl shadow-black-600/40 lg:max-w-4xl">
+
+ 
+
       <h1 className="text-2xl text-center mb-4">Manufacturing</h1>
     <div className="container mx-auto">
       <table className="mt-4 w-full border-collapse border border-gray-300">
@@ -118,7 +123,7 @@ export default function Manfacture() {
       </table>
       <div className="flex justify-center mt-4">
         <button onClick={handleOpenPopup} className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
-            Add Supplier
+            Add Part
         </button>
       </div>
       {isPopupOpen && (

@@ -82,7 +82,7 @@ export default function LCA() {
         <Button label="My LCA" handleFunction={() => navigateTo('/product_footprint')} />
         <Button label="Details" handleFunction={() => navigateTo('/product_footprint/details/')} />
         <Button label="Manufacture" handleFunction={() => navigateTo('/product_footprint/manufacture')} />
-        <Button label="Transportation" handleFunction={() => navigateTo('/transportation')} />
+        <Button label="Transportation" handleFunction={() => navigateTo('/product_footprint/transport')} />
       </div>
       <h1 className="text-xl text-center mb-10">Product LCA</h1>
 
