@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { generalFunction } from '../../assets/Config/generalFunction';
 import Button from '../Common/CommonComponents/Button';
 import Table from '../Common/CommonComponents/Table';
-import PopUp from '../Common/CommonComponents/PopUp2';
+import PopUp2 from '../Common/CommonComponents/PopUp2';
 
 export default function Details() {
   const fields = [
@@ -19,6 +19,7 @@ export default function Details() {
   const [newProject, setProject] = useState(initial_fields);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [lcaNames, setLcaNames] = useState([]);
+  const [lcaIdMapping, setLcaIdMapping] = useState({});
 
   useEffect(() => {
     const getData = async () => {
@@ -27,6 +28,11 @@ export default function Details() {
         setAllProjects(data);
         const lcaNames = data.map(item => item.lca_name);
         setLcaNames(lcaNames);
+        const lcaIdMapping = data.reduce((acc, item) => {
+          acc[item.lca_name] = item.id;
+          return acc;
+        }, {});
+        setLcaIdMapping(lcaIdMapping);
       } catch (error) {
         console.error('Error fetching data:', error);
       }
@@ -79,7 +85,7 @@ export default function Details() {
         <Button label="My LCA" handleFunction={() => navigateTo('/product_footprint')} />
         <Button label="Details" handleFunction={() => navigateTo('/product_footprint/details/')} />
         <Button label="Manufacture" handleFunction={() => navigateTo('/product_footprint/manufacture')} />
-        <Button label="Transportation" handleFunction={() => navigateTo('/transportation')} />
+        <Button label="Transportation" handleFunction={() => navigateTo('/product_footprint/transport')} />
       </div>
 
       <h1 className="text-xl text-center mb-10">Details</h1>
@@ -95,13 +101,14 @@ export default function Details() {
         />
       </div>
       {isPopupOpen && (
-        <PopUp
+        <PopUp2
           fields={fields}
           newRowData={newProject}
           handleInputChange={handleInputChange}
           handleClosePopup={handleClosePopup}
           handleAddRow={handleAddRow}
           lcaNames={lcaNames}
+          lcaIdMapping={lcaIdMapping}
         />
       )}
     </div>

@@ -1,6 +1,7 @@
 // importing react features to use states, effects, and links
 import React, { useState, useEffect } from 'react';
 import { supabase } from '../../supabaseClient';
+import Button from '../Common/CommonComponents/Button';
 
 // declare + export Transportation component
 export default function Transportation() {
@@ -90,12 +91,23 @@ export default function Transportation() {
       console.error("Error inserting data:", error);
       return false;
     }
-  }
+  };
+
+  const navigateTo = (path) => {
+    window.location.href = path;
+  };
 
  
 
   return (
     <div className="relative flex flex-col justify-center overflow-hidden mt-20">
+       <div className="flex mb-10 justify-center space-x-4">
+        <Button label="My LCA" handleFunction={() => navigateTo('/product_footprint')} />
+        <Button label="Details" handleFunction={() => navigateTo('/product_footprint/details/')} />
+        <Button label="Manufacture" handleFunction={() => navigateTo('/product_footprint/manufacture')} />
+        <Button label="Transportation" handleFunction={() => navigateTo('/product_footprint/transport')} />
+      </div>
+
       <div className="w-full p-6 m-auto bg-white rounded-md shadow-xl shadow-black-600/40 lg:max-w-4xl">
 
     

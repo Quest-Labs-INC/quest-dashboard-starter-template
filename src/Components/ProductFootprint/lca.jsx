@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { generalFunction } from '../../assets/Config/generalFunction';
 import Button from '../Common/CommonComponents/Button';
 import Table from '../Common/CommonComponents/Table';
-import PopUp from '../Common/CommonComponents/PopUp';
+import PopUp from '../Common/CommonComponents/PopUpLCA';
 
 export default function LCA() {
   const fields = [
@@ -10,19 +10,14 @@ export default function LCA() {
     { id: 'lca_name', label: 'LCA Name', type: 'text' },
     { id: 'co2', label: 'CO2 Consumption', type: 'text' },
     { id: 'last_edited', label: 'Last Edited', type: 'date' },
-    { id: 'summary', label: 'Summary', type: 'text' },
+    { id: 'company_id', label: 'Company', type: 'select', options: [] },
   ];
 
-  const initial_fields = { id: '', lca_name: '', co2: '', last_edited: '', summary: '' };
+  const initial_fields = { id: '', lca_name: '', co2: '', last_edited: '', company_id: '' };
 
   const [AllProjects, setAllProjects] = useState([]);
-  const [newProject, setProject] = useState({
-    id: '',
-    lca_name: '',
-    co2: '',
-    last_edited: '',
-    summary: '',
-  });
+  const [companyOptions, setCompanyOptions] = useState([]);
+  const [newProject, setProject] = useState(initial_fields);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
 
   useEffect(() => {
@@ -30,6 +25,17 @@ export default function LCA() {
       try {
         const data = await generalFunction.getTableData('product_information');
         setAllProjects(data);
+
+        const companies = await generalFunction.getTableData('company');
+        console.log('Fetched companies:', companies); // Log the fetched company data
+        setCompanyOptions(companies.map(company => ({
+          value: company.id,
+          label: company.name
+        })));
+        fields.find(field => field.id === 'company_id').options = companies.map(company => ({
+          value: company.id,
+          label: company.name
+        }));
       } catch (error) {
         console.error('Error fetching data:', error);
       }
@@ -43,20 +49,7 @@ export default function LCA() {
 
   const handleClosePopup = () => {
     setIsPopupOpen(false);
-    const newProject_ = {
-      id: newProject.id,
-      lca_name: newProject.lca_name,
-      co2: newProject.co2,
-      last_edited: newProject.last_edited,
-    }
-    generalFunction.createTableRow('product_information', newProject_);
-    setProject({
-      id: '',
-      lca_name: '',
-      co2: '',
-      last_edited: '',
-      summary: '',
-    });
+    setProject(initial_fields);
   };
 
   const handleInputChange = (e) => {
@@ -68,7 +61,22 @@ export default function LCA() {
   };
 
   const handleAddRow = () => {
-    setAllProjects((prevData) => [...prevData, newProject]);
+    const newProject_ = {
+      id: newProject.id,
+      lca_name: newProject.lca_name,
+      co2: newProject.co2,
+      last_edited: newProject.last_edited,
+      company_id: newProject.company_id,
+    };
+    
+    setAllProjects((prevData) => [...prevData, newProject_]);
+    generalFunction.createTableRow('product_information', newProject_)
+      .then(response => {
+        console.log('Data successfully pushed to Supabase:', response);
+      })
+      .catch(error => {
+        console.error('Error pushing data to Supabase:', error);
+      });
     handleClosePopup();
   };
 
@@ -78,7 +86,7 @@ export default function LCA() {
 
   return (
     <div className="flex flex-col justify-center overflow-hidden mt-20 p-6">
-       <div className="flex mb-10 justify-center space-x-4">
+      <div className="flex mb-10 justify-center space-x-4">
         <Button label="My LCA" handleFunction={() => navigateTo('/product_footprint')} />
         <Button label="Details" handleFunction={() => navigateTo('/product_footprint/details/')} />
         <Button label="Manufacture" handleFunction={() => navigateTo('/product_footprint/manufacture')} />
@@ -105,9 +113,9 @@ export default function LCA() {
           handleInputChange={handleInputChange}
           handleClosePopup={handleClosePopup}
           handleAddRow={handleAddRow}
+          options={companyOptions}
         />
       )}
     </div>
-
   );
 }

@@ -295,7 +295,7 @@ export const routesConfig = [
     
     /* have to make routes for each product */
     {
-        path: "/suppliermanagement/:product_id",
+        path: "/product_footprint/:product_id",
         name: "Product Details",
         logo: InsightsSvg(),
         component: (
