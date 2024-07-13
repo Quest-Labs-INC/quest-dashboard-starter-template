@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Button from '../Common/CommonComponents/Button';
 import { supabase } from '../../supabaseClient';
+import countryList from 'country-list';
 
 export default function Manufacture() {
   const [tableData, setTableData] = useState([]);
@@ -60,6 +61,8 @@ export default function Manufacture() {
     }
     setAssemblyData(data);
   }
+
+  const countries = countryList.getNames();
 
   const handleOpenProcessPopup = () => {
     setIsProcessPopupOpen(true);
@@ -361,14 +364,22 @@ export default function Manufacture() {
               />
             </div>
             <div className="mb-4">
-              <label htmlFor="region" className="block mb-2">Region:</label>
-              <input
-                type="text"
+              <label htmlFor="region" className="block mb-2">
+                Region:
+              </label>
+              <select
                 name="region"
                 value={newAssemblyData.region}
                 onChange={handleAssemblyInputChange}
                 className="w-full px-3 py-2 border border-gray-300 rounded"
-              />
+              >
+                <option value="">Select Region</option>
+                {countries.map((country, index) => (
+                  <option key={index} value={country}>
+                    {country}
+                  </option>
+                ))}
+              </select>
             </div>
             <div className="flex justify-end">
               <button onClick={handleCloseAssemblyPopup} className="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600 mr-2">
