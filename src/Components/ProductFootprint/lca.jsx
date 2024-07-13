@@ -9,39 +9,43 @@ export default function LCA() {
     { id: 'id', label: 'LCA ID', type: 'number', link: true },
     { id: 'lca_name', label: 'LCA Name', type: 'text' },
     { id: 'co2', label: 'CO2 Consumption', type: 'text' },
-    { id: 'last_edited', label: 'Last Edited', type: 'date' },
-    { id: 'company_id', label: 'Company', type: 'select', options: [] },
+    { id: 'last_edited', label: 'Last Edited', type: 'date' }
   ];
 
-  const initial_fields = { id: '', lca_name: '', co2: '', last_edited: '', company_id: '' };
+  const initial_fields = { id: '', lca_name: '', co2: '', last_edited: '' };
 
-  const [AllProjects, setAllProjects] = useState([]);
-  const [companyOptions, setCompanyOptions] = useState([]);
+  const [allProjects, setAllProjects] = useState([]);
+  const [filteredProjects, setFilteredProjects] = useState([]);
   const [newProject, setProject] = useState(initial_fields);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [companies, setCompanies] = useState([]);
+  const [selectedCompany, setSelectedCompany] = useState('');
 
   useEffect(() => {
     const getData = async () => {
       try {
         const data = await generalFunction.getTableData('product_information');
         setAllProjects(data);
+        setFilteredProjects(data);
 
-        const companies = await generalFunction.getTableData('company');
-        console.log('Fetched companies:', companies); // Log the fetched company data
-        setCompanyOptions(companies.map(company => ({
-          value: company.id,
-          label: company.name
-        })));
-        fields.find(field => field.id === 'company_id').options = companies.map(company => ({
-          value: company.id,
-          label: company.name
-        }));
+        const companiesData = await generalFunction.getTableData('company');
+        setCompanies(companiesData);
       } catch (error) {
         console.error('Error fetching data:', error);
       }
     };
     getData();
   }, []);
+
+  const handleCompanyChange = (e) => {
+    const companyId = e.target.value;
+    setSelectedCompany(companyId);
+    if (companyId) {
+      setFilteredProjects(allProjects.filter(project => project.company_id === companyId));
+    } else {
+      setFilteredProjects(allProjects);
+    }
+  };
 
   const handleOpenPopup = () => {
     setIsPopupOpen(true);
@@ -66,10 +70,11 @@ export default function LCA() {
       lca_name: newProject.lca_name,
       co2: newProject.co2,
       last_edited: newProject.last_edited,
-      company_id: newProject.company_id,
+      company_id: selectedCompany // Ensure the new project has the selected company ID
     };
     
     setAllProjects((prevData) => [...prevData, newProject_]);
+    setFilteredProjects((prevData) => [...prevData, newProject_]);
     generalFunction.createTableRow('product_information', newProject_)
       .then(response => {
         console.log('Data successfully pushed to Supabase:', response);
@@ -94,9 +99,19 @@ export default function LCA() {
       </div>
       <h1 className="text-xl text-center mb-10">Product LCA</h1>
 
+      <div className="mb-6 flex items-center justify-center">
+        <label htmlFor="company" className="mr-2">Select Company:</label>
+        <select id="company" value={selectedCompany} onChange={handleCompanyChange} className="border border-gray-300 rounded-md shadow-sm">
+          <option value="">All Companies</option>
+          {companies.map(company => (
+            <option key={company.id} value={company.id}>{company.name}</option>
+          ))}
+        </select>
+      </div>
+
       <Table 
         fields={fields} 
-        tableData={AllProjects} 
+        tableData={filteredProjects} 
         pageLink="/product_footprint/details/" 
       />
       <div className="mb-6 mt-10 flex items-center justify-center">
@@ -113,7 +128,6 @@ export default function LCA() {
           handleInputChange={handleInputChange}
           handleClosePopup={handleClosePopup}
           handleAddRow={handleAddRow}
-          options={companyOptions}
         />
       )}
     </div>
