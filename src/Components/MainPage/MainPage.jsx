@@ -153,11 +153,8 @@ function MainPage() {
 
         try {
             // let request = generalFunction.createUrl(`api/entities/${createdEntityId}/quests/generate-saas?userId=${generalFunction.getDataFromCookies("questUserId")}`);
-
-            console.log(generalFunction.getDataFromCookies("questUserId"))
             let request = generalFunction.createUrl(`api/v2/entities/${createdEntityId}/campaigns/generate-saas?userId=${generalFunction.getDataFromCookies("questUserId")}`);
-            // console.log(request)
-            console.log(request.headers)
+
             // /api/v2/entities/:entityId/campaigns/generate-saas
             let response = await axios.post(request.url, {
                 entityName: name,

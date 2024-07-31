@@ -211,7 +211,7 @@ export default function ReferralPage() {
 
     useEffect(() => {
         const fetchAdmins = async () => {
-            const { data } = await axios.get('https://staging.questprotocol.xyz/api/entities/e-c6895222-ac01-4640-8c59-6101661deb8d/admins', {
+            const { data } = await axios.get('https://staging-api.questlabs.ai/api/entities/e-c6895222-ac01-4640-8c59-6101661deb8d/admins', {
                 headers: {
                     apikey: "k-2fb4e0f9-3808-4def-a3a6-89e93e84c3f7",
                     userid: "u-88350caa-4080-4505-a169-09f3f15e83b7",
