@@ -1,7 +1,7 @@
 export const mainConfig = {
     ENTITY_ID: "e-0000000000",
     API_KEY: "k-0d087a04-f631-41e1-80dd-fdc9ab2abb07", //"k-6fe7e7dc-ac8f-44a1-8bbf-a1754ddf88be"
-    BACKEND_URL: "https://api.questprotocol.xyz/",
+    BACKEND_URL: "https://api.questlabs.ai/",
     QUEST_LABS_URL: "https://app.questlabs.ai",
     ONBOARDING_QUEST_ID: "c-04fda0d1-33d8-4e24-badc-17acf1f10e69", //"q-7e55d259-9b65-4821-ada6-e40c1beedbe8"
     REDIRECT_URI: `${window.location.origin}/create`,
