@@ -55,9 +55,19 @@ function MainPage() {
     const { appConfig, setAppConfig, contentConfig, setContentConfig } = useContext(ThemeContext)
 
     const inputFileChangeHandler = (event) => {
-        if (event.target.files[0]) {
-            setSelectedFile(event.target.files[0]);
-            setImageUrl(URL.createObjectURL(event.target.files[0]));
+        const allowedExtensions = ['jpeg', 'jpg', 'png'];
+        const file = event.target.files[0];
+        if (file) {
+            const extension = file.name.split('.').pop().toLowerCase();
+            if (allowedExtensions.includes(extension)) {
+                setSelectedFile(file);
+                setImageUrl(URL.createObjectURL(file));
+            } else {
+                setSelectedFile(null);
+                setImageUrl("");
+                Toast.error({ text: 'Please select an image file with either JPEG (.jpeg/.jpg) or PNG (.png) ', pauseOnHover: true });
+
+            }
         }
     };
 
@@ -107,6 +117,9 @@ function MainPage() {
 
     const createTemplate = async () => {
         if (!generalFunction.getDataFromCookies("questUserId")) {
+            if (name || description || bg || selectedBox) {
+                localStorage.setItem("saasData", JSON.stringify({ name, description, bg, selectedBox }))
+            }
             setLoginPopup(true);
             return;
         } else if (!generalFunction.getDataFromCookies("userName") || !generalFunction.getDataFromCookies("adminCommunityId")) {
@@ -194,6 +207,7 @@ function MainPage() {
             setSuccessPopup(true);
 
             Toast.success({ text: "Template successfully created" })
+            localStorage.removeItem("saasData")
         } catch (error) {
             console.log(error);
         } finally {
@@ -241,6 +255,13 @@ function MainPage() {
     useEffect(() => {
         if (generalFunction.getDataFromCookies("questUserId")) {
             fetchUser(generalFunction.getDataFromCookies("questUserId"), generalFunction.getDataFromCookies("questUserToken"))
+        }
+        if (localStorage.getItem("saasData")) {
+            let data = JSON.parse(localStorage.getItem("saasData"))
+            data.name && setName(data.name)
+            data.description && setDescription(data.description)
+            data.bg && setBg(data.bg)
+            data.selectedBox && setSelectedBox(data.selectedBox)
         }
     }, [])
 
