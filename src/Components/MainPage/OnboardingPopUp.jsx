@@ -28,7 +28,7 @@ const OnboardingPopUp = ({ isAdmin, setOnboardingPopup, setAdminEntity }) => {
             role: answer[criteriaIds.role],
             metadata: {
                 company: answer[criteriaIds.company],
-                teamSize: answer[criteriaIds.teamSize],re
+                teamSize: answer[criteriaIds.teamSize],
                 // reference: answer[criteriaIds.reference],
                 // web3CommunityOwner: answer[criteriaIds.web3CommunityOwner],
             }
