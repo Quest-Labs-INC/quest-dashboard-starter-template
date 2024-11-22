@@ -6,7 +6,7 @@ import { importConfig } from "../../assets/Config/importConfig";
 import { uploadImageToBackend } from "../../utils/UploadImage";
 import { generalFunction } from "../../assets/Config/generalFunction";
 import { mainConfig } from "../../assets/Config/appConfig";
-import { UserProfile } from "@questlabs/react-sdk";
+import { Toast, UserProfile } from "@questlabs/react-sdk";
 import { uploadSVG } from "../../assets/Images/svgAssets";
 
 const EditProfile = () => {
@@ -51,18 +51,27 @@ const EditProfile = () => {
     }, []);
 
     const inputFileChangeHandler = (event) => {
-        if (event.target.files[0]) {
-            setSelectedFile(event.target.files[0]);
-            setImageUrl(URL.createObjectURL(event.target.files[0]));
-            setCustomImage(URL.createObjectURL(event.target.files[0]));
-
-            const uploadFile = async () => {
-                generalFunction.showLoader();
-                let data = await uploadImageToBackend(event.target.files[0]);
-                setImageUrl(data?.data?.imageUrl);
-                generalFunction.hideLoader();
-            };
-            uploadFile();
+        const allowedExtensions = ['jpeg', 'jpg', 'png'];
+    
+        const file = event.target.files[0];
+        if (file) {
+            const extension = file.name.split('.').pop().toLowerCase();
+            if (allowedExtensions.includes(extension)) {
+                setSelectedFile(file);
+                setImageUrl(URL.createObjectURL(file));
+                setCustomImage(URL.createObjectURL(file));
+    
+                const uploadFile = async () => {
+                    generalFunction.showLoader();
+                    let data = await uploadImageToBackend(file);
+                    setImageUrl(data?.data?.imageUrl);
+                    generalFunction.hideLoader();
+                };
+                uploadFile();
+            } else {
+                Toast.error({text:'Please select an image file with either JPEG (.jpeg/.jpg) or PNG (.png) extension.'});
+                
+            }
         }
     };
 
