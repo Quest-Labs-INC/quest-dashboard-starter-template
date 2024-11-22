@@ -1,0 +1,25 @@
+.metrics-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 16px;
+  }
+  
+  .metrics-table th,
+  .metrics-table td {
+    border: 1px solid #ccc;
+    padding: 8px;
+    text-align: center;
+  }
+  
+  .metrics-table th {
+    background-color: #f4f4f4;
+  }
+  
+  .metrics-table td {
+    background-color: #fff;
+  }
+  
+  .metrics-table .text-center {
+    text-align: center;
+  }
+  

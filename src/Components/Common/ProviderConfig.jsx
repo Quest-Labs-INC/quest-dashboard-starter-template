@@ -19,11 +19,6 @@ export const ProviderConfig = ({ children, showTag }) => {
       >
         {children}
       </QuestProvider>
-      { showTag && 
-        <div className='fixed right-[calc(25%-80px)] bottom-14 text-xs px-4 py-2 text-[#939393] rounded-md flex items-center gap-3 cursor-pointer' onClick={() => window.open("https://questlabs.ai/")}>
-          <p>Powered by Quest Labs</p>
-        </div>
-      }
     </div>
   );
 };

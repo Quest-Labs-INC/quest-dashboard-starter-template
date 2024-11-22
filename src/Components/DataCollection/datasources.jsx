@@ -1,12 +1,27 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { supabase } from '../../supabaseClient';
 
-
-export default function () {
+export default function DataSource() {
   const [tableData, setTableData] = useState([]);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
-  const [newRowData, setNewRowData] = useState({ parameter: '', factory1: '', factory2: '' });
+  const [newRowData, setNewRowData] = useState({ name: '', value: '', meter: '', assigned_to: '' });
+  const url = window.location.href;
+  const parts = url.split('/');
+  const metric = parts[parts.length - 1];
 
+  useEffect(() => {
+    fetchDataSources()
+  }, [])
+
+  async function fetchDataSources() {
+    const { data } = await supabase
+      .from(`datasources`)
+      .select('*')
+      .eq('metric', metric)
+    setTableData(data);
+  }
+
+  
   const handleOpenPopup = () => {
     setIsPopupOpen(true);
   };
@@ -14,7 +29,8 @@ export default function () {
   const handleClosePopup = () => {
     setIsPopupOpen(false);
     // Clear input fields when closing the popup
-    setNewRowData({ parameter: '', factory1: '', factory2: '' });
+    createDataSource()
+    setNewRowData({ name: '', value: '', meter: '', assigned_to: '' });
   };
 
   const handleInputChange = (e) => {
@@ -30,10 +46,17 @@ export default function () {
     handleClosePopup();
   };
 
+  async function createDataSource() {
+    await supabase
+      .from(`datasources`)
+      .insert({ metric: metric, name: newRowData.name, value: newRowData.value , meter: newRowData.meter, assigned_to: newRowData.assigned_to })
+  }
+
+
   return (
     <div className="relative flex flex-col justify-center overflow-hidden mt-20">
     <div className="w-full p-6 m-auto bg-white rounded-md shadow-xl shadow-black-600/40 lg:max-w-4xl">
-      <h1 className="text-2xl text-center mb-4">Measure</h1>
+      <h1 className="text-2xl text-center mb-4">Datasources</h1>
     <div className="container mx-auto">
       <button onClick={handleOpenPopup} className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
         Add Row
@@ -49,12 +72,15 @@ export default function () {
         </thead>
         <tbody>
           {tableData.map((row, index) => (
-            <tr key={index}> <Link to={`/measurement/${row.parameter}`}>
+            <tr key={index}>
               <td className="border border-gray-300 px-4 py-2">{row.name}</td>
               <td className="border border-gray-300 px-4 py-2">{row.value}</td>
               <td className="border border-gray-300 px-4 py-2">{row.meter}</td>
-              <td className="border border-gray-300 px-4 py-2">{row.assigned_to}</td>
+              <td className="border border-gray-300 px-4 py-2">
+              <Link to={`/datacollection/${metric}/${row.name}/${row.assigned_to}`}>
+                {row.assigned_to}
               </Link>
+              </td>
             </tr>
           ))}
         </tbody>
@@ -70,8 +96,8 @@ export default function () {
                 </label>
                 <input
                   type="text"
-                  id="parameter"
-                  name="parameter"
+                  id="name"
+                  name="name"
                   value={newRowData.parameter}
                   onChange={handleInputChange}
                   className="border border-gray-300 rounded-md shadow-sm mt-1 block w-full"

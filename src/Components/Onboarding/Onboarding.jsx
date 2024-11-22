@@ -14,14 +14,14 @@ export default function Onboarding() {
     const [key, setKey] = useState("");
 
     const completeAnswer = async(e) => {
-        // await generalFunction.supabase_updateData(
-        //     "users",
-        //     generalFunction.getUserCredentials()?.email,
-        //     {
-        //         // for storing the data in supabase add the following key and value
-        //         // eg. name: answer["ec-cf14a2e1-9ea5-448f-aaa4-d6f866a853e9"]
-        //     }
-        // );
+        await generalFunction.supabase_updateData(
+            "users",
+            generalFunction.getUserCredentials()?.email,
+            {
+                // for storing the data in supabase add the following key and value
+                name: answer["ca-0534124c-8f43-4729-8a0b-1239821af73b"]
+            }
+        );
 
         navigate("/dashboard");
     };
@@ -135,11 +135,6 @@ export default function Onboarding() {
                         }}
                         showFooter={false}
                     />
-                )}
-                {appConfig.QUEST_API_KEY != "" && (
-                    <div className='m-auto text-xs px-4 py-2 text-[#939393] rounded-md flex items-center justify-center gap-3 cursor-pointer' onClick={() => window.open("https://questlabs.ai/")}>
-                        <p>Powered by Quest Labs</p>
-                    </div>
                 )}
             </div>
         </div>
