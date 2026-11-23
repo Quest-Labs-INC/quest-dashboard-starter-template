@@ -1,0 +1,38 @@
+name: Deploy to Azure Static Web Apps
+
+on:
+  push:
+    branches: [release]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-swa-${{ github.ref_name }}
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - run: npm ci
+
+      # Secrets are named <BRANCH>_<NAME> (e.g. RELEASE_VITE_ENVIRONMENT) so each
+      # deploy branch builds with the values it had on Amplify.
+      - name: Build
+        run: npm run build
+
+      - run: cp staticwebapp.config.json dist/
+
+      - uses: Azure/static-web-apps-deploy@v1
+        with:
+          azure_static_web_apps_api_token: ${{ secrets[format('{0}_SWA_TOKEN', github.ref_name)] }}
+          action: upload
+          app_location: dist
+          skip_app_build: true
+          skip_api_build: true
